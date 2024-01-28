@@ -1,8 +1,4 @@
 about
-usage
-render-book
-preview-book
 an-introduction-to-r
 installing-r
 installing-rstudio
-cover-image-path-to-the-social-sharing-image-like-imagescover.jpg

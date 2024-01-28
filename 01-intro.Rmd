@@ -8,7 +8,7 @@ To get started, you will need to install two things:
 
     -   This type of software program is called an IDE, an Integrated Development Environment.
 
-You don't necessarily need RStudio to program in R, but it does make life a lot easier and it is what we will be using throughout the course.
+You don't necessarily need RStudio to program in R, but it does make life a lot easier and it's what we will be using throughout the course.
 
 ## Installing R
 
