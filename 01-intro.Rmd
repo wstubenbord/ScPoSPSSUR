@@ -1,11 +1,39 @@
-# Hello bookdown 
+# An Introduction to R
 
-All chapters start with a first-level heading followed by your chapter title, like the line above. There should be only one first-level heading (`#`) per .Rmd file.
+To get started, you will need to install two things:
 
-## A section
+1.  R, a programming language
 
-All chapter sections start with a second-level (`##`) or higher heading followed by your section title, like the sections above and below here. You can have as many as you want within a chapter.
+2.  RStudio, a software program that helps you program in R.
 
-### An unnumbered section {-}
+    -   This type of software program is called an IDE, an Integrated Development Environment.
 
-Chapters and sections are numbered by default. To un-number a heading, add a `{.unnumbered}` or the shorter `{-}` at the end of the heading, like in this section.
+You don't necessarily need RStudio to program in R, but it does make life a lot easier and it is what we will be using throughout the course.
+
+## Installing R
+
+To install R, go to <https://cran.irsn.fr/index.html>, select the appropriate operating system and follow the instructions.
+
+For example, if you have a Mac, you will click on "Download R for macOS," followed, in most cases, by clicking on the "R-4.3.2-arm64.pkg" link beneath the "Latest release:" header.
+
+If you have a PC running Windows, you will click on "Download R for Windows" followed by "install R for the first time," followed by "Download R-4.3.2 for Windows."
+
+In either case, your browser should start downloading an executable file which you will then need to run to install R.
+
+*CAUTION*: A couple things you may need to watch out for:
+
+1.  If you are using an older laptop, you may need to download a different version of R or RStudio. When in doubt, read the installation pages and refer to your operating system version.
+
+2.  If you have very little hard drive space on your computer, you may need to clear some space before you go to install RStudio. The latest RStudio version requires 215 MB and you will need some additional space for other software and data later on in the course (around 2 GB should be about enough I imagine).
+
+## Installing RStudio
+
+Once you've installed R, go to <https://posit.co/download/rstudio-desktop/>. Posit (a company formerly known as RStudio) offers RStudio Desktop free of charge. They also have a cloud-based version of the software (Posit Cloud) which has a free-tier and paid-tiers. If you have trouble using RStudio Desktop in this course, you may consider using a Posit Cloud account as discussed in the course syllabus.
+
+Step 1 is already complete - you've already installed R. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that applies to your case, download the install, and then, once it has downloaded, run the installer from your computer and follow the on-screen steps. You'll be running RStudio in no time.
+
+If all goes well, your RStudio screen should look something like this once it is correctly installed and running:
+
+![](docs/_main_files/figure-html/RStudio clean install.png)
+
+Now the fun begins.
