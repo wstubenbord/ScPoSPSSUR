@@ -2,3 +2,8 @@ about
 an-introduction-to-r
 installing-r
 installing-rstudio
+using-the-console
+variables
+saving-your-work
+creating-and-saving-r-script-files
+interacting-with-an-r-script
