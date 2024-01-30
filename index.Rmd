@@ -15,10 +15,8 @@ link-citations: yes
 github-repo: wstubenbord/ScPoSPSSUR
 ---
 
-# About
+# Introduction {.unnumbered}
 
-Welcome! This is the companion website for the Statistical Programming for the Social Sciences Using R course taught at Sciences Po on the Reims campus for the Spring 2024 term.
+Welcome! This is the companion website for *Statistical Programming for the Social Sciences Using R*, taught at the Sciences Po Reims campus for the Spring 2024 term.
 
-This website will contain the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course.
-
-The syllabus, assignment submission portals, and other files can be found on the course Moodle site.
+This website will contain the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course. The syllabus, assignment submission portals, and other files can be found on the course Moodle site.

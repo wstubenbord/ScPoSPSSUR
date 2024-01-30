@@ -120,7 +120,7 @@
 
 \title{Statistical Programming for the Social Sciences Using R}
 \author{Wesley Stubenbord}
-\date{2024-01-28}
+\date{2024-01-30}
 
 \begin{document}
 \maketitle
@@ -129,80 +129,81 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{about}{%
-\chapter{About}\label{about}}
+\hypertarget{introduction}{%
+\chapter*{Introduction}\label{introduction}}
+\addcontentsline{toc}{chapter}{Introduction}
 
-Welcome! This is the companion website for the Statistical Programming for the Social Sciences Using R course taught at Sciences Po on the Reims campus for the Spring 2024 term.
+Welcome! This is the companion website for \emph{Statistical Programming for the Social Sciences Using R}, taught at the Sciences Po Reims campus for the Spring 2024 term.
 
-This website will contain the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course.
-
-The syllabus, assignment submission portals, and other files can be found on the course Moodle site.
+This website will contain the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course. The syllabus, assignment submission portals, and other files can be found on the course Moodle site.
 
 \hypertarget{an-introduction-to-r}{%
-\chapter{An Introduction to R}\label{an-introduction-to-r}}
+\chapter{\texorpdfstring{An Introduction to \texttt{R}}{An Introduction to R}}\label{an-introduction-to-r}}
 
 To get started, you will need to install two things:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  R, a programming language
+  \texttt{R}, a programming language
 \item
-  RStudio, a software program that helps you program in R.
+  RStudio, a software program that helps you program in \texttt{R}
 
   \begin{itemize}
   \tightlist
   \item
-    This type of software program is called an IDE, an Integrated Development Environment.
+    This type of software program is called an IDE, an Integrated Development Environment
   \end{itemize}
 \end{enumerate}
 
-You don't necessarily need RStudio to program in R, but it makes life a lot easier and it's what we'll be using throughout the course.
+You don't necessarily need RStudio to program in \texttt{R}, but it makes life a lot easier and it's what we'll be using throughout the course.
 
 \hypertarget{installing-r}{%
-\section{Installing R}\label{installing-r}}
+\section{\texorpdfstring{Installing \texttt{R}}{Installing R}}\label{installing-r}}
 
-To install R, go to \url{https://cran.irsn.fr/index.html}, select the appropriate operating system and follow the instructions.
+To install \texttt{R}, go to \url{https://cran.irsn.fr/index.html}, select the appropriate operating system, and follow the instructions.
 
-For example, if you have a Mac, you will click on ``Download R for macOS,'' followed, in most cases, by clicking on the ``R-4.3.2-arm64.pkg'' link beneath the ``Latest release'' header.
+For example, if you have a Mac, you will click on ``Download R for macOS,'' followed by clicking on the ``R-4.3.2-arm64.pkg'' link beneath the ``Latest release'' header.
 
 If you have a PC running Windows, you will click on ``Download R for Windows'' followed by ``install R for the first time'' and ``Download R-4.3.2 for Windows.''
 
-In either case, your browser should start downloading an executable file which you will then need to run to install R.
+In either case, your browser should start downloading an executable file which you will then need to run to install \texttt{R}.
 
-\emph{CAUTION}: A couple of things you may need to watch out for:
+\emph{CAUTION} - A couple of things you may need to watch out for:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  If you are using an older laptop, you may need to download a different version of R or RStudio. When in doubt, read the installation pages and refer to your operating system version.
+  If you are using an older laptop, you may need to download a different version of \texttt{R} or RStudio. If in doubt, read the installation pages and refer to your operating system version to find the right version for your needs.
 \item
-  If you have very little hard drive space on your computer, you may need to clear some space before you go to install RStudio. The latest RStudio version requires 215 MB and you'll need some additional space for other software and data later on in the course (around 2 GB should suffice).
+  If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you'll likely need some additional space for other software and data we will be using in the course later on (around 2 GB should suffice).
 \end{enumerate}
 
 \hypertarget{installing-rstudio}{%
 \section{Installing RStudio}\label{installing-rstudio}}
 
-Once you've installed R, go to \url{https://posit.co/download/rstudio-desktop/}. Posit (a company formerly known as RStudio) offers RStudio Desktop free of charge. They also have a cloud-based version of the software (Posit Cloud) which has a free tier and paid tiers. If you have trouble using RStudio Desktop in this course, you may consider using a Posit Cloud account as discussed in the course syllabus.
+Once you've installed \texttt{R}, go to \url{https://posit.co/download/rstudio-desktop/}.
 
-Step 1 is complete - you've already installed R. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that applies to your case, download the installer, and then, once it has downloaded, run the installer from your computer and follow the on-screen steps.
+Posit (a company formerly known as RStudio) offers RStudio Desktop free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.
+
+Step 1 is complete, you've already installed \texttt{R}. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that applies to your particular case, download the installer, and once it has downloaded, run the installation file from your computer and follow the on-screen steps.
 
 If all goes well, your RStudio screen should look something like this once it is correctly installed and running:
 
 \includegraphics{docs/_main_files/figure-html/RStudio clean install.png}
 
-On the other hand, if your screen looks like the image below, it means that you've opened the base R GUI and not RStudio. We're always going to be working in RStudio for this class, so you can close out of R GUI and open RStudio instead.
+On the other hand, if your screen looks like the image below, it means that you've accidentally opened RGui (a basic graphical user interface included with \texttt{R}) and not RStudio. We're always going to be working in RStudio for this class, so you can close out of RGui and open RStudio instead.
 
 \includegraphics{docs/_main_files/figure-html/Base R GUI.PNG}
 
 \hypertarget{using-the-console}{%
 \section{Using the Console}\label{using-the-console}}
 
-Now the fun begins. The RStudio window you've opened consists of a few different parts. The most important of these right now is the console window (highlighted below).
+Now the fun begins. The RStudio window you've opened consists of a few different parts. The most important of these right now is the console \href{https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html}{pane} (highlighted below).
 
 \includegraphics{docs/_main_files/figure-html/RStudio console box.png}
 
-The console allows you to interact directly with the computer using R. So, for example, if I want to use R as a calculator, I can type in the following in the console and obtain a result:
+The console allows you to interact with your computer using \texttt{R}. So, for example, if I want to use \texttt{R} as a calculator, I can type in the following code in the console and obtain a result:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -210,7 +211,7 @@ The console allows you to interact directly with the computer using R. So, for e
 \end{Highlighting}
 \end{Shaded}
 
-What happens when you press enter? You get something like this:
+What happens when you press \texttt{Enter} on your keyboard? You get something like this:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -222,7 +223,7 @@ What happens when you press enter? You get something like this:
 ## [1] 2
 \end{verbatim}
 
-In other words, you've provided an \textbf{\emph{input}}, 1+1, and received an \textbf{\emph{output}}, 2. The first number {[}1{]} in brackets indicates the number of the line of output. This is particularly helpful when you are running a complex bit of code, but it's important not to confuse it with the output.
+You've provided an \textbf{input}, 1+1, and received an \textbf{output}, 2. The first number in brackets, \texttt{{[}1{]}}, indicates the number of the line of output. This is helpful when you are running more complex code that generates multiple lines of output. For now, it's important not to confuse this number with the output itself, 2.
 
 Try entering a few more inputs, such as:
 
@@ -236,7 +237,7 @@ Try entering a few more inputs, such as:
   (10/3) + 1 + (5.111)\^{}2
 \end{enumerate}
 
-R is able to handle basic math operations with ease. What about other operations? Can R accept variables?
+You can see that \texttt{R} is able to handle basic math operations with ease. What about other operations? Can \texttt{R} accept variables?
 
 Try this:
 
@@ -246,13 +247,13 @@ Try this:
 \end{Highlighting}
 \end{Shaded}
 
-What happens when you press enter? What happened to the output?
+What happens when you press \texttt{Enter}? What happened to the output?
 
 \includegraphics{docs/_main_files/figure-html/RStudio console_x1.png}
 
-The trick here is that there is no output. You've stored a value, 1, in a variable, x, somewhere in your computer's memory or in what we might call the environment. RStudio shows you this in the Environment window in the top right.
+The trick is that there is no output. You've stored a value, \texttt{1}, in a variable, \texttt{x}, somewhere in your computer's memory or in what we call the environment. RStudio shows you this in the Environment pane in the top right.
 
-We can recall the value we input into our variable, x, by entering just the variable name in the console.
+We can recall the value we input into our variable, \texttt{x}, by entering just the variable name in the console.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -264,7 +265,7 @@ We can recall the value we input into our variable, x, by entering just the vari
 ## [1] 1
 \end{verbatim}
 
-See! R remembers what you stored in your environment.
+See! \texttt{R} remembers what you stored in your environment.
 
 Try the following:
 
@@ -280,8 +281,8 @@ Try the following:
   Can you change the type of variable? What if, for example, I don't want x = 1, but I want x to be equal to the word ``apple''?
 \end{enumerate}
 
-\hypertarget{variables}{%
-\section{Variables}\label{variables}}
+\hypertarget{calculations-with-variables}{%
+\section{Calculations with Variables}\label{calculations-with-variables}}
 
 If you've made it this far, congrats! Here's another thing you can try. Enter the following in the console:
 
@@ -291,11 +292,11 @@ If you've made it this far, congrats! Here's another thing you can try. Enter th
 \end{Highlighting}
 \end{Shaded}
 
-You'll notice, we're using a different operator here. It's a less than symbol (\textless) followed by a dash (-). This is called an \textbf{assignment operator}. It has the same function as the equals sign (=) and you can use either. I just so happen to prefer the way this one looks.
+You'll notice, we're using a different operator here. It's a less than symbol (\textless) followed by a dash (-). This is called an \textbf{assignment operator}. It has the same function as the equals sign (=). You can use either, I just so happen to prefer the way this one looks.
 
-What happens when you press enter? You have created a \textbf{vector}. Like other types of variables in R, a vector is an object. A vector holds a set of values of the same type. In this case, the vector x is holding a set of numbers.
+What happens when you press \texttt{Enter}? You have created a \textbf{vector}. Like other types of variables in \texttt{R}, a vector is an object. A vector holds a set of values of the same type. In this case, the vector x is holding a set of numbers.
 
-We can do all sorts of things with vectors and other objects in R. We can, for example, find the sum of a vector.
+We can do all sorts of things with vectors and other objects in \texttt{R}. We can, for example, find the sum of a vector.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -319,12 +320,12 @@ How did we get an output of 15? 1+2+3+4+5 = 15. We can also find the mean of a v
 ## [1] 3
 \end{verbatim}
 
-And we can perform other operations. Try the following:
+And, we can perform other operations. Try the following:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Can you find the median of the vector x? What about the mode?
+  Can you find the median of the vector x? What about the mode?\footnote{As you will have found, \texttt{mode()} doesn't calculate a statistic here (although even if it had, you still wouldn't have gotten a meaningful statistic for this particular vector). Some functions are easy to guess, like \texttt{median()} , but others can be false cognates just like in a spoken language. We'll talk more about finding the purpose of a function in the next chapter.}
 \item
   What happens when you multiply a vector?
 \item
@@ -334,13 +335,13 @@ And we can perform other operations. Try the following:
 \hypertarget{saving-your-work}{%
 \section{Saving Your Work}\label{saving-your-work}}
 
-As you've begun to see, working with a scripting language like R is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface.
+As you've begun to see, working with a scripting language like \texttt{R} is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface.
 
 One of the great benefits of interacting in this way, particularly for the social sciences, is that it allows others to fully reproduce your work. If they have your code, they can repeat the exact same steps you took.
 
 Think about it this way: when you change a value in a cell in an Excel spreadsheet, will someone else know what was in that cell before you changed it? No.
 
-In R, however, we can leave the source data alone and save the code we use to manipulate it. Now others can see exactly what you've done to each value and reproduce your analysis.
+In \texttt{R}, however, we can leave the source data alone and save the code we use to manipulate it. Now others can see exactly what you've done to each value and reproduce your analysis.
 
 There are a couple of different ways of saving your code:
 
@@ -365,33 +366,33 @@ You should now have a window open in RStudio which looks like this:
 
 \includegraphics{docs/_main_files/figure-html/RStudio_Opened RScript.png}
 
-You can enter comments in your R Script file using a hash tag (\#) at the beginning of each comment line. A hash tag lets R know that this line should not be run as code.
+You can enter comments in your R Script file using a hash tag (\#) at the beginning of each comment line. A hash tag lets \texttt{R} know that this line should not be run as code.
 
-I like to add my name, the date, and a description to each file I use. I'll ask that you use a header for each R file you submit for this class as well.
+I like to add my name, the date, and a description to each file I use. I'll ask that you use a header for each \texttt{R} file you submit for this class as well.
 
 \includegraphics{docs/_main_files/figure-html/RStudio_Commenting in an R Script file.png}
 
 Now, save your R Script somewhere on your computer. Go to File \textgreater{} Save As, choose a safe place on your computer to store it (I recommend creating a folder for this course), give it a name, and then press save. I called mine ``hello\_world''.
 
-\hypertarget{interacting-with-an-r-script}{%
-\section{Interacting with an R Script}\label{interacting-with-an-r-script}}
+\hypertarget{interacting-in-an-r-script}{%
+\section{Interacting in an R Script}\label{interacting-in-an-r-script}}
 
-Interacting with an R Script is slightly different from interacting in the console. Now when you type in code and hit enter, it will not execute the code, it just creates a new line in your file.
+Interacting in an R Script is slightly different from interacting with the console. Now when you type in code and hit \texttt{Enter}, it will not execute the code, it just creates a new line in your file.
 
-To run code in a script either:
+To run code in a script in RStudio, you can either:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Select the lines you wish to run with your cursor and then press \textless Ctrl\textgreater{} + \textless Enter\textgreater{}
+  Select the lines you wish to run with your cursor and then press \texttt{Ctrl} + \texttt{Enter}
 \item
-  Or, put your cursor on the line you wish to run and click the Run button in the top right of the R Script file window
+  Or, put your cursor on the line you wish to run and click the \texttt{Run} button in the top right of the R Script file pane
 \end{enumerate}
 
-The first option allows you to run multiple lines at a time and the second runs only the line you are currently on. The results of your code will appear in the console window below your R Script file when run successfully.
+The first option allows you to run multiple lines at a time and the second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.
 
-After you finish modifying your R Script file, you can save it and close out of R Studio. The next time you wish to access your saved code, you can open your R Script file and it will be exactly as you left it.
+After you finish modifying your R Script file, you can save it and close out of RStudio. The next time you wish to access your saved code, you can open your R Script file and it will be exactly as you left it.
 
   \bibliography{book.bib,packages.bib}
 
