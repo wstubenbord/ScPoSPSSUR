@@ -154,7 +154,7 @@ There are a couple of different ways of saving your code:
 
 We're going to start with an R Script file and try out R Markdown later on.
 
-## Creating and Saving R Script Files
+## Creating and Saving an R Script
 
 To create an R Script file in RStudio, go to File \> New File \> R Script.
 

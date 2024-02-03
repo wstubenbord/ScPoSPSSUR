@@ -120,7 +120,7 @@
 
 \title{Statistical Programming for the Social Sciences Using R}
 \author{Wesley Stubenbord}
-\date{2024-01-30}
+\date{2024-02-03}
 
 \begin{document}
 \maketitle
@@ -156,28 +156,27 @@ To get started, you will need to install two things:
   \end{itemize}
 \end{enumerate}
 
-You don't necessarily need RStudio to program in \texttt{R}, but it makes life a lot easier and it's what we'll be using throughout the course.
+You don't necessarily need RStudio to program in \texttt{R}, but it makes life much easier and it is what we'll be using throughout the course.
 
 \hypertarget{installing-r}{%
 \section{\texorpdfstring{Installing \texttt{R}}{Installing R}}\label{installing-r}}
 
 To install \texttt{R}, go to \url{https://cran.irsn.fr/index.html}, select the appropriate operating system, and follow the instructions.
 
-For example, if you have a Mac, you will click on ``Download R for macOS,'' followed by clicking on the ``R-4.3.2-arm64.pkg'' link beneath the ``Latest release'' header.
+For example, if you have a Mac, you will click on ``Download R for macOS,'' followed by the ``R-4.3.2-arm64.pkg'' link beneath the ``Latest release'' header.
 
 If you have a PC running Windows, you will click on ``Download R for Windows'' followed by ``install R for the first time'' and ``Download R-4.3.2 for Windows.''
 
-In either case, your browser should start downloading an executable file which you will then need to run to install \texttt{R}.
+In either case, your browser will start downloading an executable installation file which you will then need to run to install \texttt{R}.
 
 \emph{CAUTION} - A couple of things you may need to watch out for:
 
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
+\begin{itemize}
 \item
-  If you are using an older laptop, you may need to download a different version of \texttt{R} or RStudio. If in doubt, read the installation pages and refer to your operating system version to find the right version for your needs.
+  If you are using an older laptop (\textgreater{} 10 years old), you may need to download a different version of \texttt{R} or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.
 \item
-  If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you'll likely need some additional space for other software and data we will be using in the course later on (around 2 GB should suffice).
-\end{enumerate}
+  If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should suffice.
+\end{itemize}
 
 \hypertarget{installing-rstudio}{%
 \section{Installing RStudio}\label{installing-rstudio}}
@@ -186,13 +185,13 @@ Once you've installed \texttt{R}, go to \url{https://posit.co/download/rstudio-d
 
 Posit (a company formerly known as RStudio) offers RStudio Desktop free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.
 
-Step 1 is complete, you've already installed \texttt{R}. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that applies to your particular case, download the installer, and once it has downloaded, run the installation file from your computer and follow the on-screen steps.
+Step 1 is complete, you've already installed \texttt{R}. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer and follow the on-screen steps.
 
-If all goes well, your RStudio screen should look something like this once it is correctly installed and running:
+If all goes well, your screen should look something like this once you have RStudio correctly installed and running:
 
 \includegraphics{docs/_main_files/figure-html/RStudio clean install.png}
 
-On the other hand, if your screen looks like the image below, it means that you've accidentally opened RGui (a basic graphical user interface included with \texttt{R}) and not RStudio. We're always going to be working in RStudio for this class, so you can close out of RGui and open RStudio instead.
+If your screen looks like the image below, it means that you've accidentally opened RGui, a basic graphical user interface included with \texttt{R}, and not RStudio. We're always going to be working in RStudio for this class, so close out of RGui and open RStudio instead.
 
 \includegraphics{docs/_main_files/figure-html/Base R GUI.PNG}
 
@@ -203,7 +202,7 @@ Now the fun begins. The RStudio window you've opened consists of a few different
 
 \includegraphics{docs/_main_files/figure-html/RStudio console box.png}
 
-The console allows you to interact with your computer using \texttt{R}. So, for example, if I want to use \texttt{R} as a calculator, I can type in the following code in the console and obtain a result:
+The console allows you to interact with your computer using \texttt{R}. So, for example, if I want to use my computer as an over-sized calculator, I can type in the following \texttt{R} code in the console:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -223,23 +222,25 @@ What happens when you press \texttt{Enter} on your keyboard? You get something l
 ## [1] 2
 \end{verbatim}
 
-You've provided an \textbf{input}, 1+1, and received an \textbf{output}, 2. The first number in brackets, \texttt{{[}1{]}}, indicates the number of the line of output. This is helpful when you are running more complex code that generates multiple lines of output. For now, it's important not to confuse this number with the output itself, 2.
+You've provided an \textbf{input}, \texttt{1+1}, and received an \textbf{output}, \texttt{2}. In other words, using the language of \texttt{R}, you've told your computer to add one plus one and your computer has correctly interpreted your command and returned an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.
 
-Try entering a few more inputs, such as:
+One more note about outputs: the first number in brackets next to your output, \texttt{{[}1{]}}, indicates the number of the line of output. This is especially helpful when you are running code that generates multiple lines of output. We will see some examples of this later on.
+
+For now, try entering a few more inputs, such as:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  10/3
+  \texttt{10/3}
 \item
-  (10/3) + 1
+  \texttt{(10/3)\ +\ 1}
 \item
-  (10/3) + 1 + (5.111)\^{}2
+  \texttt{(10/3)\ +\ 1\ +\ (5.111)\textbackslash{}\^{}2}
 \end{enumerate}
 
-You can see that \texttt{R} is able to handle basic math operations with ease. What about other operations? Can \texttt{R} accept variables?
+\texttt{R} is able to handle basic math operations with ease. What about other operations? Can you work with variables in \texttt{R}?
 
-Try this:
+Try typing this in the console:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -247,13 +248,13 @@ Try this:
 \end{Highlighting}
 \end{Shaded}
 
-What happens when you press \texttt{Enter}? What happened to the output?
+What happens when you press \texttt{Enter}?
 
 \includegraphics{docs/_main_files/figure-html/RStudio console_x1.png}
 
-The trick is that there is no output. You've stored a value, \texttt{1}, in a variable, \texttt{x}, somewhere in your computer's memory or in what we call the environment. RStudio shows you this in the Environment pane in the top right.
+You may have noticed that there is no output. But, that doesn't mean nothing has happened. In fact, something has happened. You've stored a value, \texttt{1}, in a variable, \texttt{x}, somewhere in your computer's memory or in what we might call the environment. You don't receive an output, but RStudio reminds you of your new variable's existence via the Environment pane in the top right.
 
-We can recall the value we input into our variable, \texttt{x}, by entering just the variable name in the console.
+We can recall the value we input into our variable, \texttt{x}, by entering the variable name in the console:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -265,7 +266,7 @@ We can recall the value we input into our variable, \texttt{x}, by entering just
 ## [1] 1
 \end{verbatim}
 
-See! \texttt{R} remembers what you stored in your environment.
+See! Your computer remembers what you stored in your environment.
 
 Try the following:
 
@@ -276,15 +277,15 @@ Try the following:
 \item
   Can you perform math operations on a variable (e.g., x*2)?
 \item
-  Can you create a new variable, y, and use it in math operations with x (e.g., x * y)? What might you have to do with y first?
+  Can you create a new variable, y, and use it in math operations with x (e.g., x * y)?
 \item
-  Can you change the type of variable? What if, for example, I don't want x = 1, but I want x to be equal to the word ``apple''?
+  Can you change the type of variable? What if, for example, I don't want x = 1, but I want x equal to the word ``apple''?
 \end{enumerate}
 
 \hypertarget{calculations-with-variables}{%
 \section{Calculations with Variables}\label{calculations-with-variables}}
 
-If you've made it this far, congrats! Here's another thing you can try. Enter the following in the console:
+If you've made it this far, well done! Here's another thing you can try. Enter the following in the console:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -292,9 +293,9 @@ If you've made it this far, congrats! Here's another thing you can try. Enter th
 \end{Highlighting}
 \end{Shaded}
 
-You'll notice, we're using a different operator here. It's a less than symbol (\textless) followed by a dash (-). This is called an \textbf{assignment operator}. It has the same function as the equals sign (=). You can use either, I just so happen to prefer the way this one looks.
+You'll notice that we're using a different operator here. It's a less than symbol (\textless) followed by a dash (-). This is called an \textbf{assignment operator} and it has the same function as the equals sign (=). You can use either, I just so happen to prefer the way this one looks.
 
-What happens when you press \texttt{Enter}? You have created a \textbf{vector}. Like other types of variables in \texttt{R}, a vector is an object. A vector holds a set of values of the same type. In this case, the vector x is holding a set of numbers.
+What happens when you press \texttt{Enter}? You have created a \textbf{vector}. Like other types of variables in \texttt{R}, a vector is an \textbf{object}. A vector holds a set of values of the same type. In this case, the object x contains a set of numbers, 1:5.
 
 We can do all sorts of things with vectors and other objects in \texttt{R}. We can, for example, find the sum of a vector.
 
@@ -320,7 +321,7 @@ How did we get an output of 15? 1+2+3+4+5 = 15. We can also find the mean of a v
 ## [1] 3
 \end{verbatim}
 
-And, we can perform other operations. Try the following:
+And, we can perform other fun operations. Try the following:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -329,34 +330,32 @@ And, we can perform other operations. Try the following:
 \item
   What happens when you multiply a vector?
 \item
-  Can you create a new vector which consists only of letters?
+  Can you create a new vector which consists of a set of letters?
 \end{enumerate}
 
 \hypertarget{saving-your-work}{%
 \section{Saving Your Work}\label{saving-your-work}}
 
-As you've begun to see, working with a scripting language like \texttt{R} is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface.
+As you've started to see, working with a scripting language like \texttt{R} is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface. No more clicking on cells to change values, now you change them programmatically.
 
-One of the great benefits of interacting in this way, particularly for the social sciences, is that it allows others to fully reproduce your work. If they have your code, they can repeat the exact same steps you took.
+One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you've taken to produce your analysis and repeat them. We don't have to take your word for how you've calculated something. We can see it and use it ourselves to produce the same thing.
 
-Think about it this way: when you change a value in a cell in an Excel spreadsheet, will someone else know what was in that cell before you changed it? No.
-
-In \texttt{R}, however, we can leave the source data alone and save the code we use to manipulate it. Now others can see exactly what you've done to each value and reproduce your analysis.
+This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that we can come back to it and understand what we did. We'll say more about how to do this later on.
 
 There are a couple of different ways of saving your code:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  In an R Script file, which is a simple text file containing only your code
+  In an R Script, a simple text file ending in a \texttt{.r} extension
 \item
-  In an R Markdown file, which is basically an interactive notebook that allows you to see your code and the results next to each other
+  In an R Markdown file, an interactive format that allows you to see your code and the results together in the same file
 \end{enumerate}
 
 We're going to start with an R Script file and try out R Markdown later on.
 
-\hypertarget{creating-and-saving-r-script-files}{%
-\section{Creating and Saving R Script Files}\label{creating-and-saving-r-script-files}}
+\hypertarget{creating-and-saving-an-r-script}{%
+\section{Creating and Saving an R Script}\label{creating-and-saving-an-r-script}}
 
 To create an R Script file in RStudio, go to File \textgreater{} New File \textgreater{} R Script.
 
@@ -366,13 +365,13 @@ You should now have a window open in RStudio which looks like this:
 
 \includegraphics{docs/_main_files/figure-html/RStudio_Opened RScript.png}
 
-You can enter comments in your R Script file using a hash tag (\#) at the beginning of each comment line. A hash tag lets \texttt{R} know that this line should not be run as code.
+You can enter comments in your R Script file using a hash tag (\texttt{\#}) at the beginning of each comment line. A hash tag lets \texttt{R} know that this line should not be run as code. Its purpose is to tell us what is happening in a particular section of the code.
 
-I like to add my name, the date, and a description to each file I use. I'll ask that you use a header for each \texttt{R} file you submit for this class as well.
+I like to start by adding my name, the date, and a description to each file I use. I'll ask that you use a header for each \texttt{R} file you submit for this class as well.
 
 \includegraphics{docs/_main_files/figure-html/RStudio_Commenting in an R Script file.png}
 
-Now, save your R Script somewhere on your computer. Go to File \textgreater{} Save As, choose a safe place on your computer to store it (I recommend creating a folder for this course), give it a name, and then press save. I called mine ``hello\_world''.
+Now, save your R Script somewhere on your computer. Go to File \textgreater{} Save As, then choose a safe place on your computer to store it (I recommend creating a folder for this course), give your file a name, and press save. I called mine ``hello\_world''.
 
 \hypertarget{interacting-in-an-r-script}{%
 \section{Interacting in an R Script}\label{interacting-in-an-r-script}}
@@ -387,12 +386,469 @@ To run code in a script in RStudio, you can either:
 \item
   Select the lines you wish to run with your cursor and then press \texttt{Ctrl} + \texttt{Enter}
 \item
-  Or, put your cursor on the line you wish to run and click the \texttt{Run} button in the top right of the R Script file pane
+  Or, put your cursor on the line you wish to run and click the \texttt{Run} button in the upper-right of the R Script pane
 \end{enumerate}
 
-The first option allows you to run multiple lines at a time and the second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.
+\includegraphics{docs/_main_files/figure-html/RStudio_Run button.png}
+
+The first option allows you to run multiple lines at a time. The second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.
 
 After you finish modifying your R Script file, you can save it and close out of RStudio. The next time you wish to access your saved code, you can open your R Script file and it will be exactly as you left it.
+
+\hypertarget{summary}{%
+\section{Summary}\label{summary}}
+
+Let's briefly recap what you have learned in this lesson. So far you've learned:
+
+\begin{itemize}
+\tightlist
+\item
+  The difference between \texttt{R} and RStudio
+\item
+  How to interact with the console
+\item
+  How to create and store values in variables using an assignment operator
+\item
+  What a vector is and how to create one
+\item
+  How to use basic functions like \texttt{sum()} and \texttt{mean()} to perform calculations
+\item
+  How to make comments using the \texttt{\#} symbol
+\item
+  How to create and save R Script files
+\end{itemize}
+
+\hypertarget{working-with-data-in-r}{%
+\chapter{\texorpdfstring{Working with Data in \texttt{R}}{Working with Data in R}}\label{working-with-data-in-r}}
+
+Before we can get to the nitty-gritty of working with real data, we need to familiarize ourselves with a few more essential concepts.
+
+\hypertarget{functions}{%
+\section{Functions}\label{functions}}
+
+Last class, we assigned a vector to a variable like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_vector }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Where \texttt{my\_vector} is an object and \({1,2,3,4,5,6}\) is the set of values assigned to it. When you run this code in your console (or in a script file), your new variable and its assigned values are stored in short-term memory and appear in the Environment pane of RStudio.
+
+When we assigned a single value to another variable, however, as in:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+or,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{first\_name }\OtherTok{=} \StringTok{\textquotesingle{}Wesley\textquotesingle{}}
+\end{Highlighting}
+\end{Shaded}
+
+we didn't use \texttt{c()}. So, what exactly is \texttt{c()}?
+
+Like \texttt{sum()} or \texttt{mean()}, \texttt{c()} is a \textbf{function}. Functions play an important role in all programming languages. They are snippets of code, often hidden in the background, that allow us to accomplish specific tasks, like adding up all of the numbers in a vector, taking the mean, or creating a vector. In \texttt{R}, \texttt{c()} is a function which \textbf{\emph{c}}ombines values into a vector or list.
+
+Functions give us the ability to recall previously written code to perform the same task over again. Why re-write code every time you need to use it, after all, when you could use the same code you used last time? Instead of copying and pasting code, we can put it in a function, save it somewhere, and call it when we need it.
+
+\hypertarget{calling-a-function}{%
+\subsection{Calling a Function}\label{calling-a-function}}
+
+When we want to use a function, or `call it' as we will sometimes say, we type in the name of the function, enclose \textbf{arguments} in a set of parentheses, and run the command. The general form looks something like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{([arg1], [arg2], ...)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{using-arguments-in-a-function}{%
+\subsection{Using Arguments in a Function}\label{using-arguments-in-a-function}}
+
+In some cases, you may just have one argument for a function, as when you want to use the \texttt{sum()} function to add the elements of a vector:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(my\_vector)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 21
+\end{verbatim}
+
+In other cases, you can have multiple arguments:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(my\_vector, my\_vector)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 42
+\end{verbatim}
+
+Arguments can be required or optional and the number of arguments and the order in which they are input depends on the specific function you are using and what you are trying to accomplish. The \texttt{sum()} function, for instance, returns the sum of all values given as arguments.
+
+Arguments can also be used to specify options for a function. Take a look at the example below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(my\_vector, }\ConstantTok{NA}\NormalTok{, my\_vector)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] NA
+\end{verbatim}
+
+Here we are using the \texttt{sum()} function to add \texttt{my\_vector} twice, as in the previous example, but now with a missing value (\texttt{NA}). Because the sum of two vectors plus a missing value is unknown, we get an unknown value (\texttt{NA}) as the output.
+
+If we want the \texttt{sum()} function to ignore the unknown value, we can provide it with an additional, named argument which tells it to ignore \texttt{NA}. We can specify this by adding \texttt{,\ na.rm\ =\ TRUE} to our function call. See what happens below:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(my\_vector, }\ConstantTok{NA}\NormalTok{, my\_vector, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 42
+\end{verbatim}
+
+We're back to an answer of 42. The \texttt{sum()} function ignored the missing value, as we specified, and added the two vectors.
+
+All functions have named arguments and an ordering to them. If you omit the name of an argument in your function call, the function processes them according to their default order. It is generally a good habit to specify argument names, as in the example below where the `x' argument takes the object you are trying to sum, but it is not entirely necessary for simple functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\AttributeTok{x =}\NormalTok{ my\_vector)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 21
+\end{verbatim}
+
+\hypertarget{getting-help-with-functions}{%
+\subsection{Getting Help with Functions}\label{getting-help-with-functions}}
+
+As you progress in \texttt{R}, you will learn many different functions and it can be difficult to keep track of all of the different arguments. Whenever you want to know more about what a function does or what arguments it takes, simply type \texttt{?function\_name} into the RStudio console and you will get some useful documentation in the Help pane located in the lower-right of your RStudio window.
+
+\begin{verbatim}
+?sum
+\end{verbatim}
+
+\includegraphics{docs/_main_files/figure-html/RStudio_Help Pane.PNG}
+
+\hypertarget{check-your-understanding}{%
+\subsection*{Check Your Understanding:}\label{check-your-understanding}}
+\addcontentsline{toc}{subsection}{Check Your Understanding:}
+
+Let's take a quick pause to make sure we understand what we just learned.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Create a vector of three numbers and assign it to a variable called \texttt{first\_vector}. Now use the \texttt{mean()} function to find the average of \texttt{first\_vector}.
+\item
+  Using the \texttt{c()} function, create another vector called \texttt{second\_vector} which includes the values of \texttt{first\_vector} and an \texttt{NA} value. Try it on your own first, then click this footnote to see the answer.\footnote{\texttt{second\_vector\ \textless{}-\ c(first\_vector,\ NA)}}
+\item
+  Using the \texttt{na.rm\ =\ TRUE} argument, calculate the mean of \texttt{second\_vector}.
+\end{enumerate}
+
+\hypertarget{packages}{%
+\section{Packages}\label{packages}}
+
+One of the great benefits of \texttt{R} is its power and flexibility. We've seen how functions provide us with the ability to reuse code, but functions are common to any programming language or statistical software.
+
+It may sound cliché, but what makes \texttt{R} special is its community. \texttt{R} is a free and open-source software, which means that anyone can use or contribute to it. If you develop a new statistical method, for instance, you can write the code necessary to implement it and share it with others.
+
+Base \texttt{R}, which you installed last class, comes with a number of built-in functions like \texttt{mean()}, \texttt{sum()}, \texttt{range()}, and \texttt{var()} . But, \texttt{R} users working out of the goodness of their hearts have developed many other functions that accomplish an array of tasks, from making aesthetically-pleasing visualizations to executing complex machine learning algorithms.
+
+These functions are put together into what are called \textbf{packages}, which can be easily installed and loaded into \texttt{R}. Packages can also contain data and other compiled code.
+
+\hypertarget{installing-packages}{%
+\subsection{Installing Packages}\label{installing-packages}}
+
+We're going to use the \texttt{install.packages()} function to install one such package, called \textbf{tidyverse}.
+
+\begin{verbatim}
+install.packages('tidyverse')
+\end{verbatim}
+
+Once you've run this command in your RStudio console, you will have downloaded the tidyverse and saved it to your \textbf{library}. The library is simply where your packages are stored.
+
+\href{https://tidyverse.tidyverse.org/}{Tidyverse} is actually a set of packages, including \texttt{dplyr} and \texttt{ggplot2}, all of which are useful for data analysis in \texttt{R}. We'll be using the tidyverse throughout this course and you will find that it's the most commonly used set of packages for data analysis in \texttt{R}.
+
+\hypertarget{loading-libraries}{%
+\subsection{Loading Libraries}\label{loading-libraries}}
+
+Whenever you start an \texttt{R} session and want to use a package, you have to be sure to load it. Loading a package makes sure that your computer knows what functions and data are inside, so that you can call them at will.
+
+To load an \texttt{R} package, you can use the \texttt{library()} function, like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v ggplot2   3.4.4     v tibble    3.2.1
+## v lubridate 1.9.3     v tidyr     1.3.1
+## v purrr     1.0.2     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+Now, that you've loaded tidyverse, you can access it's special functions like \texttt{mutate()} or its data sets, like \texttt{starwars}. Try entering \texttt{starwars} in your console after you've loaded the tidyverse. What's inside?
+
+\hypertarget{loading-data}{%
+\section{Loading Data}\label{loading-data}}
+
+Great, you know what a function is, you have the tidyverse installed, and you've seen that data can be contained in packages, which are easy to install and load.
+
+\hypertarget{using-data-from-packages}{%
+\subsection{Using Data from Packages}\label{using-data-from-packages}}
+
+Let's install and load another package, so that we can take a look at some more data.
+
+\begin{verbatim}
+install.packages('socviz')
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(socviz)}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{socviz} package accompanies a textbook called \textbf{\emph{Data Visualization}} written by Kieran Healy, a Professor of Sociology at Duke University, and it contains some interesting datasets including election data from the 2016 U.S. presidential election. This dataset is stored in an object titled \texttt{election}. Once you have \texttt{socviz} installed and loaded, you can get a preview of its contents by entering the name of the object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{election}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 51 x 22
+##    state     st     fips total_vote vote_margin winner party pct_margin r_points
+##    <chr>     <chr> <dbl>      <dbl>       <dbl> <chr>  <chr>      <dbl>    <dbl>
+##  1 Alabama   AL        1    2123372      588708 Trump  Repu~     0.277     27.7 
+##  2 Alaska    AK        2     318608       46933 Trump  Repu~     0.147     14.7 
+##  3 Arizona   AZ        4    2604657       91234 Trump  Repu~     0.035      3.5 
+##  4 Arkansas  AR        5    1130635      304378 Trump  Repu~     0.269     26.9 
+##  5 Californ~ CA        6   14237893     4269978 Clint~ Demo~     0.300    -30.0 
+##  6 Colorado  CO        8    2780247      136386 Clint~ Demo~     0.0491    -4.91
+##  7 Connecti~ CT        9    1644920      224357 Clint~ Demo~     0.136    -13.6 
+##  8 Delaware  DE       10     443814       50476 Clint~ Demo~     0.114    -11.4 
+##  9 District~ DC       11     311268      270107 Clint~ Demo~     0.868    -86.8 
+## 10 Florida   FL       12    9502747      112911 Trump  Repu~     0.0119     1.19
+## # i 41 more rows
+## # i 13 more variables: d_points <dbl>, pct_clinton <dbl>, pct_trump <dbl>,
+## #   pct_johnson <dbl>, pct_other <dbl>, clinton_vote <dbl>, trump_vote <dbl>,
+## #   johnson_vote <dbl>, other_vote <dbl>, ev_dem <dbl>, ev_rep <dbl>,
+## #   ev_oth <dbl>, census <chr>
+\end{verbatim}
+
+For ease of use, we're going to store a copy of this data in a new object in our environment called \texttt{election\_2016}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{election\_2016 }\OtherTok{\textless{}{-}}\NormalTok{ election}
+\end{Highlighting}
+\end{Shaded}
+
+Now, we can play around with it. In addition to getting a preview of the data by entering the name of our object in the console, we can also access it through the Environment pane of our RStudio window. Click on \texttt{election\_2016} and you will see the full dataset.
+
+Just like in a spreadsheet, you can scroll through the full set of columns and rows. Remember, of course, that you cannot edit values in this view tab. This is by design. If we want to make changes to the data or perform calculations, we need to do so programmatically.
+
+\hypertarget{data-types-and-data-structures}{%
+\section{Data Types and Data Structures}\label{data-types-and-data-structures}}
+
+This seems about as good a point as any to talk about the different types of data you will be working with in R.
+
+\hypertarget{data-types}{%
+\subsection{Data Types}\label{data-types}}
+
+There are six different basic data types in \texttt{R}. The most important for our purposes are:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{character}: letters such as `a' or sets of letters such as `apple'
+\item
+  \textbf{numeric}: numbers such as 1, 1.1 or 23
+\item
+  \textbf{logical}: the boolean values, TRUE and FALSE
+\end{itemize}
+
+The other types are integers (which can only hold integers and take the form \texttt{1L}), complex (as in complex numbers with an imaginary component, 1+2i), and raw (raw data in the form of bytes). You have already used the previous three and we will never use the latter three.
+
+If you wish to check the data type of an object, you can use the \texttt{class()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(my\_vector)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "numeric"
+\end{verbatim}
+
+\hypertarget{data-structures}{%
+\subsection{Data Structures}\label{data-structures}}
+
+There are many different data structures in \texttt{R}. You've already become familiar with one, vectors, a set of values of the same type. Other types of data structures include:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{list}: a set of values of different types
+\item
+  \textbf{factor:} an ordered set of values, often used to define categories in categorical variables
+\item
+  \textbf{data frame}: a two-dimensional table consisting of rows and columns similar to a spreadsheet
+\item
+  \textbf{tibble:} a special version of a data frame from the \emph{tidyverse}, intended to keep your data nice and tidy
+\end{itemize}
+
+Note that data structures are usually subsettable, which means that you can access elements of them. Observe:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_list }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}a\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}b\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}c\textquotesingle{}}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\NormalTok{my\_list[}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "b"
+\end{verbatim}
+
+In the example above, we've called an element of the list, \texttt{my\_list}, using an index number in a set of brackets. Since we entered the index, \texttt{2}, inside brackets next to our list name, we received the second element of the list, the character \texttt{b}. We can also modify elements of a list in the same way.
+
+Let's say that I now want to change `b', the second element of \texttt{my\_list}, to the word `blueberry':
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my\_list[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}blueberry\textquotesingle{}}
+\NormalTok{my\_list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "a"         "blueberry" "c"         "2"
+\end{verbatim}
+
+Easy enough. Now try it out yourself:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Create a vector with three elements: ``sociology'', ``economics'', and ``psychology''
+\item
+  Call each of them individually.
+\item
+  Change the value of the second element to the value of the first element.
+\item
+  Change the value of the third element to the value of the first element.
+\end{enumerate}
+
+Be sure to do the last two programmatically rather than by re-typing the initial values.
+
+\hypertarget{using-functions-with-data}{%
+\section{Using Functions with Data}\label{using-functions-with-data}}
+
+Back to the elections data. We have our 2016 U.S. Presidential Election data stored in a \textbf{tibble} called \texttt{election\_2016}.
+
+If I want to output a single column from the data, I can do so by typing in the name of the data followed by the \texttt{\$} symbol, also known as the \textbf{subset operator}, and the name of the column.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{election\_2016}\SpecialCharTok{$}\NormalTok{state}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "Alabama"              "Alaska"               "Arizona"             
+##  [4] "Arkansas"             "California"           "Colorado"            
+##  [7] "Connecticut"          "Delaware"             "District of Columbia"
+## [10] "Florida"              "Georgia"              "Hawaii"              
+## [13] "Idaho"                "Illinois"             "Indiana"             
+## [16] "Iowa"                 "Kansas"               "Kentucky"            
+## [19] "Louisiana"            "Maine"                "Maryland"            
+## [22] "Massachusetts"        "Michigan"             "Minnesota"           
+## [25] "Mississippi"          "Missouri"             "Montana"             
+## [28] "Nebraska"             "Nevada"               "New Hampshire"       
+## [31] "New Jersey"           "New Mexico"           "New York"            
+## [34] "North Carolina"       "North Dakota"         "Ohio"                
+## [37] "Oklahoma"             "Oregon"               "Pennsylvania"        
+## [40] "Rhode Island"         "South Carolina"       "South Dakota"        
+## [43] "Tennessee"            "Texas"                "Utah"                
+## [46] "Vermont"              "Virginia"             "Washington"          
+## [49] "West Virginia"        "Wisconsin"            "Wyoming"
+\end{verbatim}
+
+If I want to perform a calculation on a column, I can pass the column as an argument to a function like so:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Sum the total number of votes cast in the 2016 Presidential election.}
+\FunctionTok{sum}\NormalTok{(election\_2016}\SpecialCharTok{$}\NormalTok{total\_vote, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 137125484
+\end{verbatim}
+
+The \texttt{na.rm} argument isn't strictly necessary in this case (since there are no missing or unknown values), but it's good to remember that it's there when you need it.
+
+For the remainder of today's session, I'd like you play around with this data. In particular:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Identify the variable type for the \texttt{ST}, \texttt{pct\_johnson}, and \texttt{winner} columns.
+\item
+  Calculate the mean \texttt{vote\_margin} across the states.
+\item
+  Use the \texttt{table()} function to count the number of states won by each presidential candidate.
+\item
+  Create a variable which contains the total number of votes received by Hillary Clinton (contained in the column \texttt{clinton\_vote}) and a variable containing the total number of votes received by Donald Trump (\texttt{trump\_vote}). Take the difference of the two.
+\item
+  Create a variable containing the total number of electoral votes received by Hillary Clinton (contained in \texttt{ev\_dem}) and another containing the total number received by Donald Trump (\texttt{ev\_rep}). Take the difference of the two.
+\item
+  Try using the \texttt{plot(x=,\ y=)} function to plot a couple of numeric columns.
+\end{enumerate}
+
+\hypertarget{homework-1}{%
+\chapter*{Homework 1}\label{homework-1}}
+\addcontentsline{toc}{chapter}{Homework 1}
+
+\textbf{Due Date:} Sunday, 11 February by 23:59:59
+
+\textbf{Submission Instructions:} Submit your completed R script file to Moodle.
 
   \bibliography{book.bib,packages.bib}
 
