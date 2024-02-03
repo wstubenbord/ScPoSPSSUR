@@ -8,23 +8,23 @@ To get started, you will need to install two things:
 
     -   This type of software program is called an IDE, an Integrated Development Environment
 
-You don't necessarily need RStudio to program in `R`, but it makes life a lot easier and it's what we'll be using throughout the course.
+You don't necessarily need RStudio to program in `R`, but it makes life much easier and it is what we'll be using throughout the course.
 
 ## Installing `R`
 
 To install `R`, go to <https://cran.irsn.fr/index.html>, select the appropriate operating system, and follow the instructions.
 
-For example, if you have a Mac, you will click on "Download R for macOS," followed by clicking on the "R-4.3.2-arm64.pkg" link beneath the "Latest release" header.
+For example, if you have a Mac, you will click on "Download R for macOS," followed by the "R-4.3.2-arm64.pkg" link beneath the "Latest release" header.
 
 If you have a PC running Windows, you will click on "Download R for Windows" followed by "install R for the first time" and "Download R-4.3.2 for Windows."
 
-In either case, your browser should start downloading an executable file which you will then need to run to install `R`.
+In either case, your browser will start downloading an executable installation file which you will then need to run to install `R`.
 
 *CAUTION* - A couple of things you may need to watch out for:
 
-1.  If you are using an older laptop, you may need to download a different version of `R` or RStudio. If in doubt, read the installation pages and refer to your operating system version to find the right version for your needs.
+-   If you are using an older laptop (\> 10 years old), you may need to download a different version of `R` or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.
 
-2.  If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you'll likely need some additional space for other software and data we will be using in the course later on (around 2 GB should suffice).
+-   If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should suffice.
 
 ## Installing RStudio
 
@@ -32,13 +32,13 @@ Once you've installed `R`, go to <https://posit.co/download/rstudio-desktop/>.
 
 Posit (a company formerly known as RStudio) offers RStudio Desktop free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.
 
-Step 1 is complete, you've already installed `R`. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that applies to your particular case, download the installer, and once it has downloaded, run the installation file from your computer and follow the on-screen steps.
+Step 1 is complete, you've already installed `R`. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer and follow the on-screen steps.
 
-If all goes well, your RStudio screen should look something like this once it is correctly installed and running:
+If all goes well, your screen should look something like this once you have RStudio correctly installed and running:
 
 ![](docs/_main_files/figure-html/RStudio%20clean%20install.png)
 
-On the other hand, if your screen looks like the image below, it means that you've accidentally opened RGui (a basic graphical user interface included with `R`) and not RStudio. We're always going to be working in RStudio for this class, so you can close out of RGui and open RStudio instead.
+If your screen looks like the image below, it means that you've accidentally opened RGui, a basic graphical user interface included with `R`, and not RStudio. We're always going to be working in RStudio for this class, so close out of RGui and open RStudio instead.
 
 ![](docs/_main_files/figure-html/Base%20R%20GUI.PNG)
 
@@ -48,7 +48,7 @@ Now the fun begins. The RStudio window you've opened consists of a few different
 
 ![](docs/_main_files/figure-html/RStudio%20console%20box.png)
 
-The console allows you to interact with your computer using `R`. So, for example, if I want to use `R` as a calculator, I can type in the following code in the console and obtain a result:
+The console allows you to interact with your computer using `R`. So, for example, if I want to use my computer as an over-sized calculator, I can type in the following `R` code in the console:
 
 ``` r
 1+1
@@ -60,37 +60,39 @@ What happens when you press `Enter` on your keyboard? You get something like thi
 1+1
 ```
 
-You've provided an **input**, 1+1, and received an **output**, 2. The first number in brackets, `[1]`, indicates the number of the line of output. This is helpful when you are running more complex code that generates multiple lines of output. For now, it's important not to confuse this number with the output itself, 2.
+You've provided an **input**, `1+1`, and received an **output**, `2`. In other words, using the language of `R`, you've told your computer to add one plus one and your computer has correctly interpreted your command and returned an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.
 
-Try entering a few more inputs, such as:
+One more note about outputs: the first number in brackets next to your output, `[1]`, indicates the number of the line of output. This is especially helpful when you are running code that generates multiple lines of output. We will see some examples of this later on.
 
-1.  10/3
+For now, try entering a few more inputs, such as:
 
-2.  (10/3) + 1
+1.  `10/3`
 
-3.  (10/3) + 1 + (5.111)\^2
+2.  `(10/3) + 1`
 
-You can see that `R` is able to handle basic math operations with ease. What about other operations? Can `R` accept variables?
+3.  `(10/3) + 1 + (5.111)\^2`
 
-Try this:
+`R` is able to handle basic math operations with ease. What about other operations? Can you work with variables in `R`?
+
+Try typing this in the console:
 
 ```{r}
 x = 1
 ```
 
-What happens when you press `Enter`? What happened to the output?
+What happens when you press `Enter`?
 
 ![](docs/_main_files/figure-html/RStudio%20console_x1.png)
 
-The trick is that there is no output. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we call the environment. RStudio shows you this in the Environment pane in the top right.
+You may have noticed that there is no output. But, that doesn't mean nothing has happened. In fact, something has happened. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we might call the environment. You don't receive an output, but RStudio reminds you of your new variable's existence via the Environment pane in the top right.
 
-We can recall the value we input into our variable, `x`, by entering just the variable name in the console.
+We can recall the value we input into our variable, `x`, by entering the variable name in the console:
 
 ```{r}
 x
 ```
 
-See! `R` remembers what you stored in your environment.
+See! Your computer remembers what you stored in your environment.
 
 Try the following:
 
@@ -98,21 +100,21 @@ Try the following:
 
 2.  Can you perform math operations on a variable (e.g., x\*2)?
 
-3.  Can you create a new variable, y, and use it in math operations with x (e.g., x \* y)? What might you have to do with y first?
+3.  Can you create a new variable, y, and use it in math operations with x (e.g., x \* y)?
 
-4.  Can you change the type of variable? What if, for example, I don't want x = 1, but I want x to be equal to the word "apple"?
+4.  Can you change the type of variable? What if, for example, I don't want x = 1, but I want x equal to the word "apple"?
 
 ## Calculations with Variables
 
-If you've made it this far, congrats! Here's another thing you can try. Enter the following in the console:
+If you've made it this far, well done! Here's another thing you can try. Enter the following in the console:
 
 ```{r}
 x <- c(1,2,3,4,5)
 ```
 
-You'll notice, we're using a different operator here. It's a less than symbol (\<) followed by a dash (-). This is called an **assignment operator**. It has the same function as the equals sign (=). You can use either, I just so happen to prefer the way this one looks.
+You'll notice that we're using a different operator here. It's a less than symbol (\<) followed by a dash (-). This is called an **assignment operator** and it has the same function as the equals sign (=). You can use either, I just so happen to prefer the way this one looks.
 
-What happens when you press `Enter`? You have created a **vector**. Like other types of variables in `R`, a vector is an object. A vector holds a set of values of the same type. In this case, the vector x is holding a set of numbers.
+What happens when you press `Enter`? You have created a **vector**. Like other types of variables in `R`, a vector is an **object**. A vector holds a set of values of the same type. In this case, the object x contains a set of numbers, 1:5.
 
 We can do all sorts of things with vectors and other objects in `R`. We can, for example, find the sum of a vector.
 
@@ -126,31 +128,29 @@ How did we get an output of 15? 1+2+3+4+5 = 15. We can also find the mean of a v
 mean(x)
 ```
 
-And, we can perform other operations. Try the following:
+And, we can perform other fun operations. Try the following:
 
 1.  Can you find the median of the vector x? What about the mode?[^01-intro-1]
 
 2.  What happens when you multiply a vector?
 
-3.  Can you create a new vector which consists only of letters?
+3.  Can you create a new vector which consists of a set of letters?
 
 [^01-intro-1]: As you will have found, `mode()` doesn't calculate a statistic here (although even if it had, you still wouldn't have gotten a meaningful statistic for this particular vector). Some functions are easy to guess, like `median()` , but others can be false cognates just like in a spoken language. We'll talk more about finding the purpose of a function in the next chapter.
 
 ## Saving Your Work
 
-As you've begun to see, working with a scripting language like `R` is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface.
+As you've started to see, working with a scripting language like `R` is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface. No more clicking on cells to change values, now you change them programmatically.
 
-One of the great benefits of interacting in this way, particularly for the social sciences, is that it allows others to fully reproduce your work. If they have your code, they can repeat the exact same steps you took.
+One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you've taken to produce your analysis and repeat them. We don't have to take your word for how you've calculated something. We can see it and use it ourselves to produce the same thing.
 
-Think about it this way: when you change a value in a cell in an Excel spreadsheet, will someone else know what was in that cell before you changed it? No.
-
-In `R`, however, we can leave the source data alone and save the code we use to manipulate it. Now others can see exactly what you've done to each value and reproduce your analysis.
+This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that we can come back to it and understand what we did. We'll say more about how to do this later on.
 
 There are a couple of different ways of saving your code:
 
-1.  In an R Script file, which is a simple text file containing only your code
+1.  In an R Script, a simple text file ending in a `.r` extension
 
-2.  In an R Markdown file, which is basically an interactive notebook that allows you to see your code and the results next to each other
+2.  In an R Markdown file, an interactive format that allows you to see your code and the results together in the same file
 
 We're going to start with an R Script file and try out R Markdown later on.
 
@@ -164,13 +164,13 @@ You should now have a window open in RStudio which looks like this:
 
 ![](docs/_main_files/figure-html/RStudio_Opened%20RScript.png)
 
-You can enter comments in your R Script file using a hash tag (\#) at the beginning of each comment line. A hash tag lets `R` know that this line should not be run as code.
+You can enter comments in your R Script file using a hash tag (`#`) at the beginning of each comment line. A hash tag lets `R` know that this line should not be run as code. Its purpose is to tell us what is happening in a particular section of the code.
 
-I like to add my name, the date, and a description to each file I use. I'll ask that you use a header for each `R` file you submit for this class as well.
+I like to start by adding my name, the date, and a description to each file I use. I'll ask that you use a header for each `R` file you submit for this class as well.
 
 ![](docs/_main_files/figure-html/RStudio_Commenting%20in%20an%20R%20Script%20file.png)
 
-Now, save your R Script somewhere on your computer. Go to File \> Save As, choose a safe place on your computer to store it (I recommend creating a folder for this course), give it a name, and then press save. I called mine "hello_world".
+Now, save your R Script somewhere on your computer. Go to File \> Save As, then choose a safe place on your computer to store it (I recommend creating a folder for this course), give your file a name, and press save. I called mine "hello_world".
 
 ## Interacting in an R Script
 
@@ -179,8 +179,22 @@ Interacting in an R Script is slightly different from interacting with the conso
 To run code in a script in RStudio, you can either:
 
 1.  Select the lines you wish to run with your cursor and then press `Ctrl` + `Enter`
-2.  Or, put your cursor on the line you wish to run and click the `Run` button in the top right of the R Script file pane
+2.  Or, put your cursor on the line you wish to run and click the `Run` button in the upper-right of the R Script pane
 
-The first option allows you to run multiple lines at a time and the second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.
+![](docs/_main_files/figure-html/RStudio_Run button.png)
+
+The first option allows you to run multiple lines at a time. The second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.
 
 After you finish modifying your R Script file, you can save it and close out of RStudio. The next time you wish to access your saved code, you can open your R Script file and it will be exactly as you left it.
+
+## Summary
+
+Let's briefly recap what you have learned in this lesson.  So far you've learned:
+
+-   The difference between `R` and RStudio
+-   How to interact with the console
+-   How to create and store values in variables using an assignment operator
+-   What a vector is and how to create one
+-   How to use basic functions like `sum()` and `mean()` to perform calculations
+-   How to make comments using the `#` symbol
+-   How to create and save R Script files
