@@ -120,7 +120,7 @@
 
 \title{Statistical Programming for the Social Sciences Using R}
 \author{Wesley Stubenbord}
-\date{2024-02-03}
+\date{2024-02-07}
 
 \begin{document}
 \maketitle
@@ -846,9 +846,63 @@ For the remainder of today's session, I'd like you play around with this data. I
 \chapter*{Homework 1}\label{homework-1}}
 \addcontentsline{toc}{chapter}{Homework 1}
 
-\textbf{Due Date:} Sunday, 11 February by 23:59:59
+\textbf{Due Date:} Tuesday, 13 February by 23:59:59
 
 \textbf{Submission Instructions:} Submit your completed R script file to Moodle.
+
+This homework will be relatively short and straight-forward. The goal is to ease you into \texttt{R} now so that you are ready to complete some of the more complex data analysis that will take place later.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Create an \texttt{R} script and save it with an appropriate name. Add a header to your R script file in the format below.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Name: [first\_name] [last\_name]}
+\CommentTok{\# Date: [date]}
+\CommentTok{\# Description: [brief description of the file] }
+
+\CommentTok{\# Question 2:}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\item
+  In your \texttt{R} script file, Load the \texttt{tidyverse} package.
+\item
+  Create a vector with the following set of numbers: \({30, 60, 90, 120, 150}\).
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii}.}
+  \item
+    Multiply the vector by 2. In a brief comment, tell me what the result was.
+  \item
+    Take the vector and divide it by 3. Tell me what the result was in a brief comment.
+  \item
+    Multiply the vector by itself. Tell me what the result was in a brief comment.
+  \item
+    Return the third element of the vector.
+  \item
+    Replace the second element of the vector with a missing value (\texttt{NA}).
+  \item
+    Sum the vector, excluding the missing value. In a comment, write the answer.
+  \end{enumerate}
+\item
+  Using the \texttt{socviz} package (see section 2.3 of the course textbook), load the \texttt{election} dataset into a new object called \texttt{elec}.
+\end{enumerate}
+
+~ a. Find the total popular vote received by Gary Johnson using the \texttt{johnson\_vote} variable.
+
+~ b. Find the total popular vote received by `Other' candidates using the \texttt{other\_vote} variable.
+
+~ c.~In a comment answer the following question: who received more votes, Gary Johnson or ``other'' candidates? By how much?
+
+~ d.~Use the \texttt{sum()} function on the \texttt{state} variable. In a brief comment, explain why this didn't work and what the error message is telling you.
 
   \bibliography{book.bib,packages.bib}
 

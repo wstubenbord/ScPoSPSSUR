@@ -1,5 +1,43 @@
 # Homework 1 {.unnumbered}
 
-**Due Date:** Sunday, 11 February by 23:59:59
+**Due Date:** Tuesday, 13 February by 23:59:59
 
 **Submission Instructions:** Submit your completed R script file to Moodle.
+
+This homework will be relatively short and straight-forward. The goal is to ease you into `R` now so that you are ready to complete some of the more complex data analysis that will take place later.
+
+1.  Create an `R` script and save it with an appropriate name. Add a header to your R script file in the format below.  
+
+```{r}
+# Name: [first_name] [last_name]
+# Date: [date]
+# Description: [brief description of the file] 
+
+# Question 2:
+```
+
+2.  In your `R` script file, Load the `tidyverse` package.
+
+3.  Create a vector with the following set of numbers: ${30, 60, 90, 120, 150}$.
+
+    a.    Multiply the vector by 2. In a brief comment, tell me what the result was.
+
+    b.    Take the vector and divide it by 3. Tell me what the result was in a brief comment.
+
+    c.    Multiply the vector by itself.  Tell me what the result was in a brief comment.
+    
+    d.    Return the third element of the vector.
+    
+    e.    Replace the second element of the vector with a missing value (`NA`).
+    
+    f.    Sum the vector, excluding the missing value.  In a comment, write the answer.
+    
+4.    Using the `socviz` package (see section 2.3 of the course textbook), load the `election` dataset into a new object called `elec`.
+
+\    a.    Find the total popular vote received by Gary Johnson using the `johnson_vote` variable.
+    
+\    b.    Find the total popular vote received by 'Other' candidates using the `other_vote` variable.
+    
+\    c.   In a comment answer the following question: who received more votes, Gary Johnson or "other" candidates?  By how much?
+
+\    d.   Use the `sum()` function on the `state` variable.  In a brief comment, explain why this didn't work and what the error message is telling you.
