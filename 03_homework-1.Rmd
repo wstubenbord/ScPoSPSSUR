@@ -16,7 +16,7 @@ This homework will be relatively short and straight-forward. The goal is to ease
 # Question 2:
 ```
 
-2.  In your `R` script file, Load the `tidyverse` package.
+2.  In your `R` script file, load the `tidyverse` package.
 
 3.  Create a vector with the following set of numbers: ${30, 60, 90, 120, 150}$.
 
