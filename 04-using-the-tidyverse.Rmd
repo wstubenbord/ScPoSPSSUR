@@ -330,7 +330,7 @@ You can also add additional code to your `kable()` function to customize the loo
 
 ## Another Example
 
-What if I want to do something crazy like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, I'd like to know their breakdown by relative frequency across regions of the U.S. Here's a brief example:
+What if we want to do something crazy like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we'd like to know their breakdown by relative frequency across regions of the U.S. Here's a brief example:
 
 ```{r}
 gss %>%
@@ -343,7 +343,7 @@ gss %>%
          pct = round((freq*100), 1))
 ```
 
-Now, I can rest easy knowing that I can find the percentage of 2012-Obama supporting Protestants with children who reside in the South Atlantic census region (29.2%).
+Now, we can rest easy knowing that we can find the percentage of 2012-Obama supporting Protestants and/or Catholics with children who reside in the South Atlantic census region (29.2%).
 
 ## Practice Exploring Data
 

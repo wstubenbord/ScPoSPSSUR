@@ -591,7 +591,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="another-example" class="section level2 hasAnchor" number="3.12">
 <h2><span class="header-section-number">3.12</span> Another Example<a href="summarizing-data-with-dplyr.html#another-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>What if I want to do something crazy like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, I’d like to know their breakdown by relative frequency across regions of the U.S. Here’s a brief example:</p>
+<p>What if we want to do something crazy like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we’d like to know their breakdown by relative frequency across regions of the U.S. Here’s a brief example:</p>
 <div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="summarizing-data-with-dplyr.html#cb91-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb91-2"><a href="summarizing-data-with-dplyr.html#cb91-2" tabindex="-1"></a>  <span class="fu">filter</span>(religion <span class="sc">==</span> <span class="st">&quot;Protestant&quot;</span> <span class="sc">|</span> religion <span class="sc">==</span> <span class="st">&quot;Catholic&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb91-3"><a href="summarizing-data-with-dplyr.html#cb91-3" tabindex="-1"></a>  <span class="fu">filter</span>(obama <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
@@ -612,7 +612,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 7 W. Sou. Central    57 0.104   10.4
 ## 8 Mountain           35 0.0639   6.4
 ## 9 Pacific            55 0.100   10</code></pre>
-<p>Now, I can rest easy knowing that I can find the percentage of 2012-Obama supporting Protestants with children who reside in the South Atlantic census region (29.2%).</p>
+<p>Now, we can rest easy knowing that we can find the percentage of 2012-Obama supporting Protestants and/or Catholics with children who reside in the South Atlantic census region (29.2%).</p>
 </div>
 <div id="practice-exploring-data" class="section level2 hasAnchor" number="3.13">
 <h2><span class="header-section-number">3.13</span> Practice Exploring Data<a href="summarizing-data-with-dplyr.html#practice-exploring-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
