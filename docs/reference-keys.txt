@@ -29,6 +29,10 @@ glimpsing-gss-data
 selecting-columns
 grouping-and-summarizing
 calculating-with-mutate
+how-r-reads-functions
 filtering
-all-together-now
-some-data-exploration
+conditional-filtering
+the-in-operator
+fancy-tables-with-kable
+another-example
+practice-exploring-data

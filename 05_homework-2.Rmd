@@ -1,0 +1,7 @@
+# Homework 2 {.unnumbered}
+
+**Due Date:** Sunday, 25 February by 23:59:59
+
+**Submission Instructions:** Submit your completed R script file to Moodle.
+
+To be posted by Wednesday, February 14.

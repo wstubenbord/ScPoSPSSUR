@@ -37,7 +37,7 @@ set in the _output.yml file.</p>" />
   
   
 <link rel="prev" href="homework-1.html"/>
-
+<link rel="next" href="homework-2.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -193,10 +193,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#selecting-columns"><i class="fa fa-check"></i><b>3.5</b> Selecting Columns</a></li>
 <li class="chapter" data-level="3.6" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#grouping-and-summarizing"><i class="fa fa-check"></i><b>3.6</b> Grouping and Summarizing</a></li>
 <li class="chapter" data-level="3.7" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#calculating-with-mutate"><i class="fa fa-check"></i><b>3.7</b> Calculating with <code>mutate()</code></a></li>
-<li class="chapter" data-level="3.8" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#filtering"><i class="fa fa-check"></i><b>3.8</b> Filtering</a></li>
-<li class="chapter" data-level="3.9" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#all-together-now"><i class="fa fa-check"></i><b>3.9</b> All Together Now</a></li>
-<li class="chapter" data-level="3.10" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#some-data-exploration"><i class="fa fa-check"></i><b>3.10</b> Some Data Exploration</a></li>
+<li class="chapter" data-level="3.8" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#how-r-reads-functions"><i class="fa fa-check"></i><b>3.8</b> How <code>R</code> Reads Functions</a></li>
+<li class="chapter" data-level="3.9" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#filtering"><i class="fa fa-check"></i><b>3.9</b> Filtering</a></li>
+<li class="chapter" data-level="3.10" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#conditional-filtering"><i class="fa fa-check"></i><b>3.10</b> Conditional Filtering</a>
+<ul>
+<li class="chapter" data-level="3.10.1" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#the-in-operator"><i class="fa fa-check"></i><b>3.10.1</b> The <code>%in%</code> Operator</a></li>
 </ul></li>
+<li class="chapter" data-level="3.11" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#fancy-tables-with-kable"><i class="fa fa-check"></i><b>3.11</b> Fancy Tables with <code>kable()</code></a></li>
+<li class="chapter" data-level="3.12" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#another-example"><i class="fa fa-check"></i><b>3.12</b> Another Example</a></li>
+<li class="chapter" data-level="3.13" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#practice-exploring-data"><i class="fa fa-check"></i><b>3.13</b> Practice Exploring Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="homework-2.html"><a href="homework-2.html"><i class="fa fa-check"></i>Homework 2</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -220,20 +227,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="summarizing-data-with-dplyr" class="section level1 hasAnchor" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Summarizing Data with <code>dplyr</code><a href="summarizing-data-with-dplyr.html#summarizing-data-with-dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>In the previous chapter, you learned how to load data from a package, how to access a column from a tibble using the subset operator <code>$</code>, and how to use basic functions to answer questions like: what was the total number of votes cast in the 2016 U.S. presidential election?</p>
-<p>We’ve had a couple strokes of luck so far, however. Namely, our data has been nice and tidy and our questions haven’t required us to poke around in our data to get the answers we are interested in. This brings us to <em>data wrangling</em> - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
-<p>For this lesson, we are going to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig into a data set: in particular, <code>dplyr</code> and the <strong>pipe operator</strong>. In the next lesson, our luck will unfortunately run out and we will be confronted with the harsh reality of unseemly data.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+<p>We’ve had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven’t really required us to poke around in our data to find the answers we are interested in. This brings us to <em>data wrangling</em> - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p>For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, <code>dplyr</code> and the <strong>pipe operator</strong>. In the next lesson, our luck will run out and we will be confronted with the harsh reality of unseemly data.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <div id="basic-description-with-base-r" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Basic Description with Base <code>R</code><a href="summarizing-data-with-dplyr.html#basic-description-with-base-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let’s use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the <code>socviz</code> package, a helpful collection of data sets and other goodies assembled by Kieran Healy.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
-<p>We’ll use another data set from the same package in a moment, but, for now, let’s start again with the <code>election</code> data. We’re also going to re-load our new best friend, the <em>tidyverse</em>.</p>
+<p>Let’s use an example to get started. Last class, you toyed around with the 2016 U.S. presidential election data from the <code>socviz</code> package, a helpful collection of data sets and other goodies developed by Kieran Healy.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
+<p>We’ll use another data set from the same package in a moment, but, for now, let’s return to the <code>election</code> data. We’re also going to re-load our new best friend, <em>tidyverse</em>.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="summarizing-data-with-dplyr.html#cb46-1" tabindex="-1"></a><span class="fu">library</span>(socviz)</span>
 <span id="cb46-2"><a href="summarizing-data-with-dplyr.html#cb46-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<p>Libraries loaded. Remember, once you have the packages installed, you don’t have to do it again. So no need to include <code>install.packages()</code> in your script going forward.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
-<p>We’ll load the data into an object in our environment. This time, I’m going to use a shorter name for the tibble to spare myself future pain. Longer names mean more to retype later.</p>
+<p>Libraries loaded. Remember, once you have the packages installed, you don’t need to do it again. So, don’t include <code>install.packages()</code> in your scripts going forward.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
+<p>We’ll load the data into an object in our environment. This time, I’m going to use a shorter name for the tibble to spare myself future pain. Longer names means more to retype later.</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="summarizing-data-with-dplyr.html#cb47-1" tabindex="-1"></a>elec_2016 <span class="ot">&lt;-</span> election</span></code></pre></div>
 <p>Just like last time, we can do basic calculations on columns. We can even throw in a few new functions for good measure:</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="summarizing-data-with-dplyr.html#cb48-1" tabindex="-1"></a><span class="co"># table() gives a contingency table for character variables.</span></span>
-<span id="cb48-2"><a href="summarizing-data-with-dplyr.html#cb48-2" tabindex="-1"></a><span class="co"># Here it&#39;s giving the number of states (plus D.C.) won by each candidate.</span></span>
+<span id="cb48-2"><a href="summarizing-data-with-dplyr.html#cb48-2" tabindex="-1"></a><span class="co"># Here it&#39;s the number of states (plus D.C.) won by each candidate.</span></span>
 <span id="cb48-3"><a href="summarizing-data-with-dplyr.html#cb48-3" tabindex="-1"></a><span class="fu">table</span>(elec_2016<span class="sc">$</span>winner)</span></code></pre></div>
 <pre><code>## 
 ## Clinton   Trump 
@@ -250,7 +257,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    2736   96382  212030  383997  522207 4269978</code></pre>
 <p>But, what if I want to do something more specific?</p>
-<p>What if, for instance, I really want to know how much of the popular vote third party Libertarian candidate Gary Johnson won across the different regions of the United States? Here, we need special functions from dplyr and the pipe operator.</p>
+<p>What if I really want to know how much of the popular vote third party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from dplyr and the pipe operator.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="summarizing-data-with-dplyr.html#cb54-1" tabindex="-1"></a><span class="co"># An illustrative example - no need to try this just yet</span></span>
 <span id="cb54-2"><a href="summarizing-data-with-dplyr.html#cb54-2" tabindex="-1"></a>elec_2016 <span class="sc">%&gt;%</span></span>
 <span id="cb54-3"><a href="summarizing-data-with-dplyr.html#cb54-3" tabindex="-1"></a>  <span class="fu">group_by</span>(census) <span class="sc">%&gt;%</span></span>
@@ -262,14 +269,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 2 Northeast  676192
 ## 3 South     1370056
 ## 4 West      1239925</code></pre>
+<p>We’ll learn how to do this and more in a moment.</p>
 <p><img src="docs/_main_files/figure-html/ceci_pipe.png" width="149" /></p>
 </div>
 <div id="the-pipe-operator" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> The Pipe Operator<a href="summarizing-data-with-dplyr.html#the-pipe-operator" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The <strong>pipe operator</strong> is a very handy tool indeed. It is a specialized operator that comes from the <code>maggritr</code> package, which itself is contained in the tidyverse.</p>
-<p>It looks like this: <code>%&gt;%</code>. But, it can also look like this: <code>|&gt;</code>. There isn’t much of a difference between the two, so you can use whichever you prefer as long as you are consistent.</p>
-<p>The pipe operator has a straightforward function: it allows you to combine a series of steps into a single line of code. And, it does this in a way that makes your code very legible. Whenever you see the pipe operator, you should read it as though it is saying, “And then [do this].”</p>
-<p>So in the previous example I gave you might read it as:</p>
+<p>The <strong>pipe operator</strong> is a handy tool indeed. It is a specialized operator that comes from the <code>maggritr</code> package, which itself is contained in the tidyverse.</p>
+<p>It looks like this: <code>%&gt;%</code>. But, it can also look like this: <code>|&gt;</code>.</p>
+<p>There isn’t much of a difference between the two, so you can use whichever you prefer as long as you are consistent.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
+<p>The pipe operator has a straightforward function: it allows you to combine a series of steps into a single command. And, it does this in a way that makes your code legible. Whenever you see the pipe operator, you should read it as though it is saying, “And then [do this].”</p>
+<p>So in the previous example I gave, you might read it as:</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="summarizing-data-with-dplyr.html#cb56-1" tabindex="-1"></a>elec_2016 <span class="sc">%&gt;%</span>                            <span class="co"># Take the election data AND THEN</span></span>
 <span id="cb56-2"><a href="summarizing-data-with-dplyr.html#cb56-2" tabindex="-1"></a>  <span class="fu">group_by</span>(census) <span class="sc">%&gt;%</span>                   <span class="co"># group it by census region AND THEN</span></span>
 <span id="cb56-3"><a href="summarizing-data-with-dplyr.html#cb56-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">sum</span>(johnson_vote))   <span class="co"># sum up the Johnson vote.</span></span></code></pre></div>
@@ -282,30 +291,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="functions-from-dplyr" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Functions from <code>dplyr</code><a href="summarizing-data-with-dplyr.html#functions-from-dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><code>dplyr</code> (pronounced dee-ply-R) is a handy set of tools for working with tabular data. It’s one of the packages in tidyverse (along with <code>ggplot2</code>, <code>tidyr</code>, <code>tibble</code>, <code>readr</code>, and a few others), so you don’t have to load it separately.</p>
+<p><code>dplyr</code> (pronounced dee-ply-R) is a set of tools for working with tabular data. It’s one of the packages in tidyverse (along with <code>ggplot2</code>, <code>tidyr</code>, <code>tibble</code>, <code>readr</code>, and a few others), so you don’t have to load it separately.</p>
 <p><code>dplyr</code> has a handful of special functions:</p>
 <ul>
-<li><p><code>group_by()</code>, which groups data together at the level we desire (such as states by census region in our example).</p></li>
-<li><p><code>filter()</code>, which gives us the rows corresponding to some criteria entered as an argument</p></li>
-<li><p><code>select()</code>, which selects columns</p></li>
-<li><p><code>summarize()</code>, which performs calculations</p></li>
-<li><p><code>mutate()</code>, which creates new columns (e.g., variables)</p></li>
+<li><p><code>group_by()</code>, which groups data together at the level we desire (such as states by census region).</p></li>
+<li><p><code>filter()</code>, which gives us the rows corresponding to criteria entered as an argument</p></li>
+<li><p><code>select()</code>, which selects columns from the original data</p></li>
+<li><p><code>summarize()</code> or <code>summarise()</code>, which performs calculations<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p></li>
+<li><p><code>mutate()</code>, which creates new columns (or variables)</p></li>
+<li><p><code>arrange()</code>, which sorts the row order by column values</p></li>
 </ul>
 </div>
 <div id="glimpsing-gss-data" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Glimpsing GSS Data<a href="summarizing-data-with-dplyr.html#glimpsing-gss-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Let’s load another data set from <code>socviz</code>. This one is called <code>gss_sm</code> and contains a nice, clean extract from the 2016 General Social Survey.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="summarizing-data-with-dplyr.html#cb57-1" tabindex="-1"></a>gss <span class="ot">&lt;-</span> gss_sm</span></code></pre></div>
-<p>The <a href="https://gss.norc.org/">General Social Survey</a> is a nationally representative biennial survey of U.S. adults on sociological topics produced out of the National Opinion Research Center (NORC) at the University of Chicago since 1972.</p>
-<p>Take a quick look at the data. You can use <code>glimpse()</code>, another <code>dplyr</code> function, to get a good look at it and you can look at it visually using <code>view()</code>. Typing in <code>?gss_sm</code> (the original name of the data set from the package) will tell you what the variables are.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="summarizing-data-with-dplyr.html#cb58-1" tabindex="-1"></a><span class="fu">glimpse</span>(gss)</span></code></pre></div>
-<p>As you might notice, there’s a wealth of data in here. You might also notice that the data is at the <em>individual-level</em>. In this data, each row represents a individual respondent and each column is a variable (or their response to a question).</p>
+<p>The <a href="https://gss.norc.org/">General Social Survey</a> is a nationally representative biennial survey of U.S. adults on sociological topics produced by the National Opinion Research Center (NORC) at the University of Chicago since 1972.</p>
+<p>Take a quick look at the data. You can use <code>glimpse()</code>, another <code>dplyr</code> function, to get a sense of what’s inside and you can look at it visually using <code>view()</code>. Typing in <code>?gss_sm</code> (the original name of the data set from the package) will tell you what the variables are.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="summarizing-data-with-dplyr.html#cb58-1" tabindex="-1"></a><span class="fu">view</span>(gss)</span>
+<span id="cb58-2"><a href="summarizing-data-with-dplyr.html#cb58-2" tabindex="-1"></a><span class="fu">glimpse</span>(gss)</span></code></pre></div>
+<p>There’s a wealth of data in here. You might also notice that the data is at the <em>individual-level</em>. In this data, each row represents an individual respondent and each column is a variable (or a coded response to a survey question).</p>
 </div>
 <div id="selecting-columns" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Selecting Columns<a href="summarizing-data-with-dplyr.html#selecting-columns" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Maybe I want to narrow in and look at just a few variables. I can use the <code>select()</code> function to do this.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="summarizing-data-with-dplyr.html#cb59-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
-<span id="cb59-2"><a href="summarizing-data-with-dplyr.html#cb59-2" tabindex="-1"></a>  <span class="fu">select</span>(id, sex, religion)</span></code></pre></div>
+<p>Maybe we want to narrow in and look at just a few variables. We can use the <code>select()</code> function to do this.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="summarizing-data-with-dplyr.html#cb59-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span>                             <span class="co"># Take the GSS data AND THEN</span></span>
+<span id="cb59-2"><a href="summarizing-data-with-dplyr.html#cb59-2" tabindex="-1"></a>  <span class="fu">select</span>(id, sex, religion)         <span class="co"># take just the ID, sex, and religion columns.</span></span></code></pre></div>
 <pre><code>## # A tibble: 2,867 × 3
 ##       id sex    religion  
 ##    &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;     
@@ -320,17 +331,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9     9 Male   Protestant
 ## 10    10 Male   None      
 ## # ℹ 2,857 more rows</code></pre>
-<p>It returned a tibble with just the three variables I wanted to look at. I can always save a copy of this output if I want to, by storing it in a new object:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="summarizing-data-with-dplyr.html#cb61-1" tabindex="-1"></a>gender_rel <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<p>The select function returned a tibble with just the three variables I wanted to look at. I can always save a copy of this output by storing it in a new object:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="summarizing-data-with-dplyr.html#cb61-1" tabindex="-1"></a>gender_relig <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
 <span id="cb61-2"><a href="summarizing-data-with-dplyr.html#cb61-2" tabindex="-1"></a>  <span class="fu">select</span>(id, sex, religion)</span></code></pre></div>
-<p>And, if I decided I don’t want this copy, I can always get rid of it using the <code>rm()</code> function.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="summarizing-data-with-dplyr.html#cb62-1" tabindex="-1"></a><span class="fu">rm</span>(gender_rel)</span></code></pre></div>
+<p>And, if I take a look at it and then decide I don’t want this copy, I can always get rid of it using the <code>rm()</code> function.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="summarizing-data-with-dplyr.html#cb62-1" tabindex="-1"></a><span class="fu">view</span>(gender_relig)</span>
+<span id="cb62-2"><a href="summarizing-data-with-dplyr.html#cb62-2" tabindex="-1"></a><span class="fu">rm</span>(gender_relig)</span></code></pre></div>
 </div>
 <div id="grouping-and-summarizing" class="section level2 hasAnchor" number="3.6">
 <h2><span class="header-section-number">3.6</span> Grouping and Summarizing<a href="summarizing-data-with-dplyr.html#grouping-and-summarizing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let’s say we want to summarize our respondents by religious affiliation.</p>
-<p>To do this, we first have to tell the computer how we are going to group the data. Grouping doesn’t change the data, but it prepares <code>R</code> to interpret it according to our groups. We’re going to group by the <code>religion</code> variable.</p>
-<p>Next, we have to tell the computer how to <code>summarize()</code> the groups. We’re going to count the respondents using <code>n()</code>. <code>n()</code> just counts the rows within each group.</p>
+<p>Let’s say we want to summarize the respondents by religious affiliation.</p>
+<p>To do this, we first have to tell the computer how we are going to group the data. Grouping doesn’t change the data, but it prepares <code>R</code> to interpret it according to the groups we specify. We’re going to group by the <code>religion</code> variable.</p>
+<p>Next, we have to tell the computer how to <code>summarize()</code> the groups. We’re going to count the respondents using <code>n()</code>. <code>n()</code> just counts the rows within each group.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a></p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="summarizing-data-with-dplyr.html#cb63-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb63-2"><a href="summarizing-data-with-dplyr.html#cb63-2" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span>      <span class="co"># Group by religion</span></span>
 <span id="cb63-3"><a href="summarizing-data-with-dplyr.html#cb63-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())      <span class="co"># Create a total by counting the rows</span></span></code></pre></div>
@@ -343,12 +355,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4 None         619
 ## 5 Other        159
 ## 6 &lt;NA&gt;          18</code></pre>
-<p>As you can see, <code>summarize()</code> needs you to provide a new column name and a measurement. In the example above, we gave the column the name <code>total</code> and asked it count the total number of respondents by group using the <code>n()</code> function.</p>
-<p>Again, if we wanted to, we could save a copy of this summary in a new table as in the command below. Our original table will always be untouched unless we save over it (e.g., <code>gss &lt;- gss %&gt;% ...</code>).</p>
+<p>As you can see, <code>summarize()</code> needs you to provide a new column name and a measurement. In the example above, we named the new column <code>total</code> and asked it to count the total number of respondents by group using the <code>n()</code> function.</p>
+<p>Again, if we wanted to, we could save a copy of this summary in a new tibble, as in the command below. Our original table will always be untouched unless we intentionally save over it (e.g., <code>gss &lt;- gss %&gt;% ...</code>).</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="summarizing-data-with-dplyr.html#cb65-1" tabindex="-1"></a>relig <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
 <span id="cb65-2"><a href="summarizing-data-with-dplyr.html#cb65-2" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
 <span id="cb65-3"><a href="summarizing-data-with-dplyr.html#cb65-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code></pre></div>
-<p>We can also group by two columns, such that we could find religious affiliation by sex, for example:</p>
+<p>We can also group by two columns, such that we can find religious affiliation by sex, for example:</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="summarizing-data-with-dplyr.html#cb66-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb66-2"><a href="summarizing-data-with-dplyr.html#cb66-2" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
 <span id="cb66-3"><a href="summarizing-data-with-dplyr.html#cb66-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code></pre></div>
@@ -370,11 +382,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 Other      Female   101
 ## 11 &lt;NA&gt;       Male      11
 ## 12 &lt;NA&gt;       Female     7</code></pre>
-<p>The ordering of the groups matters. Because religion came first in our <code>group()</code> function, our results will show us the number of protestants who are male and the number of protestants who are female. For a count, this is the same thing as the reverse (e.g., the number of protestants who are male is the number of males who are protestant), but for frequencies this is not the case and the order does matter.</p>
+<p>Now we can see the number of protestants who are male and the number who are female.</p>
+<p>The ordering of the groups matters somewhat. Because religion came first in our <code>group()</code> function, our results show us the number of protestants who are male and the number of protestants who are female.</p>
+<p>For a count, this is the same thing as the inverse (e.g., the number of protestants who are male is the same as the number of males who are protestant), but for frequencies this is not the case and the order does matter. You’ll get a sense for this in a moment.</p>
 </div>
 <div id="calculating-with-mutate" class="section level2 hasAnchor" number="3.7">
 <h2><span class="header-section-number">3.7</span> Calculating with <code>mutate()</code><a href="summarizing-data-with-dplyr.html#calculating-with-mutate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let’s add a frequency column and a percentage column so that we can get a sense of whether there the gender composition within religious groups.</p>
+<p>Let’s add a frequency column and a percentage column so that we can see whether there are gender differences within religious affiliations.</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="summarizing-data-with-dplyr.html#cb69-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb69-2"><a href="summarizing-data-with-dplyr.html#cb69-2" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
 <span id="cb69-3"><a href="summarizing-data-with-dplyr.html#cb69-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
@@ -398,19 +412,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 10 Other      Female   101 0.635  63.5
 ## 11 &lt;NA&gt;       Male      11 0.611  61.1
 ## 12 &lt;NA&gt;       Female     7 0.389  38.9</code></pre>
-<p>Notice, we used the same code as before, but we added a <code>mutate()</code> function which created two new columns <code>freq</code> and <code>pct</code>.
-We also told the <code>mutate()</code> function how to calculate the columns. <code>freq</code>, we said, should be the respondents in each group divided by the sum of the groups (or <code>freq = total / sum(total)</code>) and <code>pct</code> should be the frequency multiplied by 100 and rounded to the first decimal place, using the <code>round()</code> helper function. In doing so, we find that among Protestant respondents, 40.8% are male and 59.2% are female.</p>
-<p>Calculating relative frequencies can be a bit of a beast, but the general form is always the same.</p>
+<p>Notice, we used the same code as before, but we added a <code>mutate()</code> function to create two new columns, <code>freq</code> and <code>pct</code>.</p>
+<p>We also told the <code>mutate()</code> function how to calculate the columns. <code>freq</code>, we said, should be the respondents in each group divided by the sum of the groups (or <code>freq = total / sum(total)</code>). <code>pct</code> should be the frequency multiplied by 100 and then rounded to the first decimal place, using the <code>round()</code> function. In doing so, we find that among Protestant respondents, 40.8% are male and 59.2% are female.</p>
+<p>Calculating relative frequencies can be a bit of a beast, but the general form is always the same, so you’ll be able to re-use code often.</p>
 </div>
-<div id="filtering" class="section level2 hasAnchor" number="3.8">
-<h2><span class="header-section-number">3.8</span> Filtering<a href="summarizing-data-with-dplyr.html#filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>What if we only wish to see the Protestant results of our last query? We can add a <code>filter()</code> function at the end.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="summarizing-data-with-dplyr.html#cb72-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
-<span id="cb72-2"><a href="summarizing-data-with-dplyr.html#cb72-2" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
-<span id="cb72-3"><a href="summarizing-data-with-dplyr.html#cb72-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb72-4"><a href="summarizing-data-with-dplyr.html#cb72-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
-<span id="cb72-5"><a href="summarizing-data-with-dplyr.html#cb72-5" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb72-6"><a href="summarizing-data-with-dplyr.html#cb72-6" tabindex="-1"></a>  <span class="fu">filter</span>(religion <span class="sc">==</span> <span class="st">&quot;Protestant&quot;</span>)</span></code></pre></div>
+<div id="how-r-reads-functions" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> How <code>R</code> Reads Functions<a href="summarizing-data-with-dplyr.html#how-r-reads-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You have just seen a bunch of nested functions, which is when a functions is used as an argument inside another functions. It’s worth pausing for a second to mention how <code>R</code> reads code, since you will be using this often.</p>
+<p>Functions are always read inside out, so a nested function will always evaluate the inner-most function first. Pipe operations, on the other hand, are read from left-to-right (or top-to-bottom, if you’re breaking up your code using new lines). The two commands below evaluate in the same way, but <code>R</code> reads them in a slightly different ordering.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="summarizing-data-with-dplyr.html#cb72-1" tabindex="-1"></a><span class="co"># Inside-out evaluation</span></span>
+<span id="cb72-2"><a href="summarizing-data-with-dplyr.html#cb72-2" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))               <span class="co"># A vector is created first, then summed.</span></span></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="summarizing-data-with-dplyr.html#cb74-1" tabindex="-1"></a><span class="co"># Left-to-right (sequential) evaluation</span></span>
+<span id="cb74-2"><a href="summarizing-data-with-dplyr.html#cb74-2" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>) <span class="sc">%&gt;%</span>                <span class="co"># A vector is created AND THEN</span></span>
+<span id="cb74-3"><a href="summarizing-data-with-dplyr.html#cb74-3" tabindex="-1"></a>  <span class="fu">sum</span>()                     <span class="co"># it is summed</span></span></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+</div>
+<div id="filtering" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> Filtering<a href="summarizing-data-with-dplyr.html#filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Back to the data. What if we only wish to see the Protestant results of our last query? We can add a <code>filter()</code> function.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="summarizing-data-with-dplyr.html#cb76-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb76-2"><a href="summarizing-data-with-dplyr.html#cb76-2" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb76-3"><a href="summarizing-data-with-dplyr.html#cb76-3" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb76-4"><a href="summarizing-data-with-dplyr.html#cb76-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb76-5"><a href="summarizing-data-with-dplyr.html#cb76-5" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb76-6"><a href="summarizing-data-with-dplyr.html#cb76-6" tabindex="-1"></a>  <span class="fu">filter</span>(religion <span class="sc">==</span> <span class="st">&quot;Protestant&quot;</span>)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;religion&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 2 × 5
@@ -419,14 +445,14 @@ We also told the <code>mutate()</code> function how to calculate the columns. <c
 ##   &lt;fct&gt;      &lt;fct&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Protestant Male     559 0.408  40.8
 ## 2 Protestant Female   812 0.592  59.2</code></pre>
-<p>Usually, you’ll want to use a <code>filter()</code> function at the beginning of your query. It can save some code later on.</p>
-<p>Here’s another example of <code>filter()</code>. This time, I’m only interested in religious affiliation among holders of graduate degrees.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="summarizing-data-with-dplyr.html#cb75-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
-<span id="cb75-2"><a href="summarizing-data-with-dplyr.html#cb75-2" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">&#39;Graduate&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb75-3"><a href="summarizing-data-with-dplyr.html#cb75-3" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
-<span id="cb75-4"><a href="summarizing-data-with-dplyr.html#cb75-4" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb75-5"><a href="summarizing-data-with-dplyr.html#cb75-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
-<span id="cb75-6"><a href="summarizing-data-with-dplyr.html#cb75-6" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code></pre></div>
+<p>Usually, you’ll want to use the <code>filter()</code> function at the beginning of your query.</p>
+<p>Here’s another example using <code>filter()</code>. This time, I’m only interested in religious affiliation among holders of graduate degrees.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="summarizing-data-with-dplyr.html#cb79-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb79-2"><a href="summarizing-data-with-dplyr.html#cb79-2" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">&#39;Graduate&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb79-3"><a href="summarizing-data-with-dplyr.html#cb79-3" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb79-4"><a href="summarizing-data-with-dplyr.html#cb79-4" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb79-5"><a href="summarizing-data-with-dplyr.html#cb79-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb79-6"><a href="summarizing-data-with-dplyr.html#cb79-6" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##   religion   total    freq   pct
 ##   &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
@@ -436,51 +462,166 @@ We also told the <code>mutate()</code> function how to calculate the columns. <c
 ## 4 None          82 0.258    25.8
 ## 5 Other         31 0.0975    9.7
 ## 6 &lt;NA&gt;           1 0.00314   0.3</code></pre>
-<p>And, so here I see that 39.6% of graduate-degree holding respondents were Protestant and 25.8% had no religious affiliation. Later on, we’ll learn how to turn this sort of thing into a graph.</p>
+<p>Now, we see that 39.6% of graduate-degree holding respondents were protestant and 25.8% had no religious affiliation. Later on, we’ll learn how to turn this sort of thing into a graph.</p>
 </div>
-<div id="all-together-now" class="section level2 hasAnchor" number="3.9">
-<h2><span class="header-section-number">3.9</span> All Together Now<a href="summarizing-data-with-dplyr.html#all-together-now" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>What if I want to do something like find all survey respondents who are Protestant, voted for Obama in the 2012 U.S. Presidential election, and have children? And I’d like to know their relative frequency across regions of the U.S.?</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="summarizing-data-with-dplyr.html#cb77-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
-<span id="cb77-2"><a href="summarizing-data-with-dplyr.html#cb77-2" tabindex="-1"></a>  <span class="fu">filter</span>(religion <span class="sc">==</span> <span class="st">&quot;Protestant&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb77-3"><a href="summarizing-data-with-dplyr.html#cb77-3" tabindex="-1"></a>  <span class="fu">filter</span>(obama <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb77-4"><a href="summarizing-data-with-dplyr.html#cb77-4" tabindex="-1"></a>  <span class="fu">filter</span>(childs <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb77-5"><a href="summarizing-data-with-dplyr.html#cb77-5" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
-<span id="cb77-6"><a href="summarizing-data-with-dplyr.html#cb77-6" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb77-7"><a href="summarizing-data-with-dplyr.html#cb77-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> <span class="fu">round</span>(total <span class="sc">/</span> <span class="fu">sum</span>(total),<span class="dv">4</span>),</span>
-<span id="cb77-8"><a href="summarizing-data-with-dplyr.html#cb77-8" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code></pre></div>
+<div id="conditional-filtering" class="section level2 hasAnchor" number="3.10">
+<h2><span class="header-section-number">3.10</span> Conditional Filtering<a href="summarizing-data-with-dplyr.html#conditional-filtering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>What if we want to filter our respondents for multiple degree types? We want to see, for example, people who have a bachelor’s degree <strong>or</strong> a graduate degree.</p>
+<p>For these types of queries, we can use logical operators in our <code>filter()</code> criteria. Here, specifically, we’ll use <code>|</code> which stands for ‘<strong>or</strong>’.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="summarizing-data-with-dplyr.html#cb81-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb81-2"><a href="summarizing-data-with-dplyr.html#cb81-2" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">&#39;Graduate&#39;</span> <span class="sc">|</span> degree <span class="sc">==</span> <span class="st">&#39;Bachelor&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb81-3"><a href="summarizing-data-with-dplyr.html#cb81-3" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb81-4"><a href="summarizing-data-with-dplyr.html#cb81-4" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb81-5"><a href="summarizing-data-with-dplyr.html#cb81-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb81-6"><a href="summarizing-data-with-dplyr.html#cb81-6" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##   religion   total    freq   pct
+##   &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
+## 1 Protestant   367 0.430    43  
+## 2 Catholic     193 0.226    22.6
+## 3 Jewish        27 0.0316    3.2
+## 4 None         204 0.239    23.9
+## 5 Other         59 0.0691    6.9
+## 6 &lt;NA&gt;           4 0.00468   0.5</code></pre>
+<p>Now our results include college graduates and graduate degree holders. If we want to see them broken out separately, all we need to do is change <code>group_by(religion)</code> to <code>group_by(religion, degree)</code>.</p>
+<p>What if we want to filter our observations for all individuals with less than a bachelor’s degree?</p>
+<p>We can create a vector with our specific criteria and then use it in the filter. Check this out:</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="summarizing-data-with-dplyr.html#cb83-1" tabindex="-1"></a>filter_criteria <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;Lt High School&#39;</span>, <span class="st">&#39;High School&#39;</span>, <span class="st">&#39;Junior College&#39;</span>)</span>
+<span id="cb83-2"><a href="summarizing-data-with-dplyr.html#cb83-2" tabindex="-1"></a></span>
+<span id="cb83-3"><a href="summarizing-data-with-dplyr.html#cb83-3" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb83-4"><a href="summarizing-data-with-dplyr.html#cb83-4" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">%in%</span> filter_criteria) <span class="sc">%&gt;%</span></span>
+<span id="cb83-5"><a href="summarizing-data-with-dplyr.html#cb83-5" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, degree) <span class="sc">%&gt;%</span></span>
+<span id="cb83-6"><a href="summarizing-data-with-dplyr.html#cb83-6" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb83-7"><a href="summarizing-data-with-dplyr.html#cb83-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb83-8"><a href="summarizing-data-with-dplyr.html#cb83-8" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;religion&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 17 × 5
+## # Groups:   religion [6]
+##    religion   degree         total   freq   pct
+##    &lt;fct&gt;      &lt;fct&gt;          &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1 Protestant Lt High School   155 0.155   15.5
+##  2 Protestant High School      742 0.740   74  
+##  3 Protestant Junior College   106 0.106   10.6
+##  4 Catholic   Lt High School   100 0.220   22  
+##  5 Catholic   High School      322 0.708   70.8
+##  6 Catholic   Junior College    33 0.0725   7.3
+##  7 Jewish     Lt High School     1 0.0417   4.2
+##  8 Jewish     High School       17 0.708   70.8
+##  9 Jewish     Junior College     6 0.25    25  
+## 10 None       Lt High School    62 0.150   15  
+## 11 None       High School      298 0.722   72.2
+## 12 None       Junior College    53 0.128   12.8
+## 13 Other      Lt High School    10 0.1     10  
+## 14 Other      High School       73 0.73    73  
+## 15 Other      Junior College    17 0.17    17  
+## 16 &lt;NA&gt;       High School        9 0.9     90  
+## 17 &lt;NA&gt;       Junior College     1 0.1     10</code></pre>
+<p>We’ve first created a vector, called <code>filter_criteria</code>, with all of the degree-levels we want to include in our data (we’ve left out ‘Graduate’ and ‘Bachelor’). Then, we’ve changed the filter criteria to say, “Take all respondents who have a degree listed in our vector, <code>filter _criteria</code>.” In code, we write this as: <code>filter(degree %in% filter_criteria)</code>.</p>
+<div id="the-in-operator" class="section level3 hasAnchor" number="3.10.1">
+<h3><span class="header-section-number">3.10.1</span> The <code>%in%</code> Operator<a href="summarizing-data-with-dplyr.html#the-in-operator" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>%in%</code> is a special logical operator that checks to see whether the values you are specifying are contained in an object. If the value is contained in the object, your computer will return <code>TRUE</code> and if not, it will return <code>FALSE</code>. This is especially useful for <code>filter()</code> since <code>filter()</code> selects rows based on whether they meet a criteria (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+<p>Here’s a simple example of how this operator works in general:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="summarizing-data-with-dplyr.html#cb86-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="summarizing-data-with-dplyr.html#cb88-1" tabindex="-1"></a><span class="dv">6</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+</div>
+<div id="fancy-tables-with-kable" class="section level2 hasAnchor" number="3.11">
+<h2><span class="header-section-number">3.11</span> Fancy Tables with <code>kable()</code><a href="summarizing-data-with-dplyr.html#fancy-tables-with-kable" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>If we want to make a table look a little bit nicer, we can add the <code>knitr::kable()</code> function to the end of our query to produce a more polished looking table.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="summarizing-data-with-dplyr.html#cb90-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb90-2"><a href="summarizing-data-with-dplyr.html#cb90-2" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">&#39;Graduate&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb90-3"><a href="summarizing-data-with-dplyr.html#cb90-3" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb90-4"><a href="summarizing-data-with-dplyr.html#cb90-4" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb90-5"><a href="summarizing-data-with-dplyr.html#cb90-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb90-6"><a href="summarizing-data-with-dplyr.html#cb90-6" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb90-7"><a href="summarizing-data-with-dplyr.html#cb90-7" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">religion</th>
+<th align="right">total</th>
+<th align="right">freq</th>
+<th align="right">pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Protestant</td>
+<td align="right">126</td>
+<td align="right">0.3962264</td>
+<td align="right">39.6</td>
+</tr>
+<tr class="even">
+<td align="left">Catholic</td>
+<td align="right">63</td>
+<td align="right">0.1981132</td>
+<td align="right">19.8</td>
+</tr>
+<tr class="odd">
+<td align="left">Jewish</td>
+<td align="right">15</td>
+<td align="right">0.0471698</td>
+<td align="right">4.7</td>
+</tr>
+<tr class="even">
+<td align="left">None</td>
+<td align="right">82</td>
+<td align="right">0.2578616</td>
+<td align="right">25.8</td>
+</tr>
+<tr class="odd">
+<td align="left">Other</td>
+<td align="right">31</td>
+<td align="right">0.0974843</td>
+<td align="right">9.7</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">1</td>
+<td align="right">0.0031447</td>
+<td align="right">0.3</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>::</code> operator here is just used to tell the computer to pull the <code>kable()</code> function from the <code>knitr</code> package (a member of the <code>tidyverse)</code>. This is useful when there are multiple functions with the same name in different packages.</p>
+<p>You can also add additional code to your <code>kable()</code> function to customize the look of your table (see <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">here</a> for examples).</p>
+</div>
+<div id="another-example" class="section level2 hasAnchor" number="3.12">
+<h2><span class="header-section-number">3.12</span> Another Example<a href="summarizing-data-with-dplyr.html#another-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>What if I want to do something crazy like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, I’d like to know their breakdown by relative frequency across regions of the U.S. Here’s a brief example:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="summarizing-data-with-dplyr.html#cb91-1" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb91-2"><a href="summarizing-data-with-dplyr.html#cb91-2" tabindex="-1"></a>  <span class="fu">filter</span>(religion <span class="sc">==</span> <span class="st">&quot;Protestant&quot;</span> <span class="sc">|</span> religion <span class="sc">==</span> <span class="st">&quot;Catholic&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb91-3"><a href="summarizing-data-with-dplyr.html#cb91-3" tabindex="-1"></a>  <span class="fu">filter</span>(obama <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb91-4"><a href="summarizing-data-with-dplyr.html#cb91-4" tabindex="-1"></a>  <span class="fu">filter</span>(childs <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb91-5"><a href="summarizing-data-with-dplyr.html#cb91-5" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb91-6"><a href="summarizing-data-with-dplyr.html#cb91-6" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb91-7"><a href="summarizing-data-with-dplyr.html#cb91-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> <span class="fu">round</span>(total <span class="sc">/</span> <span class="fu">sum</span>(total),<span class="dv">4</span>),</span>
+<span id="cb91-8"><a href="summarizing-data-with-dplyr.html#cb91-8" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 9 × 4
 ##   region          total   freq   pct
 ##   &lt;fct&gt;           &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
-## 1 New England        15 0.0409   4.1
-## 2 Middle Atlantic    27 0.0736   7.4
-## 3 E. Nor. Central    79 0.215   21.5
-## 4 W. Nor. Central    19 0.0518   5.2
-## 5 South Atlantic    107 0.292   29.2
-## 6 E. Sou. Central    31 0.0845   8.5
-## 7 W. Sou. Central    40 0.109   10.9
-## 8 Mountain           24 0.0654   6.5
-## 9 Pacific            25 0.0681   6.8</code></pre>
+## 1 New England        33 0.0602   6  
+## 2 Middle Atlantic    57 0.104   10.4
+## 3 E. Nor. Central   119 0.217   21.7
+## 4 W. Nor. Central    36 0.0657   6.6
+## 5 South Atlantic    121 0.221   22.1
+## 6 E. Sou. Central    35 0.0639   6.4
+## 7 W. Sou. Central    57 0.104   10.4
+## 8 Mountain           35 0.0639   6.4
+## 9 Pacific            55 0.100   10</code></pre>
 <p>Now, I can rest easy knowing that I can find the percentage of 2012-Obama supporting Protestants with children who reside in the South Atlantic census region (29.2%).</p>
 </div>
-<div id="some-data-exploration" class="section level2 hasAnchor" number="3.10">
-<h2><span class="header-section-number">3.10</span> Some Data Exploration<a href="summarizing-data-with-dplyr.html#some-data-exploration" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Use the remainder of class time today to explore the gss_sm dataset. Try summarizing a few different variables according to different groups</p>
+<div id="practice-exploring-data" class="section level2 hasAnchor" number="3.13">
+<h2><span class="header-section-number">3.13</span> Practice Exploring Data<a href="summarizing-data-with-dplyr.html#practice-exploring-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You can see here that the <code>dplyr</code> functions provide an enormous amount of flexibility and power.</p>
+<p>Use the remainder of class time today to explore the <code>gss_sm</code> data. Try summarizing different variables according to different groupings. Try using other measures like <code>mean()</code> or <code>sd()</code> to summarize numeric variables (like the number of children).</p>
+<p>You may be feeling overwhelmed at the moment - don’t despair, we’re going to continue practicing these skills throughout the remainder of the course.</p>
 
 </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="3">
@@ -489,6 +630,9 @@ We also told the <code>mutate()</code> function how to calculate the columns. <c
 <li id="fn5"><p>The <code>socviz</code> package serves as an accompaniment to Healy’s textbook, <em>Data Visualization</em>, which is highly recommended.<a href="summarizing-data-with-dplyr.html#fnref5" class="footnote-back">↩︎</a></p></li>
 <li id="fn6"><p>Anytime you do install packages, do it directly in the console. If someone needs to run your code, they should see the <code>library()</code> calls in the beginning of your code (after your header) and will know whether they need to install additional packages or not.</p>
 <p>Alternatively, instead of using the <code>library()</code> function, you can always use the <code>require()</code> function, which has the benefit of both loading packages if you do have them and installing them if you don’t.<a href="summarizing-data-with-dplyr.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>See here for more on the differences: <a href="https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/#" class="uri">https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe</a><a href="summarizing-data-with-dplyr.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>It’s the same function, but two different spellings depending on who you’ve learned English from.<a href="summarizing-data-with-dplyr.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>There are other options for this, like <code>count()</code> or <code>tally()</code> , but I won’t use them here.<a href="summarizing-data-with-dplyr.html#fnref9" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -496,8 +640,8 @@ We also told the <code>mutate()</code> function how to calculate the columns. <c
           </div>
         </div>
       </div>
-<a href="homework-1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="homework-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="homework-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
