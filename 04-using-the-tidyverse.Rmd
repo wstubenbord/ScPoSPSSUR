@@ -1,0 +1,241 @@
+# Summarizing Data with `dplyr`
+
+In the previous chapter, you learned how to load data from a package, how to access a column from a tibble using the subset operator `$`, and how to use basic functions to answer questions like: what was the total number of votes cast in the 2016 U.S. presidential election?
+
+We've had a couple strokes of luck so far, however. Namely, our data has been nice and tidy and our questions haven't required us to poke around in our data to get the answers we are interested in. This brings us to *data wrangling* - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.[^04-using-the-tidyverse-1]
+
+[^04-using-the-tidyverse-1]: Data wrangling, if it can be defined, is as an expansive topic. We'll focus on summarizing data today.
+
+For this lesson, we are going to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig into a data set: in particular, `dplyr` and the **pipe operator**. In the next lesson, our luck will unfortunately run out and we will be confronted with the harsh reality of unseemly data.[^04-using-the-tidyverse-2]
+
+[^04-using-the-tidyverse-2]: Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help bring peace to a world of mismanaged data.
+
+## Basic Description with Base `R`
+
+Let's use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the `socviz` package, a helpful collection of data sets and other goodies assembled by Kieran Healy.[^04-using-the-tidyverse-3]
+
+[^04-using-the-tidyverse-3]: The `socviz` package serves as an accompaniment to Healy's textbook, *Data Visualization*, which is highly recommended.
+
+We'll use another data set from the same package in a moment, but, for now, let's start again with the `election` data. We're also going to re-load our new best friend, the *tidyverse*.
+
+```{r, echo = TRUE, results='hide'}
+library(socviz)
+library(tidyverse)
+```
+
+Libraries loaded. Remember, once you have the packages installed, you don't have to do it again. So no need to include `install.packages()` in your script going forward.[^04-using-the-tidyverse-4]
+
+[^04-using-the-tidyverse-4]: Anytime you do install packages, do it directly in the console. If someone needs to run your code, they should see the `library()` calls in the beginning of your code (after your header) and will know whether they need to install additional packages or not.
+
+    Alternatively, instead of using the `library()` function, you can always use the `require()` function, which has the benefit of both loading packages if you do have them and installing them if you don't.
+
+We'll load the data into an object in our environment. This time, I'm going to use a shorter name for the tibble to spare myself future pain. Longer names mean more to retype later.
+
+```{r}
+elec_2016 <- election
+```
+
+Just like last time, we can do basic calculations on columns. We can even throw in a few new functions for good measure:
+
+```{r}
+# table() gives a contingency table for character variables.
+# Here it's giving the number of states (plus D.C.) won by each candidate.
+table(elec_2016$winner)
+```
+
+```{r}
+# Wrapping prop.table() around a contingency table gives relative frequencies.
+# i.e., Hillary Clinton won 41.2% of states (plus Washington D.C.) or 21/51.
+prop.table(table(elec_2016$winner))
+```
+
+```{r}
+# summary() gives us a nice 5-number summary for numeric variables.
+# Here we see the min, max, median, mean, and quartiles for the pop. vote margin.
+summary(elec_2016$vote_margin)
+```
+
+But, what if I want to do something more specific?
+
+What if, for instance, I really want to know how much of the popular vote third party Libertarian candidate Gary Johnson won across the different regions of the United States? Here, we need special functions from dplyr and the pipe operator.
+
+```{r}
+# An illustrative example - no need to try this just yet
+elec_2016 %>%
+  group_by(census) %>%
+  summarize(total = sum(johnson_vote))
+```
+
+![](docs/_main_files/figure-html/ceci_pipe.png){width="149"}
+
+## The Pipe Operator
+
+The **pipe operator** is a very handy tool indeed. It is a specialized operator that comes from the `maggritr` package, which itself is contained in the tidyverse.
+
+It looks like this: `%>%`. But, it can also look like this: `|>`. There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.
+
+The pipe operator has a straightforward function: it allows you to combine a series of steps into a single line of code. And, it does this in a way that makes your code very legible. Whenever you see the pipe operator, you should read it as though it is saying, "And then [do this]."
+
+So in the previous example I gave you might read it as:
+
+```{r, results='hide'}
+elec_2016 %>%                            # Take the election data AND THEN
+  group_by(census) %>%                   # group it by census region AND THEN
+  summarize(total = sum(johnson_vote))   # sum up the Johnson vote.
+```
+
+Note a couple of things here:
+
+1.  The pipe operator always goes at the end of each line, followed by a new line
+
+2.  The pipe operator never goes at the end of the command
+
+The first is a convention to make code more readable and the second is a requirement. If you leave a pipe operator at the end of your statement, `R` will search for the missing code and then give you an unhappy error when you try to run more code. Don't leave a pipe operator hanging.
+
+## Functions from `dplyr`
+
+`dplyr` (pronounced dee-ply-R) is a handy set of tools for working with tabular data. It's one of the packages in tidyverse (along with `ggplot2`, `tidyr`, `tibble`, `readr`, and a few others), so you don't have to load it separately.
+
+`dplyr` has a handful of special functions:
+
+-   `group_by()`, which groups data together at the level we desire (such as states by census region in our example).
+
+-   `filter()`, which gives us the rows corresponding to some criteria entered as an argument
+
+-   `select()`, which selects columns
+
+-   `summarize()`, which performs calculations
+
+-   `mutate()`, which creates new columns (e.g., variables)
+
+## Glimpsing GSS Data
+
+Let's load another data set from `socviz`. This one is called `gss_sm` and contains a nice, clean extract from the 2016 General Social Survey.
+
+```{r}
+gss <- gss_sm
+```
+
+The [General Social Survey](https://gss.norc.org/) is a nationally representative biennial survey of U.S. adults on sociological topics produced out of the National Opinion Research Center (NORC) at the University of Chicago since 1972.
+
+Take a quick look at the data. You can use `glimpse()`, another `dplyr` function, to get a good look at it and you can look at it visually using `view()`. Typing in `?gss_sm` (the original name of the data set from the package) will tell you what the variables are.
+
+```{r, results='hide'}
+glimpse(gss)
+```
+
+As you might notice, there's a wealth of data in here. You might also notice that the data is at the *individual-level*.  In this data, each row represents a individual respondent and each column is a variable (or their response to a question).
+
+## Selecting Columns
+
+Maybe I want to narrow in and look at just a few variables. I can use the `select()` function to do this.
+
+```{r}
+gss %>%
+  select(id, sex, religion)
+```
+It returned a tibble with just the three variables I wanted to look at.  I can always save a copy of this output if I want to, by storing it in a new object:
+
+```{r}
+gender_rel <- gss %>%
+  select(id, sex, religion)
+```
+
+And, if I decided I don't want this copy, I can always get rid of it using the `rm()` function.
+```{r}
+rm(gender_rel)
+```
+
+## Grouping and Summarizing
+
+Let's say we want to summarize our respondents by religious affiliation.
+
+To do this, we first have to tell the computer how we are going to group the data.  Grouping doesn't change the data, but it prepares `R` to interpret it according to our groups.  We're going to group by the `religion` variable.
+
+Next, we have to tell the computer how to `summarize()` the groups.  We're going to count the respondents using `n()`.  `n()` just counts the rows within each group.
+
+```{r}
+gss %>%
+  group_by(religion) %>%      # Group by religion
+  summarize(total = n())      # Create a total by counting the rows
+```
+As you can see, `summarize()` needs you to provide a new column name and a measurement.  In the example above, we gave the column the name `total` and asked it count the total number of respondents by group using the `n()` function.
+
+Again, if we wanted to, we could save a copy of this summary in a new table as in the command below.  Our original table will always be untouched unless we save over it (e.g., `gss <- gss %>% ...`).
+
+```{r}
+relig <- gss %>%
+  group_by(religion) %>%
+  summarize(total = n())
+```
+
+We can also group by two columns, such that we could find religious affiliation by sex, for example:
+
+```{r}
+gss %>%
+  group_by(religion, sex) %>%
+  summarize(total = n())
+```
+The ordering of the groups matters.  Because religion came first in our `group()` function, our results will show us the number of protestants who are male and the number of protestants who are female.  For a count, this is the same thing as the reverse (e.g., the number of protestants who are male is the number of males who are protestant), but for frequencies this is not the case and the order does matter.
+
+## Calculating with `mutate()`
+
+Let's add a frequency column and a percentage column so that we can get a sense of whether there the gender composition within religious groups.
+
+```{r}
+gss %>%
+  group_by(religion, sex) %>%
+  summarize(total = n()) %>%
+  mutate(freq = total / sum(total),
+         pct = round((freq*100), 1))
+```
+Notice, we used the same code as before, but we added a `mutate()` function which created two new columns `freq` and `pct`. 
+We also told the `mutate()` function how to calculate the columns. `freq`, we said, should be the respondents in each group divided by the sum of the groups (or `freq = total / sum(total)`) and `pct` should be the frequency multiplied by 100 and rounded to the first decimal place, using the `round()` helper function.  In doing so, we find that among Protestant respondents, 40.8% are male and 59.2% are female.
+
+Calculating relative frequencies can be a bit of a beast, but the general form is always the same.
+
+## Filtering
+
+What if we only wish to see the Protestant results of our last query?  We can add a `filter()` function at the end.
+
+```{r}
+gss %>%
+  group_by(religion, sex) %>%
+  summarize(total = n()) %>%
+  mutate(freq = total / sum(total),
+         pct = round((freq*100), 1)) %>%
+  filter(religion == "Protestant")
+```
+Usually, you'll want to use a `filter()` function at the beginning of your query.  It can save some code later on.
+
+Here's another example of `filter()`.  This time, I'm only interested in religious affiliation among holders of graduate degrees.
+
+```{r}
+gss %>%
+  filter(degree == 'Graduate') %>%
+  group_by(religion) %>%
+  summarize(total = n()) %>%
+  mutate(freq = total / sum(total),
+         pct = round((freq*100), 1))
+```
+And, so here I see that 39.6% of graduate-degree holding respondents were Protestant and 25.8% had no religious affiliation.  Later on, we'll learn how to turn this sort of thing into a graph.
+
+## All Together Now
+
+What if I want to do something like find all survey respondents who are Protestant, voted for Obama in the 2012 U.S. Presidential election, and have children?  And I'd like to know their relative frequency across regions of the U.S.?
+
+```{r}
+gss %>%
+  filter(religion == "Protestant") %>%
+  filter(obama == 1) %>%
+  filter(childs > 0) %>%
+  group_by(region) %>%
+  summarize(total = n()) %>%
+  mutate(freq = round(total / sum(total),4),
+         pct = round((freq*100), 1))
+```
+Now, I can rest easy knowing that I can find the percentage of 2012-Obama supporting Protestants with children who reside in the South Atlantic census region (29.2%).
+
+## Some Data Exploration
+
+Use the remainder of class time today to explore the gss_sm dataset.  Try summarizing a few different variables according to different groups

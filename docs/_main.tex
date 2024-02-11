@@ -120,7 +120,7 @@
 
 \title{Statistical Programming for the Social Sciences Using R}
 \author{Wesley Stubenbord}
-\date{2024-02-07}
+\date{2024-02-11}
 
 \begin{document}
 \maketitle
@@ -903,6 +903,449 @@ This homework will be relatively short and straight-forward. The goal is to ease
 ~ c.~In a comment answer the following question: who received more votes, Gary Johnson or ``other'' candidates? By how much?
 
 ~ d.~Use the \texttt{sum()} function on the \texttt{state} variable. In a brief comment, explain why this didn't work and what the error message is telling you.
+
+\hypertarget{summarizing-data-with-dplyr}{%
+\chapter{\texorpdfstring{Summarizing Data with \texttt{dplyr}}{Summarizing Data with dplyr}}\label{summarizing-data-with-dplyr}}
+
+In the previous chapter, you learned how to load data from a package, how to access a column from a tibble using the subset operator \texttt{\$}, and how to use basic functions to answer questions like: what was the total number of votes cast in the 2016 U.S. presidential election?
+
+We've had a couple strokes of luck so far, however. Namely, our data has been nice and tidy and our questions haven't required us to poke around in our data to get the answers we are interested in. This brings us to \emph{data wrangling} - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.\footnote{Data wrangling, if it can be defined, is as an expansive topic. We'll focus on summarizing data today.}
+
+For this lesson, we are going to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig into a data set: in particular, \texttt{dplyr} and the \textbf{pipe operator}. In the next lesson, our luck will unfortunately run out and we will be confronted with the harsh reality of unseemly data.\footnote{Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help bring peace to a world of mismanaged data.}
+
+\hypertarget{basic-description-with-base-r}{%
+\section{\texorpdfstring{Basic Description with Base \texttt{R}}{Basic Description with Base R}}\label{basic-description-with-base-r}}
+
+Let's use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the \texttt{socviz} package, a helpful collection of data sets and other goodies assembled by Kieran Healy.\footnote{The \texttt{socviz} package serves as an accompaniment to Healy's textbook, \emph{Data Visualization}, which is highly recommended.}
+
+We'll use another data set from the same package in a moment, but, for now, let's start again with the \texttt{election} data. We're also going to re-load our new best friend, the \emph{tidyverse}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(socviz)}
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+Libraries loaded. Remember, once you have the packages installed, you don't have to do it again. So no need to include \texttt{install.packages()} in your script going forward.\footnote{Anytime you do install packages, do it directly in the console. If someone needs to run your code, they should see the \texttt{library()} calls in the beginning of your code (after your header) and will know whether they need to install additional packages or not.
+
+  Alternatively, instead of using the \texttt{library()} function, you can always use the \texttt{require()} function, which has the benefit of both loading packages if you do have them and installing them if you don't.}
+
+We'll load the data into an object in our environment. This time, I'm going to use a shorter name for the tibble to spare myself future pain. Longer names mean more to retype later.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{elec\_2016 }\OtherTok{\textless{}{-}}\NormalTok{ election}
+\end{Highlighting}
+\end{Shaded}
+
+Just like last time, we can do basic calculations on columns. We can even throw in a few new functions for good measure:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# table() gives a contingency table for character variables.}
+\CommentTok{\# Here it\textquotesingle{}s giving the number of states (plus D.C.) won by each candidate.}
+\FunctionTok{table}\NormalTok{(elec\_2016}\SpecialCharTok{$}\NormalTok{winner)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Clinton   Trump 
+##      21      30
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Wrapping prop.table() around a contingency table gives relative frequencies.}
+\CommentTok{\# i.e., Hillary Clinton won 41.2\% of states (plus Washington D.C.) or 21/51.}
+\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(elec\_2016}\SpecialCharTok{$}\NormalTok{winner))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##   Clinton     Trump 
+## 0.4117647 0.5882353
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summary() gives us a nice 5{-}number summary for numeric variables.}
+\CommentTok{\# Here we see the min, max, median, mean, and quartiles for the pop. vote margin.}
+\FunctionTok{summary}\NormalTok{(elec\_2016}\SpecialCharTok{$}\NormalTok{vote\_margin)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    2736   96382  212030  383997  522207 4269978
+\end{verbatim}
+
+But, what if I want to do something more specific?
+
+What if, for instance, I really want to know how much of the popular vote third party Libertarian candidate Gary Johnson won across the different regions of the United States? Here, we need special functions from dplyr and the pipe operator.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# An illustrative example {-} no need to try this just yet}
+\NormalTok{elec\_2016 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(census) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{sum}\NormalTok{(johnson\_vote))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4 x 2
+##   census      total
+##   <chr>       <dbl>
+## 1 Midwest   1203062
+## 2 Northeast  676192
+## 3 South     1370056
+## 4 West      1239925
+\end{verbatim}
+
+\includegraphics[width=1.55208in,height=\textheight]{docs/_main_files/figure-html/ceci_pipe.png}
+
+\hypertarget{the-pipe-operator}{%
+\section{The Pipe Operator}\label{the-pipe-operator}}
+
+The \textbf{pipe operator} is a very handy tool indeed. It is a specialized operator that comes from the \texttt{maggritr} package, which itself is contained in the tidyverse.
+
+It looks like this: \texttt{\%\textgreater{}\%}. But, it can also look like this: \texttt{\textbar{}\textgreater{}}. There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.
+
+The pipe operator has a straightforward function: it allows you to combine a series of steps into a single line of code. And, it does this in a way that makes your code very legible. Whenever you see the pipe operator, you should read it as though it is saying, ``And then {[}do this{]}.''
+
+So in the previous example I gave you might read it as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{elec\_2016 }\SpecialCharTok{\%\textgreater{}\%}                            \CommentTok{\# Take the election data AND THEN}
+  \FunctionTok{group\_by}\NormalTok{(census) }\SpecialCharTok{\%\textgreater{}\%}                   \CommentTok{\# group it by census region AND THEN}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{sum}\NormalTok{(johnson\_vote))   }\CommentTok{\# sum up the Johnson vote.}
+\end{Highlighting}
+\end{Shaded}
+
+Note a couple of things here:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The pipe operator always goes at the end of each line, followed by a new line
+\item
+  The pipe operator never goes at the end of the command
+\end{enumerate}
+
+The first is a convention to make code more readable and the second is a requirement. If you leave a pipe operator at the end of your statement, \texttt{R} will search for the missing code and then give you an unhappy error when you try to run more code. Don't leave a pipe operator hanging.
+
+\hypertarget{functions-from-dplyr}{%
+\section{\texorpdfstring{Functions from \texttt{dplyr}}{Functions from dplyr}}\label{functions-from-dplyr}}
+
+\texttt{dplyr} (pronounced dee-ply-R) is a handy set of tools for working with tabular data. It's one of the packages in tidyverse (along with \texttt{ggplot2}, \texttt{tidyr}, \texttt{tibble}, \texttt{readr}, and a few others), so you don't have to load it separately.
+
+\texttt{dplyr} has a handful of special functions:
+
+\begin{itemize}
+\item
+  \texttt{group\_by()}, which groups data together at the level we desire (such as states by census region in our example).
+\item
+  \texttt{filter()}, which gives us the rows corresponding to some criteria entered as an argument
+\item
+  \texttt{select()}, which selects columns
+\item
+  \texttt{summarize()}, which performs calculations
+\item
+  \texttt{mutate()}, which creates new columns (e.g., variables)
+\end{itemize}
+
+\hypertarget{glimpsing-gss-data}{%
+\section{Glimpsing GSS Data}\label{glimpsing-gss-data}}
+
+Let's load another data set from \texttt{socviz}. This one is called \texttt{gss\_sm} and contains a nice, clean extract from the 2016 General Social Survey.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\OtherTok{\textless{}{-}}\NormalTok{ gss\_sm}
+\end{Highlighting}
+\end{Shaded}
+
+The \href{https://gss.norc.org/}{General Social Survey} is a nationally representative biennial survey of U.S. adults on sociological topics produced out of the National Opinion Research Center (NORC) at the University of Chicago since 1972.
+
+Take a quick look at the data. You can use \texttt{glimpse()}, another \texttt{dplyr} function, to get a good look at it and you can look at it visually using \texttt{view()}. Typing in \texttt{?gss\_sm} (the original name of the data set from the package) will tell you what the variables are.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{glimpse}\NormalTok{(gss)}
+\end{Highlighting}
+\end{Shaded}
+
+As you might notice, there's a wealth of data in here. You might also notice that the data is at the \emph{individual-level}. In this data, each row represents a individual respondent and each column is a variable (or their response to a question).
+
+\hypertarget{selecting-columns}{%
+\section{Selecting Columns}\label{selecting-columns}}
+
+Maybe I want to narrow in and look at just a few variables. I can use the \texttt{select()} function to do this.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(id, sex, religion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2,867 x 3
+##       id sex    religion  
+##    <dbl> <fct>  <fct>     
+##  1     1 Male   None      
+##  2     2 Male   None      
+##  3     3 Male   Catholic  
+##  4     4 Female Catholic  
+##  5     5 Female None      
+##  6     6 Female None      
+##  7     7 Male   None      
+##  8     8 Female Catholic  
+##  9     9 Male   Protestant
+## 10    10 Male   None      
+## # i 2,857 more rows
+\end{verbatim}
+
+It returned a tibble with just the three variables I wanted to look at. I can always save a copy of this output if I want to, by storing it in a new object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gender\_rel }\OtherTok{\textless{}{-}}\NormalTok{ gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(id, sex, religion)}
+\end{Highlighting}
+\end{Shaded}
+
+And, if I decided I don't want this copy, I can always get rid of it using the \texttt{rm()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{(gender\_rel)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{grouping-and-summarizing}{%
+\section{Grouping and Summarizing}\label{grouping-and-summarizing}}
+
+Let's say we want to summarize our respondents by religious affiliation.
+
+To do this, we first have to tell the computer how we are going to group the data. Grouping doesn't change the data, but it prepares \texttt{R} to interpret it according to our groups. We're going to group by the \texttt{religion} variable.
+
+Next, we have to tell the computer how to \texttt{summarize()} the groups. We're going to count the respondents using \texttt{n()}. \texttt{n()} just counts the rows within each group.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion) }\SpecialCharTok{\%\textgreater{}\%}      \CommentTok{\# Group by religion}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{())      }\CommentTok{\# Create a total by counting the rows}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 2
+##   religion   total
+##   <fct>      <int>
+## 1 Protestant  1371
+## 2 Catholic     649
+## 3 Jewish        51
+## 4 None         619
+## 5 Other        159
+## 6 <NA>          18
+\end{verbatim}
+
+As you can see, \texttt{summarize()} needs you to provide a new column name and a measurement. In the example above, we gave the column the name \texttt{total} and asked it count the total number of respondents by group using the \texttt{n()} function.
+
+Again, if we wanted to, we could save a copy of this summary in a new table as in the command below. Our original table will always be untouched unless we save over it (e.g., \texttt{gss\ \textless{}-\ gss\ \%\textgreater{}\%\ ...}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{relig }\OtherTok{\textless{}{-}}\NormalTok{ gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+We can also group by two columns, such that we could find religious affiliation by sex, for example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion, sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'religion'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 12 x 3
+## # Groups:   religion [6]
+##    religion   sex    total
+##    <fct>      <fct>  <int>
+##  1 Protestant Male     559
+##  2 Protestant Female   812
+##  3 Catholic   Male     287
+##  4 Catholic   Female   362
+##  5 Jewish     Male      22
+##  6 Jewish     Female    29
+##  7 None       Male     339
+##  8 None       Female   280
+##  9 Other      Male      58
+## 10 Other      Female   101
+## 11 <NA>       Male      11
+## 12 <NA>       Female     7
+\end{verbatim}
+
+The ordering of the groups matters. Because religion came first in our \texttt{group()} function, our results will show us the number of protestants who are male and the number of protestants who are female. For a count, this is the same thing as the reverse (e.g., the number of protestants who are male is the number of males who are protestant), but for frequencies this is not the case and the order does matter.
+
+\hypertarget{calculating-with-mutate}{%
+\section{\texorpdfstring{Calculating with \texttt{mutate()}}{Calculating with mutate()}}\label{calculating-with-mutate}}
+
+Let's add a frequency column and a percentage column so that we can get a sense of whether there the gender composition within religious groups.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion, sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{freq =}\NormalTok{ total }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(total),}
+         \AttributeTok{pct =} \FunctionTok{round}\NormalTok{((freq}\SpecialCharTok{*}\DecValTok{100}\NormalTok{), }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'religion'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 12 x 5
+## # Groups:   religion [6]
+##    religion   sex    total  freq   pct
+##    <fct>      <fct>  <int> <dbl> <dbl>
+##  1 Protestant Male     559 0.408  40.8
+##  2 Protestant Female   812 0.592  59.2
+##  3 Catholic   Male     287 0.442  44.2
+##  4 Catholic   Female   362 0.558  55.8
+##  5 Jewish     Male      22 0.431  43.1
+##  6 Jewish     Female    29 0.569  56.9
+##  7 None       Male     339 0.548  54.8
+##  8 None       Female   280 0.452  45.2
+##  9 Other      Male      58 0.365  36.5
+## 10 Other      Female   101 0.635  63.5
+## 11 <NA>       Male      11 0.611  61.1
+## 12 <NA>       Female     7 0.389  38.9
+\end{verbatim}
+
+Notice, we used the same code as before, but we added a \texttt{mutate()} function which created two new columns \texttt{freq} and \texttt{pct}.
+We also told the \texttt{mutate()} function how to calculate the columns. \texttt{freq}, we said, should be the respondents in each group divided by the sum of the groups (or \texttt{freq\ =\ total\ /\ sum(total)}) and \texttt{pct} should be the frequency multiplied by 100 and rounded to the first decimal place, using the \texttt{round()} helper function. In doing so, we find that among Protestant respondents, 40.8\% are male and 59.2\% are female.
+
+Calculating relative frequencies can be a bit of a beast, but the general form is always the same.
+
+\hypertarget{filtering}{%
+\section{Filtering}\label{filtering}}
+
+What if we only wish to see the Protestant results of our last query? We can add a \texttt{filter()} function at the end.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion, sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{freq =}\NormalTok{ total }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(total),}
+         \AttributeTok{pct =} \FunctionTok{round}\NormalTok{((freq}\SpecialCharTok{*}\DecValTok{100}\NormalTok{), }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(religion }\SpecialCharTok{==} \StringTok{"Protestant"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `summarise()` has grouped output by 'religion'. You can override using the
+## `.groups` argument.
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 2 x 5
+## # Groups:   religion [1]
+##   religion   sex    total  freq   pct
+##   <fct>      <fct>  <int> <dbl> <dbl>
+## 1 Protestant Male     559 0.408  40.8
+## 2 Protestant Female   812 0.592  59.2
+\end{verbatim}
+
+Usually, you'll want to use a \texttt{filter()} function at the beginning of your query. It can save some code later on.
+
+Here's another example of \texttt{filter()}. This time, I'm only interested in religious affiliation among holders of graduate degrees.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(degree }\SpecialCharTok{==} \StringTok{\textquotesingle{}Graduate\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{freq =}\NormalTok{ total }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(total),}
+         \AttributeTok{pct =} \FunctionTok{round}\NormalTok{((freq}\SpecialCharTok{*}\DecValTok{100}\NormalTok{), }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 4
+##   religion   total    freq   pct
+##   <fct>      <int>   <dbl> <dbl>
+## 1 Protestant   126 0.396    39.6
+## 2 Catholic      63 0.198    19.8
+## 3 Jewish        15 0.0472    4.7
+## 4 None          82 0.258    25.8
+## 5 Other         31 0.0975    9.7
+## 6 <NA>           1 0.00314   0.3
+\end{verbatim}
+
+And, so here I see that 39.6\% of graduate-degree holding respondents were Protestant and 25.8\% had no religious affiliation. Later on, we'll learn how to turn this sort of thing into a graph.
+
+\hypertarget{all-together-now}{%
+\section{All Together Now}\label{all-together-now}}
+
+What if I want to do something like find all survey respondents who are Protestant, voted for Obama in the 2012 U.S. Presidential election, and have children? And I'd like to know their relative frequency across regions of the U.S.?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(religion }\SpecialCharTok{==} \StringTok{"Protestant"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(obama }\SpecialCharTok{==} \DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(childs }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(region) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{freq =} \FunctionTok{round}\NormalTok{(total }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(total),}\DecValTok{4}\NormalTok{),}
+         \AttributeTok{pct =} \FunctionTok{round}\NormalTok{((freq}\SpecialCharTok{*}\DecValTok{100}\NormalTok{), }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 x 4
+##   region          total   freq   pct
+##   <fct>           <int>  <dbl> <dbl>
+## 1 New England        15 0.0409   4.1
+## 2 Middle Atlantic    27 0.0736   7.4
+## 3 E. Nor. Central    79 0.215   21.5
+## 4 W. Nor. Central    19 0.0518   5.2
+## 5 South Atlantic    107 0.292   29.2
+## 6 E. Sou. Central    31 0.0845   8.5
+## 7 W. Sou. Central    40 0.109   10.9
+## 8 Mountain           24 0.0654   6.5
+## 9 Pacific            25 0.0681   6.8
+\end{verbatim}
+
+Now, I can rest easy knowing that I can find the percentage of 2012-Obama supporting Protestants with children who reside in the South Atlantic census region (29.2\%).
+
+\hypertarget{some-data-exploration}{%
+\section{Some Data Exploration}\label{some-data-exploration}}
+
+Use the remainder of class time today to explore the gss\_sm dataset. Try summarizing a few different variables according to different groups
 
   \bibliography{book.bib,packages.bib}
 
