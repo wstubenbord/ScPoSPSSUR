@@ -8,7 +8,7 @@ For this lesson, we are going to continue to maintain the illusion of neat and t
 
 [^04-using-the-tidyverse-1]: Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help to make the world a tidier place.
 
-## Basic Description with Base `R` 
+## Basic Description with Base `R`
 
 Let's use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the `socviz` package, a helpful collection of data sets and other goodies developed by Kieran Healy.[^04-using-the-tidyverse-2]
 
