@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Wesley Stubenbord" />
 
 
-<meta name="date" content="2024-02-11" />
+<meta name="date" content="2024-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -191,7 +191,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.3" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#functions-from-dplyr"><i class="fa fa-check"></i><b>3.3</b> Functions from <code>dplyr</code></a></li>
 <li class="chapter" data-level="3.4" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#glimpsing-gss-data"><i class="fa fa-check"></i><b>3.4</b> Glimpsing GSS Data</a></li>
 <li class="chapter" data-level="3.5" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#selecting-columns"><i class="fa fa-check"></i><b>3.5</b> Selecting Columns</a></li>
-<li class="chapter" data-level="3.6" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#grouping-and-summarizing"><i class="fa fa-check"></i><b>3.6</b> Grouping and Summarizing</a></li>
+<li class="chapter" data-level="3.6" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#grouping-and-summarizing"><i class="fa fa-check"></i><b>3.6</b> Grouping and Summarizing</a>
+<ul>
+<li class="chapter" data-level="3.6.1" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#grouping-by-two-variables"><i class="fa fa-check"></i><b>3.6.1</b> Grouping by Two Variables</a></li>
+<li class="chapter" data-level="3.6.2" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#the-order-of-group-arguments"><i class="fa fa-check"></i><b>3.6.2</b> The Order of <code>group()</code> arguments</a></li>
+</ul></li>
 <li class="chapter" data-level="3.7" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#calculating-with-mutate"><i class="fa fa-check"></i><b>3.7</b> Calculating with <code>mutate()</code></a></li>
 <li class="chapter" data-level="3.8" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#how-r-reads-functions"><i class="fa fa-check"></i><b>3.8</b> How <code>R</code> Reads Functions</a></li>
 <li class="chapter" data-level="3.9" data-path="summarizing-data-with-dplyr.html"><a href="summarizing-data-with-dplyr.html#filtering"><i class="fa fa-check"></i><b>3.9</b> Filtering</a></li>
@@ -226,11 +230,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="homework-2" class="section level1 unnumbered hasAnchor">
 <h1>Homework 2<a href="homework-2.html#homework-2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><strong>Due Date:</strong> Sunday, 25 February by 23:59:59</p>
-<p><strong>Submission Instructions:</strong> Submit your completed R script file to Moodle.</p>
-<p>To be posted by Wednesday, February 14.</p>
+<p><strong>Due Date:</strong> Wednesday, 28 February by 23:59:59</p>
+<p><strong>Submission Instructions:</strong> Submit your completed R script file to the corresponding Moodle assignment. Your file should contain a header and the file name should be formatted according to the guidelines discussed in class and posted in the course slides.</p>
+<p>Be sure to show your work. This means that your answer to each question should show the code you used to obtain the answer. You do not need to show other steps that may have been taken to get the answer (e.g., trial and error), only the code that provides the answer.</p>
+<p><strong>Question #1:</strong></p>
+<p><strong>Part A:</strong></p>
+<p>Using the <code>socviz</code> package, load the GSS data into an object called <code>gss</code>. Use the <code>table()</code> function and subset operator to find the number of respondents by <code>agegrp</code>.</p>
+<p>In a comment, identify the number of respondents between the ages of 35-45.</p>
+<p><strong>Part B:</strong></p>
+<p>Next, use the <code>dplyr</code> functions to output a tibble which summarizes the number of respondents by <code>agegrp</code>.</p>
+<p>In a comment, identify the number of respondents between the ages of 45-55.</p>
+<p><strong>Part C:</strong></p>
+<p>Output another tibble which summarizes respondents by <code>agegrp</code> and whether they voted for <code>obama</code> in the 2012 U.S. presidential election. In this tibble, include both the count (call it <code>total</code>), relative frequency (<code>freq</code>), and percentage (<code>pct</code>). You do not have to round the percentages, but can if you want.</p>
+<p>In a comment, identify the number of respondents between the ages of 18-35 who voted for Obama. In a separate comment, identify the number of respondents between the ages of 18-35 that have missing values for the <code>obama</code> variable.</p>
+<p><strong>Question #2:</strong></p>
+<p>Again, using the GSS data from the <code>socviz</code> package, create a tibble called <code>marit_happy</code> which summarizes the happiness of GSS respondents by marital status. Filter your data so that it shows only respondents who are “Married” or “Never Married”.</p>
+<p>In a comment consisting of a few brief sentences, compare the reported happiness of U.S. adults who are married as opposed to those who have never been married.</p>
+<p><strong>Question #3:</strong></p>
+<p>Also using the same GSS data and <code>dplyr</code>, output a tibble with: (1) the number of respondents by <code>degree</code> (i.e., the respondent’s highest degree level) and (2) the mean number of children by <code>degree</code>. Hint: you may need to use an <code>na.rm</code> argument somewhere.</p>
+<p>In a brief comment, identify the relationship between degree-level and number of children among U.S. adults.</p>
 
 </div>
+
 
 
 

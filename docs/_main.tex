@@ -120,7 +120,7 @@
 
 \title{Statistical Programming for the Social Sciences Using R}
 \author{Wesley Stubenbord}
-\date{2024-02-11}
+\date{2024-02-15}
 
 \begin{document}
 \maketitle
@@ -909,16 +909,16 @@ This homework will be relatively short and straight-forward. The goal is to ease
 
 In the previous chapter, you learned how to load data from a package, how to access a column from a tibble using the subset operator \texttt{\$}, and how to use basic functions to answer questions like: what was the total number of votes cast in the 2016 U.S. presidential election?
 
-We've had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven't really required us to poke around in our data to find the answers we are interested in. This brings us to \emph{data wrangling} - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.\footnote{Data wrangling, if it can be defined, is as an expansive topic. We'll focus on summarizing data today.}
+We've had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven't really required us to poke around in our data to find the answers we are interested in. This brings us to \emph{data wrangling} - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.
 
-For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, \texttt{dplyr} and the \textbf{pipe operator}. In the next lesson, our luck will run out and we will be confronted with the harsh reality of unseemly data.\footnote{Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help bring peace to a world of mismanaged data.}
+For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, \texttt{dplyr} and the \textbf{pipe operator}. In the next lesson, our luck will run out and we will be confronted with the harsh reality of unseemly data.\footnote{Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help to make the world a tidier place.}
 
 \hypertarget{basic-description-with-base-r}{%
 \section{\texorpdfstring{Basic Description with Base \texttt{R}}{Basic Description with Base R}}\label{basic-description-with-base-r}}
 
-Let's use an example to get started. Last class, you toyed around with the 2016 U.S. presidential election data from the \texttt{socviz} package, a helpful collection of data sets and other goodies developed by Kieran Healy.\footnote{The \texttt{socviz} package serves as an accompaniment to Healy's textbook, \emph{Data Visualization}, which is highly recommended.}
+Let's use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the \texttt{socviz} package, a helpful collection of data sets and other goodies developed by Kieran Healy.\footnote{The \texttt{socviz} package serves as an accompaniment to Healy's textbook, \emph{Data Visualization}, which is highly recommended.}
 
-We'll use another data set from the same package in a moment, but, for now, let's return to the \texttt{election} data. We're also going to re-load our new best friend, \emph{tidyverse}.
+We'll use another data set from the same package in a moment, but, for now, let's return to the \texttt{election} data. We're also going to re-load our new best friend, the \emph{tidyverse} package.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -927,11 +927,11 @@ We'll use another data set from the same package in a moment, but, for now, let'
 \end{Highlighting}
 \end{Shaded}
 
-Libraries loaded. Remember, once you have the packages installed, you don't need to do it again. So, don't include \texttt{install.packages()} in your scripts going forward.\footnote{Anytime you do install packages, do it directly in the console. If someone needs to run your code, they should see the \texttt{library()} calls in the beginning of your code (after your header) and will know whether they need to install additional packages or not.
+Libraries loaded. Remember, once you have the packages installed, you don't need to do it again. So, don't include \texttt{install.packages()} in your scripts going forward.\footnote{Anytime you install packages, do it directly in the console. If someone needs to run your code, they should see the \texttt{library()} calls in the beginning of your code after your header and will know whether they need to install additional packages or not. RStudio also has a helpful auto-prompt feature that will inform you of missing packages.
 
-  Alternatively, instead of using the \texttt{library()} function, you can always use the \texttt{require()} function, which has the benefit of both loading packages if you do have them and installing them if you don't.}
+  Instead of the \texttt{library()} function, you can also use the \texttt{require()} function, which has the benefit of both loading packages if you have them already installed and installing them if you don't.}
 
-We'll load the data into an object in our environment. This time, I'm going to use a shorter name for the tibble to spare myself future pain. Longer names means more to retype later.
+We'll load the data into an object in our environment. This time, we'll use a slightly shorter name for the tibble to spare ourselves some future misery. Longer names mean more to retype later.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -939,12 +939,12 @@ We'll load the data into an object in our environment. This time, I'm going to u
 \end{Highlighting}
 \end{Shaded}
 
-Just like last time, we can do basic calculations on columns. We can even throw in a few new functions for good measure:
+Just like last time, we can do basic calculations on columns. We can use the same principles to try out a few new functions:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# table() gives a contingency table for character variables.}
-\CommentTok{\# Here it\textquotesingle{}s the number of states (plus D.C.) won by each candidate.}
+\CommentTok{\# Here\textquotesingle{}s the number of states (plus D.C.) won by each candidate.}
 \FunctionTok{table}\NormalTok{(elec\_2016}\SpecialCharTok{$}\NormalTok{winner)}
 \end{Highlighting}
 \end{Shaded}
@@ -958,7 +958,7 @@ Just like last time, we can do basic calculations on columns. We can even throw 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Wrapping prop.table() around a contingency table gives relative frequencies.}
-\CommentTok{\# i.e., Hillary Clinton won 41.2\% of states (plus Washington D.C.) or 21/51.}
+\CommentTok{\# i.e., Hillary Clinton won 41.2\% (21/51) of states (plus Washington D.C.).}
 \FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(elec\_2016}\SpecialCharTok{$}\NormalTok{winner))}
 \end{Highlighting}
 \end{Shaded}
@@ -982,13 +982,13 @@ Just like last time, we can do basic calculations on columns. We can even throw 
 ##    2736   96382  212030  383997  522207 4269978
 \end{verbatim}
 
-But, what if I want to do something more specific?
+But, what if we want to do something more specific?
 
-What if I really want to know how much of the popular vote third party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from dplyr and the pipe operator.
+What if we really want to know how much of the popular vote third-party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from \texttt{dplyr} and the pipe operator.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# An illustrative example {-} no need to try this just yet}
+\CommentTok{\# An illustrative example {-} no need to try this yet}
 \NormalTok{elec\_2016 }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{group\_by}\NormalTok{(census) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{sum}\NormalTok{(johnson\_vote))}
@@ -1005,22 +1005,22 @@ What if I really want to know how much of the popular vote third party Libertari
 ## 4 West      1239925
 \end{verbatim}
 
-We'll learn how to do this and more in a moment.
-
-\includegraphics[width=1.55208in,height=\textheight]{docs/_main_files/figure-html/ceci_pipe.png}
+We'll learn how to create frequency tables like this and more in a moment.
 
 \hypertarget{the-pipe-operator}{%
 \section{The Pipe Operator}\label{the-pipe-operator}}
+
+\includegraphics[width=1.55208in,height=\textheight]{docs/_main_files/figure-html/ceci_pipe.png}
 
 The \textbf{pipe operator} is a handy tool indeed. It is a specialized operator that comes from the \texttt{maggritr} package, which itself is contained in the tidyverse.
 
 It looks like this: \texttt{\%\textgreater{}\%}. But, it can also look like this: \texttt{\textbar{}\textgreater{}}.
 
-There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.\footnote{See here for more on the differences: \href{https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/\#}{https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe}}
+There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.\footnote{If you are interested, see here for more on the differences: \href{https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/\#}{https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe}}
 
 The pipe operator has a straightforward function: it allows you to combine a series of steps into a single command. And, it does this in a way that makes your code legible. Whenever you see the pipe operator, you should read it as though it is saying, ``And then {[}do this{]}.''
 
-So in the previous example I gave, you might read it as:
+So in the previous example provided, you might read it as:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1040,7 +1040,7 @@ Note a couple of things here:
   The pipe operator never goes at the end of the command
 \end{enumerate}
 
-The first is a convention to make code more readable and the second is a requirement. If you leave a pipe operator at the end of your statement, \texttt{R} will search for the missing code and then give you an unhappy error when you try to run more code. Don't leave a pipe operator hanging.
+The first is a convention to make the code more readable and the second is a requirement. If you leave a pipe operator at the end of your statement, \texttt{R} will search for the missing code and then give you an unfriendly error when you try to run more code. Don't leave a pipe operator hanging.
 
 \hypertarget{functions-from-dplyr}{%
 \section{\texorpdfstring{Functions from \texttt{dplyr}}{Functions from dplyr}}\label{functions-from-dplyr}}
@@ -1051,13 +1051,13 @@ The first is a convention to make code more readable and the second is a require
 
 \begin{itemize}
 \item
-  \texttt{group\_by()}, which groups data together at the level we desire (such as states by census region).
+  \texttt{group\_by()}, which groups data together at some desired level (e.g., states by census region)
 \item
-  \texttt{filter()}, which gives us the rows corresponding to criteria entered as an argument
+  \texttt{filter()}, which gives us the rows corresponding to the criteria entered as an argument
 \item
   \texttt{select()}, which selects columns from the original data
 \item
-  \texttt{summarize()} or \texttt{summarise()}, which performs calculations\footnote{It's the same function, but two different spellings depending on who you've learned English from.}
+  \texttt{summarize()} or \texttt{summarise()}, which performs calculations\footnote{\texttt{summarize()} and \texttt{summarise()} are the same function, just two different spellings, the choice of which depends on who you've learned English from.}
 \item
   \texttt{mutate()}, which creates new columns (or variables)
 \item
@@ -1077,7 +1077,7 @@ Let's load another data set from \texttt{socviz}. This one is called \texttt{gss
 
 The \href{https://gss.norc.org/}{General Social Survey} is a nationally representative biennial survey of U.S. adults on sociological topics produced by the National Opinion Research Center (NORC) at the University of Chicago since 1972.
 
-Take a quick look at the data. You can use \texttt{glimpse()}, another \texttt{dplyr} function, to get a sense of what's inside and you can look at it visually using \texttt{view()}. Typing in \texttt{?gss\_sm} (the original name of the data set from the package) will tell you what the variables are.
+Take a quick look at the data. You can use \texttt{glimpse()}, another \texttt{dplyr} function, to get a sense of what's inside and you can inspect it visually using \texttt{view()}. Typing in \texttt{?gss\_sm} (the original name of the data set from the package) will tell you what variables the data contains.\footnote{You won't always be able to get documentation on a data set by using the help function, unfortunately. But, in this case, it works because \texttt{socviz} comes with documentation that was downloaded when you installed the package. Note that you must refer to the data in your help query by it's original name (\texttt{?gss\_sm} not \texttt{?gss}).}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1086,12 +1086,16 @@ Take a quick look at the data. You can use \texttt{glimpse()}, another \texttt{d
 \end{Highlighting}
 \end{Shaded}
 
-There's a wealth of data in here. You might also notice that the data is at the \emph{individual-level}. In this data, each row represents an individual respondent and each column is a variable (or a coded response to a survey question).
+There's a wealth of data in here. You may have also noticed that the data here is at the \emph{individual-level}. Each row represents an individual respondent (identified by the \texttt{id} variable) and each column consists of a variable (in this case, a coded response to a survey question).
+
+If we click on our data in the environment pane, we can see that the first data row corresponds to respondent \#1 who is 47 years old and has 3 children:
+
+\includegraphics{docs/_main_files/figure-html/GSS_Respondent-1.png}
 
 \hypertarget{selecting-columns}{%
 \section{Selecting Columns}\label{selecting-columns}}
 
-Maybe we want to narrow in and look at just a few variables. We can use the \texttt{select()} function to do this.
+There are a lot of variables, 32 of them, in fact. Maybe we want to narrow in and look at just a few of them, like: \texttt{id}, \texttt{sex}, and \texttt{religion}. We can use the \texttt{select()} function to do this.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1117,7 +1121,9 @@ Maybe we want to narrow in and look at just a few variables. We can use the \tex
 ## # i 2,857 more rows
 \end{verbatim}
 
-The select function returned a tibble with just the three variables I wanted to look at. I can always save a copy of this output by storing it in a new object:
+In the code above, we told \texttt{R} that we wanted to take the GSS data and then only the \texttt{id}, \texttt{sex}, and \texttt{religion} variables. The select function output a new tibble containing only those three variables that were entered as arguments. The number of rows or observations, 2,867, is the same as in the original data.
+
+We can now save a copy of this new tibble by assigning it to a new object. Let's call this new object \texttt{gender\_relig}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1126,7 +1132,7 @@ The select function returned a tibble with just the three variables I wanted to 
 \end{Highlighting}
 \end{Shaded}
 
-And, if I take a look at it and then decide I don't want this copy, I can always get rid of it using the \texttt{rm()} function.
+Now we have a new object containing our new tibble. If you inspect this new tibble and then decide that you don't need or want it anymore, you can always get rid of it using the \texttt{rm()} function.\footnote{Using the \texttt{rm()} function can help keep your environment a bit more orderly, but it isn't always necessary since your environment will be cleared out each time you close RStudio anyways.}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1138,11 +1144,43 @@ And, if I take a look at it and then decide I don't want this copy, I can always
 \hypertarget{grouping-and-summarizing}{%
 \section{Grouping and Summarizing}\label{grouping-and-summarizing}}
 
-Let's say we want to summarize the respondents by religious affiliation.
+Let's say we want to get a table which shows the number of respondents by religious affiliation. There are other ways of doing this, but we're going to use \texttt{dplyr} and the pipe operator.
 
-To do this, we first have to tell the computer how we are going to group the data. Grouping doesn't change the data, but it prepares \texttt{R} to interpret it according to the groups we specify. We're going to group by the \texttt{religion} variable.
+To do this, we first have to tell \texttt{R} how we would like to group the data. Grouping doesn't visibly change the data, but it prepares \texttt{R} to interpret our next commands according to the groups we specify. We're going to group by the \texttt{religion} variable which contains the respondent's religious affiliation.
 
-Next, we have to tell the computer how to \texttt{summarize()} the groups. We're going to count the respondents using \texttt{n()}. \texttt{n()} just counts the rows within each group.\footnote{There are other options for this, like \texttt{count()} or \texttt{tally()} , but I won't use them here.}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2,867 x 32
+## # Groups:   religion [6]
+##     year    id ballot       age childs sibs   degree race  sex   region income16
+##    <dbl> <dbl> <labelled> <dbl>  <dbl> <labe> <fct>  <fct> <fct> <fct>  <fct>   
+##  1  2016     1 1             47      3 2      Bache~ White Male  New E~ $170000~
+##  2  2016     2 2             61      0 3      High ~ White Male  New E~ $50000 ~
+##  3  2016     3 3             72      2 3      Bache~ White Male  New E~ $75000 ~
+##  4  2016     4 1             43      4 3      High ~ White Fema~ New E~ $170000~
+##  5  2016     5 3             55      2 2      Gradu~ White Fema~ New E~ $170000~
+##  6  2016     6 2             53      2 2      Junio~ White Fema~ New E~ $60000 ~
+##  7  2016     7 1             50      2 2      High ~ White Male  New E~ $170000~
+##  8  2016     8 3             23      3 6      High ~ Other Fema~ Middl~ $30000 ~
+##  9  2016     9 1             45      3 5      High ~ Black Male  Middl~ $60000 ~
+## 10  2016    10 3             71      4 1      Junio~ White Male  Middl~ $60000 ~
+## # i 2,857 more rows
+## # i 21 more variables: relig <fct>, marital <fct>, padeg <fct>, madeg <fct>,
+## #   partyid <fct>, polviews <fct>, happy <fct>, partners <fct>, grass <fct>,
+## #   zodiac <fct>, pres12 <labelled>, wtssall <dbl>, income_rc <fct>,
+## #   agegrp <fct>, ageq <fct>, siblings <fct>, kids <fct>, religion <fct>,
+## #   bigregion <fct>, partners_rc <fct>, obama <dbl>
+\end{verbatim}
+
+As you can see, our data doesn't appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do actually get a helpful note at the top our output that says, \texttt{Groups:\ religion{[}6{]}}. Our observations have been successfully grouped according to the six religious affiliations in our data.
+
+Next, we have to add another line to our pipe function which specifies how we want to \texttt{summarize()} the groups. We want it to count up our rows, so we'll use the \texttt{n()} function. The \texttt{n()} function just counts the number of rows in a data frame.\footnote{There are other options for counting the number of rows, like the \texttt{count()} or \texttt{tally()} functions, but I won't use them here.} We have to tell \texttt{summarize()} where we want to store these values, so we'll put them in a new variable called \texttt{total}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1164,9 +1202,9 @@ Next, we have to tell the computer how to \texttt{summarize()} the groups. We're
 ## 6 <NA>          18
 \end{verbatim}
 
-As you can see, \texttt{summarize()} needs you to provide a new column name and a measurement. In the example above, we named the new column \texttt{total} and asked it to count the total number of respondents by group using the \texttt{n()} function.
+As you can see, we provided \texttt{summarize()} with a new column name, \texttt{total}, and a measurement, \texttt{n()}. Now, we have the total number of respondents for each group (religious affiliation). The pipe operator allowed us to combine the \texttt{group()} and \texttt{summarize()} functions together in sequence so that we got the analysis we wanted..
 
-Again, if we wanted to, we could save a copy of this summary in a new tibble, as in the command below. Our original table will always be untouched unless we intentionally save over it (e.g., \texttt{gss\ \textless{}-\ gss\ \%\textgreater{}\%\ ...}).
+If we want, we can save a copy of our new tibble in another object, as in the command below. The original data object in our environment (i.e.., \texttt{gss}) will always be untouched unless we intentionally re-write it (i.e., \texttt{gss\ \textless{}-\ gss\ \%\textgreater{}\%\ ...}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1176,7 +1214,32 @@ Again, if we wanted to, we could save a copy of this summary in a new tibble, as
 \end{Highlighting}
 \end{Shaded}
 
-We can also group by two columns, such that we can find religious affiliation by sex, for example:
+Another quick example. Let's say we want to see the count of our 2016 GSS respondents by sex:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##   sex    total
+##   <fct>  <int>
+## 1 Male    1276
+## 2 Female  1591
+\end{verbatim}
+
+In this example, we took the GSS data \emph{and then} grouped it by \texttt{sex} \emph{and then} summarized it by creating a \texttt{total} which contains a count of the number of rows.
+
+In this case, because we have tidy data (more on this in future lessons), the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.
+
+\hypertarget{grouping-by-two-variables}{%
+\subsection{Grouping by Two Variables}\label{grouping-by-two-variables}}
+
+We can also create the equivalent of what is called a two-way contingency table by grouping with two variables at the same time. We can use this to find religious affiliation by sex, for example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1210,16 +1273,21 @@ We can also group by two columns, such that we can find religious affiliation by
 ## 12 <NA>       Female     7
 \end{verbatim}
 
-Now we can see the number of protestants who are male and the number who are female.
+In the table above, we can now identify the number of protestants who are male and the number of protestants who are female.
 
-The ordering of the groups matters somewhat. Because religion came first in our \texttt{group()} function, our results show us the number of protestants who are male and the number of protestants who are female.
+\hypertarget{the-order-of-group-arguments}{%
+\subsection{\texorpdfstring{The Order of \texttt{group()} arguments}{The Order of group() arguments}}\label{the-order-of-group-arguments}}
 
-For a count, this is the same thing as the inverse (e.g., the number of protestants who are male is the same as the number of males who are protestant), but for frequencies this is not the case and the order does matter. You'll get a sense for this in a moment.
+It is worth noting that the ordering of groups as arguments in the \texttt{group()} function sometimes matters (i.e., \texttt{group\_by(religion,\ sex)} as opposed to \texttt{group\_by(sex,\ religion)}.
+
+Because religion came first in our argument order, our results show us the number of protestants who are male and the number of protestants who are female. But we could have very easily shown the number of males who are protestant and the number of females who are protestant.
+
+For a count, it does not matter. The number of protestants who are male is the same as the number of males who are protestant. But, when we start looking at relative frequencies and percentages, the order does matter. You'll get a sense for this in a moment.
 
 \hypertarget{calculating-with-mutate}{%
 \section{\texorpdfstring{Calculating with \texttt{mutate()}}{Calculating with mutate()}}\label{calculating-with-mutate}}
 
-Let's add a frequency column and a percentage column so that we can see whether there are gender differences within religious affiliations.
+Is there an equivalent proportion of males and females among protestants in the GSS? Let's add a relative frequency column to find out.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1255,23 +1323,29 @@ Let's add a frequency column and a percentage column so that we can see whether 
 ## 12 <NA>       Female     7 0.389  38.9
 \end{verbatim}
 
-Notice, we used the same code as before, but we added a \texttt{mutate()} function to create two new columns, \texttt{freq} and \texttt{pct}.
+Notice, we used the same code as before here, but now we've added another step, a \texttt{mutate()} function to create two new columns, \texttt{freq} (relative frequency) and \texttt{pct} (percentage).
 
-We also told the \texttt{mutate()} function how to calculate the columns. \texttt{freq}, we said, should be the respondents in each group divided by the sum of the groups (or \texttt{freq\ =\ total\ /\ sum(total)}). \texttt{pct} should be the frequency multiplied by 100 and then rounded to the first decimal place, using the \texttt{round()} function. In doing so, we find that among Protestant respondents, 40.8\% are male and 59.2\% are female.
+We previously calculated the \texttt{total} or the number of observations for each sub-group (e.g., protestants who are males, protestants who are females, etc.). The \texttt{mutate()} function takes the \texttt{total} we calculated in the previous step and uses it to calculate first the relative frequency and then the percentage for each sub-group.
 
-Calculating relative frequencies can be a bit of a beast, but the general form is always the same, so you'll be able to re-use code often.
+To calculate the relative frequency, we used \texttt{freq\ =\ total\ /\ sum(total)} or in plain English ``create a new value called \texttt{freq} and then calculate this value by taking the number of observations for each sub-group (\texttt{total}) and then dividing it by the sum of the totals for all sub-groups (\texttt{sum(total)}).''
+
+For the religious group protestant, we have two sub-groups, male and female, and so the frequency for males protestants is calculated as \texttt{559\ /\ (559\ +\ 812)}, which equals \texttt{0.408} , or exactly what you see in the first row in the frequency column in our new tibble. Similarly, the frequency for female protestants would be \texttt{812\ /\ (559\ +\ 812)} or \texttt{0.592} or what you see in the frequency column in the second row of our new tibble.
+
+What about the percentage or \texttt{pct}? In the second argument of our \texttt{mutate()} function, we told \texttt{R} to take the \texttt{freq} we calculated in the previous step, multiply it by 100 (to make it a percentage), and then round it to the first decimal place using the \texttt{round()} function. \texttt{0.408}, the relative frequency of male protestants, therefore becomes 40.8\%.
+
+As you can see, calculating relative frequencies and percentages using \texttt{dplyr} and the pipe function can be a bit of a beast. The good news is that the general form is always the same and so you'll be able to re-use the code often.
 
 \hypertarget{how-r-reads-functions}{%
 \section{\texorpdfstring{How \texttt{R} Reads Functions}{How R Reads Functions}}\label{how-r-reads-functions}}
 
-You have just seen a bunch of nested functions, which is when a functions is used as an argument inside another functions. It's worth pausing for a second to mention how \texttt{R} reads code, since you will be using this often.
+In the previous examples, you may have noticed a bunch of \emph{nested functions}, which is when a function is used as an argument inside another functions, e.g., \texttt{summarize(total\ =\ n())}. It's worth pausing for a moment to think about how \texttt{R} reads code, since you will be using these types of constructions quite often.
 
-Functions are always read inside out, so a nested function will always evaluate the inner-most function first. Pipe operations, on the other hand, are read from left-to-right (or top-to-bottom, if you're breaking up your code using new lines). The two commands below evaluate in the same way, but \texttt{R} reads them in a slightly different ordering.
+Functions are always read inside out, so a nested function will always evaluate the inner-most function first. Pipe operations, on the other hand, are always read from left-to-right or top-to-bottom (if you're breaking up your code using new lines, as you should be). The two commands below evaluate in the same way, but \texttt{R} reads them in a slightly different ordering.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Inside{-}out evaluation}
-\FunctionTok{sum}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))               }\CommentTok{\# A vector is created first, then summed.}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))               }\CommentTok{\# A vector, \{1,2,3\} is created first AND THEN summed}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1281,7 +1355,7 @@ Functions are always read inside out, so a nested function will always evaluate 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Left{-}to{-}right (sequential) evaluation}
+\CommentTok{\# Left{-}to{-}right/top{-}to{-}bottom (sequential) evaluation}
 \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}                \CommentTok{\# A vector is created AND THEN}
   \FunctionTok{sum}\NormalTok{()                     }\CommentTok{\# it is summed}
 \end{Highlighting}
@@ -1294,7 +1368,7 @@ Functions are always read inside out, so a nested function will always evaluate 
 \hypertarget{filtering}{%
 \section{Filtering}\label{filtering}}
 
-Back to the data. What if we only wish to see the Protestant results of our last query? We can add a \texttt{filter()} function.
+Back to the data. What if we only wanted to see the protestant results for our previous examples? We can use a \texttt{filter()} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1321,9 +1395,11 @@ Back to the data. What if we only wish to see the Protestant results of our last
 ## 2 Protestant Female   812 0.592  59.2
 \end{verbatim}
 
-Usually, you'll want to use the \texttt{filter()} function at the beginning of your query.
+In a filter function, you use logical and comparison operators (see the slides from Session 3 if you'd like a refresher) to define the criteria for your new tibble. In this case, we want only the observations for which the \texttt{religion} variable is equal to ``Protestant''.
 
-Here's another example using \texttt{filter()}. This time, I'm only interested in religious affiliation among holders of graduate degrees.
+\texttt{R} is case-sensitive and so if the values in your data are ``protestant'', for example, you won't see those results in the tibble output here.
+
+Here's another example using \texttt{filter()}. Usually, you will want to use the \texttt{filter()} function at the beginning of your query. This time, I'm only interested in religious affiliation among holders of graduate degrees.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1348,14 +1424,31 @@ Here's another example using \texttt{filter()}. This time, I'm only interested i
 ## 6 <NA>           1 0.00314   0.3
 \end{verbatim}
 
-Now, we see that 39.6\% of graduate-degree holding respondents were protestant and 25.8\% had no religious affiliation. Later on, we'll learn how to turn this sort of thing into a graph.
+Now, we see that 39.6\% of graduate-degree holding respondents were protestant and 25.8\% had no religious affiliation. Later on, we'll learn how to turn this sort of thing into a nice graph.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# What happens if I use a lower{-}case \textquotesingle{}g\textquotesingle{} in \textquotesingle{}Graduate\textquotesingle{} instead?}
+\NormalTok{gss }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(degree }\SpecialCharTok{==} \StringTok{\textquotesingle{}graduate\textquotesingle{}}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(religion) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarize}\NormalTok{(}\AttributeTok{total =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{freq =}\NormalTok{ total }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(total),}
+         \AttributeTok{pct =} \FunctionTok{round}\NormalTok{((freq}\SpecialCharTok{*}\DecValTok{100}\NormalTok{), }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 0 x 4
+## # i 4 variables: religion <fct>, total <int>, freq <dbl>, pct <dbl>
+\end{verbatim}
 
 \hypertarget{conditional-filtering}{%
 \section{Conditional Filtering}\label{conditional-filtering}}
 
-What if we want to filter our respondents for multiple degree types? We want to see, for example, people who have a bachelor's degree \textbf{or} a graduate degree.
+What if we want to filter our respondents for multiple degree types? We want to see in our table of religious affiliation, for example, only people who have a bachelor's degree \textbf{or} a graduate degree.
 
-For these types of queries, we can use logical operators in our \texttt{filter()} criteria. Here, specifically, we'll use \texttt{\textbar{}} which stands for `\textbf{or}'.
+For these types of queries, we can use other logical operators in our \texttt{filter()} criteria. Here, specifically, we'll use \texttt{\textbar{}} which stands for `\textbf{or}'.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1380,11 +1473,9 @@ For these types of queries, we can use logical operators in our \texttt{filter()
 ## 6 <NA>           4 0.00468   0.5
 \end{verbatim}
 
-Now our results include college graduates and graduate degree holders. If we want to see them broken out separately, all we need to do is change \texttt{group\_by(religion)} to \texttt{group\_by(religion,\ degree)}.
+Now our results include only college graduates and graduate degree holders. If we want to see them broken out separately after we have filtered, all we need to do is change \texttt{group\_by(religion)} to \texttt{group\_by(religion,\ degree)}.
 
-What if we want to filter our observations for all individuals with less than a bachelor's degree?
-
-We can create a vector with our specific criteria and then use it in the filter. Check this out:
+What if we want to filter our observations for all individuals with less than a bachelor's degree? We can create a vector with our specific criteria and then use it in our filter argument. Look at this:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1428,7 +1519,7 @@ We can create a vector with our specific criteria and then use it in the filter.
 ## 17 <NA>       Junior College     1 0.1     10
 \end{verbatim}
 
-We've first created a vector, called \texttt{filter\_criteria}, with all of the degree-levels we want to include in our data (we've left out `Graduate' and `Bachelor'). Then, we've changed the filter criteria to say, ``Take all respondents who have a degree listed in our vector, \texttt{filter\ \_criteria}.'' In code, we write this as: \texttt{filter(degree\ \%in\%\ filter\_criteria)}.
+We've first created a vector, called \texttt{filter\_criteria}, with all of the degree-levels we want to include in our data (we've left out `Graduate' and `Bachelor'). Then, we've changed the filter criteria to say, ``Take all respondents who have a degree listed in our vector, \texttt{filter\_criteria}.'' In code, we write this as: \texttt{filter(degree\ \%in\%\ filter\_criteria)}.
 
 \hypertarget{the-in-operator}{%
 \subsection{\texorpdfstring{The \texttt{\%in\%} Operator}{The \%in\% Operator}}\label{the-in-operator}}
@@ -1460,7 +1551,7 @@ Here's a simple example of how this operator works in general:
 \hypertarget{fancy-tables-with-kable}{%
 \section{\texorpdfstring{Fancy Tables with \texttt{kable()}}{Fancy Tables with kable()}}\label{fancy-tables-with-kable}}
 
-If we want to make a table look a little bit nicer, we can add the \texttt{knitr::kable()} function to the end of our query to produce a more polished looking table.
+If we want to make a summary table look a little bit nicer, we can add the \texttt{knitr::kable()} function to the end of our query to produce a more polished looking table.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1492,14 +1583,16 @@ NA & 1 & 0.0031447 & 0.3\\
 \hline
 \end{tabular}
 
-The \texttt{::} operator here is just used to tell the computer to pull the \texttt{kable()} function from the \texttt{knitr} package (a member of the \texttt{tidyverse)}. This is useful when there are multiple functions with the same name in different packages.
+The \texttt{::} operator here tells \texttt{R} to pull the \texttt{kable()} function from the \texttt{knitr} package (which is located in the tidyverse). This is useful when there are multiple functions with the same name in different packages.
 
 You can also add additional code to your \texttt{kable()} function to customize the look of your table (see \href{https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html}{here} for examples).
 
 \hypertarget{another-example}{%
 \section{Another Example}\label{another-example}}
 
-What if we want to do something crazy like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we'd like to know their breakdown by relative frequency across regions of the U.S. Here's a brief example:
+What if we want to do something crazy like find all survey respondents who are protestant or catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we'd like to know their breakdown by relative frequency across regions of the U.S.
+
+Here's a brief example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1534,21 +1627,53 @@ Now, we can rest easy knowing that we can find the percentage of 2012-Obama supp
 \hypertarget{practice-exploring-data}{%
 \section{Practice Exploring Data}\label{practice-exploring-data}}
 
-You can see here that the \texttt{dplyr} functions provide an enormous amount of flexibility and power.
+You can see here that the \texttt{dplyr} functions provide an enormous amount of flexibility and power. \texttt{R}, like other programming languages, is also very sensitive to mistakes in syntax or spelling: a missing comma in a set of function arguments, a hanging pipe operator, a misspelled filter criteria, or an erroneous object name can all cause output errors. Check your code carefully, take a deep breath, and try again. You'll get the hang of it in no time.
 
 Use the remainder of class time today to explore the \texttt{gss\_sm} data. Try summarizing different variables according to different groupings. Try using other measures like \texttt{mean()} or \texttt{sd()} to summarize numeric variables (like the number of children).
 
-You may be feeling overwhelmed at the moment - don't despair, we're going to continue practicing these skills throughout the remainder of the course.
+If you are feeling overwhelmed at the moment - don't despair, we're going to continue practicing these skills throughout the rest of the course.
 
 \hypertarget{homework-2}{%
 \chapter*{Homework 2}\label{homework-2}}
 \addcontentsline{toc}{chapter}{Homework 2}
 
-\textbf{Due Date:} Sunday, 25 February by 23:59:59
+\textbf{Due Date:} Wednesday, 28 February by 23:59:59
 
-\textbf{Submission Instructions:} Submit your completed R script file to Moodle.
+\textbf{Submission Instructions:} Submit your completed R script file to the corresponding Moodle assignment. Your file should contain a header and the file name should be formatted according to the guidelines discussed in class and posted in the course slides.
 
-To be posted by Wednesday, February 14.
+Be sure to show your work. This means that your answer to each question should show the code you used to obtain the answer. You do not need to show other steps that may have been taken to get the answer (e.g., trial and error), only the code that provides the answer.
+
+\textbf{Question \#1:}
+
+\textbf{Part A:}
+
+Using the \texttt{socviz} package, load the GSS data into an object called \texttt{gss}. Use the \texttt{table()} function and subset operator to find the number of respondents by \texttt{agegrp}.
+
+In a comment, identify the number of respondents between the ages of 35-45.
+
+\textbf{Part B:}
+
+Next, use the \texttt{dplyr} functions to output a tibble which summarizes the number of respondents by \texttt{agegrp}.
+
+In a comment, identify the number of respondents between the ages of 45-55.
+
+\textbf{Part C:}
+
+Output another tibble which summarizes respondents by \texttt{agegrp} and whether they voted for \texttt{obama} in the 2012 U.S. presidential election. In this tibble, include both the count (call it \texttt{total}), relative frequency (\texttt{freq}), and percentage (\texttt{pct}). You do not have to round the percentages, but can if you want.
+
+In a comment, identify the number of respondents between the ages of 18-35 who voted for Obama. In a separate comment, identify the number of respondents between the ages of 18-35 that have missing values for the \texttt{obama} variable.
+
+\textbf{Question \#2:}
+
+Again, using the GSS data from the \texttt{socviz} package, create a tibble called \texttt{marit\_happy} which summarizes the happiness of GSS respondents by marital status. Filter your data so that it shows only respondents who are ``Married'' or ``Never Married''.
+
+In a comment consisting of a few brief sentences, compare the reported happiness of U.S. adults who are married as opposed to those who have never been married.
+
+\textbf{Question \#3:}
+
+Also using the same GSS data and \texttt{dplyr}, output a tibble with: (1) the number of respondents by \texttt{degree} (i.e., the respondent's highest degree level) and (2) the mean number of children by \texttt{degree}. Hint: you may need to use an \texttt{na.rm} argument somewhere.
+
+In a brief comment, identify the relationship between degree-level and number of children among U.S. adults.
 
   \bibliography{book.bib,packages.bib}
 

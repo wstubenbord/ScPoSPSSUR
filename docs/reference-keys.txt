@@ -28,6 +28,8 @@ functions-from-dplyr
 glimpsing-gss-data
 selecting-columns
 grouping-and-summarizing
+grouping-by-two-variables
+the-order-of-group-arguments
 calculating-with-mutate
 how-r-reads-functions
 filtering
