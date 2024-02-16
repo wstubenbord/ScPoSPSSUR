@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Wesley Stubenbord" />
 
 
-<meta name="date" content="2024-02-15" />
+<meta name="date" content="2024-02-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -146,7 +146,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Statistical Programming for the Social Sciences</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i>Resources</a></li>
+</ul></li>
 <li class="chapter" data-level="1" data-path="an-introduction-to-r.html"><a href="an-introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> An Introduction to <code>R</code></a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="an-introduction-to-r.html"><a href="an-introduction-to-r.html#installing-r"><i class="fa fa-check"></i><b>1.1</b> Installing <code>R</code></a></li>
@@ -230,47 +233,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="an-introduction-to-r" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> An Introduction to <code>R</code><a href="an-introduction-to-r.html#an-introduction-to-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>To get started, you will need to install two things:</p>
+<p>If you are taking this course, you probably don’t need an explanation of why <code>R</code> is useful or why it may be in your best interest to take this course.</p>
+<p>So I won’t beleaguer the point: yes, <code>R</code> will make you fabulously rich; yes, it will help you make new friends; and yes, it will allow you to escape your own mortality. Or, at the very least, it will allow you to do some interesting things with data, which is nearly as nice.</p>
+<p>To get started with <code>R</code>, you will need to install two things:</p>
 <ol style="list-style-type: decimal">
-<li><p><code>R</code>, a programming language</p></li>
-<li><p>RStudio, a software program that helps you program in <code>R</code></p>
+<li><p><strong><code>R</code></strong>, a programming language</p></li>
+<li><p><strong>RStudio</strong>, a software program that helps you program in <code>R</code></p>
 <ul>
-<li>This type of software program is called an IDE, an Integrated Development Environment</li>
+<li>This type of software program is known as an Integrated Development Environment (IDE)</li>
 </ul></li>
 </ol>
-<p>You don’t necessarily need RStudio to program in <code>R</code>, but it makes life much easier and it is what we’ll be using throughout the course.</p>
+<p>The truth of the matter is that you don’t necessarily need RStudio to program in <code>R</code>, but it certainly makes life easier. The difference between programming in <code>R</code> and programming in <code>R</code> using RStudio is akin to the difference between driving a Fiat Panda and driving a Porsche. Both will get you to the same place, but one is more likely to be an enjoyable experience. We will be using RStudio throughout the course as a result.</p>
 <div id="installing-r" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Installing <code>R</code><a href="an-introduction-to-r.html#installing-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>To install <code>R</code>, go to <a href="https://cran.irsn.fr/index.html" class="uri">https://cran.irsn.fr/index.html</a>, select the appropriate operating system, and follow the instructions.</p>
-<p>For example, if you have a Mac, you will click on “Download R for macOS,” followed by the “R-4.3.2-arm64.pkg” link beneath the “Latest release” header.</p>
-<p>If you have a PC running Windows, you will click on “Download R for Windows” followed by “install R for the first time” and “Download R-4.3.2 for Windows.”</p>
+<p>To install <code>R</code>, go to <a href="https://cran.irsn.fr/index.html" class="uri">https://cran.irsn.fr/index.html</a>, select the appropriate operating system, and follow the instructions. For example, if you have a Mac, you will click on “Download R for macOS,” followed by the “R-4.3.2-arm64.pkg” link beneath the “Latest release” header. If you have a PC running Windows, you will click on “Download R for Windows” followed by “install R for the first time” then “Download R-4.3.2 for Windows.”</p>
 <p>In either case, your browser will start downloading an executable installation file which you will then need to run to install <code>R</code>.</p>
 <p><em>CAUTION</em> - A couple of things you may need to watch out for:</p>
 <ul>
-<li><p>If you are using an older laptop (&gt; 10 years old), you may need to download a different version of <code>R</code> or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.</p></li>
-<li><p>If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should suffice.</p></li>
+<li><p>If you are using an older laptop (&gt;10 years old), you may need to download a different version of <code>R</code> or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.</p></li>
+<li><p>If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should be sufficient.</p></li>
 </ul>
 </div>
 <div id="installing-rstudio" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Installing RStudio<a href="an-introduction-to-r.html#installing-rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Once you’ve installed <code>R</code>, go to <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a>.</p>
-<p>Posit (a company formerly known as RStudio) offers RStudio Desktop free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.</p>
-<p>Step 1 is complete, you’ve already installed <code>R</code>. On the landing page linked above, you’ll find different versions of RStudio according to your computer’s operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer and follow the on-screen steps.</p>
+<p>Posit (a company formerly known as RStudio) offers <strong>RStudio Desktop</strong> free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.</p>
+<p>Step 1 is complete, you’ve already installed <code>R</code>. On the landing page linked above, you’ll find different versions of RStudio according to your computer’s operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer. Follow the on-screen steps to complete the set-up.</p>
 <p>If all goes well, your screen should look something like this once you have RStudio correctly installed and running:</p>
 <p><img src="docs/_main_files/figure-html/RStudio%20clean%20install.png" /></p>
-<p>If your screen looks like the image below, it means that you’ve accidentally opened RGui, a basic graphical user interface included with <code>R</code>, and not RStudio. We’re always going to be working in RStudio for this class, so close out of RGui and open RStudio instead.</p>
+<p>If your screen looks like the image below, it means that you’ve accidentally opened RGui, a basic graphical user interface included with <code>R</code>, and not RStudio. We’re always going to be working with RStudio for this class, so close out of RGui and open RStudio instead.</p>
 <p><img src="docs/_main_files/figure-html/Base%20R%20GUI.PNG" /></p>
 </div>
 <div id="using-the-console" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Using the Console<a href="an-introduction-to-r.html#using-the-console" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Now the fun begins. The RStudio window you’ve opened consists of a few different parts. The most important of these right now is the console <a href="https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html" title="An explanation of some of the different panes in RStudio.">pane</a> (highlighted below).</p>
+<p>Now the fun begins. The RStudio window you’ve opened consists of a few different parts. The most important of these right now is the console <a href="https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html" title="An explanation of some of the different panes in RStudio.">pane</a> (highlighted with a black square below).</p>
 <p><img src="docs/_main_files/figure-html/RStudio%20console%20box.png" /></p>
 <p>The console allows you to interact with your computer using <code>R</code>. So, for example, if I want to use my computer as an over-sized calculator, I can type in the following <code>R</code> code in the console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="an-introduction-to-r.html#cb1-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span></code></pre></div>
 <p>What happens when you press <code>Enter</code> on your keyboard? You get something like this:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="an-introduction-to-r.html#cb2-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<p>You’ve provided an <strong>input</strong>, <code>1+1</code>, and received an <strong>output</strong>, <code>2</code>. In other words, using the language of <code>R</code>, you’ve told your computer to add one plus one and your computer has correctly interpreted your command and returned an answer, two. When your computer does not know how to interpret a command, usually because you’ve made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.</p>
+<p>You’ve provided an <strong>input</strong>, <code>1+1</code>, and received an <strong>output</strong>, <code>2</code>. In other words, using the language of <code>R</code>, you’ve told your computer to add one plus one and your computer has correctly interpreted your command and <em>returned</em> (or output) an answer, two. When your computer does not know how to interpret a command, usually because you’ve made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.</p>
 <p>One more note about outputs: the first number in brackets next to your output, <code>[1]</code>, indicates the number of the line of output. This is especially helpful when you are running code that generates multiple lines of output. We will see some examples of this later on.</p>
 <p>For now, try entering a few more inputs, such as:</p>
 <ol style="list-style-type: decimal">
@@ -278,12 +281,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><code>(10/3) + 1</code></p></li>
 <li><p><code>(10/3) + 1 + (5.111)\^2</code></p></li>
 </ol>
-<p><code>R</code> is able to handle basic math operations with ease. What about other operations? Can you work with variables in <code>R</code>?</p>
+<p>As you can see, <code>R</code> is able to handle basic math operations with ease. What about other operations? Can you work with variables in <code>R</code>, for example?</p>
 <p>Try typing this in the console:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="an-introduction-to-r.html#cb4-1" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span></code></pre></div>
 <p>What happens when you press <code>Enter</code>?</p>
 <p><img src="docs/_main_files/figure-html/RStudio%20console_x1.png" /></p>
-<p>You may have noticed that there is no output. But, that doesn’t mean nothing has happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the environment. You don’t receive an output, but RStudio reminds you of your new variable’s existence via the Environment pane in the top right.</p>
+<p>You may have noticed that unlike before there is no output. But, that doesn’t mean nothing has happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the environment. You don’t receive an output, but RStudio reminds you of your new variable’s existence via the Environment pane in the top right.</p>
 <p>We can recall the value we input into our variable, <code>x</code>, by entering the variable name in the console:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="an-introduction-to-r.html#cb5-1" tabindex="-1"></a>x</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
@@ -301,16 +304,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If you’ve made it this far, well done! Here’s another thing you can try. Enter the following in the console:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="an-introduction-to-r.html#cb7-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code></pre></div>
 <p>You’ll notice that we’re using a different operator here. It’s a less than symbol (&lt;) followed by a dash (-). This is called an <strong>assignment operator</strong> and it has the same function as the equals sign (=). You can use either, I just so happen to prefer the way this one looks.</p>
-<p>What happens when you press <code>Enter</code>? You have created a <strong>vector</strong>. Like other types of variables in <code>R</code>, a vector is an <strong>object</strong>. A vector holds a set of values of the same type. In this case, the object x contains a set of numbers, 1:5.</p>
+<p>What happens when you press <code>Enter</code>? You have created a <strong>vector</strong>. Like other types of variables in <code>R</code>, a vector is an <strong>object</strong>. A vector is a type of object which holds a set of values of the same type. In this case, the object <code>x</code> contains a set of numbers: <span class="math inline">\(\{1,2,3,4,5\}\)</span>.</p>
 <p>We can do all sorts of things with vectors and other objects in <code>R</code>. We can, for example, find the sum of a vector.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="an-introduction-to-r.html#cb8-1" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
 <pre><code>## [1] 15</code></pre>
-<p>How did we get an output of 15? 1+2+3+4+5 = 15. We can also find the mean of a vector.</p>
+<p>How did we get an output of 15? <span class="math inline">\(1+2+3+4+5 = 15\)</span>. We can also find the mean of a vector.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="an-introduction-to-r.html#cb10-1" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
 <p>And, we can perform other fun operations. Try the following:</p>
 <ol style="list-style-type: decimal">
-<li><p>Can you find the median of the vector x? What about the mode?<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p></li>
+<li><p>Can you find the median of the vector <code>x</code>? What about the mode?<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p></li>
 <li><p>What happens when you multiply a vector?</p></li>
 <li><p>Can you create a new vector which consists of a set of letters?</p></li>
 </ol>
@@ -319,8 +322,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">1.5</span> Saving Your Work<a href="an-introduction-to-r.html#saving-your-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As you’ve started to see, working with a scripting language like <code>R</code> is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface. No more clicking on cells to change values, now you change them programmatically.</p>
 <p>One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you’ve taken to produce your analysis and repeat them. We don’t have to take your word for how you’ve calculated something. We can see it and use it ourselves to produce the same thing.</p>
-<p>This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that we can come back to it and understand what we did. We’ll say more about how to do this later on.</p>
-<p>There are a couple of different ways of saving your code:</p>
+<p>This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that anyone can come back to it and understand what you did. We’ll say more about how to do this later on.</p>
+<p>There are a couple of different ways to save your code:</p>
 <ol style="list-style-type: decimal">
 <li><p>In an R Script, a simple text file ending in a <code>.r</code> extension</p></li>
 <li><p>In an R Markdown file, an interactive format that allows you to see your code and the results together in the same file</p></li>
@@ -348,15 +351,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p><img src="docs/_main_files/figure-html/RStudio_Run%20button.png" /></p>
 <p>The first option allows you to run multiple lines at a time. The second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.</p>
-<p>After you finish modifying your R Script file, you can save it and close out of RStudio. The next time you wish to access your saved code, you can open your R Script file and it will be exactly as you left it.</p>
+<p>After you finish modifying your R Script file, you can save it and close out of RStudio. The next time you wish to access your saved code, you can open your R Script file and your code will be exactly as you left it.</p>
 </div>
 <div id="summary" class="section level2 hasAnchor" number="1.8">
 <h2><span class="header-section-number">1.8</span> Summary<a href="an-introduction-to-r.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let’s briefly recap what you have learned in this lesson. So far you’ve learned:</p>
+<p>Let’s briefly recap what you learned in this lesson. So far you’ve learned:</p>
 <ul>
 <li>The difference between <code>R</code> and RStudio</li>
 <li>How to interact with the console</li>
-<li>How to create and store values in variables using an assignment operator</li>
+<li>How to create and store values in objects using an assignment operator</li>
 <li>What a vector is and how to create one</li>
 <li>How to use basic functions like <code>sum()</code> and <code>mean()</code> to perform calculations</li>
 <li>How to make comments using the <code>#</code> symbol</li>

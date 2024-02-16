@@ -17,6 +17,14 @@ github-repo: wstubenbord/ScPoSPSSUR
 
 # Introduction {.unnumbered}
 
-Welcome! This is the companion website for *Statistical Programming for the Social Sciences Using R*, taught at the Sciences Po Reims campus for the Spring 2024 term.
+Welcome! This is the companion website for *Statistical Programming for the Social Sciences Using R*, taught at the Sciences Po Reims campus in the Spring 2024 term. The course is a broad introduction to the general programming skills required for data analysis in the social sciences.
 
-This website will contain the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course. The syllabus, assignment submission portals, and other files can be found on the course Moodle site.
+This online textbook contains the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course. The syllabus, slides, assignment submission portals, and other files can be found on the course Moodle [site](https://moodle.sciences-po.fr/course/view.php?id=40782).
+
+## Resources {.unnumbered}
+
+There are a variety of `R` resources out there, many of which have been helpful in developing this course. If you would like to dig deeper into a topic or simply want to read other explanations of the concepts discussed in this course, here is a list of useful resources:
+
+-   ***R for Data Science, 2e*** by Hadley Wickham ([link](https://r4ds.hadley.nz/)): A free introductory textbook on how to use the many features of `R` to make sense of data, written by the creator of the tidyverse package.
+-   ***Data Visualization*** by Kieran Healy ([link](https://socviz.co/) to companion site): An introductory textbook on how to make practical and beautiful data visualizations in `R`. Healy has a distinctive and appealing visual style. He also happens to be an accomplished sociologist, known especially for his [disdain of nuanced theory](https://kieranhealy.org/files/papers/fuck-nuance.pdf) and his [work](https://kieranhealy.org/publications/) related to markets and morals, and so his examples deal especially with social issues and phenomena.
+-   ***Introduction to Econometrics*** ***with R*** by Florian Oswald and colleagues at SciencesPo ([companion textbook](https://scpoecon.github.io/ScPoEconometrics/index.html) and [slides](https://github.com/ScPoEcon/ScPoEconometrics-Slides)): you may very well be taking this course, because you couldn't get into this other Sciences Po course. For this, I am both sorry, because you are missing out, and not sorry, because it keeps me gainfully employed and gives me an excuse to write this textbook. Fortunately for you, the more statistics-heavy course developed by Professor Oswald and colleagues is freely-available online. If you'd like to see material which is more heavily-weighted towards applied statistical methods (especially applied economics) rather than general data analysis skills, take a look at their extremely well put together course and rue the day you woke up late for course sign-ups.

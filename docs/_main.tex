@@ -120,7 +120,7 @@
 
 \title{Statistical Programming for the Social Sciences Using R}
 \author{Wesley Stubenbord}
-\date{2024-02-15}
+\date{2024-02-16}
 
 \begin{document}
 \maketitle
@@ -133,39 +133,55 @@
 \chapter*{Introduction}\label{introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
-Welcome! This is the companion website for \emph{Statistical Programming for the Social Sciences Using R}, taught at the Sciences Po Reims campus for the Spring 2024 term.
+Welcome! This is the companion website for \emph{Statistical Programming for the Social Sciences Using R}, taught at the Sciences Po Reims campus in the Spring 2024 term. The course is a broad introduction to the general programming skills required for data analysis in the social sciences.
 
-This website will contain the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course. The syllabus, assignment submission portals, and other files can be found on the course Moodle site.
+This online textbook contains the relevant tutorials for each week's lesson as well as other resources that you may find helpful throughout the course. The syllabus, slides, assignment submission portals, and other files can be found on the course Moodle \href{https://moodle.sciences-po.fr/course/view.php?id=40782}{site}.
+
+\hypertarget{resources}{%
+\section*{Resources}\label{resources}}
+\addcontentsline{toc}{section}{Resources}
+
+There are a variety of \texttt{R} resources out there, many of which have been helpful in developing this course. If you would like to dig deeper into a topic or simply want to read other explanations of the concepts discussed in this course, here is a list of useful resources:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{\emph{R for Data Science, 2e}} by Hadley Wickham (\href{https://r4ds.hadley.nz/}{link}): A free introductory textbook on how to use the many features of \texttt{R} to make sense of data, written by the creator of the tidyverse package.
+\item
+  \textbf{\emph{Data Visualization}} by Kieran Healy (\href{https://socviz.co/}{link} to companion site): An introductory textbook on how to make practical and beautiful data visualizations in \texttt{R}. Healy has a distinctive and appealing visual style. He also happens to be an accomplished sociologist, known especially for his \href{https://kieranhealy.org/files/papers/fuck-nuance.pdf}{disdain of nuanced theory} and his \href{https://kieranhealy.org/publications/}{work} related to markets and morals, and so his examples deal especially with social issues and phenomena.
+\item
+  \textbf{\emph{Introduction to Econometrics}} \textbf{\emph{with R}} by Florian Oswald and colleagues at SciencesPo (\href{https://scpoecon.github.io/ScPoEconometrics/index.html}{companion textbook} and \href{https://github.com/ScPoEcon/ScPoEconometrics-Slides}{slides}): you may very well be taking this course, because you couldn't get into this other Sciences Po course. For this, I am both sorry, because you are missing out, and not sorry, because it keeps me gainfully employed and gives me an excuse to write this textbook. Fortunately for you, the more statistics-heavy course developed by Professor Oswald and colleagues is freely-available online. If you'd like to see material which is more heavily-weighted towards applied statistical methods (especially applied economics) rather than general data analysis skills, take a look at their extremely well put together course and rue the day you woke up late for course sign-ups.
+\end{itemize}
 
 \hypertarget{an-introduction-to-r}{%
 \chapter{\texorpdfstring{An Introduction to \texttt{R}}{An Introduction to R}}\label{an-introduction-to-r}}
 
-To get started, you will need to install two things:
+If you are taking this course, you probably don't need an explanation of why \texttt{R} is useful or why it may be in your best interest to take this course.
+
+So I won't beleaguer the point: yes, \texttt{R} will make you fabulously rich; yes, it will help you make new friends; and yes, it will allow you to escape your own mortality. Or, at the very least, it will allow you to do some interesting things with data, which is nearly as nice.
+
+To get started with \texttt{R}, you will need to install two things:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  \texttt{R}, a programming language
+  \textbf{\texttt{R}}, a programming language
 \item
-  RStudio, a software program that helps you program in \texttt{R}
+  \textbf{RStudio}, a software program that helps you program in \texttt{R}
 
   \begin{itemize}
   \tightlist
   \item
-    This type of software program is called an IDE, an Integrated Development Environment
+    This type of software program is known as an Integrated Development Environment (IDE)
   \end{itemize}
 \end{enumerate}
 
-You don't necessarily need RStudio to program in \texttt{R}, but it makes life much easier and it is what we'll be using throughout the course.
+The truth of the matter is that you don't necessarily need RStudio to program in \texttt{R}, but it certainly makes life easier. The difference between programming in \texttt{R} and programming in \texttt{R} using RStudio is akin to the difference between driving a Fiat Panda and driving a Porsche. Both will get you to the same place, but one is more likely to be an enjoyable experience. We will be using RStudio throughout the course as a result.
 
 \hypertarget{installing-r}{%
 \section{\texorpdfstring{Installing \texttt{R}}{Installing R}}\label{installing-r}}
 
-To install \texttt{R}, go to \url{https://cran.irsn.fr/index.html}, select the appropriate operating system, and follow the instructions.
-
-For example, if you have a Mac, you will click on ``Download R for macOS,'' followed by the ``R-4.3.2-arm64.pkg'' link beneath the ``Latest release'' header.
-
-If you have a PC running Windows, you will click on ``Download R for Windows'' followed by ``install R for the first time'' and ``Download R-4.3.2 for Windows.''
+To install \texttt{R}, go to \url{https://cran.irsn.fr/index.html}, select the appropriate operating system, and follow the instructions. For example, if you have a Mac, you will click on ``Download R for macOS,'' followed by the ``R-4.3.2-arm64.pkg'' link beneath the ``Latest release'' header. If you have a PC running Windows, you will click on ``Download R for Windows'' followed by ``install R for the first time'' then ``Download R-4.3.2 for Windows.''
 
 In either case, your browser will start downloading an executable installation file which you will then need to run to install \texttt{R}.
 
@@ -173,9 +189,9 @@ In either case, your browser will start downloading an executable installation f
 
 \begin{itemize}
 \item
-  If you are using an older laptop (\textgreater{} 10 years old), you may need to download a different version of \texttt{R} or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.
+  If you are using an older laptop (\textgreater10 years old), you may need to download a different version of \texttt{R} or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.
 \item
-  If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should suffice.
+  If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should be sufficient.
 \end{itemize}
 
 \hypertarget{installing-rstudio}{%
@@ -183,22 +199,22 @@ In either case, your browser will start downloading an executable installation f
 
 Once you've installed \texttt{R}, go to \url{https://posit.co/download/rstudio-desktop/}.
 
-Posit (a company formerly known as RStudio) offers RStudio Desktop free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.
+Posit (a company formerly known as RStudio) offers \textbf{RStudio Desktop} free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.
 
-Step 1 is complete, you've already installed \texttt{R}. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer and follow the on-screen steps.
+Step 1 is complete, you've already installed \texttt{R}. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer. Follow the on-screen steps to complete the set-up.
 
 If all goes well, your screen should look something like this once you have RStudio correctly installed and running:
 
 \includegraphics{docs/_main_files/figure-html/RStudio clean install.png}
 
-If your screen looks like the image below, it means that you've accidentally opened RGui, a basic graphical user interface included with \texttt{R}, and not RStudio. We're always going to be working in RStudio for this class, so close out of RGui and open RStudio instead.
+If your screen looks like the image below, it means that you've accidentally opened RGui, a basic graphical user interface included with \texttt{R}, and not RStudio. We're always going to be working with RStudio for this class, so close out of RGui and open RStudio instead.
 
 \includegraphics{docs/_main_files/figure-html/Base R GUI.PNG}
 
 \hypertarget{using-the-console}{%
 \section{Using the Console}\label{using-the-console}}
 
-Now the fun begins. The RStudio window you've opened consists of a few different parts. The most important of these right now is the console \href{https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html}{pane} (highlighted below).
+Now the fun begins. The RStudio window you've opened consists of a few different parts. The most important of these right now is the console \href{https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html}{pane} (highlighted with a black square below).
 
 \includegraphics{docs/_main_files/figure-html/RStudio console box.png}
 
@@ -222,7 +238,7 @@ What happens when you press \texttt{Enter} on your keyboard? You get something l
 ## [1] 2
 \end{verbatim}
 
-You've provided an \textbf{input}, \texttt{1+1}, and received an \textbf{output}, \texttt{2}. In other words, using the language of \texttt{R}, you've told your computer to add one plus one and your computer has correctly interpreted your command and returned an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.
+You've provided an \textbf{input}, \texttt{1+1}, and received an \textbf{output}, \texttt{2}. In other words, using the language of \texttt{R}, you've told your computer to add one plus one and your computer has correctly interpreted your command and \emph{returned} (or output) an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.
 
 One more note about outputs: the first number in brackets next to your output, \texttt{{[}1{]}}, indicates the number of the line of output. This is especially helpful when you are running code that generates multiple lines of output. We will see some examples of this later on.
 
@@ -238,7 +254,7 @@ For now, try entering a few more inputs, such as:
   \texttt{(10/3)\ +\ 1\ +\ (5.111)\textbackslash{}\^{}2}
 \end{enumerate}
 
-\texttt{R} is able to handle basic math operations with ease. What about other operations? Can you work with variables in \texttt{R}?
+As you can see, \texttt{R} is able to handle basic math operations with ease. What about other operations? Can you work with variables in \texttt{R}, for example?
 
 Try typing this in the console:
 
@@ -252,7 +268,7 @@ What happens when you press \texttt{Enter}?
 
 \includegraphics{docs/_main_files/figure-html/RStudio console_x1.png}
 
-You may have noticed that there is no output. But, that doesn't mean nothing has happened. In fact, something has happened. You've stored a value, \texttt{1}, in a variable, \texttt{x}, somewhere in your computer's memory or in what we might call the environment. You don't receive an output, but RStudio reminds you of your new variable's existence via the Environment pane in the top right.
+You may have noticed that unlike before there is no output. But, that doesn't mean nothing has happened. In fact, something has happened. You've stored a value, \texttt{1}, in a variable, \texttt{x}, somewhere in your computer's memory or in what we might call the environment. You don't receive an output, but RStudio reminds you of your new variable's existence via the Environment pane in the top right.
 
 We can recall the value we input into our variable, \texttt{x}, by entering the variable name in the console:
 
@@ -295,7 +311,7 @@ If you've made it this far, well done! Here's another thing you can try. Enter t
 
 You'll notice that we're using a different operator here. It's a less than symbol (\textless) followed by a dash (-). This is called an \textbf{assignment operator} and it has the same function as the equals sign (=). You can use either, I just so happen to prefer the way this one looks.
 
-What happens when you press \texttt{Enter}? You have created a \textbf{vector}. Like other types of variables in \texttt{R}, a vector is an \textbf{object}. A vector holds a set of values of the same type. In this case, the object x contains a set of numbers, 1:5.
+What happens when you press \texttt{Enter}? You have created a \textbf{vector}. Like other types of variables in \texttt{R}, a vector is an \textbf{object}. A vector is a type of object which holds a set of values of the same type. In this case, the object \texttt{x} contains a set of numbers: \(\{1,2,3,4,5\}\).
 
 We can do all sorts of things with vectors and other objects in \texttt{R}. We can, for example, find the sum of a vector.
 
@@ -309,7 +325,7 @@ We can do all sorts of things with vectors and other objects in \texttt{R}. We c
 ## [1] 15
 \end{verbatim}
 
-How did we get an output of 15? 1+2+3+4+5 = 15. We can also find the mean of a vector.
+How did we get an output of 15? \(1+2+3+4+5 = 15\). We can also find the mean of a vector.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -326,7 +342,7 @@ And, we can perform other fun operations. Try the following:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Can you find the median of the vector x? What about the mode?\footnote{As you will have found, \texttt{mode()} doesn't calculate a statistic here (although even if it had, you still wouldn't have gotten a meaningful statistic for this particular vector). Some functions are easy to guess, like \texttt{median()} , but others can be false cognates just like in a spoken language. We'll talk more about finding the purpose of a function in the next chapter.}
+  Can you find the median of the vector \texttt{x}? What about the mode?\footnote{As you will have found, \texttt{mode()} doesn't calculate a statistic here (although even if it had, you still wouldn't have gotten a meaningful statistic for this particular vector). Some functions are easy to guess, like \texttt{median()} , but others can be false cognates just like in a spoken language. We'll talk more about finding the purpose of a function in the next chapter.}
 \item
   What happens when you multiply a vector?
 \item
@@ -340,9 +356,9 @@ As you've started to see, working with a scripting language like \texttt{R} is q
 
 One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you've taken to produce your analysis and repeat them. We don't have to take your word for how you've calculated something. We can see it and use it ourselves to produce the same thing.
 
-This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that we can come back to it and understand what we did. We'll say more about how to do this later on.
+This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that anyone can come back to it and understand what you did. We'll say more about how to do this later on.
 
-There are a couple of different ways of saving your code:
+There are a couple of different ways to save your code:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -393,12 +409,12 @@ To run code in a script in RStudio, you can either:
 
 The first option allows you to run multiple lines at a time. The second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.
 
-After you finish modifying your R Script file, you can save it and close out of RStudio. The next time you wish to access your saved code, you can open your R Script file and it will be exactly as you left it.
+After you finish modifying your R Script file, you can save it and close out of RStudio. The next time you wish to access your saved code, you can open your R Script file and your code will be exactly as you left it.
 
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
 
-Let's briefly recap what you have learned in this lesson. So far you've learned:
+Let's briefly recap what you learned in this lesson. So far you've learned:
 
 \begin{itemize}
 \tightlist
@@ -407,7 +423,7 @@ Let's briefly recap what you have learned in this lesson. So far you've learned:
 \item
   How to interact with the console
 \item
-  How to create and store values in variables using an assignment operator
+  How to create and store values in objects using an assignment operator
 \item
   What a vector is and how to create one
 \item
