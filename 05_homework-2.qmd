@@ -28,7 +28,7 @@ In a comment, identify the number of respondents between the ages of 18-35 who v
 
 **Question #2:**
 
-Again, using the GSS data from the `socviz` package and, create a tibble called `marit_happy` which summarizes the happiness of GSS respondents by marital status. Filter your data so that it shows only respondents who are "Married" or "Never Married".
+Again using the GSS data from the `socviz` package, create a tibble called `marit_happy` which summarizes the happiness of GSS respondents by marital status. Filter your data so that it shows only respondents who are "Married" or "Never Married".
 
 In a comment consisting of a few brief sentences, compare the reported happiness of respondents who are married to those who have never been married.[^05_homework-2-1]
 

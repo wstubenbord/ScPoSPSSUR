@@ -34,17 +34,17 @@ Step 1 is complete, you've already installed `R`. On the landing page linked abo
 
 If all goes well, your screen should look something like this once you have RStudio correctly installed and running:
 
-![](images/RStudio clean install.png)
+![](images/RStudio%20clean%20install.png)
 
 If your screen looks like the image below, it means that you've accidentally opened RGui, a basic graphical user interface included with `R`, and not RStudio. We're always going to be working with RStudio for this class, so close out of RGui and open RStudio instead.
 
-![](images/Base R GUI.PNG)
+![](images/Base%20R%20GUI.PNG)
 
 ## Using the Console
 
 Now the fun begins. The RStudio window you've opened consists of a few different parts. The most important of these right now is the console [pane](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html "An explanation of some of the different panes in RStudio.") (highlighted with a black square below).
 
-![](images/RStudio console box.png)
+![](images/RStudio%20console%20box.png)
 
 The console allows you to interact with your computer using `R`. So, for example, if I want to use my computer as an over-sized calculator, I can type in the following `R` code in the console:
 
@@ -156,17 +156,17 @@ We're going to start with an R Script file and try out R Markdown later on.
 
 To create an R Script file in RStudio, go to File \> New File \> R Script.
 
-![](images/RStudio_Opening an R Script File.png)
+![](images/RStudio_Opening%20an%20R%20Script%20File.png)
 
 You should now have a window open in RStudio which looks like this:
 
-![](images/RStudio_Opened RScript.png)
+![](images/RStudio_Opened%20RScript.png)
 
 You can enter comments in your R Script file using a hash tag (`#`) at the beginning of each comment line. A hash tag lets `R` know that this line should not be run as code. Its purpose is to tell us what is happening in a particular section of the code.
 
 I like to start by adding my name, the date, and a description to each file I use. I'll ask that you use a header for each `R` file you submit for this class as well.
 
-![](images/RStudio_Commenting in an R Script file.png)
+![](images/RStudio_Commenting%20in%20an%20R%20Script%20file.png)
 
 Now, save your R Script somewhere on your computer. Go to File \> Save As, then choose a safe place to store it (I recommend creating a folder for this course), give your file a name, and press save. I called mine "hello_world".
 
@@ -179,7 +179,7 @@ To run code in a script in RStudio, you can either:
 1.  Select the lines you wish to run with your cursor and then press `Ctrl` + `Enter`
 2.  Or, put your cursor on the line you wish to run and click the `Run` button in the upper-right of the R Script pane
 
-![](images/RStudio_Run button.png)
+![](images/RStudio_Run%20button.png)
 
 The first option allows you to run multiple lines at a time. The second runs only the line you are currently on. The results of your code will appear in the console pane below your R Script file when run successfully.
 

@@ -84,7 +84,7 @@ As you progress in `R`, you will learn many different functions and it can be di
 ?sum
 ```
 
-![](images/RStudio_Help Pane.PNG)
+![](images/RStudio_Help%20Pane.PNG)
 
 ### Check Your Understanding: {.unnumbered}
 
