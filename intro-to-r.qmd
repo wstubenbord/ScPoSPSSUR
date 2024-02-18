@@ -10,7 +10,7 @@ Let's jump into it then. To get started with `R`, you will need to install two t
 
     -   This type of software program is known as an Integrated Development Environment (IDE)
 
-The truth is that you don't necessarily need RStudio to program in `R`, but it certainly makes life easier. The difference between programming in `R` and programming in `R` using RStudio is akin to the difference between driving a Fiat Panda and driving a Porsche. Both will get you to the same place, but one is likely to be a more enjoyable experience. We will be using RStudio throughout the course as a result.
+Truth be told, you don't really need RStudio to program in `R`, but it certainly makes life easier. The difference between programming in `R` and programming in `R` using RStudio might be akin to the difference between driving a Fiat Panda and driving a Ferrari. Both will get you to the same place, but one is more likely to be an enjoyable experience. We will be using RStudio throughout the rest of this journey as a result.
 
 ## Installing `R`
 
@@ -32,13 +32,13 @@ Once you've installed `R`, go to <https://posit.co/download/rstudio-desktop/>.
 
 Posit (a company formerly known as RStudio) offers **RStudio Desktop** free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.
 
-Step 1 is complete, you've already installed `R`. On the landing page linked above, you'll find different versions of RStudio according to your computer's operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer. Follow the on-screen steps to complete the set-up.
+When you've click on the link above, you'll find that you are ahead of the game. Step 1 is complete, you've already installed `R`. Here you'll find different versions of RStudio according to your computer's operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer. Next, follow the on-screen steps to complete the set-up.
 
 If all goes well, your screen should look something like this once you have RStudio correctly installed and running:
 
 ![](images/RStudio%20clean%20install.png)
 
-If your screen looks like the image below, it means that you've accidentally opened RGui, a basic graphical user interface included with `R`, and not RStudio. We're always going to be working with RStudio for this class, so close out of RGui and open RStudio instead.
+If your screen looks more like the image below, it means that you've accidentally opened RGui, a basic graphical user interface included with `R`, and not RStudio. We're always going to be working with RStudio for this class, so close out of RGui and open RStudio instead.
 
 ![](images/Base%20R%20GUI.PNG)
 
@@ -48,7 +48,7 @@ Now the fun begins. The RStudio window you've opened consists of a few different
 
 ![](images/RStudio%20console%20box.png)
 
-The console allows you to interact with your computer using `R`. So, for example, if I want to use my computer as an over-sized calculator, I can type in the following `R` code in the console:
+The console allows you to interact with your computer using `R`. So, for example, if you want to use your computer as an over-sized calculator, you can type the following `R` code in the console:
 
 ``` r
 1+1
@@ -60,9 +60,15 @@ What happens when you press `Enter` on your keyboard? You get something like thi
 1+1
 ```
 
-You've provided an **input**, `1+1`, and received an **output**, `2`. In other words, using the language of `R`, you've told your computer to add one plus one and your computer has correctly interpreted your command and *returned* (or output) an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.
+You've provided an **input**, `1+1`, and received an **output**, `2`. In other words, using the language of `R`, you've told your computer to add one plus one and your computer has correctly interpreted your command and *returned* (or output) an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer and one we will practice, often accidentally, throughout the course.
 
-One more note about outputs: the first number in brackets next to your output, `[1]`, indicates the number of the line of output. This is especially helpful when you are running code that generates multiple lines of output. We will see some examples of this later on.
+One more note about outputs: the first number in brackets next to your output, `[1]`, indicates the index number of the output.[^intro-to-r-1] This is especially helpful when you are running code that generates multiple outputs. See below, for example, where we output a list of letters in the English alphabet ("T" is the 20th letter and our 20th output).
+
+[^intro-to-r-1]: Unlike other programming languages, like Python, `R` does not use zero-indexing. This means that our first value in any data structure is always indexed as `1` .
+
+```{r}
+LETTERS
+```
 
 For now, try entering a few more inputs, such as:
 
@@ -84,7 +90,7 @@ What happens when you press `Enter`?
 
 ![](images/RStudio%20console_x1.png)
 
-You may have noticed that unlike before there is no output. But, that doesn't mean nothing has happened. In fact, something has happened. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we might call the environment. You don't receive an output, but RStudio reminds you of your new variable's existence via the Environment pane in the top right.
+Unlike before, there is no output when you press `Enter`. But, that doesn't mean nothing happened. In fact, something has happened. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we might call the **environment**. You don't receive an output, but RStudio reminds you of your new variable's existence via the Environment pane in the top right.
 
 We can recall the value we input into our variable, `x`, by entering the variable name in the console:
 
@@ -94,27 +100,62 @@ x
 
 See! Your computer remembers what you stored in your environment.
 
-Try the following:
+Try the following on your own in the console and then take a look at the answer:
 
 1.  Can you assign a new value to your variable `x`?
 
-2.  Can you perform math operations on a variable (e.g., `x*2`)?
+    ::: {.callout-tip collapse="true"}
+    ## Answer
+    Yes!
+    ```{r}
+    x = 3
+    x
+    ```
+    :::
+
+2.  Can you perform math operations on a variable (e.g., `x*5`)?
+
+    ::: {.callout-tip collapse="true"}
+    ## Answer
+    Yes!
+    ```{r}
+    x * 5
+    ```
+    :::
 
 3.  Can you create a new variable, `y`, and use it in math operations with `x` (e.g., `x * y`)?
 
-4.  Can you change the type of variable? What if, for example, I don't want `x = 1`, but I want `x` to be equal to the word `"apple"`?
+    ::: {.callout-tip collapse="true"}
+    ## Answer
+    Yes!
+    ```{r}
+    y = 2
+    x * y
+    ```
+    :::
+
+4.  Can you change the type of variable? What if, for example, I want `x` to be equal to the word `"apple"` instead?
+
+    ::: {.callout-tip collapse="true"}
+    ## Answer
+    Yes!  For letters and words, you just have to use quotation marks:
+    ```{r}
+    x = "apple"
+    x
+    ```
+    :::
 
 ## Calculations with Objects
 
-If you've made it this far, well done! Here's another thing you can try. Enter the following in the console:
+If you've made it this far in one sitting, well done! Here's another thing you can try. Enter the following in the console:
 
 ```{r}
 x <- c(1,2,3,4,5)
 ```
 
-You'll notice that we're using a different operator here. It's a less than symbol, `<`, followed by a dash, `-`. This is called an **assignment operator** and it has the same function as the equals sign, `=`. You can use either, but sticking with `<-` as your assignment operator of choice will make life easier later on.
+You'll notice that we're using a different operator here. It's a less than symbol, `<`, followed by a dash, `-`. This is called an **assignment operator** and it has the same function as the equals sign, `=`. You can use either, but sticking with `<-` when assigning values will make life easier later on.
 
-What happens when you press `Enter`? You have created a **vector**. Like other types of variables in `R`, a vector is an **object**. A vector holds a set of values of the same type. In this case, the object `x` contains a set of numbers: $\{1,2,3,4,5\}$.
+What happens when you press `Enter`? You have created a **vector**. Like other types of variables in `R`, a vector is an **object**. A vector holds a set of values of the same type. In this case, the vector `x` contains a set of numbers: $\{1,2,3,4,5\}$.
 
 We can do all sorts of things with vectors and other objects in `R`. We can, for example, find the sum of a vector.
 
@@ -122,21 +163,59 @@ We can do all sorts of things with vectors and other objects in `R`. We can, for
 sum(x)
 ```
 
-How did we get an output of 15? We summed up each of the elements of our vector `x`: $1+2+3+4+5 = 15$. We can also find the mean of a vector:
+How did we get an output of 15? We summed each of the elements of our vector `x`: $1+2+3+4+5 = 15$. We can also find the mean of a vector:
 
 ```{r}
 mean(x)
 ```
 
-And, we can perform other operations. Try the following:
+And, we can perform other operations on vectors too. Try each of the following questions on your own in the console and then click on the answer to check your work:
 
-1.  Can you find the median of the vector `x`?[^01-intro-1]
+1.  Can you find the median of a vector?
+
+    ::: {.callout-tip collapse="true"}
+    ## Answer
+
+    You can use `median()` instead of `mean()`!
+
+    ```{r}
+    median(x)
+    ```
+
+    Some functions are easy to guess, like `median()`, but others are false cognates just like in human languages (e.g., `mode()` won't get you what you might expect in `R` and asking for *pain* in English won't get you [bread](https://fr.wikipedia.org/wiki/Pain)). We'll talk more about functions and how to figure out what they do in the next chapter.
+    :::
 
 2.  What happens when you multiply a vector by a number?
 
-3.  Can you create a new vector which consists of only letters?
+    ::: {.callout-tip collapse="true"}
+    ## Answer
 
-[^01-intro-1]: Some functions are easy to guess, like `median()` , but others can be false cognates just like in a spoken language (e.g., `mode()` doesn't do what you might expect it to do). We'll talk more about functions and how to figure out what they do in the next chapter.
+    Each value in the vector is multiplied by that number!
+
+    ```{r}
+    x * 2
+    ```
+    :::
+
+3.  Can you create a new vector which consists only of letters? What about words?
+
+    ::: {.callout-tip collapse="true"}
+    ## Answer
+
+    Yes! Instead of using numbers, you can create a vector using letters enclosed in quotation marks.
+
+    ```{r}
+    y <- c('a', 'b', 'c')
+    y
+    ```
+
+    The same works for words:
+
+    ```{r}
+    y <- c('cat', 'dog', 'parakeet')
+    y
+    ```
+    :::
 
 ## Saving Your Work
 

@@ -256,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>This type of software program is known as an Integrated Development Environment (IDE)</li>
 </ul></li>
 </ol>
-<p>The truth is that you don’t necessarily need RStudio to program in <code>R</code>, but it certainly makes life easier. The difference between programming in <code>R</code> and programming in <code>R</code> using RStudio is akin to the difference between driving a Fiat Panda and driving a Porsche. Both will get you to the same place, but one is likely to be a more enjoyable experience. We will be using RStudio throughout the course as a result.</p>
+<p>Truth be told, you don’t really need RStudio to program in <code>R</code>, but it certainly makes life easier. The difference between programming in <code>R</code> and programming in <code>R</code> using RStudio might be akin to the difference between driving a Fiat Panda and driving a Ferrari. Both will get you to the same place, but one is more likely to be an enjoyable experience. We will be using RStudio throughout the rest of this journey as a result.</p>
 <section id="installing-r" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="installing-r"><span class="header-section-number">1.1</span> Installing <code>R</code></h2>
 <p>To install <code>R</code>, go to <a href="https://cran.irsn.fr/index.html" class="uri">https://cran.irsn.fr/index.html</a>, select the appropriate operating system, and follow the instructions. For example, if you have a Mac, you will click on “Download R for macOS,” followed by the “R-4.3.2-arm64.pkg” link beneath the “Latest release” header. If you have a PC running Windows, you will click on “Download R for Windows” followed by “install R for the first time” then “Download R-4.3.2 for Windows.”</p>
@@ -283,17 +283,17 @@ Caution
 <h2 data-number="1.2" class="anchored" data-anchor-id="installing-rstudio"><span class="header-section-number">1.2</span> Installing RStudio</h2>
 <p>Once you’ve installed <code>R</code>, go to <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a>.</p>
 <p>Posit (a company formerly known as RStudio) offers <strong>RStudio Desktop</strong> free of charge. Posit also offers a cloud-hosted version of the software (called Posit Cloud) which has both free and paid tiers. If you have trouble running RStudio Desktop on your computer, you may wish to consider using a Posit Cloud account, as described in the course syllabus.</p>
-<p>Step 1 is complete, you’ve already installed <code>R</code>. On the landing page linked above, you’ll find different versions of RStudio according to your computer’s operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer. Follow the on-screen steps to complete the set-up.</p>
+<p>When you’ve click on the link above, you’ll find that you are ahead of the game. Step 1 is complete, you’ve already installed <code>R</code>. Here you’ll find different versions of RStudio according to your computer’s operating system. Select the operating system that corresponds to your particular case (Windows, MacOS, or Linux), download the installer, and then run the installation file from your computer. Next, follow the on-screen steps to complete the set-up.</p>
 <p>If all goes well, your screen should look something like this once you have RStudio correctly installed and running:</p>
 <p><img src="images/RStudio clean install.png" class="img-fluid"></p>
-<p>If your screen looks like the image below, it means that you’ve accidentally opened RGui, a basic graphical user interface included with <code>R</code>, and not RStudio. We’re always going to be working with RStudio for this class, so close out of RGui and open RStudio instead.</p>
+<p>If your screen looks more like the image below, it means that you’ve accidentally opened RGui, a basic graphical user interface included with <code>R</code>, and not RStudio. We’re always going to be working with RStudio for this class, so close out of RGui and open RStudio instead.</p>
 <p><img src="images/Base R GUI.PNG" class="img-fluid"></p>
 </section>
 <section id="using-the-console" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="using-the-console"><span class="header-section-number">1.3</span> Using the Console</h2>
 <p>Now the fun begins. The RStudio window you’ve opened consists of a few different parts. The most important of these right now is the console <a href="https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html" title="An explanation of some of the different panes in RStudio.">pane</a> (highlighted with a black square below).</p>
 <p><img src="images/RStudio console box.png" class="img-fluid"></p>
-<p>The console allows you to interact with your computer using <code>R</code>. So, for example, if I want to use my computer as an over-sized calculator, I can type in the following <code>R</code> code in the console:</p>
+<p>The console allows you to interact with your computer using <code>R</code>. So, for example, if you want to use your computer as an over-sized calculator, you can type the following <code>R</code> code in the console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>What happens when you press <code>Enter</code> on your keyboard? You get something like this:</p>
 <div class="cell">
@@ -302,8 +302,15 @@ Caution
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
-<p>You’ve provided an <strong>input</strong>, <code>1+1</code>, and received an <strong>output</strong>, <code>2</code>. In other words, using the language of <code>R</code>, you’ve told your computer to add one plus one and your computer has correctly interpreted your command and <em>returned</em> (or output) an answer, two. When your computer does not know how to interpret a command, usually because you’ve made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer.</p>
-<p>One more note about outputs: the first number in brackets next to your output, <code>[1]</code>, indicates the number of the line of output. This is especially helpful when you are running code that generates multiple lines of output. We will see some examples of this later on.</p>
+<p>You’ve provided an <strong>input</strong>, <code>1+1</code>, and received an <strong>output</strong>, <code>2</code>. In other words, using the language of <code>R</code>, you’ve told your computer to add one plus one and your computer has correctly interpreted your command and <em>returned</em> (or output) an answer, two. When your computer does not know how to interpret a command, usually because you’ve made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer and one we will practice, often accidentally, throughout the course.</p>
+<p>One more note about outputs: the first number in brackets next to your output, <code>[1]</code>, indicates the index number of the output.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This is especially helpful when you are running code that generates multiple outputs. See below, for example, where we output a list of letters in the English alphabet (“T” is the 20th letter and our 20th output).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>LETTERS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S"
+[20] "T" "U" "V" "W" "X" "Y" "Z"</code></pre>
+</div>
+</div>
 <p>For now, try entering a few more inputs, such as:</p>
 <ol type="1">
 <li><p><code>10/3</code></p></li>
@@ -313,54 +320,221 @@ Caution
 <p>As you can see, <code>R</code> is able to handle basic math operations with ease. What about other operations? Can you work with variables in <code>R</code>, for example?</p>
 <p>Try typing this in the console:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What happens when you press <code>Enter</code>?</p>
 <p><img src="images/RStudio console_x1.png" class="img-fluid"></p>
-<p>You may have noticed that unlike before there is no output. But, that doesn’t mean nothing has happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the environment. You don’t receive an output, but RStudio reminds you of your new variable’s existence via the Environment pane in the top right.</p>
+<p>Unlike before, there is no output when you press <code>Enter</code>. But, that doesn’t mean nothing happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the <strong>environment</strong>. You don’t receive an output, but RStudio reminds you of your new variable’s existence via the Environment pane in the top right.</p>
 <p>We can recall the value we input into our variable, <code>x</code>, by entering the variable name in the console:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
 <p>See! Your computer remembers what you stored in your environment.</p>
-<p>Try the following:</p>
+<p>Try the following on your own in the console and then take a look at the answer:</p>
 <ol type="1">
-<li><p>Can you assign a new value to your variable <code>x</code>?</p></li>
-<li><p>Can you perform math operations on a variable (e.g., <code>x*2</code>)?</p></li>
-<li><p>Can you create a new variable, <code>y</code>, and use it in math operations with <code>x</code> (e.g., <code>x * y</code>)?</p></li>
-<li><p>Can you change the type of variable? What if, for example, I don’t want <code>x = 1</code>, but I want <code>x</code> to be equal to the word <code>"apple"</code>?</p></li>
-</ol>
-</section>
-<section id="calculations-with-objects" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="calculations-with-objects"><span class="header-section-number">1.4</span> Calculations with Objects</h2>
-<p>If you’ve made it this far, well done! Here’s another thing you can try. Enter the following in the console:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<li><p>Can you assign a new value to your variable <code>x</code>?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>You’ll notice that we’re using a different operator here. It’s a less than symbol, <code>&lt;</code>, followed by a dash, <code>-</code>. This is called an <strong>assignment operator</strong> and it has the same function as the equals sign, <code>=</code>. You can use either, but sticking with <code>&lt;-</code> as your assignment operator of choice will make life easier later on.</p>
-<p>What happens when you press <code>Enter</code>? You have created a <strong>vector</strong>. Like other types of variables in <code>R</code>, a vector is an <strong>object</strong>. A vector holds a set of values of the same type. In this case, the object <code>x</code> contains a set of numbers: <span class="math inline">\(\{1,2,3,4,5\}\)</span>.</p>
-<p>We can do all sorts of things with vectors and other objects in <code>R</code>. We can, for example, find the sum of a vector.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 15</code></pre>
+<div class="callout-title-container flex-fill">
+Answer
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<p>How did we get an output of 15? We summed up each of the elements of our vector <code>x</code>: <span class="math inline">\(1+2+3+4+5 = 15\)</span>. We can also find the mean of a vector:</p>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Yes!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
 </div>
-<p>And, we can perform other operations. Try the following:</p>
+</div>
+</div>
+</div></li>
+<li><p>Can you perform math operations on a variable (e.g., <code>x*5</code>)?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Yes!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div></li>
+<li><p>Can you create a new variable, <code>y</code>, and use it in math operations with <code>x</code> (e.g., <code>x * y</code>)?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Yes!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div></li>
+<li><p>Can you change the type of variable? What if, for example, I want <code>x</code> to be equal to the word <code>"apple"</code> instead?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Yes! For letters and words, you just have to use quotation marks:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="st">"apple"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "apple"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div></li>
+</ol>
+</section>
+<section id="calculations-with-objects" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="calculations-with-objects"><span class="header-section-number">1.4</span> Calculations with Objects</h2>
+<p>If you’ve made it this far in one sitting, well done! Here’s another thing you can try. Enter the following in the console:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You’ll notice that we’re using a different operator here. It’s a less than symbol, <code>&lt;</code>, followed by a dash, <code>-</code>. This is called an <strong>assignment operator</strong> and it has the same function as the equals sign, <code>=</code>. You can use either, but sticking with <code>&lt;-</code> when assigning values will make life easier later on.</p>
+<p>What happens when you press <code>Enter</code>? You have created a <strong>vector</strong>. Like other types of variables in <code>R</code>, a vector is an <strong>object</strong>. A vector holds a set of values of the same type. In this case, the vector <code>x</code> contains a set of numbers: <span class="math inline">\(\{1,2,3,4,5\}\)</span>.</p>
+<p>We can do all sorts of things with vectors and other objects in <code>R</code>. We can, for example, find the sum of a vector.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+</div>
+<p>How did we get an output of 15? We summed each of the elements of our vector <code>x</code>: <span class="math inline">\(1+2+3+4+5 = 15\)</span>. We can also find the mean of a vector:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>And, we can perform other operations on vectors too. Try each of the following questions on your own in the console and then click on the answer to check your work:</p>
 <ol type="1">
-<li><p>Can you find the median of the vector <code>x</code>?<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
-<li><p>What happens when you multiply a vector by a number?</p></li>
-<li><p>Can you create a new vector which consists of only letters?</p></li>
+<li><p>Can you find the median of a vector?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>You can use <code>median()</code> instead of <code>mean()</code>!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>Some functions are easy to guess, like <code>median()</code>, but others are false cognates just like in human languages (e.g., <code>mode()</code> won’t get you what you might expect in <code>R</code> and asking for <em>pain</em> in English won’t get you <a href="https://fr.wikipedia.org/wiki/Pain">bread</a>). We’ll talk more about functions and how to figure out what they do in the next chapter.</p>
+</div>
+</div>
+</div></li>
+<li><p>What happens when you multiply a vector by a number?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Each value in the vector is multiplied by that number!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  2  4  6  8 10</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div></li>
+<li><p>Can you create a new vector which consists only of letters? What about words?</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Yes! Instead of using numbers, you can create a vector using letters enclosed in quotation marks.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'c'</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "b" "c"</code></pre>
+</div>
+</div>
+<p>The same works for words:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'cat'</span>, <span class="st">'dog'</span>, <span class="st">'parakeet'</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "cat"      "dog"      "parakeet"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div></li>
 </ol>
 </section>
 <section id="saving-your-work" class="level2" data-number="1.5">
@@ -416,7 +590,7 @@ Caution
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Some functions are easy to guess, like <code>median()</code> , but others can be false cognates just like in a spoken language (e.g., <code>mode()</code> doesn’t do what you might expect it to do). We’ll talk more about functions and how to figure out what they do in the next chapter.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Unlike other programming languages, like Python, <code>R</code> does not use zero-indexing. This means that our first value in any data structure is always indexed as <code>1</code> .<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
