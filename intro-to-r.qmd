@@ -18,11 +18,13 @@ To install `R`, go to <https://cran.irsn.fr/index.html>, select the appropriate 
 
 In either case, your browser will start downloading an executable installation file which you will then need to run to install `R`.
 
-*CAUTION* - A couple of things you may need to watch out for:
+::: callout-caution
+A couple of things you may need to watch out for:
 
 -   If you are using an older laptop (\>10 years old), you may need to download a different version of `R` or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.
 
--   If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should be sufficient.
+-   If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should suffice.
+:::
 
 ## Installing RStudio
 

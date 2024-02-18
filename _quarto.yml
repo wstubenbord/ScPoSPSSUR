@@ -10,12 +10,14 @@ book:
     search: true
   chapters:
     - index.qmd
-    - 01-intro.qmd
-    - 02-working-with-data-in-r.qmd
-    - 03_homework-1.qmd
-    - 04-using-the-tidyverse.qmd
-    - 05_homework-2.qmd
-    - 13_appendix.qmd
+    - intro-to-r.qmd
+    - working-with-data-in-r.qmd
+    - summarizing-with-dplyr.qmd
+    - part: "Assignments"
+      chapters:
+      - homework-1.qmd
+      - homework-2.qmd
+    - part: "Appendix"
   downloads:
     - pdf
     - epub

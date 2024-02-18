@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02-working-with-data-in-r.html" rel="next">
+<link href="./working-with-data-in-r.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -110,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to `R`</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro-to-r.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to `R`</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -163,40 +163,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="./intro-to-r.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
+  <a href="./working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_homework-1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Homework 1</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./04-using-the-tidyverse.html" class="sidebar-item-text sidebar-link">
+  <a href="./summarizing-with-dplyr.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05_homework-2.html" class="sidebar-item-text sidebar-link">
+  <a href="./homework-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Homework 2</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./13_appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Appendix</span></a>
-  </div>
-</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Appendix</span></span>
+  </li>
     </ul>
     </div>
 </nav>
@@ -252,11 +261,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.1" class="anchored" data-anchor-id="installing-r"><span class="header-section-number">1.1</span> Installing <code>R</code></h2>
 <p>To install <code>R</code>, go to <a href="https://cran.irsn.fr/index.html" class="uri">https://cran.irsn.fr/index.html</a>, select the appropriate operating system, and follow the instructions. For example, if you have a Mac, you will click on “Download R for macOS,” followed by the “R-4.3.2-arm64.pkg” link beneath the “Latest release” header. If you have a PC running Windows, you will click on “Download R for Windows” followed by “install R for the first time” then “Download R-4.3.2 for Windows.”</p>
 <p>In either case, your browser will start downloading an executable installation file which you will then need to run to install <code>R</code>.</p>
-<p><em>CAUTION</em> - A couple of things you may need to watch out for:</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A couple of things you may need to watch out for:</p>
 <ul>
 <li><p>If you are using an older laptop (&gt;10 years old), you may need to download a different version of <code>R</code> or RStudio. If in doubt, read the instructions on the download page and refer to your operating system version to find the right version.</p></li>
-<li><p>If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should be sufficient.</p></li>
+<li><p>If you have very little hard drive space on your computer, you may need to clear some space before you install RStudio. The latest RStudio version requires 215 MB and you will likely need some additional space for other software and data we will be using in the course later on. Around 2 GB should suffice.</p></li>
 </ul>
+</div>
+</div>
 </section>
 <section id="installing-rstudio" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="installing-rstudio"><span class="header-section-number">1.2</span> Installing RStudio</h2>
@@ -640,7 +661,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02-working-with-data-in-r.html" class="pagination-link">
+      <a href="./working-with-data-in-r.html" class="pagination-link">
         <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
