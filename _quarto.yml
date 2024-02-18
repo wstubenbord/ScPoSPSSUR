@@ -1,0 +1,34 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Statistical Programming for the Social Sciences Using R"
+  author: "Wesley Stubenbord"
+  date: "2/18/2024"
+  sidebar:
+    search: true
+  chapters:
+    - index.qmd
+    - 01-intro.qmd
+    - 02-working-with-data-in-r.qmd
+    - 03_homework-1.qmd
+    - 04-using-the-tidyverse.qmd
+    - 05_homework-2.qmd
+    - 13_appendix.qmd
+  downloads:
+    - pdf
+    - epub
+  repo-url: https://github.com/wstubenbord/ScPoSPSSUR
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+  pdf:
+    documentclass: book
+  epub: default
+editor: visual
+

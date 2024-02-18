@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Wesley Stubenbord">
-<meta name="dcterms.date" content="2024-02-18">
 
-<title>Statistical Programming for the Social Sciences Using R</title>
+<title>Statistical Programming for the Social Sciences Using R - Homework 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-intro.html" rel="next">
+<link href="./04-using-the-tidyverse.html" rel="next">
+<link href="./02-working-with-data-in-r.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -63,6 +96,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -75,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_homework-1.html">Homework 1</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -122,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -140,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_homework-1.html" class="sidebar-item-text sidebar-link">
+  <a href="./03_homework-1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Homework 1</span></a>
   </div>
 </li>
@@ -168,42 +203,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
-  <ul class="collapse">
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
-  </ul></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Statistical Programming for the Social Sciences Using R</h1>
+<h1 class="title">Homework 1</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Wesley Stubenbord </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 18, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -211,23 +225,36 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>Welcome! This is the companion website for <em>Statistical Programming for the Social Sciences Using R</em>, taught at the Sciences Po Reims campus in the Spring 2024 term. The course is a broad introduction to the general programming skills required for data analysis in the social sciences.</p>
-<p>This online textbook contains the relevant tutorials for each week’s lesson as well as other resources that you may find helpful throughout the course. The syllabus, slides, assignment submission portals, and other files can be found on the <a href="https://moodle.sciences-po.fr/course/view.php?id=40782">course Moodle site</a>.</p>
-<section id="resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="resources">Resources</h2>
-<p>There are a variety of <code>R</code> resources out there, many of which have been useful in developing this course.</p>
-<p>If you would like to dig deeper into a topic or simply want to read other explanations of the concepts discussed in this course, here is a list of helpful resources:</p>
-<ul>
-<li><strong><em>R for Data Science, 2e</em></strong> by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund (<a href="https://r4ds.hadley.nz/">link</a>): A free introductory textbook on how to use the many features of <code>R</code> to make sense of data, co-authored by the creator of the tidyverse package.</li>
-<li><strong><em>Data Visualization</em></strong> by Kieran Healy (<a href="https://socviz.co/">link to companion site</a>): An introductory textbook on how to make practical and beautiful data visualizations in <code>R</code>. Healy has a distinctive and appealing visual style. He also happens to be an accomplished sociologist, known especially for his <a href="https://kieranhealy.org/files/papers/fuck-nuance.pdf">disdain of nuanced theory</a> and his <a href="https://kieranhealy.org/publications/">broader contributions</a> to the study of morals and markets. His examples deal with topics especially relevant to the social sciences as a result.</li>
-<li><strong><em>Introduction to Econometrics with R</em></strong> by Florian Oswald and colleagues at Sciences Po (<a href="https://scpoecon.github.io/ScPoEconometrics/index.html">companion textbook</a> and <a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides">slides</a>): you may very well be taking this course because you couldn’t get into this other course. For this, I am both sorry, because you are missing out, and not sorry, because it keeps me gainfully employed and gives me an excuse to write this textbook. Fortunately for you, the course developed by Professor Oswald and colleagues is freely-available online. If you’d like to see material which is more heavily-weighted towards applied statistical methods (especially applied economics) rather than general data analysis skills, take a look at their extremely well put together course. You may very well rue the day you woke up late for course sign-ups.</li>
-</ul>
+<p><strong>Due Date:</strong> Tuesday, 13 February by 23:59:59</p>
+<p><strong>Submission Instructions:</strong> Submit your completed R script file to Moodle.</p>
+<p>This homework will be relatively short and straight-forward. The goal is to ease you into <code>R</code> now so that you are ready to complete some of the more complex data analysis that will take place later.</p>
+<p><strong>Question #1:</strong></p>
+<p>Create an <code>R</code> script and save it with an appropriate name. Add a header to your R script file in the format below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Name: [first_name] [last_name]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Date: [date]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Description: [brief description of the file] </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Question 2:</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Question #2:</strong></p>
+<p>In your <code>R</code> script file, load the <code>tidyverse</code> package. Show the code used.</p>
+<p><strong>Question #3:</strong></p>
+<p>Create a vector with the following set of numbers: <span class="math inline">\({30, 60, 90, 120, 150}\)</span>. Perform the following operations, showing the code used for each.</p>
+<p><strong>Part A:</strong> Multiply the vector by 2. In a brief comment, tell me what the result was.</p>
+<p><strong>Part B:</strong> Take the vector and divide it by 3. Tell me what the result was in a brief comment.</p>
+<p><strong>Part C:</strong> Multiply the vector by itself. Tell me what the result was in a brief comment.</p>
+<p><strong>Part D:</strong> Return the third element of the vector.</p>
+<p><strong>Part E:</strong> Replace the second element of the vector with a missing value (<code>NA</code>).</p>
+<p><strong>Part F:</strong> Sum the vector, excluding the missing value. In a comment, write the answer.</p>
+<p><strong>Question #4:</strong></p>
+<p>Using the <code>socviz</code> package (see section 2.3 of the course textbook), load the <code>election</code> dataset into a new object called <code>elec</code>. Complete the following tasks, showing the code used for each.</p>
+<p><strong>Part A:</strong> Find the total popular vote received by Gary Johnson using the <code>johnson_vote</code> variable.</p>
+<p><strong>Part B:</strong> Find the total popular vote received by ‘Other’ candidates using the <code>other_vote</code> variable.</p>
+<p><strong>Part C:</strong> In a comment answer the following question: who received more votes, Gary Johnson or “other” candidates? By how much?</p>
+<p><strong>Part D:</strong> Use the <code>sum()</code> function on the <code>state</code> variable. In a brief comment, explain why this didn’t work and what the error message is telling you.</p>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -465,10 +492,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./02-working-with-data-in-r.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-intro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04-using-the-tidyverse.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

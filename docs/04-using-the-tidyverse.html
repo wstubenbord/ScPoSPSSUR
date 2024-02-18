@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Programming for the Social Sciences Using R - 3&nbsp; Summarizing Data with dplyr</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05_homework-2.html" rel="next">
+<link href="./03_homework-1.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-using-the-tidyverse.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with `dplyr`</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Programming for the Social Sciences Using R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/wstubenbord/ScPoSPSSUR" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_homework-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-using-the-tidyverse.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_homework-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13_appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#basic-description-with-base-r" id="toc-basic-description-with-base-r" class="nav-link active" data-scroll-target="#basic-description-with-base-r"><span class="header-section-number">3.1</span> Basic Description with Base <code>R</code></a></li>
+  <li><a href="#the-pipe-operator" id="toc-the-pipe-operator" class="nav-link" data-scroll-target="#the-pipe-operator"><span class="header-section-number">3.2</span> The Pipe Operator</a></li>
+  <li><a href="#functions-from-dplyr" id="toc-functions-from-dplyr" class="nav-link" data-scroll-target="#functions-from-dplyr"><span class="header-section-number">3.3</span> Functions from <code>dplyr</code></a></li>
+  <li><a href="#glimpsing-gss-data" id="toc-glimpsing-gss-data" class="nav-link" data-scroll-target="#glimpsing-gss-data"><span class="header-section-number">3.4</span> Glimpsing GSS Data</a></li>
+  <li><a href="#selecting-columns" id="toc-selecting-columns" class="nav-link" data-scroll-target="#selecting-columns"><span class="header-section-number">3.5</span> Selecting Columns</a></li>
+  <li><a href="#grouping-and-summarizing" id="toc-grouping-and-summarizing" class="nav-link" data-scroll-target="#grouping-and-summarizing"><span class="header-section-number">3.6</span> Grouping and Summarizing</a>
+  <ul class="collapse">
+  <li><a href="#grouping-by-two-variables" id="toc-grouping-by-two-variables" class="nav-link" data-scroll-target="#grouping-by-two-variables"><span class="header-section-number">3.6.1</span> Grouping by Two Variables</a></li>
+  <li><a href="#the-order-of-group-arguments" id="toc-the-order-of-group-arguments" class="nav-link" data-scroll-target="#the-order-of-group-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group()</code> arguments</a></li>
+  </ul></li>
+  <li><a href="#calculating-with-mutate" id="toc-calculating-with-mutate" class="nav-link" data-scroll-target="#calculating-with-mutate"><span class="header-section-number">3.7</span> Calculating with <code>mutate()</code></a></li>
+  <li><a href="#how-r-reads-functions" id="toc-how-r-reads-functions" class="nav-link" data-scroll-target="#how-r-reads-functions"><span class="header-section-number">3.8</span> How <code>R</code> Reads Functions</a></li>
+  <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering"><span class="header-section-number">3.9</span> Filtering</a></li>
+  <li><a href="#conditional-filtering" id="toc-conditional-filtering" class="nav-link" data-scroll-target="#conditional-filtering"><span class="header-section-number">3.10</span> Conditional Filtering</a>
+  <ul class="collapse">
+  <li><a href="#the-in-operator" id="toc-the-in-operator" class="nav-link" data-scroll-target="#the-in-operator"><span class="header-section-number">3.10.1</span> The <code>%in%</code> Operator</a></li>
+  </ul></li>
+  <li><a href="#fancy-tables-with-kable" id="toc-fancy-tables-with-kable" class="nav-link" data-scroll-target="#fancy-tables-with-kable"><span class="header-section-number">3.11</span> Fancy Tables with <code>kable()</code></a></li>
+  <li><a href="#another-example" id="toc-another-example" class="nav-link" data-scroll-target="#another-example"><span class="header-section-number">3.12</span> Another Example</a></li>
+  <li><a href="#practice-exploring-data" id="toc-practice-exploring-data" class="nav-link" data-scroll-target="#practice-exploring-data"><span class="header-section-number">3.13</span> Practice Exploring Data</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>In the previous chapter, you learned how to load data from a package, how to access a column from a tibble using the subset operator <code>$</code>, and how to use basic functions to answer questions like: what was the total number of votes cast in the 2016 U.S. presidential election?</p>
+<p>We’ve had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven’t really required us to poke around in our data to find the answers we are interested in. This brings us to <em>data wrangling</em> - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.</p>
+<p>For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, <code>dplyr</code> and the <strong>pipe operator</strong>. In future lessons, our luck will run out and we will be confronted with the harsh reality of unseemly data.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<section id="basic-description-with-base-r" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="basic-description-with-base-r"><span class="header-section-number">3.1</span> Basic Description with Base <code>R</code></h2>
+<p>Let’s use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the <code>socviz</code> package, a helpful collection of data sets and other goodies developed by Kieran Healy.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>We’ll use another data set from the same package in a moment, but, for now, let’s return to the <code>election</code> data. We’re also going to re-load our new best friend, the <em>tidyverse</em> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(socviz)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p>Libraries loaded. Remember, once you have the packages installed, you don’t need to do it again. So, don’t include <code>install.packages()</code> in your scripts going forward.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>We’ll load the data into an object in our environment. This time, we’ll use a slightly shorter name for the tibble to spare ourselves some future misery. A longer name means more to retype later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>elec_2016 <span class="ot">&lt;-</span> election</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Just like last time, we can do basic calculations on columns using the subset operator and column name. Let’s add a few new functions to our repertoire for good measure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># table() gives a contingency table for character variables.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here's the number of states (plus D.C.) won by each candidate.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(elec_2016<span class="sc">$</span>winner)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Clinton   Trump 
+     21      30 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrapping prop.table() around a contingency table gives relative frequencies.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># i.e., Hillary Clinton won 41.2% (21/51) of states (plus Washington D.C.).</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(elec_2016<span class="sc">$</span>winner))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  Clinton     Trump 
+0.4117647 0.5882353 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary() gives us a nice 5-number summary for numeric variables.</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we see the min, max, median, mean, and quartiles for the pop. vote margin.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(elec_2016<span class="sc">$</span>vote_margin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   2736   96382  212030  383997  522207 4269978 </code></pre>
+</div>
+</div>
+<p>But, what if we want to do something more specific?</p>
+<p>What if we really want to know how much of the popular vote third-party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from <code>dplyr</code> and the pipe operator.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An illustrative example - no need to try this yet</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>elec_2016 <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(census) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">sum</span>(johnson_vote))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  census      total
+  &lt;chr&gt;       &lt;dbl&gt;
+1 Midwest   1203062
+2 Northeast  676192
+3 South     1370056
+4 West      1239925</code></pre>
+</div>
+</div>
+<p>We’ll learn how to create frequency tables like this and more in a moment.</p>
+</section>
+<section id="the-pipe-operator" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="the-pipe-operator"><span class="header-section-number">3.2</span> The Pipe Operator</h2>
+<p><img src="images/ceci_pipe.png" class="img-fluid"></p>
+<p>The <strong>pipe operator</strong> is a handy tool indeed. It is a specialized operator that comes from the <code>magrittr</code> package, which itself is contained in the tidyverse.</p>
+<p>It looks like this: <code>%&gt;%</code>. But, it can also look like this: <code>|&gt;</code>.</p>
+<p>There isn’t much of a difference between the two, so you can use whichever you prefer as long as you are consistent.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>The pipe operator has a straightforward function: it allows you to combine a series of steps into a single command. And, it does this in a way that makes your code legible. Whenever you see the pipe operator, you should read it as though it is saying, “And then [do this].”</p>
+<p>So in the previous example provided, you might read it as:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>elec_2016 <span class="sc">%&gt;%</span>                            <span class="co"># Take the election data AND THEN</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(census) <span class="sc">%&gt;%</span>                   <span class="co"># group it by census region AND THEN</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">sum</span>(johnson_vote))   <span class="co"># sum up the Johnson vote.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note a couple of things here:</p>
+<ol type="1">
+<li><p>The pipe operator always goes at the end of each line, followed by a new line</p></li>
+<li><p>The pipe operator never goes at the end of the command</p></li>
+</ol>
+<p>The first is a convention to make the code more readable and the second is a requirement. If you leave a pipe operator at the end of your statement, <code>R</code> will search for the missing code and then give you an unfriendly error when you try to run more code. Don’t leave a pipe operator hanging.</p>
+</section>
+<section id="functions-from-dplyr" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="functions-from-dplyr"><span class="header-section-number">3.3</span> Functions from <code>dplyr</code></h2>
+<p><code>dplyr</code> (pronounced dee-ply-R) is a set of tools for working with tabular data. It’s one of the packages in tidyverse (along with <code>ggplot2</code>, <code>tidyr</code>, <code>tibble</code>, <code>readr</code>, and a few others), so you don’t have to load it separately.</p>
+<p><code>dplyr</code> has a handful of special functions:</p>
+<ul>
+<li><p><code>group_by()</code>, which groups data together at some desired level (e.g., states by census region)</p></li>
+<li><p><code>filter()</code>, which gives us the rows corresponding to the criteria entered as an argument</p></li>
+<li><p><code>select()</code>, which selects columns from the original data</p></li>
+<li><p><code>summarize()</code> or <code>summarise()</code>, which performs calculations<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p></li>
+<li><p><code>mutate()</code>, which creates new columns (or variables)</p></li>
+<li><p><code>arrange()</code>, which sorts the row order by column values</p></li>
+</ul>
+</section>
+<section id="glimpsing-gss-data" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="glimpsing-gss-data"><span class="header-section-number">3.4</span> Glimpsing GSS Data</h2>
+<p>Let’s load another data set from <code>socviz</code>. This one is called <code>gss_sm</code> and contains a nice, clean extract from the 2016 General Social Survey.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>gss <span class="ot">&lt;-</span> gss_sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <a href="https://gss.norc.org/">General Social Survey</a> is a nationally representative biennial survey of U.S. adults on sociological topics produced by the National Opinion Research Center (NORC) at the University of Chicago since 1972.</p>
+<p>Take a quick look at the data. You can use <code>glimpse()</code>, another <code>dplyr</code> function, to get a sense of what’s inside and you can inspect it visually using <code>view()</code>. Typing in <code>?gss_sm</code> (the original name of the data set from the package) will tell you what variables the data contains.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(gss)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There’s a wealth of data in here. You may have also noticed that the data here is at the <em>individual-level</em>. Each row represents an individual respondent (identified by the <code>id</code> variable) and each column consists of a variable (in this case, a coded response to a survey question).</p>
+<p>If we click on our data in the environment pane, we can see that the first data row corresponds to respondent #1 who is 47 years old and has 3 children:</p>
+<p><img src="images/GSS_Respondent-1.png" class="img-fluid"></p>
+</section>
+<section id="selecting-columns" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="selecting-columns"><span class="header-section-number">3.5</span> Selecting Columns</h2>
+<p>There are a lot of variables, 32 of them, in fact. Maybe we want to narrow in and look at just a few of them, like: <code>id</code>, <code>sex</code>, and <code>religion</code>. We can use the <code>select()</code> function to do this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span>                             <span class="co"># Take the GSS data AND THEN</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, sex, religion)         <span class="co"># take just the ID, sex, and religion columns.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,867 × 3
+      id sex    religion  
+   &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;     
+ 1     1 Male   None      
+ 2     2 Male   None      
+ 3     3 Male   Catholic  
+ 4     4 Female Catholic  
+ 5     5 Female None      
+ 6     6 Female None      
+ 7     7 Male   None      
+ 8     8 Female Catholic  
+ 9     9 Male   Protestant
+10    10 Male   None      
+# ℹ 2,857 more rows</code></pre>
+</div>
+</div>
+<p>In the code above, we told <code>R</code> that we wanted to take the GSS data and then only the <code>id</code>, <code>sex</code>, and <code>religion</code> variables. The select function output a new tibble containing only those three variables that were entered as arguments. The number of rows or observations, 2,867, is the same as in the original data.</p>
+<p>We can now save a copy of this new tibble by assigning it to a new object. Let’s call this new object <code>gender_relig</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gender_relig <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, sex, religion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we have a new object containing our new tibble. If you inspect this new tibble and then decide that you don’t need or want it anymore, you can always get rid of it using the <code>rm()</code> function.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(gender_relig)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gender_relig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="grouping-and-summarizing" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="grouping-and-summarizing"><span class="header-section-number">3.6</span> Grouping and Summarizing</h2>
+<p>Let’s say we want to get a table which shows the number of respondents by religious affiliation. There are other ways of doing this, but we’re going to use <code>dplyr</code> and the pipe operator.</p>
+<p>To do this, we first have to tell <code>R</code> how we would like to group the data. Grouping doesn’t visibly change the data, but it prepares <code>R</code> to interpret our next commands according to the groups we specify. We’re going to group by the <code>religion</code> variable which contains the respondent’s religious affiliation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,867 × 32
+# Groups:   religion [6]
+    year    id ballot       age childs sibs   degree race  sex   region income16
+   &lt;dbl&gt; &lt;dbl&gt; &lt;labelled&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;labe&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;  &lt;fct&gt;   
+ 1  2016     1 1             47      3 2      Bache… White Male  New E… $170000…
+ 2  2016     2 2             61      0 3      High … White Male  New E… $50000 …
+ 3  2016     3 3             72      2 3      Bache… White Male  New E… $75000 …
+ 4  2016     4 1             43      4 3      High … White Fema… New E… $170000…
+ 5  2016     5 3             55      2 2      Gradu… White Fema… New E… $170000…
+ 6  2016     6 2             53      2 2      Junio… White Fema… New E… $60000 …
+ 7  2016     7 1             50      2 2      High … White Male  New E… $170000…
+ 8  2016     8 3             23      3 6      High … Other Fema… Middl… $30000 …
+ 9  2016     9 1             45      3 5      High … Black Male  Middl… $60000 …
+10  2016    10 3             71      4 1      Junio… White Male  Middl… $60000 …
+# ℹ 2,857 more rows
+# ℹ 21 more variables: relig &lt;fct&gt;, marital &lt;fct&gt;, padeg &lt;fct&gt;, madeg &lt;fct&gt;,
+#   partyid &lt;fct&gt;, polviews &lt;fct&gt;, happy &lt;fct&gt;, partners &lt;fct&gt;, grass &lt;fct&gt;,
+#   zodiac &lt;fct&gt;, pres12 &lt;labelled&gt;, wtssall &lt;dbl&gt;, income_rc &lt;fct&gt;,
+#   agegrp &lt;fct&gt;, ageq &lt;fct&gt;, siblings &lt;fct&gt;, kids &lt;fct&gt;, religion &lt;fct&gt;,
+#   bigregion &lt;fct&gt;, partners_rc &lt;fct&gt;, obama &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>As you can see, our data doesn’t appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do actually get a helpful note at the top our output that says, <code>Groups: religion[6]</code>. Our observations have been successfully grouped according to the six religious affiliations in our data.</p>
+<p>Next, we have to add another line to our pipe function which specifies how we want to <code>summarize()</code> the groups. We want it to count up our rows, so we’ll use the <code>n()</code> function. The <code>n()</code> function just counts the number of rows in a data frame.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> We have to tell <code>summarize()</code> where we want to store these values, so we’ll put them in a new variable called <code>total</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span>      <span class="co"># Group by religion</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())      <span class="co"># Create a total by counting the rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  religion   total
+  &lt;fct&gt;      &lt;int&gt;
+1 Protestant  1371
+2 Catholic     649
+3 Jewish        51
+4 None         619
+5 Other        159
+6 &lt;NA&gt;          18</code></pre>
+</div>
+</div>
+<p>As you can see, we provided <code>summarize()</code> with a new column name, <code>total</code>, and a measurement, <code>n()</code>. Now, we have the total number of respondents for each group (religious affiliation). The pipe operator allowed us to combine the <code>group()</code> and <code>summarize()</code> functions together in sequence so that we got the analysis we wanted..</p>
+<p>If we want, we can save a copy of our new tibble in another object, as in the command below. The original data object in our environment (i.e.., <code>gss</code>) will always be untouched unless we intentionally re-write it (i.e., <code>gss &lt;- gss %&gt;% ...</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>relig <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Another quick example. Let’s say we want to see the count of our 2016 GSS respondents by sex:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  sex    total
+  &lt;fct&gt;  &lt;int&gt;
+1 Male    1276
+2 Female  1591</code></pre>
+</div>
+</div>
+<p>In this example, we took the GSS data <em>and then</em> grouped it by <code>sex</code> <em>and then</em> summarized it by creating a <code>total</code> which contains a count of the number of rows.</p>
+<p>In this case, because we have tidy data (more on this in future lessons), the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.</p>
+<section id="grouping-by-two-variables" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="grouping-by-two-variables"><span class="header-section-number">3.6.1</span> Grouping by Two Variables</h3>
+<p>We can also create the equivalent of what is called a two-way contingency table by grouping with two variables at the same time. We can use this to find religious affiliation by sex, for example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'religion'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 3
+# Groups:   religion [6]
+   religion   sex    total
+   &lt;fct&gt;      &lt;fct&gt;  &lt;int&gt;
+ 1 Protestant Male     559
+ 2 Protestant Female   812
+ 3 Catholic   Male     287
+ 4 Catholic   Female   362
+ 5 Jewish     Male      22
+ 6 Jewish     Female    29
+ 7 None       Male     339
+ 8 None       Female   280
+ 9 Other      Male      58
+10 Other      Female   101
+11 &lt;NA&gt;       Male      11
+12 &lt;NA&gt;       Female     7</code></pre>
+</div>
+</div>
+<p>In the table above, we can now identify the number of protestants who are male and the number of protestants who are female.</p>
+</section>
+<section id="the-order-of-group-arguments" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="the-order-of-group-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group()</code> arguments</h3>
+<p>It is worth noting that the ordering of groups as arguments in the <code>group()</code> function sometimes matters (i.e., <code>group_by(religion, sex)</code> as opposed to <code>group_by(sex, religion)</code>.</p>
+<p>Because religion came first in our argument order, our results show us the number of protestants who are male and the number of protestants who are female. But we could have very easily shown the number of males who are protestant and the number of females who are protestant.</p>
+<p>For a count, it does not matter. The number of protestants who are male is the same as the number of males who are protestant. But, when we start looking at relative frequencies and percentages, the order does matter. You’ll get a sense for this in a moment.</p>
+</section>
+</section>
+<section id="calculating-with-mutate" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="calculating-with-mutate"><span class="header-section-number">3.7</span> Calculating with <code>mutate()</code></h2>
+<p>Is there an equivalent proportion of males and females among protestants in the GSS? Let’s add a relative frequency column to find out.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'religion'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 5
+# Groups:   religion [6]
+   religion   sex    total  freq   pct
+   &lt;fct&gt;      &lt;fct&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 Protestant Male     559 0.408  40.8
+ 2 Protestant Female   812 0.592  59.2
+ 3 Catholic   Male     287 0.442  44.2
+ 4 Catholic   Female   362 0.558  55.8
+ 5 Jewish     Male      22 0.431  43.1
+ 6 Jewish     Female    29 0.569  56.9
+ 7 None       Male     339 0.548  54.8
+ 8 None       Female   280 0.452  45.2
+ 9 Other      Male      58 0.365  36.5
+10 Other      Female   101 0.635  63.5
+11 &lt;NA&gt;       Male      11 0.611  61.1
+12 &lt;NA&gt;       Female     7 0.389  38.9</code></pre>
+</div>
+</div>
+<p>Notice, we used the same code as before here, but now we’ve added another step, a <code>mutate()</code> function to create two new columns, <code>freq</code> (relative frequency) and <code>pct</code> (percentage).</p>
+<p>We previously calculated the <code>total</code> or the number of observations for each sub-group (e.g., protestants who are males, protestants who are females, etc.). The <code>mutate()</code> function takes the <code>total</code> we calculated in the previous step and uses it to calculate first the relative frequency and then the percentage for each sub-group.</p>
+<p>To calculate the relative frequency, we used <code>freq = total / sum(total)</code> or in plain English “create a new value called <code>freq</code> and then calculate this value by taking the number of observations for each sub-group (<code>total</code>) and then dividing it by the sum of the totals for all sub-groups (<code>sum(total)</code>).”</p>
+<p>For the religious group protestant, we have two sub-groups, male and female, and so the frequency for males protestants is calculated as <code>559 / (559 + 812)</code>, which equals <code>0.408</code> , or exactly what you see in the first row in the frequency column in our new tibble. Similarly, the frequency for female protestants would be <code>812 / (559 + 812)</code> or <code>0.592</code> or what you see in the frequency column in the second row of our new tibble.</p>
+<p>What about the percentage or <code>pct</code>? In the second argument of our <code>mutate()</code> function, we told <code>R</code> to take the <code>freq</code> we calculated in the previous step, multiply it by 100 (to make it a percentage), and then round it to the first decimal place using the <code>round()</code> function. <code>0.408</code>, the relative frequency of male protestants, therefore becomes 40.8%.</p>
+<p>As you can see, calculating relative frequencies and percentages using <code>dplyr</code> and the pipe function can be a bit of a beast. The good news is that the general form is always the same and so you’ll be able to re-use the code often.</p>
+</section>
+<section id="how-r-reads-functions" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="how-r-reads-functions"><span class="header-section-number">3.8</span> How <code>R</code> Reads Functions</h2>
+<p>In the previous examples, you may have noticed a bunch of <em>nested functions</em>, which is when a function is used as an argument inside another functions, e.g., <code>summarize(total = n())</code>. It’s worth pausing for a moment to think about how <code>R</code> reads code, since you will be using these types of constructions quite often.</p>
+<p>Functions are always read inside out, so a nested function will always evaluate the inner-most function first. Pipe operations, on the other hand, are always read from left-to-right or top-to-bottom (if you’re breaking up your code using new lines, as you should be). The two commands below evaluate in the same way, but <code>R</code> reads them in a slightly different ordering.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inside-out evaluation</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))               <span class="co"># A vector, {1,2,3} is created first AND THEN summed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Left-to-right/top-to-bottom (sequential) evaluation</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>) <span class="sc">%&gt;%</span>                <span class="co"># A vector is created AND THEN</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>()                     <span class="co"># it is summed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+</section>
+<section id="filtering" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="filtering"><span class="header-section-number">3.9</span> Filtering</h2>
+<p>Back to the data. What if we only wanted to see the protestant results for our previous examples? We can use a <code>filter()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(religion <span class="sc">==</span> <span class="st">"Protestant"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'religion'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+# Groups:   religion [1]
+  religion   sex    total  freq   pct
+  &lt;fct&gt;      &lt;fct&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Protestant Male     559 0.408  40.8
+2 Protestant Female   812 0.592  59.2</code></pre>
+</div>
+</div>
+<p>In a filter function, you use logical and comparison operators (see the slides from Session 3 if you’d like a refresher) to define the criteria for your new tibble. In this case, we want only the observations for which the <code>religion</code> variable is equal to “Protestant”.</p>
+<p><code>R</code> is case-sensitive and so if the values in your data are “protestant”, for example, you won’t see those results in the tibble output here.</p>
+<p>Here’s another example using <code>filter()</code>. Usually, you will want to use the <code>filter()</code> function at the beginning of your query. This time, I’m only interested in religious affiliation among holders of graduate degrees.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">'Graduate'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  religion   total    freq   pct
+  &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
+1 Protestant   126 0.396    39.6
+2 Catholic      63 0.198    19.8
+3 Jewish        15 0.0472    4.7
+4 None          82 0.258    25.8
+5 Other         31 0.0975    9.7
+6 &lt;NA&gt;           1 0.00314   0.3</code></pre>
+</div>
+</div>
+<p>Now, we see that 39.6% of graduate-degree holding respondents were protestant and 25.8% had no religious affiliation. Later on, we’ll learn how to turn this sort of thing into a nice graph.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What happens if I use a lower-case 'g' in 'Graduate' instead?</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">'graduate'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 4
+# ℹ 4 variables: religion &lt;fct&gt;, total &lt;int&gt;, freq &lt;dbl&gt;, pct &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="conditional-filtering" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="conditional-filtering"><span class="header-section-number">3.10</span> Conditional Filtering</h2>
+<p>What if we want to filter our respondents for multiple degree types? We want to see in our table of religious affiliation, for example, only people who have a bachelor’s degree <strong>or</strong> a graduate degree.</p>
+<p>For these types of queries, we can use other logical operators in our <code>filter()</code> criteria. Here, specifically, we’ll use <code>|</code> which stands for ‘<strong>or</strong>’.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">'Graduate'</span> <span class="sc">|</span> degree <span class="sc">==</span> <span class="st">'Bachelor'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  religion   total    freq   pct
+  &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
+1 Protestant   367 0.430    43  
+2 Catholic     193 0.226    22.6
+3 Jewish        27 0.0316    3.2
+4 None         204 0.239    23.9
+5 Other         59 0.0691    6.9
+6 &lt;NA&gt;           4 0.00468   0.5</code></pre>
+</div>
+</div>
+<p>Now our results include only college graduates and graduate degree holders. If we want to see them broken out separately after we have filtered, all we need to do is change <code>group_by(religion)</code> to <code>group_by(religion, degree)</code>.</p>
+<p>What if we want to filter our observations for all individuals with less than a bachelor’s degree? We can create a vector with our specific criteria and then use it in our filter argument. Look at this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>filter_criteria <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Lt High School'</span>, <span class="st">'High School'</span>, <span class="st">'Junior College'</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">%in%</span> filter_criteria) <span class="sc">%&gt;%</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, degree) <span class="sc">%&gt;%</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'religion'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 17 × 5
+# Groups:   religion [6]
+   religion   degree         total   freq   pct
+   &lt;fct&gt;      &lt;fct&gt;          &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+ 1 Protestant Lt High School   155 0.155   15.5
+ 2 Protestant High School      742 0.740   74  
+ 3 Protestant Junior College   106 0.106   10.6
+ 4 Catholic   Lt High School   100 0.220   22  
+ 5 Catholic   High School      322 0.708   70.8
+ 6 Catholic   Junior College    33 0.0725   7.3
+ 7 Jewish     Lt High School     1 0.0417   4.2
+ 8 Jewish     High School       17 0.708   70.8
+ 9 Jewish     Junior College     6 0.25    25  
+10 None       Lt High School    62 0.150   15  
+11 None       High School      298 0.722   72.2
+12 None       Junior College    53 0.128   12.8
+13 Other      Lt High School    10 0.1     10  
+14 Other      High School       73 0.73    73  
+15 Other      Junior College    17 0.17    17  
+16 &lt;NA&gt;       High School        9 0.9     90  
+17 &lt;NA&gt;       Junior College     1 0.1     10  </code></pre>
+</div>
+</div>
+<p>We’ve first created a vector, called <code>filter_criteria</code>, with all of the degree-levels we want to include in our data (we’ve left out ‘Graduate’ and ‘Bachelor’). Then, we’ve changed the filter criteria to say, “Take all respondents who have a degree listed in our vector, <code>filter_criteria</code>.” In code, we write this as: <code>filter(degree %in% filter_criteria)</code>.</p>
+<section id="the-in-operator" class="level3" data-number="3.10.1">
+<h3 data-number="3.10.1" class="anchored" data-anchor-id="the-in-operator"><span class="header-section-number">3.10.1</span> The <code>%in%</code> Operator</h3>
+<p><code>%in%</code> is a special logical operator that checks to see whether the values you are specifying are contained in an object. If the value is contained in the object, your computer will return <code>TRUE</code> and if not, it will return <code>FALSE</code>. This is especially useful for <code>filter()</code> since <code>filter()</code> selects rows based on whether they meet a criteria (<code>TRUE</code>) or not (<code>FALSE</code>).</p>
+<p>Here’s a simple example of how this operator works in general:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="fancy-tables-with-kable" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="fancy-tables-with-kable"><span class="header-section-number">3.11</span> Fancy Tables with <code>kable()</code></h2>
+<p>If we want to make a summary table look a little bit nicer, we can add the <code>knitr::kable()</code> function to the end of our query to produce a more polished looking table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">'Graduate'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> total <span class="sc">/</span> <span class="fu">sum</span>(total),</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">religion</th>
+<th style="text-align: right;">total</th>
+<th style="text-align: right;">freq</th>
+<th style="text-align: right;">pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Protestant</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">0.3962264</td>
+<td style="text-align: right;">39.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Catholic</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">0.1981132</td>
+<td style="text-align: right;">19.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jewish</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0.0471698</td>
+<td style="text-align: right;">4.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">None</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">0.2578616</td>
+<td style="text-align: right;">25.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">0.0974843</td>
+<td style="text-align: right;">9.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0031447</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The <code>::</code> operator here tells <code>R</code> to pull the <code>kable()</code> function from the <code>knitr</code> package (which is located in the tidyverse). This is useful when there are multiple functions with the same name in different packages.</p>
+<p>You can also add additional code to your <code>kable()</code> function to customize the look of your table (see <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">here</a> for examples).</p>
+</section>
+<section id="another-example" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="another-example"><span class="header-section-number">3.12</span> Another Example</h2>
+<p>What if we want to do something crazy like find all survey respondents who are protestant or catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we’d like to know their breakdown by relative frequency across regions of the U.S.</p>
+<p>Here’s a brief example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(religion <span class="sc">==</span> <span class="st">"Protestant"</span> <span class="sc">|</span> religion <span class="sc">==</span> <span class="st">"Catholic"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(obama <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(childs <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">%&gt;%</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> <span class="fu">round</span>(total <span class="sc">/</span> <span class="fu">sum</span>(total),<span class="dv">4</span>),</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>((freq<span class="sc">*</span><span class="dv">100</span>), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 4
+  region          total   freq   pct
+  &lt;fct&gt;           &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 New England        33 0.0602   6  
+2 Middle Atlantic    57 0.104   10.4
+3 E. Nor. Central   119 0.217   21.7
+4 W. Nor. Central    36 0.0657   6.6
+5 South Atlantic    121 0.221   22.1
+6 E. Sou. Central    35 0.0639   6.4
+7 W. Sou. Central    57 0.104   10.4
+8 Mountain           35 0.0639   6.4
+9 Pacific            55 0.100   10  </code></pre>
+</div>
+</div>
+<p>Now, we can rest easy knowing that we can find the percentage of 2012-Obama supporting Protestants and/or Catholics with children who reside in the South Atlantic census region (29.2%).</p>
+</section>
+<section id="practice-exploring-data" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="practice-exploring-data"><span class="header-section-number">3.13</span> Practice Exploring Data</h2>
+<p>You can see here that the <code>dplyr</code> functions provide an enormous amount of flexibility and power. <code>R</code>, like other programming languages, is also very sensitive to mistakes in syntax or spelling: a missing comma in a set of function arguments, a hanging pipe operator, a misspelled filter criteria, or an erroneous object name can all cause output errors. Check your code carefully, take a deep breath, and try again. You’ll get the hang of it in no time.</p>
+<p>Use the remainder of class time today to explore the <code>gss_sm</code> data. Try summarizing different variables according to different groupings. Try using other measures like <code>mean()</code> or <code>sd()</code> to summarize numeric variables (like the number of children).</p>
+<p>If you are feeling overwhelmed at the moment - don’t despair, we’re going to continue practicing these skills throughout the rest of the course.</p>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help to make the world a tidier place.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The <code>socviz</code> package serves as an accompaniment to Healy’s textbook, <em>Data Visualization</em>, which is highly recommended.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Anytime you install packages, do it directly in the console. If someone needs to run your code, they should see the <code>library()</code> calls in the beginning of your code after the header and will know whether they need to install additional packages or not. RStudio also has a helpful auto-prompt feature that will inform you of missing packages.</p>
+<p>Instead of the <code>library()</code> function, you can also use the <code>require()</code> function, which has the benefit of both loading packages if you have them already installed and installing them if you don’t.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>For more on the differences between the two pipe operators, see here: <a href="https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/#" class="uri">https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p><code>summarize()</code> and <code>summarise()</code> are the same function, just two different spellings, the choice of which depends on who you’ve learned English from.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>You won’t always be able to get documentation on a data set by using the help function, unfortunately. But, in this case, it works because <code>socviz</code> comes with documentation that was downloaded when you installed the package. Note that you must refer to the data in your help query by it’s original name (<code>?gss_sm</code> not <code>?gss</code>).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Using the <code>rm()</code> function can help keep your environment a bit more orderly, but it isn’t always necessary since your environment will be cleared out each time you close RStudio anyways.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>There are other options for counting the number of rows, like the <code>count()</code> or <code>tally()</code> functions, but I won’t use them here.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./03_homework-1.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Homework 1</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05_homework-2.html" class="pagination-link">
+        <span class="nav-page-text">Homework 2</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
