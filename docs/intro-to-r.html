@@ -202,6 +202,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">Appendix</span></span>
@@ -324,8 +330,8 @@ Caution
 </div>
 <p>What happens when you press <code>Enter</code>?</p>
 <p><img src="images/RStudio console_x1.png" class="img-fluid"></p>
-<p>Unlike before, there is no output when you press <code>Enter</code>. But, that doesn’t mean nothing happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the <strong>environment</strong>. You don’t receive an output, but RStudio reminds you of your new variable’s existence via the Environment pane in the top right.</p>
-<p>We can recall the value we input into our variable, <code>x</code>, by entering the variable name in the console:</p>
+<p>Unlike before, there is no output when you press <code>Enter</code>. But, that doesn’t mean nothing happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the <strong>environment</strong>. You don’t receive an output, but RStudio reminds you of your new object’s existence via the Environment pane in the top right.</p>
+<p>We can recall the value we input into our variable, <code>x</code>, by entering the object name in the console:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -335,7 +341,7 @@ Caution
 <p>See! Your computer remembers what you stored in your environment.</p>
 <p>Try the following on your own in the console and then take a look at the answer:</p>
 <ol type="1">
-<li><p>Can you assign a new value to your variable <code>x</code>?</p>
+<li><p>Can you assign a new value to your variable, <code>x</code>?</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -434,7 +440,7 @@ Answer
 </section>
 <section id="calculations-with-objects" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="calculations-with-objects"><span class="header-section-number">1.4</span> Calculations with Objects</h2>
-<p>If you’ve made it this far in one sitting, well done! Here’s another thing you can try. Enter the following in the console:</p>
+<p>If you’ve made it this far, well done! Here’s another thing you can try. Enter the following in the console:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -590,7 +596,7 @@ Answer
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Unlike other programming languages, like Python, <code>R</code> does not use zero-indexing. This means that our first value in any data structure is always indexed as <code>1</code> .<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>In <code>R</code>, unlike in other programming languages, the first value in any data structure (e.g., a vector) has an index number of <code>1</code> rather than <code>0</code>. This makes intuitive sense. If you were asked to count people in line at a boulangerie, you would call the next person waiting to place their order the <em>first</em> person in line, not the <em>zero</em>eth. In Python, you would call them the <em>zero</em>eth person and they would have an index number of <code>0</code> instead of <code>1</code>. For more on where this comes from, see <a href="https://en.wikipedia.org/wiki/Zero-based_numbering" title="Wikipedia: Zero-based numbering">here</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

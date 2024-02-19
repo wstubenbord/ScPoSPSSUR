@@ -64,7 +64,7 @@ You've provided an **input**, `1+1`, and received an **output**, `2`. In other w
 
 One more note about outputs: the first number in brackets next to your output, `[1]`, indicates the index number of the output.[^intro-to-r-1] This is especially helpful when you are running code that generates multiple outputs. See below, for example, where we output a list of letters in the English alphabet ("T" is the 20th letter and our 20th output).
 
-[^intro-to-r-1]: Unlike other programming languages, like Python, `R` does not use zero-indexing. This means that our first value in any data structure is always indexed as `1` .
+[^intro-to-r-1]: In `R`, unlike in other programming languages, the first value in any data structure (e.g., a vector) has an index number of `1` rather than `0`. This makes intuitive sense. If you were asked to count people in line at a boulangerie, you would call the next person waiting to place their order the *first* person in line, not the *zero*eth. In Python, you would call them the *zero*eth person and they would have an index number of `0` instead of `1`. For more on where this comes from, see [here](https://en.wikipedia.org/wiki/Zero-based_numbering "Wikipedia: Zero-based numbering").
 
 ```{r}
 LETTERS
@@ -90,9 +90,9 @@ What happens when you press `Enter`?
 
 ![](images/RStudio%20console_x1.png)
 
-Unlike before, there is no output when you press `Enter`. But, that doesn't mean nothing happened. In fact, something has happened. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we might call the **environment**. You don't receive an output, but RStudio reminds you of your new variable's existence via the Environment pane in the top right.
+Unlike before, there is no output when you press `Enter`. But, that doesn't mean nothing happened. In fact, something has happened. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we might call the **environment**. You don't receive an output, but RStudio reminds you of your new object's existence via the Environment pane in the top right.
 
-We can recall the value we input into our variable, `x`, by entering the variable name in the console:
+We can recall the value we input into our variable, `x`, by entering the object name in the console:
 
 ```{r}
 x
@@ -102,11 +102,13 @@ See! Your computer remembers what you stored in your environment.
 
 Try the following on your own in the console and then take a look at the answer:
 
-1.  Can you assign a new value to your variable `x`?
+1.  Can you assign a new value to your variable, `x`?
 
     ::: {.callout-tip collapse="true"}
     ## Answer
+
     Yes!
+
     ```{r}
     x = 3
     x
@@ -117,7 +119,9 @@ Try the following on your own in the console and then take a look at the answer:
 
     ::: {.callout-tip collapse="true"}
     ## Answer
+
     Yes!
+
     ```{r}
     x * 5
     ```
@@ -127,7 +131,9 @@ Try the following on your own in the console and then take a look at the answer:
 
     ::: {.callout-tip collapse="true"}
     ## Answer
+
     Yes!
+
     ```{r}
     y = 2
     x * y
@@ -138,7 +144,9 @@ Try the following on your own in the console and then take a look at the answer:
 
     ::: {.callout-tip collapse="true"}
     ## Answer
-    Yes!  For letters and words, you just have to use quotation marks:
+
+    Yes! For letters and words, you just have to use quotation marks:
+
     ```{r}
     x = "apple"
     x
@@ -147,7 +155,7 @@ Try the following on your own in the console and then take a look at the answer:
 
 ## Calculations with Objects
 
-If you've made it this far in one sitting, well done! Here's another thing you can try. Enter the following in the console:
+If you've made it this far, well done! Here's another thing you can try. Enter the following in the console:
 
 ```{r}
 x <- c(1,2,3,4,5)

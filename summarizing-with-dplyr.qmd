@@ -4,15 +4,15 @@ In the previous chapter, you learned how to load data from a package, how to acc
 
 We've had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven't really required us to poke around in our data to find the answers we are interested in. This brings us to *data wrangling* - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.
 
-For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, `dplyr` and the **pipe operator**. In future lessons, our luck will run out and we will be confronted with the harsh reality of unseemly data.[^04-using-the-tidyverse-1]
+For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, `dplyr` and the **pipe operator**. In future lessons, our luck will run out and we will be confronted with the harsh reality of unseemly data.[^summarizing-with-dplyr-1]
 
-[^04-using-the-tidyverse-1]: Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help to make the world a tidier place.
+[^summarizing-with-dplyr-1]: Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help to make the world a tidier place.
 
 ## Basic Description with Base `R`
 
-Let's use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the `socviz` package, a helpful collection of data sets and other goodies developed by Kieran Healy.[^04-using-the-tidyverse-2]
+Let's use an example to get us started. Last class, you toyed around with the 2016 U.S. presidential election data from the `socviz` package, a helpful collection of data sets and other goodies developed by Kieran Healy.[^summarizing-with-dplyr-2]
 
-[^04-using-the-tidyverse-2]: The `socviz` package serves as an accompaniment to Healy's textbook, *Data Visualization*, which is highly recommended.
+[^summarizing-with-dplyr-2]: The `socviz` package serves as an accompaniment to Healy's textbook, *Data Visualization*, which is highly recommended.
 
 We'll use another data set from the same package in a moment, but, for now, let's return to the `election` data. We're also going to re-load our new best friend, the *tidyverse* package.
 
@@ -21,11 +21,11 @@ library(socviz)
 library(tidyverse)
 ```
 
-Libraries loaded. Remember, once you have the packages installed, you don't need to do it again. So, don't include `install.packages()` in your scripts going forward.[^04-using-the-tidyverse-3]
+Libraries loaded. Remember, once you have the packages installed, you don't need to do it again. So, don't include `install.packages()` in your scripts going forward.[^summarizing-with-dplyr-3]
 
-[^04-using-the-tidyverse-3]: Anytime you install packages, do it directly in the console. If someone needs to run your code, they should see the `library()` calls in the beginning of your code after the header and will know whether they need to install additional packages or not. RStudio also has a helpful auto-prompt feature that will inform you of missing packages.
+[^summarizing-with-dplyr-3]: Anytime you install packages, do it directly in the console. If someone needs to run your code, they should see the `library()` calls in the beginning of your code after the header and will know whether they need to install additional packages or not. RStudio also has a helpful auto-prompt feature that will let you know if you are missing anything.
 
-    Instead of the `library()` function, you can also use the `require()` function, which has the benefit of both loading packages if you have them already installed and installing them if you don't.
+    Instead of the `library()` function, you can also use `require()`, which has the benefit loading packages if you already have them and installing them if you don't.
 
 We'll load the data into an object in our environment. This time, we'll use a slightly shorter name for the tibble to spare ourselves some future misery. A longer name means more to retype later.
 
@@ -74,11 +74,11 @@ The **pipe operator** is a handy tool indeed. It is a specialized operator that 
 
 It looks like this: `%>%`. But, it can also look like this: `|>`.
 
-There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.[^04-using-the-tidyverse-4]
+There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.[^summarizing-with-dplyr-4]
 
-[^04-using-the-tidyverse-4]: For more on the differences between the two pipe operators, see here: [https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/#){.uri}
+[^summarizing-with-dplyr-4]: For more on the differences between the two pipe operators, see here: [https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/#){.uri}
 
-The pipe operator has a straightforward function: it allows you to combine a series of steps into a single command. And, it does this in a way that makes your code legible. Whenever you see the pipe operator, you should read it as though it is saying, "And then \[do this\]."
+The pipe operator has a straightforward function: it combines a series of steps into a single command and it does this in a way that keeps your code legible. Whenever you see the pipe operator, you should read it as though it is saying, "And then \[do this\]" [@healy2019].
 
 So in the previous example provided, you might read it as:
 
@@ -108,13 +108,13 @@ The first is a convention to make the code more readable and the second is a req
 
 -   `select()`, which selects columns from the original data
 
--   `summarize()` or `summarise()`, which performs calculations[^04-using-the-tidyverse-5]
+-   `summarize()` or `summarise()`, which performs calculations[^summarizing-with-dplyr-5]
 
 -   `mutate()`, which creates new columns (or variables)
 
 -   `arrange()`, which sorts the row order by column values
 
-[^04-using-the-tidyverse-5]: `summarize()` and `summarise()` are the same function, just two different spellings, the choice of which depends on who you've learned English from.
+[^summarizing-with-dplyr-5]: `summarize()` and `summarise()` are the same function, just two different spellings, the choice of which depends on who you've learned English from.
 
 ## Glimpsing GSS Data
 
@@ -126,9 +126,9 @@ gss <- gss_sm
 
 The [General Social Survey](https://gss.norc.org/) is a nationally representative biennial survey of U.S. adults on sociological topics produced by the National Opinion Research Center (NORC) at the University of Chicago since 1972.
 
-Take a quick look at the data. You can use `glimpse()`, another `dplyr` function, to get a sense of what's inside and you can inspect it visually using `view()`. Typing in `?gss_sm` (the original name of the data set from the package) will tell you what variables the data contains.[^04-using-the-tidyverse-6]
+Take a quick look at the data. You can use `glimpse()`, another `dplyr` function, to get a sense of what's inside and you can inspect it visually using `view()`. Typing in `?gss_sm` (the original name of the data set from the package) will tell you what variables the data contains.[^summarizing-with-dplyr-6]
 
-[^04-using-the-tidyverse-6]: You won't always be able to get documentation on a data set by using the help function, unfortunately. But, in this case, it works because `socviz` comes with documentation that was downloaded when you installed the package. Note that you must refer to the data in your help query by it's original name (`?gss_sm` not `?gss`).
+[^summarizing-with-dplyr-6]: You won't always be able to get documentation on a data set by using the help function, unfortunately. But, in this case, it works because `socviz` comes with documentation that was downloaded when you installed the package. Note that you must refer to the data in your help query by it's original name (`?gss_sm` not `?gss`).
 
 ```{r, results='hide'}
 view(gss)
@@ -159,9 +159,9 @@ gender_relig <- gss %>%
   select(id, sex, religion)
 ```
 
-Now we have a new object containing our new tibble. If you inspect this new tibble and then decide that you don't need or want it anymore, you can always get rid of it using the `rm()` function.[^04-using-the-tidyverse-7]
+Now we have a new object containing our new tibble. If you inspect this new tibble and then decide that you don't need or want it anymore, you can always get rid of it using the `rm()` function.[^summarizing-with-dplyr-7]
 
-[^04-using-the-tidyverse-7]: Using the `rm()` function can help keep your environment a bit more orderly, but it isn't always necessary since your environment will be cleared out each time you close RStudio anyways.
+[^summarizing-with-dplyr-7]: Using the `rm()` function can help keep your environment a bit more orderly, but it isn't always necessary since your environment will be cleared out each time you close RStudio anyways.
 
 ```{r, results='hide'}
 view(gender_relig)
@@ -181,9 +181,9 @@ gss %>%
 
 As you can see, our data doesn't appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do actually get a helpful note at the top our output that says, `Groups: religion[6]`. Our observations have been successfully grouped according to the six religious affiliations in our data.
 
-Next, we have to add another line to our pipe function which specifies how we want to `summarize()` the groups. We want it to count up our rows, so we'll use the `n()` function. The `n()` function just counts the number of rows in a data frame.[^04-using-the-tidyverse-8] We have to tell `summarize()` where we want to store these values, so we'll put them in a new variable called `total`.
+Next, we have to add another line to our pipe function which specifies how we want to `summarize()` the groups. We want it to count up our rows, so we'll use the `n()` function. The `n()` function just counts the number of rows in a data frame.[^summarizing-with-dplyr-8]
 
-[^04-using-the-tidyverse-8]: There are other options for counting the number of rows, like the `count()` or `tally()` functions, but I won't use them here.
+[^summarizing-with-dplyr-8]: There are other options for counting the number of rows, like the `count()` or `tally()` functions, but I won't use them here.
 
 ```{r}
 gss %>%
@@ -211,7 +211,7 @@ gss %>%
 
 In this example, we took the GSS data *and then* grouped it by `sex` *and then* summarized it by creating a `total` which contains a count of the number of rows.
 
-In this case, because we have tidy data (more on this in future lessons), the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.
+In this case, the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.
 
 ### Grouping by Two Variables
 
@@ -289,7 +289,7 @@ In a filter function, you use logical and comparison operators (see the slides f
 
 `R` is case-sensitive and so if the values in your data are "protestant", for example, you won't see those results in the tibble output here.
 
-Here's another example using `filter()`. Usually, you will want to use the `filter()` function at the beginning of your query. This time, I'm only interested in religious affiliation among holders of graduate degrees.
+Usually, you will want to use the `filter()` function at the beginning of your query.  Here's another example using `filter()`.  This time, I'm only interested in religious affiliation among holders of graduate degrees.
 
 ```{r}
 gss %>%

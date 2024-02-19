@@ -2,7 +2,7 @@
 
 **Due Date:** Wednesday, 28 February by 23:59:59
 
-**Submission Instructions:** Submit your completed R script file to the corresponding Moodle assignment. Your file should contain a header and the file name should be formatted according to the guidelines discussed in class and posted in the course slides.
+**Submission Instructions:** Submit your completed R script to the corresponding Moodle assignment. Your file should contain a header and the file name should be formatted according to the guidelines discussed in class and posted in the course slides.
 
 Be sure to show your work. This means that your answer to each question should show the code you used to obtain the answer. You do not need to show other steps that may have been taken to get the answer (e.g., trial and error), only the code that provides the answer.
 
@@ -22,7 +22,7 @@ In a comment, identify the number of respondents between the ages of 45-55.
 
 **Part C:**
 
-Output another tibble which summarizes respondents by `agegrp` and whether they voted for `obama` in the 2012 U.S. presidential election. In this tibble, include both the count (call it `total`), relative frequency (`freq`), and percentage (`pct`). You do not have to round the percentages but you can if you want.
+Output another tibble which summarizes respondents by `agegrp` and whether they voted for `obama` in the 2012 U.S. presidential election. In this tibble, include both the count (call it `total`), relative frequency (`freq`), and percentage (`pct`). You do not have to round the percentages but can if you wish.
 
 In a comment, identify the number of respondents between the ages of 18-35 who voted for Obama. In a separate comment, identify the number of respondents between the ages of 18-35 that have missing values for the `obama` variable.
 
@@ -30,13 +30,13 @@ In a comment, identify the number of respondents between the ages of 18-35 who v
 
 Again using the GSS data from the `socviz` package, create a tibble called `marit_happy` which summarizes the happiness of GSS respondents by marital status. Filter your data so that it shows only respondents who are "Married" or "Never Married".
 
-In a comment consisting of a few brief sentences, compare the reported happiness of respondents who are married to those who have never been married.[^05_homework-2-1]
+In a comment consisting of a few brief sentences, compare the reported happiness of respondents who are married to those who have never been married.[^homework-2-1]
 
-[^05_homework-2-1]: *A brief technical note*: although the GSS is a nationally representative survey of U.S. adults, we are using the term "respondents" throughout this assignment rather than "U.S. adults."
+[^homework-2-1]: *A brief technical note*: although the GSS is a nationally representative survey of U.S. adults, we are using the term "respondents" throughout this assignment rather than "U.S. adults."
 
     The reason for this is that estimating population-level statistics (like the proportion of U.S. adults who are married) requires using *survey weights*, which is a slightly more complicated procedure that takes into account the survey design. Survey weights are used to help ensure that the statistics being reported from survey data accurately reflect the population.
 
-    In practice, the numbers you obtain in this assignment are very close to the best estimates possible for U.S. adults, but since they're not exactly correctly (i.e., they don't take into account the survey weights), it's more accurate to refer to your results as relating to the respondents of the GSS rather than all U.S. adults. The difference between the weighted results and the results you should obtain in this assignment are less than 1%, however.
+    In practice, the numbers you will obtain in this assignment are very close to the best estimates possible for U.S. adults, but since they're not exactly precise (i.e., they don't take into account the survey weights), it's more accurate to refer to your results as relating to the respondents of the GSS rather than all U.S. adults. The differences between the properly weighted results and the results you obtain in this assignment are within 1%, however.
 
 **Question #3:**
 

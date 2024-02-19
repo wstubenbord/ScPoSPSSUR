@@ -30,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
 <link href="./homework-1.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -165,6 +166,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">Appendix</span></span>
@@ -198,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p><strong>Due Date:</strong> Wednesday, 28 February by 23:59:59</p>
-<p><strong>Submission Instructions:</strong> Submit your completed R script file to the corresponding Moodle assignment. Your file should contain a header and the file name should be formatted according to the guidelines discussed in class and posted in the course slides.</p>
+<p><strong>Submission Instructions:</strong> Submit your completed R script to the corresponding Moodle assignment. Your file should contain a header and the file name should be formatted according to the guidelines discussed in class and posted in the course slides.</p>
 <p>Be sure to show your work. This means that your answer to each question should show the code you used to obtain the answer. You do not need to show other steps that may have been taken to get the answer (e.g., trial and error), only the code that provides the answer.</p>
 <p><strong>Question #1:</strong></p>
 <p><strong>Part A:</strong></p>
@@ -208,7 +215,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Next, use the <code>dplyr</code> functions to output a tibble which summarizes the number of respondents by <code>agegrp</code>.</p>
 <p>In a comment, identify the number of respondents between the ages of 45-55.</p>
 <p><strong>Part C:</strong></p>
-<p>Output another tibble which summarizes respondents by <code>agegrp</code> and whether they voted for <code>obama</code> in the 2012 U.S. presidential election. In this tibble, include both the count (call it <code>total</code>), relative frequency (<code>freq</code>), and percentage (<code>pct</code>). You do not have to round the percentages but you can if you want.</p>
+<p>Output another tibble which summarizes respondents by <code>agegrp</code> and whether they voted for <code>obama</code> in the 2012 U.S. presidential election. In this tibble, include both the count (call it <code>total</code>), relative frequency (<code>freq</code>), and percentage (<code>pct</code>). You do not have to round the percentages but can if you wish.</p>
 <p>In a comment, identify the number of respondents between the ages of 18-35 who voted for Obama. In a separate comment, identify the number of respondents between the ages of 18-35 that have missing values for the <code>obama</code> variable.</p>
 <p><strong>Question #2:</strong></p>
 <p>Again using the GSS data from the <code>socviz</code> package, create a tibble called <code>marit_happy</code> which summarizes the happiness of GSS respondents by marital status. Filter your data so that it shows only respondents who are “Married” or “Never Married”.</p>
@@ -223,7 +230,7 @@ ul.task-list li input[type="checkbox"] {
 <ol>
 <li id="fn1"><p><em>A brief technical note</em>: although the GSS is a nationally representative survey of U.S. adults, we are using the term “respondents” throughout this assignment rather than “U.S. adults.”</p>
 <p>The reason for this is that estimating population-level statistics (like the proportion of U.S. adults who are married) requires using <em>survey weights</em>, which is a slightly more complicated procedure that takes into account the survey design. Survey weights are used to help ensure that the statistics being reported from survey data accurately reflect the population.</p>
-<p>In practice, the numbers you obtain in this assignment are very close to the best estimates possible for U.S. adults, but since they’re not exactly correctly (i.e., they don’t take into account the survey weights), it’s more accurate to refer to your results as relating to the respondents of the GSS rather than all U.S. adults. The difference between the weighted results and the results you should obtain in this assignment are less than 1%, however.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<p>In practice, the numbers you will obtain in this assignment are very close to the best estimates possible for U.S. adults, but since they’re not exactly precise (i.e., they don’t take into account the survey weights), it’s more accurate to refer to your results as relating to the respondents of the GSS rather than all U.S. adults. The differences between the properly weighted results and the results you obtain in this assignment are within 1%, however.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -468,6 +475,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

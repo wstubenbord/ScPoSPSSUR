@@ -17,6 +17,7 @@ book:
       chapters:
       - homework-1.qmd
       - homework-2.qmd
+    - references.qmd
     - part: "Appendix"
   downloads:
     - pdf

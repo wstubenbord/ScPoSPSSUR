@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -200,6 +219,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <span class="sidebar-item-text sidebar-link text-start">
  <span class="menu-text">Appendix</span></span>
@@ -340,7 +365,7 @@ Clinton   Trump
 <p>The <strong>pipe operator</strong> is a handy tool indeed. It is a specialized operator that comes from the <code>magrittr</code> package, which itself is contained in the tidyverse.</p>
 <p>It looks like this: <code>%&gt;%</code>. But, it can also look like this: <code>|&gt;</code>.</p>
 <p>There isn’t much of a difference between the two, so you can use whichever you prefer as long as you are consistent.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<p>The pipe operator has a straightforward function: it allows you to combine a series of steps into a single command. And, it does this in a way that makes your code legible. Whenever you see the pipe operator, you should read it as though it is saying, “And then [do this].”</p>
+<p>The pipe operator has a straightforward function: it combines a series of steps into a single command and it does this in a way that keeps your code legible. Whenever you see the pipe operator, you should read it as though it is saying, “And then [do this]” <span class="citation" data-cites="healy2019">(<a href="references.html#ref-healy2019" role="doc-biblioref">Healy 2019</a>)</span>.</p>
 <p>So in the previous example provided, you might read it as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>elec_2016 <span class="sc">%&gt;%</span>                            <span class="co"># Take the election data AND THEN</span></span>
@@ -449,7 +474,7 @@ Clinton   Trump
 </div>
 </div>
 <p>As you can see, our data doesn’t appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do actually get a helpful note at the top our output that says, <code>Groups: religion[6]</code>. Our observations have been successfully grouped according to the six religious affiliations in our data.</p>
-<p>Next, we have to add another line to our pipe function which specifies how we want to <code>summarize()</code> the groups. We want it to count up our rows, so we’ll use the <code>n()</code> function. The <code>n()</code> function just counts the number of rows in a data frame.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> We have to tell <code>summarize()</code> where we want to store these values, so we’ll put them in a new variable called <code>total</code>.</p>
+<p>Next, we have to add another line to our pipe function which specifies how we want to <code>summarize()</code> the groups. We want it to count up our rows, so we’ll use the <code>n()</code> function. The <code>n()</code> function just counts the number of rows in a data frame.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span>      <span class="co"># Group by religion</span></span>
@@ -487,7 +512,7 @@ Clinton   Trump
 </div>
 </div>
 <p>In this example, we took the GSS data <em>and then</em> grouped it by <code>sex</code> <em>and then</em> summarized it by creating a <code>total</code> which contains a count of the number of rows.</p>
-<p>In this case, because we have tidy data (more on this in future lessons), the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.</p>
+<p>In this case, the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.</p>
 <section id="grouping-by-two-variables" class="level3" data-number="3.6.1">
 <h3 data-number="3.6.1" class="anchored" data-anchor-id="grouping-by-two-variables"><span class="header-section-number">3.6.1</span> Grouping by Two Variables</h3>
 <p>We can also create the equivalent of what is called a two-way contingency table by grouping with two variables at the same time. We can use this to find religious affiliation by sex, for example:</p>
@@ -609,7 +634,7 @@ Clinton   Trump
 </div>
 <p>In a filter function, you use logical and comparison operators (see the slides from Session 3 if you’d like a refresher) to define the criteria for your new tibble. In this case, we want only the observations for which the <code>religion</code> variable is equal to “Protestant”.</p>
 <p><code>R</code> is case-sensitive and so if the values in your data are “protestant”, for example, you won’t see those results in the tibble output here.</p>
-<p>Here’s another example using <code>filter()</code>. Usually, you will want to use the <code>filter()</code> function at the beginning of your query. This time, I’m only interested in religious affiliation among holders of graduate degrees.</p>
+<p>Usually, you will want to use the <code>filter()</code> function at the beginning of your query. Here’s another example using <code>filter()</code>. This time, I’m only interested in religious affiliation among holders of graduate degrees.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">'Graduate'</span>) <span class="sc">%&gt;%</span></span>
@@ -827,14 +852,19 @@ Clinton   Trump
 <p>If you are feeling overwhelmed at the moment - don’t despair, we’re going to continue practicing these skills throughout the rest of the course.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-healy2019" class="csl-entry" role="listitem">
+Healy, Kieran. 2019. <em>Data Visualization: A Practical Introduction</em>. Princeton: Princeton University Press. <a href="https://socviz.co">socviz.co</a>.
+</div>
+</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn1"><p>Sadly, almost all data you encounter out in the wild will be very unseemly for one reason or another. But, maybe after taking this course and ascending the ranks of government/business/academia, you too will become an evangelical for orderly data and help to make the world a tidier place.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>The <code>socviz</code> package serves as an accompaniment to Healy’s textbook, <em>Data Visualization</em>, which is highly recommended.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>Anytime you install packages, do it directly in the console. If someone needs to run your code, they should see the <code>library()</code> calls in the beginning of your code after the header and will know whether they need to install additional packages or not. RStudio also has a helpful auto-prompt feature that will inform you of missing packages.</p>
-<p>Instead of the <code>library()</code> function, you can also use the <code>require()</code> function, which has the benefit of both loading packages if you have them already installed and installing them if you don’t.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Anytime you install packages, do it directly in the console. If someone needs to run your code, they should see the <code>library()</code> calls in the beginning of your code after the header and will know whether they need to install additional packages or not. RStudio also has a helpful auto-prompt feature that will let you know if you are missing anything.</p>
+<p>Instead of the <code>library()</code> function, you can also use <code>require()</code>, which has the benefit loading packages if you already have them and installing them if you don’t.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4"><p>For more on the differences between the two pipe operators, see here: <a href="https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/#" class="uri">https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5"><p><code>summarize()</code> and <code>summarise()</code> are the same function, just two different spellings, the choice of which depends on who you’ve learned English from.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>You won’t always be able to get documentation on a data set by using the help function, unfortunately. But, in this case, it works because <code>socviz</code> comes with documentation that was downloaded when you installed the package. Note that you must refer to the data in your help query by it’s original name (<code>?gss_sm</code> not <code>?gss</code>).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

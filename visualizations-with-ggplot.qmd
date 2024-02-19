@@ -1,0 +1,141 @@
+# Visualizing with `ggplot2`
+
+You might be wondering how I managed to win all of those trophies on my office bookshelf.[^visualizations-with-ggplot-1] The answer: `ggplot2`. What is `ggplot2` you ask? It's a data visualization package from *tidyverse* which allows you to build highly-customizable (and sometimes beautiful) graphics. It's also the topic of today's session.
+
+[^visualizations-with-ggplot-1]: It turns out that I have neither trophies nor an office, but let's not let that spoil things now.
+
+But first we need to step back and think a little bit more about the motivation for data analysis and visualization in general.
+
+## Descriptive Statistics
+
+In the previous chapter, we learned how to use `dplyr` functions to summarize data. We started with individual-level observations (i.e., GSS respondents) and used `group_by()` , `summarize()`, and `mutate()` to distill data into summary statistics, such as the proportion of GSS respondents by religious affiliation or the mean number of children by respondent's degree level. We can't yet say much about whether more Americans are Protestant or Catholic or whether U.S. college graduates tend to have more or less children than high school graduates — these questions require inferential statistics — but, we are developing the tools we need to do so.
+
+The point of producing **descriptive statistics**, like a proportion or mean, is that they allow us to identify some characteristics for a set of observations (usually, a sample). If you recall from your statistics class, for quantitative variables, we have **measures of central tendency**, which give us an indication of where the typical observation falls in the distribution, **measures of spread**, which tell us how far apart our observations are from the center, and what we might call other distributional measures, which tell us, for example, how many values are in our sample or what the largest and smallest values are.
+
+## Measures for Quantitative Variables
+
+**Measures of Central Tendency**
+
+|           |                                                                                            |                |
+|----------------------|---------------------------------|-----------------|
+| *Measure* | *Description*                                                                              | *`R` Function* |
+| Mean      | The sum of the values divided by the count of values. Sensitive to outliers.               | `mean()`       |
+| Median    | The middle value, half of the values are above and half are below. Resistant to outliers.  | `median()`     |
+
+**Measures of Spread**
+
+|                           |                                                                                                                                                           |                |
+|----------------------|---------------------------------|-----------------|
+| *Measure*                 | *Description*                                                                                                                                             | *`R` Function* |
+| Variance                  | The sum of the squared deviations from the mean, divided by the count minus one. It gives us a sense of how far values typically are away from the mean.  | `var()`        |
+| Standard Deviation        | The square root of the variance. It's the more commonly reported measure of spread and, again, tells us how far values typically are away from the mean.  | `sd()`         |
+| Range                     | The maximum minus the minimum, a measure of the distribution's overall spread.                                                                            | `range()`      |
+| Interquartile Range (IQR) | The distance between the 75th percentile value and the 25th percentile value. It gives us a sense of the spread for the middle-most values.               | `IQR()`        |
+
+**Other Distributional Measures**
+
+|           |                                                  |
+|-----------|--------------------------------------------------|
+| *Measure* | *`R` Function*                                   |
+| Minimum   | `min()`                                          |
+| Maximum   | `max()`                                          |
+| Count     | `n()`, if each row corresponds to an observation |
+
+```{r}
+require(tidyverse)
+require(socviz)
+
+
+
+
+clinton <- election %>%
+  summarize(n = n(),
+            min = min(pct_clinton),
+            max = max(pct_clinton),
+            median = median(pct_clinton),
+            mean = max(pct_clinton),
+            iqr = IQR(pct_clinton),
+            var = var(pct_clinton),
+            sd = sd(pct_clinton)
+            )
+
+trump <- election %>%
+  summarize(n = n(),
+            min = min(pct_trump),
+            max = max(pct_trump),
+            median = median(pct_trump),
+            mean = max(pct_trump),
+            iqr = IQR(pct_trump),
+            var = var(pct_trump),
+            sd = sd(pct_trump)
+            )
+
+merge(clinton, trump)
+```
+```{r}
+require(tidyverse)
+require(socviz)
+
+election %>%
+  select(state, pct_trump, pct_clinton) %>%
+  summarize_all(list(min = min,
+            max = max,
+            median = median,
+            mean = max,
+            iqr = IQR,
+            var = var,
+            sd = sd,
+            na.rm = TRUE
+            )) %>%
+  pivot_longer(cols = everything,
+               names_sep = "_",
+               names_to  = c("variable", ".value"))
+
+```
+
+```{r}
+require(tidyverse)
+require(socviz)
+
+election %>%
+  summarize(across(c(pct_trump,pct_clinton),
+                   list(min = min,
+                        max = max,
+                        median = median,
+                        mean = max,
+                        iqr = IQR,
+                        var = var,
+                        sd = sd),
+                   na.rm = TRUE,
+                   .names = "{fn}_{col}")) %>%
+  pivot_longer(cols = everything())
+
+```
+
+It's worth taking a step back to think about how this type of analysis works in the research setting and what our goals might be.
+
+We've been conducting this sort of analysis blindly so far, as a means of exploring the features of `R` and testing out its features. But, in the social sciences, we usually want to come to data with a set of questions and hypotheses (or predictions) before we start examining it.
+
+Usually, we conduct this sort of analysis in the pursuit of answers to research q Wrequir
+We could, for example, find the
+
+```{r}
+# Load the packages
+require(tidyverse)
+require(socviz)
+
+# Store it in another tibble
+gss <- gss_sm
+
+partkids <- gss %>%
+  group_by(kids, partners_rc) %>%
+  tally() %>%
+  mutate(pct = round(n/sum(n)*100,1)) %>%
+  drop_na(partners_rc, kids) %>%
+  arrange(desc(kids)) %>%
+  filter(partners_rc == "4+")
+  
+
+```
+
+## Recoding variables
