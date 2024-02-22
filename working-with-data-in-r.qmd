@@ -91,10 +91,10 @@ As you progress in `R`, you will learn many different functions and it can be di
 Let's take a quick pause to make sure we understand what we've just learned.
 
 1.  Create a vector of three numbers and assign it to a variable called `first_vector`. Now use the `mean()` function to find the average of `first_vector`.
-2.  Now create another vector called `second_vector` which contains the `first_vector` and an `NA` value. Try it on your own first, then click on this footnote to see the answer.[^02-working-with-data-in-r-1]
+2.  Now create another vector called `second_vector` which contains the `first_vector` and an `NA` value. Try it on your own first, then click on this footnote to see the answer.[^working-with-data-in-r-1]
 3.  Using the `na.rm = TRUE` argument, calculate the mean of `second_vector`.
 
-[^02-working-with-data-in-r-1]: `second_vector <- c(first_vector, NA)`
+[^working-with-data-in-r-1]: `second_vector <- c(first_vector, NA)`
 
 ## Packages
 
@@ -234,6 +234,8 @@ sum(election_2016$total_vote, na.rm = TRUE)
 ```
 
 Here, we summed all of the values in the `total_vote` column in the `election_2016` tibble. The `na.rm` argument isn't strictly necessary in this case (since there are no missing or unknown values), but it's good to remember that it's an option in case you need it.
+
+## Exercise
 
 For the remainder of today's session, I'd like you play around with the election data. In particular:
 

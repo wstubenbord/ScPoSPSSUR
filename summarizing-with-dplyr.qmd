@@ -2,7 +2,7 @@
 
 In the previous chapter, you learned how to load data from a package, how to access a column from a tibble using the subset operator `$`, and how to use basic functions to answer questions like: what was the total number of votes cast in the 2016 U.S. presidential election?
 
-We've had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven't really required us to poke around in our data to find the answers we are interested in. This brings us to *data wrangling* - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.
+We've had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven't really required us to poke around in order to find the answers we are interested in. This brings us to *data wrangling* - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.
 
 For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, `dplyr` and the **pipe operator**. In future lessons, our luck will run out and we will be confronted with the harsh reality of unseemly data.[^summarizing-with-dplyr-1]
 
@@ -53,9 +53,7 @@ prop.table(table(elec_2016$winner))
 summary(elec_2016$vote_margin)
 ```
 
-But, what if we want to do something more specific?
-
-What if we really want to know how much of the popular vote third-party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from `dplyr` and the pipe operator.
+But, what if we want to do something more specific? What if, for example, we really want to know how much of the popular vote third-party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from `dplyr` and the pipe operator.
 
 ```{r}
 # An illustrative example - no need to try this yet
@@ -70,22 +68,20 @@ We'll learn how to create frequency tables like this and more in a moment.
 
 ![](images/ceci_pipe.png)
 
-The **pipe operator** is a handy tool indeed. It is a specialized operator that comes from the `magrittr` package, which itself is contained in the tidyverse.
+The **pipe operator** is a handy tool indeed. It is a specialized operator that comes from the `magrittr` package, which is contained in the tidyverse.
 
 It looks like this: `%>%`. But, it can also look like this: `|>`.
 
-There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.[^summarizing-with-dplyr-4]
+There isn't much of a difference between the two, so you can use whichever you prefer as long as you are consistent.[^summarizing-with-dplyr-4] The pipe operator has a straightforward function: it combines a series of steps into a single command and it does this in a way which keeps your code legible. Whenever you see the pipe operator, you should read it as though it is saying, "And then \[do this\]" [@healy2019].
 
 [^summarizing-with-dplyr-4]: For more on the differences between the two pipe operators, see here: [https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/#){.uri}
 
-The pipe operator has a straightforward function: it combines a series of steps into a single command and it does this in a way that keeps your code legible. Whenever you see the pipe operator, you should read it as though it is saying, "And then \[do this\]" [@healy2019].
-
-So in the previous example provided, you might read it as:
+So in the previous example provided, you might read the code as saying:
 
 ```{r, results='hide'}
 elec_2016 %>%                            # Take the election data AND THEN
   group_by(census) %>%                   # group it by census region AND THEN
-  summarize(total = sum(johnson_vote))   # sum up the Johnson vote.
+  summarize(total = sum(johnson_vote))   # sum up the vote for Johnson.
 ```
 
 Note a couple of things here:
@@ -96,9 +92,9 @@ Note a couple of things here:
 
 The first is a convention to make the code more readable and the second is a requirement. If you leave a pipe operator at the end of your statement, `R` will search for the missing code and then give you an unfriendly error when you try to run more code. Don't leave a pipe operator hanging.
 
-## Functions from `dplyr`
+## Functions from `dplyr` 
 
-`dplyr` (pronounced dee-ply-R) is a set of tools for working with tabular data. It's one of the packages in tidyverse (along with `ggplot2`, `tidyr`, `tibble`, `readr`, and a few others), so you don't have to load it separately.
+`dplyr` (pronounced dee-ply-R) is a set of tools for working with tabular data. It's one of the packages in tidyverse (along with `ggplot2`, `tidyr`, `tibble`, `readr`, and a few others), so you won't have to load it separately.
 
 `dplyr` has a handful of special functions:
 
@@ -118,15 +114,16 @@ The first is a convention to make the code more readable and the second is a req
 
 ## Glimpsing GSS Data
 
-Let's load another data set from `socviz`. This one is called `gss_sm` and contains a nice, clean extract from the 2016 General Social Survey.
+Let's load another data set from `socviz` so that we can start testing out these new function. This data set is called `gss_sm` and contains a nice, clean extract from the 2016 General Social Survey.
 
 ```{r}
+# Loading the data into a new object
 gss <- gss_sm
 ```
 
 The [General Social Survey](https://gss.norc.org/) is a nationally representative biennial survey of U.S. adults on sociological topics produced by the National Opinion Research Center (NORC) at the University of Chicago since 1972.
 
-Take a quick look at the data. You can use `glimpse()`, another `dplyr` function, to get a sense of what's inside and you can inspect it visually using `view()`. Typing in `?gss_sm` (the original name of the data set from the package) will tell you what variables the data contains.[^summarizing-with-dplyr-6]
+Take a quick look at the data. You can use `glimpse()`, another `dplyr` function, to get a sense of what's inside. You can also inspect it visually using `view()`. Typing in `?gss_sm` (the original name of the data set from the package) will tell you what variables the data contains.[^summarizing-with-dplyr-6]
 
 [^summarizing-with-dplyr-6]: You won't always be able to get documentation on a data set by using the help function, unfortunately. But, in this case, it works because `socviz` comes with documentation that was downloaded when you installed the package. Note that you must refer to the data in your help query by it's original name (`?gss_sm` not `?gss`).
 
@@ -143,7 +140,7 @@ If we click on our data in the environment pane, we can see that the first data 
 
 ## Selecting Columns
 
-There are a lot of variables, 32 of them, in fact. Maybe we want to narrow in and look at just a few of them, like: `id`, `sex`, and `religion`. We can use the `select()` function to do this.
+There are 32 variables in this data set. Maybe we want to narrow in and look at just a few of them, like: `id`, `sex`, and `religion`. We can use the `select()` function to do this.
 
 ```{r}
 gss %>%                             # Take the GSS data AND THEN
@@ -179,7 +176,7 @@ gss %>%
   group_by(religion)
 ```
 
-As you can see, our data doesn't appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do actually get a helpful note at the top our output that says, `Groups: religion[6]`. Our observations have been successfully grouped according to the six religious affiliations in our data.
+As you can see, our data doesn't appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do get a helpful note at the top our output that says, `Groups: religion[6]`. Our observations have been successfully grouped according to the six religious affiliations in our data.
 
 Next, we have to add another line to our pipe function which specifies how we want to `summarize()` the groups. We want it to count up our rows, so we'll use the `n()` function. The `n()` function just counts the number of rows in a data frame.[^summarizing-with-dplyr-8]
 
@@ -191,9 +188,9 @@ gss %>%
   summarize(total = n())      # Create a total by counting the rows
 ```
 
-As you can see, we provided `summarize()` with a new column name, `total`, and a measurement, `n()`. Now, we have the total number of respondents for each group (religious affiliation). The pipe operator allowed us to combine the `group()` and `summarize()` functions together in sequence so that we got the analysis we wanted..
+As you can see, we provided `summarize()` with a new column name, `total`, and a measurement, `n()`. The pipe operator ensured that we grouped our data first and then summarized. Now, we have the total number of respondents for each group (religious affiliation).
 
-If we want, we can save a copy of our new tibble in another object, as in the command below. The original data object in our environment (i.e.., `gss`) will always be untouched unless we intentionally re-write it (i.e., `gss <- gss %>% ...`).
+If we want, we can save a copy of our new tibble in another object, as in the command below. The original data object in our environment (i.e.., `gss`) will always remain untouched unless we intentionally re-assign it (i.e., `gss <- gss %>% ...`).
 
 ```{r}
 relig <- gss %>%
@@ -201,7 +198,7 @@ relig <- gss %>%
   summarize(total = n())
 ```
 
-Another quick example. Let's say we want to see the count of our 2016 GSS respondents by sex:
+Another quick example, let's say we want to see the count of our 2016 GSS respondents by sex:
 
 ```{r}
 gss %>%
@@ -209,13 +206,11 @@ gss %>%
   summarize(total = n())
 ```
 
-In this example, we took the GSS data *and then* grouped it by `sex` *and then* summarized it by creating a `total` which contains a count of the number of rows.
-
-In this case, the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.
+In this code snippet, we took the GSS data *and then* grouped it by `sex` *and then* summarized it by creating a `total` which contains a count of the number of rows. Since the number of rows corresponds to the number of respondents who took the 2016 GSS, we can see that 1,276 respondents were male and 1,591 were female.
 
 ### Grouping by Two Variables
 
-We can also create the equivalent of what is called a two-way contingency table by grouping with two variables at the same time. We can use this to find religious affiliation by sex, for example:
+We can also create the equivalent of what is called a two-way contingency table by grouping with two variables at the same time. To do this, we add the second variable as another argument in the `group_by()` function. We can find religious affiliation by sex like this:
 
 ```{r}
 gss %>%
@@ -223,19 +218,21 @@ gss %>%
   summarize(total = n())
 ```
 
-In the table above, we can now identify the number of protestants who are male and the number of protestants who are female.
+In the output above, we can now identify the number of protestants who are male, 559, and the number who are female, 812.
 
-### The Order of `group()` arguments
+### The Order of `group_by()` arguments
 
-It is worth noting that the ordering of groups as arguments in the `group()` function sometimes matters (i.e., `group_by(religion, sex)` as opposed to `group_by(sex, religion)`.
+It is worth noting that the ordering of arguments in the `group_by()` function sometimes matters (i.e., `group_by(religion, sex)` as opposed to `group_by(sex, religion)`.
 
-Because religion came first in our argument order, our results show us the number of protestants who are male and the number of protestants who are female. But we could have very easily shown the number of males who are protestant and the number of females who are protestant.
+Because religion came first in our argument order, our results show us the number of protestants who are male and the number of protestants who are female. But, we could have very easily shown the number of males who are protestant and the number of females who are protestant.
 
-For a count, it does not matter. The number of protestants who are male is the same as the number of males who are protestant. But, when we start looking at relative frequencies and percentages, the order does matter. You'll get a sense for this in a moment.
+For a count, these are the same thing. The *number of protestants who are male* is the same as the *number of males who are protestant*. But when we start calculating relative frequencies and percentages using `group_by()`, the order will matter.[^summarizing-with-dplyr-9] You'll get a sense for this in a moment.
 
-## Calculating with `mutate()`
+[^summarizing-with-dplyr-9]: The *percentage of* *protestants who are male* is not the same as the *percentage of males who are protestant*.
 
-Is there an equivalent proportion of males and females among protestants in the GSS? Let's add a relative frequency column to find out.
+## Calculating with `mutate()` 
+
+Is there an equal proportion of male and female protestants in the GSS? Let's add a relative frequency column to find out.
 
 ```{r}
 gss %>%
@@ -245,7 +242,7 @@ gss %>%
          pct = round((freq*100), 1))
 ```
 
-Notice, we used the same code as before here, but now we've added another step, a `mutate()` function to create two new columns, `freq` (relative frequency) and `pct` (percentage).
+Notice, we used the same code as before, but we've now added another step, a `mutate()` function to create two new columns, `freq` (relative frequency) and `pct` (percentage).
 
 We previously calculated the `total` or the number of observations for each sub-group (e.g., protestants who are males, protestants who are females, etc.). The `mutate()` function takes the `total` we calculated in the previous step and uses it to calculate first the relative frequency and then the percentage for each sub-group.
 
@@ -289,7 +286,7 @@ In a filter function, you use logical and comparison operators (see the slides f
 
 `R` is case-sensitive and so if the values in your data are "protestant", for example, you won't see those results in the tibble output here.
 
-Usually, you will want to use the `filter()` function at the beginning of your query.  Here's another example using `filter()`.  This time, I'm only interested in religious affiliation among holders of graduate degrees.
+Usually, you will want to use the `filter()` function at the beginning of your query. Here's another example using `filter()`. This time, I'm only interested in religious affiliation among holders of graduate degrees.
 
 ```{r}
 gss %>%

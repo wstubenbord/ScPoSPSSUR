@@ -51,13 +51,13 @@ Now the fun begins. The RStudio window you've opened consists of a few different
 The console allows you to interact with your computer using `R`. So, for example, if you want to use your computer as an over-sized calculator, you can type the following `R` code in the console:
 
 ``` r
-1+1
+1 + 1
 ```
 
 What happens when you press `Enter` on your keyboard? You get something like this:
 
 ```{r}
-1+1
+1 + 1
 ```
 
 You've provided an **input**, `1+1`, and received an **output**, `2`. In other words, using the language of `R`, you've told your computer to add one plus one and your computer has correctly interpreted your command and *returned* (or output) an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer and one we will practice, often accidentally, throughout the course.
@@ -158,7 +158,7 @@ Try the following on your own in the console and then take a look at the answer:
 If you've made it this far, well done! Here's another thing you can try. Enter the following in the console:
 
 ```{r}
-x <- c(1,2,3,4,5)
+x <- c(1, 2, 3, 4, 5)
 ```
 
 You'll notice that we're using a different operator here. It's a less than symbol, `<`, followed by a dash, `-`. This is called an **assignment operator** and it has the same function as the equals sign, `=`. You can use either, but sticking with `<-` when assigning values will make life easier later on.

@@ -247,7 +247,7 @@ div.csl-indent {
   <li><a href="#grouping-and-summarizing" id="toc-grouping-and-summarizing" class="nav-link" data-scroll-target="#grouping-and-summarizing"><span class="header-section-number">3.6</span> Grouping and Summarizing</a>
   <ul class="collapse">
   <li><a href="#grouping-by-two-variables" id="toc-grouping-by-two-variables" class="nav-link" data-scroll-target="#grouping-by-two-variables"><span class="header-section-number">3.6.1</span> Grouping by Two Variables</a></li>
-  <li><a href="#the-order-of-group-arguments" id="toc-the-order-of-group-arguments" class="nav-link" data-scroll-target="#the-order-of-group-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group()</code> arguments</a></li>
+  <li><a href="#the-order-of-group_by-arguments" id="toc-the-order-of-group_by-arguments" class="nav-link" data-scroll-target="#the-order-of-group_by-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group_by()</code> arguments</a></li>
   </ul></li>
   <li><a href="#calculating-with-mutate" id="toc-calculating-with-mutate" class="nav-link" data-scroll-target="#calculating-with-mutate"><span class="header-section-number">3.7</span> Calculating with <code>mutate()</code></a></li>
   <li><a href="#how-r-reads-functions" id="toc-how-r-reads-functions" class="nav-link" data-scroll-target="#how-r-reads-functions"><span class="header-section-number">3.8</span> How <code>R</code> Reads Functions</a></li>
@@ -283,7 +283,7 @@ div.csl-indent {
 </header>
 
 <p>In the previous chapter, you learned how to load data from a package, how to access a column from a tibble using the subset operator <code>$</code>, and how to use basic functions to answer questions like: what was the total number of votes cast in the 2016 U.S. presidential election?</p>
-<p>We’ve had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven’t really required us to poke around in our data to find the answers we are interested in. This brings us to <em>data wrangling</em> - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.</p>
+<p>We’ve had a couple strokes of luck so far. Our data has been nice and tidy and our questions haven’t really required us to poke around in order to find the answers we are interested in. This brings us to <em>data wrangling</em> - the art and science of manipulating, distilling, or cajoling data into a format that allows you to find the answers you are seeking.</p>
 <p>For this lesson, we are going to continue to maintain the illusion of neat and tidy data and focus on learning the tools necessary to dig deeper into a data set: in particular, <code>dplyr</code> and the <strong>pipe operator</strong>. In future lessons, our luck will run out and we will be confronted with the harsh reality of unseemly data.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <section id="basic-description-with-base-r" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="basic-description-with-base-r"><span class="header-section-number">3.1</span> Basic Description with Base <code>R</code></h2>
@@ -340,8 +340,7 @@ Clinton   Trump
    2736   96382  212030  383997  522207 4269978 </code></pre>
 </div>
 </div>
-<p>But, what if we want to do something more specific?</p>
-<p>What if we really want to know how much of the popular vote third-party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from <code>dplyr</code> and the pipe operator.</p>
+<p>But, what if we want to do something more specific? What if, for example, we really want to know how much of the popular vote third-party Libertarian candidate Gary Johnson won across the different regions of the United States? Here we need special functions from <code>dplyr</code> and the pipe operator.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An illustrative example - no need to try this yet</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>elec_2016 <span class="sc">%&gt;%</span></span>
@@ -362,15 +361,14 @@ Clinton   Trump
 <section id="the-pipe-operator" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="the-pipe-operator"><span class="header-section-number">3.2</span> The Pipe Operator</h2>
 <p><img src="images/ceci_pipe.png" class="img-fluid"></p>
-<p>The <strong>pipe operator</strong> is a handy tool indeed. It is a specialized operator that comes from the <code>magrittr</code> package, which itself is contained in the tidyverse.</p>
+<p>The <strong>pipe operator</strong> is a handy tool indeed. It is a specialized operator that comes from the <code>magrittr</code> package, which is contained in the tidyverse.</p>
 <p>It looks like this: <code>%&gt;%</code>. But, it can also look like this: <code>|&gt;</code>.</p>
-<p>There isn’t much of a difference between the two, so you can use whichever you prefer as long as you are consistent.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
-<p>The pipe operator has a straightforward function: it combines a series of steps into a single command and it does this in a way that keeps your code legible. Whenever you see the pipe operator, you should read it as though it is saying, “And then [do this]” <span class="citation" data-cites="healy2019">(<a href="references.html#ref-healy2019" role="doc-biblioref">Healy 2019</a>)</span>.</p>
-<p>So in the previous example provided, you might read it as:</p>
+<p>There isn’t much of a difference between the two, so you can use whichever you prefer as long as you are consistent.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> The pipe operator has a straightforward function: it combines a series of steps into a single command and it does this in a way which keeps your code legible. Whenever you see the pipe operator, you should read it as though it is saying, “And then [do this]” <span class="citation" data-cites="healy2019">(<a href="references.html#ref-healy2019" role="doc-biblioref">Healy 2019</a>)</span>.</p>
+<p>So in the previous example provided, you might read the code as saying:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>elec_2016 <span class="sc">%&gt;%</span>                            <span class="co"># Take the election data AND THEN</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(census) <span class="sc">%&gt;%</span>                   <span class="co"># group it by census region AND THEN</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">sum</span>(johnson_vote))   <span class="co"># sum up the Johnson vote.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">sum</span>(johnson_vote))   <span class="co"># sum up the vote for Johnson.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note a couple of things here:</p>
 <ol type="1">
@@ -381,7 +379,7 @@ Clinton   Trump
 </section>
 <section id="functions-from-dplyr" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="functions-from-dplyr"><span class="header-section-number">3.3</span> Functions from <code>dplyr</code></h2>
-<p><code>dplyr</code> (pronounced dee-ply-R) is a set of tools for working with tabular data. It’s one of the packages in tidyverse (along with <code>ggplot2</code>, <code>tidyr</code>, <code>tibble</code>, <code>readr</code>, and a few others), so you don’t have to load it separately.</p>
+<p><code>dplyr</code> (pronounced dee-ply-R) is a set of tools for working with tabular data. It’s one of the packages in tidyverse (along with <code>ggplot2</code>, <code>tidyr</code>, <code>tibble</code>, <code>readr</code>, and a few others), so you won’t have to load it separately.</p>
 <p><code>dplyr</code> has a handful of special functions:</p>
 <ul>
 <li><p><code>group_by()</code>, which groups data together at some desired level (e.g., states by census region)</p></li>
@@ -394,12 +392,13 @@ Clinton   Trump
 </section>
 <section id="glimpsing-gss-data" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="glimpsing-gss-data"><span class="header-section-number">3.4</span> Glimpsing GSS Data</h2>
-<p>Let’s load another data set from <code>socviz</code>. This one is called <code>gss_sm</code> and contains a nice, clean extract from the 2016 General Social Survey.</p>
+<p>Let’s load another data set from <code>socviz</code> so that we can start testing out these new function. This data set is called <code>gss_sm</code> and contains a nice, clean extract from the 2016 General Social Survey.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>gss <span class="ot">&lt;-</span> gss_sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the data into a new object</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>gss <span class="ot">&lt;-</span> gss_sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <a href="https://gss.norc.org/">General Social Survey</a> is a nationally representative biennial survey of U.S. adults on sociological topics produced by the National Opinion Research Center (NORC) at the University of Chicago since 1972.</p>
-<p>Take a quick look at the data. You can use <code>glimpse()</code>, another <code>dplyr</code> function, to get a sense of what’s inside and you can inspect it visually using <code>view()</code>. Typing in <code>?gss_sm</code> (the original name of the data set from the package) will tell you what variables the data contains.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p>Take a quick look at the data. You can use <code>glimpse()</code>, another <code>dplyr</code> function, to get a sense of what’s inside. You can also inspect it visually using <code>view()</code>. Typing in <code>?gss_sm</code> (the original name of the data set from the package) will tell you what variables the data contains.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(gss)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -410,7 +409,7 @@ Clinton   Trump
 </section>
 <section id="selecting-columns" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="selecting-columns"><span class="header-section-number">3.5</span> Selecting Columns</h2>
-<p>There are a lot of variables, 32 of them, in fact. Maybe we want to narrow in and look at just a few of them, like: <code>id</code>, <code>sex</code>, and <code>religion</code>. We can use the <code>select()</code> function to do this.</p>
+<p>There are 32 variables in this data set. Maybe we want to narrow in and look at just a few of them, like: <code>id</code>, <code>sex</code>, and <code>religion</code>. We can use the <code>select()</code> function to do this.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span>                             <span class="co"># Take the GSS data AND THEN</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, sex, religion)         <span class="co"># take just the ID, sex, and religion columns.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -473,7 +472,7 @@ Clinton   Trump
 #   bigregion &lt;fct&gt;, partners_rc &lt;fct&gt;, obama &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>As you can see, our data doesn’t appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do actually get a helpful note at the top our output that says, <code>Groups: religion[6]</code>. Our observations have been successfully grouped according to the six religious affiliations in our data.</p>
+<p>As you can see, our data doesn’t appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, we do get a helpful note at the top our output that says, <code>Groups: religion[6]</code>. Our observations have been successfully grouped according to the six religious affiliations in our data.</p>
 <p>Next, we have to add another line to our pipe function which specifies how we want to <code>summarize()</code> the groups. We want it to count up our rows, so we’ll use the <code>n()</code> function. The <code>n()</code> function just counts the number of rows in a data frame.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
@@ -491,14 +490,14 @@ Clinton   Trump
 6 &lt;NA&gt;          18</code></pre>
 </div>
 </div>
-<p>As you can see, we provided <code>summarize()</code> with a new column name, <code>total</code>, and a measurement, <code>n()</code>. Now, we have the total number of respondents for each group (religious affiliation). The pipe operator allowed us to combine the <code>group()</code> and <code>summarize()</code> functions together in sequence so that we got the analysis we wanted..</p>
-<p>If we want, we can save a copy of our new tibble in another object, as in the command below. The original data object in our environment (i.e.., <code>gss</code>) will always be untouched unless we intentionally re-write it (i.e., <code>gss &lt;- gss %&gt;% ...</code>).</p>
+<p>As you can see, we provided <code>summarize()</code> with a new column name, <code>total</code>, and a measurement, <code>n()</code>. The pipe operator ensured that we grouped our data first and then summarized. Now, we have the total number of respondents for each group (religious affiliation).</p>
+<p>If we want, we can save a copy of our new tibble in another object, as in the command below. The original data object in our environment (i.e.., <code>gss</code>) will always remain untouched unless we intentionally re-assign it (i.e., <code>gss &lt;- gss %&gt;% ...</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>relig <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Another quick example. Let’s say we want to see the count of our 2016 GSS respondents by sex:</p>
+<p>Another quick example, let’s say we want to see the count of our 2016 GSS respondents by sex:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">%&gt;%</span></span>
@@ -511,11 +510,10 @@ Clinton   Trump
 2 Female  1591</code></pre>
 </div>
 </div>
-<p>In this example, we took the GSS data <em>and then</em> grouped it by <code>sex</code> <em>and then</em> summarized it by creating a <code>total</code> which contains a count of the number of rows.</p>
-<p>In this case, the number of rows corresponds to the number of respondents who took the 2016 GSS. We can see that 1,276 of our respondents were male and 1,591 were female.</p>
+<p>In this code snippet, we took the GSS data <em>and then</em> grouped it by <code>sex</code> <em>and then</em> summarized it by creating a <code>total</code> which contains a count of the number of rows. Since the number of rows corresponds to the number of respondents who took the 2016 GSS, we can see that 1,276 respondents were male and 1,591 were female.</p>
 <section id="grouping-by-two-variables" class="level3" data-number="3.6.1">
 <h3 data-number="3.6.1" class="anchored" data-anchor-id="grouping-by-two-variables"><span class="header-section-number">3.6.1</span> Grouping by Two Variables</h3>
-<p>We can also create the equivalent of what is called a two-way contingency table by grouping with two variables at the same time. We can use this to find religious affiliation by sex, for example:</p>
+<p>We can also create the equivalent of what is called a two-way contingency table by grouping with two variables at the same time. To do this, we add the second variable as another argument in the <code>group_by()</code> function. We can find religious affiliation by sex like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
@@ -543,18 +541,18 @@ Clinton   Trump
 12 &lt;NA&gt;       Female     7</code></pre>
 </div>
 </div>
-<p>In the table above, we can now identify the number of protestants who are male and the number of protestants who are female.</p>
+<p>In the output above, we can now identify the number of protestants who are male, 559, and the number who are female, 812.</p>
 </section>
-<section id="the-order-of-group-arguments" class="level3" data-number="3.6.2">
-<h3 data-number="3.6.2" class="anchored" data-anchor-id="the-order-of-group-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group()</code> arguments</h3>
-<p>It is worth noting that the ordering of groups as arguments in the <code>group()</code> function sometimes matters (i.e., <code>group_by(religion, sex)</code> as opposed to <code>group_by(sex, religion)</code>.</p>
-<p>Because religion came first in our argument order, our results show us the number of protestants who are male and the number of protestants who are female. But we could have very easily shown the number of males who are protestant and the number of females who are protestant.</p>
-<p>For a count, it does not matter. The number of protestants who are male is the same as the number of males who are protestant. But, when we start looking at relative frequencies and percentages, the order does matter. You’ll get a sense for this in a moment.</p>
+<section id="the-order-of-group_by-arguments" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="the-order-of-group_by-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group_by()</code> arguments</h3>
+<p>It is worth noting that the ordering of arguments in the <code>group_by()</code> function sometimes matters (i.e., <code>group_by(religion, sex)</code> as opposed to <code>group_by(sex, religion)</code>.</p>
+<p>Because religion came first in our argument order, our results show us the number of protestants who are male and the number of protestants who are female. But, we could have very easily shown the number of males who are protestant and the number of females who are protestant.</p>
+<p>For a count, these are the same thing. The <em>number of protestants who are male</em> is the same as the <em>number of males who are protestant</em>. But when we start calculating relative frequencies and percentages using <code>group_by()</code>, the order will matter.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> You’ll get a sense for this in a moment.</p>
 </section>
 </section>
 <section id="calculating-with-mutate" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="calculating-with-mutate"><span class="header-section-number">3.7</span> Calculating with <code>mutate()</code></h2>
-<p>Is there an equivalent proportion of males and females among protestants in the GSS? Let’s add a relative frequency column to find out.</p>
+<p>Is there an equal proportion of male and female protestants in the GSS? Let’s add a relative frequency column to find out.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion, sex) <span class="sc">%&gt;%</span></span>
@@ -584,7 +582,7 @@ Clinton   Trump
 12 &lt;NA&gt;       Female     7 0.389  38.9</code></pre>
 </div>
 </div>
-<p>Notice, we used the same code as before here, but now we’ve added another step, a <code>mutate()</code> function to create two new columns, <code>freq</code> (relative frequency) and <code>pct</code> (percentage).</p>
+<p>Notice, we used the same code as before, but we’ve now added another step, a <code>mutate()</code> function to create two new columns, <code>freq</code> (relative frequency) and <code>pct</code> (percentage).</p>
 <p>We previously calculated the <code>total</code> or the number of observations for each sub-group (e.g., protestants who are males, protestants who are females, etc.). The <code>mutate()</code> function takes the <code>total</code> we calculated in the previous step and uses it to calculate first the relative frequency and then the percentage for each sub-group.</p>
 <p>To calculate the relative frequency, we used <code>freq = total / sum(total)</code> or in plain English “create a new value called <code>freq</code> and then calculate this value by taking the number of observations for each sub-group (<code>total</code>) and then dividing it by the sum of the totals for all sub-groups (<code>sum(total)</code>).”</p>
 <p>For the religious group protestant, we have two sub-groups, male and female, and so the frequency for males protestants is calculated as <code>559 / (559 + 812)</code>, which equals <code>0.408</code> , or exactly what you see in the first row in the frequency column in our new tibble. Similarly, the frequency for female protestants would be <code>812 / (559 + 812)</code> or <code>0.592</code> or what you see in the frequency column in the second row of our new tibble.</p>
@@ -870,6 +868,7 @@ Healy, Kieran. 2019. <em>Data Visualization: A Practical Introduction</em>. Prin
 <li id="fn6"><p>You won’t always be able to get documentation on a data set by using the help function, unfortunately. But, in this case, it works because <code>socviz</code> comes with documentation that was downloaded when you installed the package. Note that you must refer to the data in your help query by it’s original name (<code>?gss_sm</code> not <code>?gss</code>).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>Using the <code>rm()</code> function can help keep your environment a bit more orderly, but it isn’t always necessary since your environment will be cleared out each time you close RStudio anyways.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>There are other options for counting the number of rows, like the <code>count()</code> or <code>tally()</code> functions, but I won’t use them here.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>The <em>percentage of</em> <em>protestants who are male</em> is not the same as the <em>percentage of males who are protestant</em>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
