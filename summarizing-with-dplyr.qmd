@@ -132,7 +132,7 @@ view(gss)
 glimpse(gss)
 ```
 
-There's a wealth of data in here. As you scrolled through the columns and rows, you may have also noticed that the data here is at the *individual-level*. Each row represents an individual respondent (identified by the `id` variable) and each column consists of a variable (in this case, a coded response to a survey question).
+There's a wealth of data in here. As you scroll through the columns and rows, you may have also noticed that the data here is at the *individual-level*. Each row represents an individual respondent (identified by the `id` variable) and each column consists of a variable (in this case, a coded response to a survey question).
 
 If we click on our data in the environment pane, we can see that the first data row corresponds to respondent #1 who is 47 years old and has 3 children:
 
@@ -176,7 +176,7 @@ gss %>%
   group_by(religion)
 ```
 
-As you can see, our data doesn't appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, there is now a helpful note at the top our output that says, `Groups: religion[6]`. Our observations have been successfully grouped according to the six religious affiliations in our data.
+As you can see, our data doesn't appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, there is now a helpful note at the top of our output that says, `Groups: religion[6]`. Our observations have been successfully grouped according to the six religious affiliations in our data.
 
 Next, we have to add another line to our pipe function which specifies how we want to `summarize()` the groups. We want it to count up our rows, so we'll use the `n()` function. The `n()` function just counts the number of rows in a data frame.[^summarizing-with-dplyr-8]
 
@@ -269,7 +269,7 @@ c(1,2,3) %>%                # A vector is created AND THEN
   sum()                     # it is summed
 ```
 
-In either case, a vector is being created first and then summed.
+In both cases, a vector is being created first and then summed.
 
 ## Filtering
 
@@ -288,7 +288,7 @@ In a filter function, you use logical and comparison operators (see the slides f
 
 `R` is case-sensitive and so if the values in your data are "protestant", for example, you won't see those results in the tibble output here.
 
-Usually, you will want to use the `filter()` function at the beginning of your query. Here's another example using `filter()`. This time, I'm only interested in religious affiliation among holders of graduate degrees.
+Usually, you will want to use the `filter()` function at the beginning of your query. Here's another example. This time, we're only interested in religious affiliation among holders of graduate degrees.
 
 ```{r}
 gss %>%
@@ -299,7 +299,7 @@ gss %>%
          pct = round((freq*100), 1))
 ```
 
-Now, we see that 39.6% of graduate-degree holding respondents were Protestant and 25.8% had no religious affiliation. Later on, we'll learn how to turn this sort of thing into a nice graph.
+Now, we can see that 39.6% of graduate-degree holding respondents were Protestant and 25.8% had no religious affiliation. Later on, we'll learn how to turn this sort of thing into a nice graph.
 
 ```{r}
 # What happens if I use a lower-case 'g' in 'Graduate' instead?
@@ -359,7 +359,7 @@ Here's a simple example of how this operator works in general:
 
 ## Fancy Tables with `kable()`
 
-If we want to make a summary table look a little bit nicer, we can add the `knitr::kable()` function to the end of our query to produce something more polished looking.
+If we want to make a summary table look a little bit nicer, we can add the `knitr::kable()` function to the end of our query to produce something more polished.
 
 ```{r}
 gss %>%
@@ -377,7 +377,7 @@ You can also add additional code to your `kable()` function to customize the loo
 
 ## Another Example
 
-What if we want to let our hair down and do something like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we'd like to know their breakdown by relative frequency across regions of the U.S.
+What if we want to do something ultra-specific like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we'd like to know their breakdown by relative frequency across regions of the U.S.
 
 Here's a brief example:
 
@@ -392,7 +392,7 @@ gss %>%
          pct = round((freq*100), 1))
 ```
 
-Now, we can rest easy knowing that we have the skills to find the percentage of Obama 2012 supporting Protestants and/or Catholics with children who reside in the South Atlantic census region (29.2%).
+Now we have the skills to find the percentage of Protestants and/or Catholics with children who voted for Obama in 2012 and reside in the South Atlantic census region (29.2%).
 
 ## Practice Exploring Data
 

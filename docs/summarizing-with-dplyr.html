@@ -403,7 +403,7 @@ Clinton   Trump
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(gss)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>There’s a wealth of data in here. As you scrolled through the columns and rows, you may have also noticed that the data here is at the <em>individual-level</em>. Each row represents an individual respondent (identified by the <code>id</code> variable) and each column consists of a variable (in this case, a coded response to a survey question).</p>
+<p>There’s a wealth of data in here. As you scroll through the columns and rows, you may have also noticed that the data here is at the <em>individual-level</em>. Each row represents an individual respondent (identified by the <code>id</code> variable) and each column consists of a variable (in this case, a coded response to a survey question).</p>
 <p>If we click on our data in the environment pane, we can see that the first data row corresponds to respondent #1 who is 47 years old and has 3 children:</p>
 <p><img src="images/GSS_Respondent-1.png" class="img-fluid"></p>
 </section>
@@ -472,7 +472,7 @@ Clinton   Trump
 #   bigregion &lt;fct&gt;, partners_rc &lt;fct&gt;, obama &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>As you can see, our data doesn’t appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, there is now a helpful note at the top our output that says, <code>Groups: religion[6]</code>. Our observations have been successfully grouped according to the six religious affiliations in our data.</p>
+<p>As you can see, our data doesn’t appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, there is now a helpful note at the top of our output that says, <code>Groups: religion[6]</code>. Our observations have been successfully grouped according to the six religious affiliations in our data.</p>
 <p>Next, we have to add another line to our pipe function which specifies how we want to <code>summarize()</code> the groups. We want it to count up our rows, so we’ll use the <code>n()</code> function. The <code>n()</code> function just counts the number of rows in a data frame.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
@@ -606,7 +606,7 @@ Clinton   Trump
 <pre><code>[1] 6</code></pre>
 </div>
 </div>
-<p>In either case, a vector is being created first and then summed.</p>
+<p>In both cases, a vector is being created first and then summed.</p>
 </section>
 <section id="filtering" class="level2" data-number="3.9">
 <h2 data-number="3.9" class="anchored" data-anchor-id="filtering"><span class="header-section-number">3.9</span> Filtering</h2>
@@ -633,7 +633,7 @@ Clinton   Trump
 </div>
 <p>In a filter function, you use logical and comparison operators (see the slides from Session 3 if you’d like a refresher) to define the criteria for your new tibble. In this case, we want only the observations for which the <code>religion</code> variable is equal to “Protestant”.</p>
 <p><code>R</code> is case-sensitive and so if the values in your data are “protestant”, for example, you won’t see those results in the tibble output here.</p>
-<p>Usually, you will want to use the <code>filter()</code> function at the beginning of your query. Here’s another example using <code>filter()</code>. This time, I’m only interested in religious affiliation among holders of graduate degrees.</p>
+<p>Usually, you will want to use the <code>filter()</code> function at the beginning of your query. Here’s another example. This time, we’re only interested in religious affiliation among holders of graduate degrees.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">'Graduate'</span>) <span class="sc">%&gt;%</span></span>
@@ -653,7 +653,7 @@ Clinton   Trump
 6 &lt;NA&gt;           1 0.00314   0.3</code></pre>
 </div>
 </div>
-<p>Now, we see that 39.6% of graduate-degree holding respondents were Protestant and 25.8% had no religious affiliation. Later on, we’ll learn how to turn this sort of thing into a nice graph.</p>
+<p>Now, we can see that 39.6% of graduate-degree holding respondents were Protestant and 25.8% had no religious affiliation. Later on, we’ll learn how to turn this sort of thing into a nice graph.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What happens if I use a lower-case 'g' in 'Graduate' instead?</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
@@ -751,7 +751,7 @@ Clinton   Trump
 </section>
 <section id="fancy-tables-with-kable" class="level2" data-number="3.11">
 <h2 data-number="3.11" class="anchored" data-anchor-id="fancy-tables-with-kable"><span class="header-section-number">3.11</span> Fancy Tables with <code>kable()</code></h2>
-<p>If we want to make a summary table look a little bit nicer, we can add the <code>knitr::kable()</code> function to the end of our query to produce something more polished looking.</p>
+<p>If we want to make a summary table look a little bit nicer, we can add the <code>knitr::kable()</code> function to the end of our query to produce something more polished.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(degree <span class="sc">==</span> <span class="st">'Graduate'</span>) <span class="sc">%&gt;%</span></span>
@@ -816,7 +816,7 @@ Clinton   Trump
 </section>
 <section id="another-example" class="level2" data-number="3.12">
 <h2 data-number="3.12" class="anchored" data-anchor-id="another-example"><span class="header-section-number">3.12</span> Another Example</h2>
-<p>What if we want to let our hair down and do something like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we’d like to know their breakdown by relative frequency across regions of the U.S.</p>
+<p>What if we want to do something ultra-specific like find all survey respondents who are Protestant or Catholic, voted for Obama in the 2012 U.S. Presidential election, and have children? And, we’d like to know their breakdown by relative frequency across regions of the U.S.</p>
 <p>Here’s a brief example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
@@ -842,7 +842,7 @@ Clinton   Trump
 9 Pacific            55 0.100   10  </code></pre>
 </div>
 </div>
-<p>Now, we can rest easy knowing that we have the skills to find the percentage of Obama 2012 supporting Protestants and/or Catholics with children who reside in the South Atlantic census region (29.2%).</p>
+<p>Now we have the skills to find the percentage of Protestants and/or Catholics with children who voted for Obama in 2012 and reside in the South Atlantic census region (29.2%).</p>
 </section>
 <section id="practice-exploring-data" class="level2" data-number="3.13">
 <h2 data-number="3.13" class="anchored" data-anchor-id="practice-exploring-data"><span class="header-section-number">3.13</span> Practice Exploring Data</h2>
