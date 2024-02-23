@@ -7,7 +7,7 @@ Before we can get to the nitty-gritty of working with real data, we need to fami
 Last class, we assigned a vector to a variable like this:
 
 ```{r}
-my_vector <- c(1,2,3,4,5,6)
+my_vector <- c(1, 2, 3, 4, 5, 6)
 ```
 
 Where `my_vector` is an object and ${1,2,3,4,5,6}$ is the set of values assigned to it. When you run this code in your console (or in a script file), your new variable and its assigned values are stored in short-term memory and appear in the Environment pane of RStudio.
@@ -164,7 +164,7 @@ Just like in a spreadsheet, you can scroll through the full set of columns and r
 
 ## Data Types and Data Structures
 
-This seems about as good a point as any to talk about the different types of data you will be working with in `R`.
+This seems about as good a point as any to talk about the different types of data you will encounter in `R`.
 
 ### Data Types
 
@@ -184,7 +184,7 @@ class(my_vector)
 
 ### Data Structures
 
-There are many different data structures in `R`. You've already become familiar with one, vectors, a set of values of the same type. Other types of data structures include:
+There are many different data structures in `R`. You've already become familiar with one, vectors, a set of values of the same type. Other data structures include:
 
 -   **list**: a set of values of different types
 -   **factor:** an ordered set of values, often used to define categories in categorical variables
@@ -198,9 +198,9 @@ my_list <- c('a', 'b', 'c', 2)
 my_list[2]
 ```
 
-In the example above, we've called an element of the list, `my_list`, using an index number in a set of brackets. Since we entered the index, `2`, inside brackets next to our list name, we received the second element of the list, the character `b`. We can also modify elements of a list in the same way.
+In the example above, we've called an element of the list, `my_list`, using an index number in a set of brackets. Since we entered the number `2` inside brackets next to our list name, we received the second element of the list, the character `'b'`. We can also modify elements of a list in the same way.
 
-Let's say that I now want to change `'b'`, the second element of `my_list`, to the word `'blueberry'`:
+Let's now say that we want to change `'b'`, the second element of `my_list`, to the word `'blueberry'`:
 
 ```{r}
 my_list[2] <- 'blueberry'
@@ -237,9 +237,9 @@ Here, we summed all of the values in the `total_vote` column in the `election_20
 
 ## Exercise
 
-For the remainder of today's session, I'd like you play around with the election data. In particular:
+For the remainder of today's session, I'd like you to play around with the election data. In particular:
 
-1.  Identify the variable type for the `ST`, `pct_johnson`, and `winner` columns.
+1.  Identify the data type for the `ST`, `pct_johnson`, and `winner` columns.
 2.  Calculate the mean `vote_margin` across the states.
 3.  Use the `table()` function to count the number of states won by each presidential candidate.
 4.  Create a variable which contains the total number of votes received by Hillary Clinton (contained in the column `clinton_vote`) and a variable containing the total number of votes received by Donald Trump (`trump_vote`). Take the difference of the two.

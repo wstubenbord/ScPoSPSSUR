@@ -62,7 +62,7 @@ What happens when you press `Enter` on your keyboard? You get something like thi
 
 You've provided an **input**, `1+1`, and received an **output**, `2`. In other words, using the language of `R`, you've told your computer to add one plus one and your computer has correctly interpreted your command and *returned* (or output) an answer, two. When your computer does not know how to interpret a command, usually because you've made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer and one we will practice, often accidentally, throughout the course.
 
-One more note about outputs: the first number in brackets next to your output, `[1]`, indicates the index number of the output.[^intro-to-r-1] This is especially helpful when you are running code that generates multiple outputs. See below, for example, where we output a list of letters in the English alphabet ("T" is the 20th letter and our 20th output).
+One more note about outputs: the first number in brackets next to your output, `[1]`, indicates the index number of the output.[^intro-to-r-1] This is especially helpful when you are running code that generates multiple outputs. See below, for example, where we input `LETTERS` and receive a list of letters in the English alphabet as the output (note, "T" is the 20th letter and our 20th output).
 
 [^intro-to-r-1]: In `R`, unlike in other programming languages, the first value in any data structure (e.g., a vector) has an index number of `1` rather than `0`. This makes intuitive sense. If you were asked to count people in line at a boulangerie, you would call the next person waiting to place their order the *first* person in line, not the *zero*eth. In Python, you would call them the *zero*eth person and they would have an index number of `0` instead of `1`. For more on where this comes from, see [here](https://en.wikipedia.org/wiki/Zero-based_numbering "Wikipedia: Zero-based numbering").
 
@@ -70,7 +70,7 @@ One more note about outputs: the first number in brackets next to your output, `
 LETTERS
 ```
 
-For now, try entering a few more inputs, such as:
+Try entering a few more inputs in the console:
 
 1.  `10/3`
 
@@ -90,7 +90,7 @@ What happens when you press `Enter`?
 
 ![](images/RStudio%20console_x1.png)
 
-Unlike before, there is no output when you press `Enter`. But, that doesn't mean nothing happened. In fact, something has happened. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we might call the **environment**. You don't receive an output, but RStudio reminds you of your new object's existence via the Environment pane in the top right.
+Unlike before, there is no output when you press `Enter`. But, that doesn't mean nothing happened. In fact, something has happened. You've stored a value, `1`, in a variable, `x`, somewhere in your computer's memory or in what we might call the **environment**. You don't receive an output, but RStudio reminds you of your new object's existence via the environment pane in the top right.
 
 We can recall the value we input into our variable, `x`, by entering the object name in the console:
 
@@ -98,7 +98,7 @@ We can recall the value we input into our variable, `x`, by entering the object 
 x
 ```
 
-See! Your computer remembers what you stored in your environment.
+See! Your computer remembers what you stored in the environment.
 
 Try the following on your own in the console and then take a look at the answer:
 
@@ -155,15 +155,15 @@ Try the following on your own in the console and then take a look at the answer:
 
 ## Calculations with Objects
 
-If you've made it this far, well done! Here's another thing you can try. Enter the following in the console:
+If you've made it this far, well done! Here's something else you can try. Enter the following in the console:
 
 ```{r}
 x <- c(1, 2, 3, 4, 5)
 ```
 
-You'll notice that we're using a different operator here. It's a less than symbol, `<`, followed by a dash, `-`. This is called an **assignment operator** and it has the same function as the equals sign, `=`. You can use either, but sticking with `<-` when assigning values will make life easier later on.
+You'll notice that we're using a different operator here. It's a less than symbol, `<`, followed by a dash, `-`. This is called an **assignment operator** and it has the same function as the equals sign, `=`. You can use either, but sticking with `<-` when assigning values to objects will make life easier later on.
 
-What happens when you press `Enter`? You have created a **vector**. Like other types of variables in `R`, a vector is an **object**. A vector holds a set of values of the same type. In this case, the vector `x` contains a set of numbers: $\{1,2,3,4,5\}$.
+What happens when you press `Enter`? You have created a **vector**. In `R`, a vector is an **object** that holds a set of values of the same type. In this case, the vector `x` contains a set of numbers: $\{1,2,3,4,5\}$. You can think of an object as a container which holds things and a "variable" as the name we use to refer to a specific object. Here, `x` is the variable name we've given to our vector of numbers, which is an object. Most things in `R` are objects.
 
 We can do all sorts of things with vectors and other objects in `R`. We can, for example, find the sum of a vector.
 
@@ -229,7 +229,7 @@ And, we can perform other operations on vectors too. Try each of the following q
 
 As you've started to see, working with a scripting language like `R` is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface. No more clicking on cells to change values, now you change them programmatically.
 
-One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you've taken to produce your analysis and repeat them. We don't have to take your word for how you've calculated something. We can see it and use it ourselves to produce the same thing.
+One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you've taken to produce your analysis and repeat them. We don't have to take your word for how you've calculated something. We can see the code and use it ourselves to produce the same thing.
 
 This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that anyone can come back to it and understand what you did. We'll say more about how to do this later on.
 

@@ -309,7 +309,7 @@ Caution
 </div>
 </div>
 <p>You’ve provided an <strong>input</strong>, <code>1+1</code>, and received an <strong>output</strong>, <code>2</code>. In other words, using the language of <code>R</code>, you’ve told your computer to add one plus one and your computer has correctly interpreted your command and <em>returned</em> (or output) an answer, two. When your computer does not know how to interpret a command, usually because you’ve made a mistake, you will receive an error message as the output instead. Identifying errors and being able to correct them is an essential skill for a programmer and one we will practice, often accidentally, throughout the course.</p>
-<p>One more note about outputs: the first number in brackets next to your output, <code>[1]</code>, indicates the index number of the output.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This is especially helpful when you are running code that generates multiple outputs. See below, for example, where we output a list of letters in the English alphabet (“T” is the 20th letter and our 20th output).</p>
+<p>One more note about outputs: the first number in brackets next to your output, <code>[1]</code>, indicates the index number of the output.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This is especially helpful when you are running code that generates multiple outputs. See below, for example, where we input <code>LETTERS</code> and receive a list of letters in the English alphabet as the output (note, “T” is the 20th letter and our 20th output).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>LETTERS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -317,7 +317,7 @@ Caution
 [20] "T" "U" "V" "W" "X" "Y" "Z"</code></pre>
 </div>
 </div>
-<p>For now, try entering a few more inputs, such as:</p>
+<p>Try entering a few more inputs in the console:</p>
 <ol type="1">
 <li><p><code>10/3</code></p></li>
 <li><p><code>(10/3) + 1</code></p></li>
@@ -330,7 +330,7 @@ Caution
 </div>
 <p>What happens when you press <code>Enter</code>?</p>
 <p><img src="images/RStudio console_x1.png" class="img-fluid"></p>
-<p>Unlike before, there is no output when you press <code>Enter</code>. But, that doesn’t mean nothing happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the <strong>environment</strong>. You don’t receive an output, but RStudio reminds you of your new object’s existence via the Environment pane in the top right.</p>
+<p>Unlike before, there is no output when you press <code>Enter</code>. But, that doesn’t mean nothing happened. In fact, something has happened. You’ve stored a value, <code>1</code>, in a variable, <code>x</code>, somewhere in your computer’s memory or in what we might call the <strong>environment</strong>. You don’t receive an output, but RStudio reminds you of your new object’s existence via the environment pane in the top right.</p>
 <p>We can recall the value we input into our variable, <code>x</code>, by entering the object name in the console:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -338,7 +338,7 @@ Caution
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
-<p>See! Your computer remembers what you stored in your environment.</p>
+<p>See! Your computer remembers what you stored in the environment.</p>
 <p>Try the following on your own in the console and then take a look at the answer:</p>
 <ol type="1">
 <li><p>Can you assign a new value to your variable, <code>x</code>?</p>
@@ -440,12 +440,12 @@ Answer
 </section>
 <section id="calculations-with-objects" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="calculations-with-objects"><span class="header-section-number">1.4</span> Calculations with Objects</h2>
-<p>If you’ve made it this far, well done! Here’s another thing you can try. Enter the following in the console:</p>
+<p>If you’ve made it this far, well done! Here’s something else you can try. Enter the following in the console:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You’ll notice that we’re using a different operator here. It’s a less than symbol, <code>&lt;</code>, followed by a dash, <code>-</code>. This is called an <strong>assignment operator</strong> and it has the same function as the equals sign, <code>=</code>. You can use either, but sticking with <code>&lt;-</code> when assigning values will make life easier later on.</p>
-<p>What happens when you press <code>Enter</code>? You have created a <strong>vector</strong>. Like other types of variables in <code>R</code>, a vector is an <strong>object</strong>. A vector holds a set of values of the same type. In this case, the vector <code>x</code> contains a set of numbers: <span class="math inline">\(\{1,2,3,4,5\}\)</span>.</p>
+<p>You’ll notice that we’re using a different operator here. It’s a less than symbol, <code>&lt;</code>, followed by a dash, <code>-</code>. This is called an <strong>assignment operator</strong> and it has the same function as the equals sign, <code>=</code>. You can use either, but sticking with <code>&lt;-</code> when assigning values to objects will make life easier later on.</p>
+<p>What happens when you press <code>Enter</code>? You have created a <strong>vector</strong>. In <code>R</code>, a vector is an <strong>object</strong> that holds a set of values of the same type. In this case, the vector <code>x</code> contains a set of numbers: <span class="math inline">\(\{1,2,3,4,5\}\)</span>. You can think of an object as a container which holds things and a “variable” as the name we use to refer to a specific object. Here, <code>x</code> is the variable name we’ve given to our vector of numbers, which is an object. Most things in <code>R</code> are objects.</p>
 <p>We can do all sorts of things with vectors and other objects in <code>R</code>. We can, for example, find the sum of a vector.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -546,7 +546,7 @@ Answer
 <section id="saving-your-work" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="saving-your-work"><span class="header-section-number">1.5</span> Saving Your Work</h2>
 <p>As you’ve started to see, working with a scripting language like <code>R</code> is quite different from working with software like Microsoft Excel or Google Sheets. You work interactively with data using code rather than by changing values directly in a user interface. No more clicking on cells to change values, now you change them programmatically.</p>
-<p>One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you’ve taken to produce your analysis and repeat them. We don’t have to take your word for how you’ve calculated something. We can see it and use it ourselves to produce the same thing.</p>
+<p>One of the great advantages of interacting with data in this way, particularly for the social sciences, is that it allows us to see all of the steps you’ve taken to produce your analysis and repeat them. We don’t have to take your word for how you’ve calculated something. We can see the code and use it ourselves to produce the same thing.</p>
 <p>This means that we leave our source data alone and write the code that produces the analysis. As with any good recipe, we want the code you write to be clear and easy to follow so that anyone can come back to it and understand what you did. We’ll say more about how to do this later on.</p>
 <p>There are a couple of different ways to save your code:</p>
 <ol type="1">

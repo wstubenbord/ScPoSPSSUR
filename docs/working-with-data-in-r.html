@@ -273,7 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="2.1" class="anchored" data-anchor-id="functions"><span class="header-section-number">2.1</span> Functions</h2>
 <p>Last class, we assigned a vector to a variable like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Where <code>my_vector</code> is an object and <span class="math inline">\({1,2,3,4,5,6}\)</span> is the set of values assigned to it. When you run this code in your console (or in a script file), your new variable and its assigned values are stored in short-term memory and appear in the Environment pane of RStudio.</p>
 <p>When we assigned a single value to another variable, however, as in:</p>
@@ -372,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ ggplot2   3.5.0     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -428,7 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-types-and-data-structures" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="data-types-and-data-structures"><span class="header-section-number">2.4</span> Data Types and Data Structures</h2>
-<p>This seems about as good a point as any to talk about the different types of data you will be working with in <code>R</code>.</p>
+<p>This seems about as good a point as any to talk about the different types of data you will encounter in <code>R</code>.</p>
 <section id="data-types" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="data-types"><span class="header-section-number">2.4.1</span> Data Types</h3>
 <p>There are six different basic data types in <code>R</code>. The most important for our purposes are:</p>
@@ -448,7 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-structures" class="level3" data-number="2.4.2">
 <h3 data-number="2.4.2" class="anchored" data-anchor-id="data-structures"><span class="header-section-number">2.4.2</span> Data Structures</h3>
-<p>There are many different data structures in <code>R</code>. You’ve already become familiar with one, vectors, a set of values of the same type. Other types of data structures include:</p>
+<p>There are many different data structures in <code>R</code>. You’ve already become familiar with one, vectors, a set of values of the same type. Other data structures include:</p>
 <ul>
 <li><strong>list</strong>: a set of values of different types</li>
 <li><strong>factor:</strong> an ordered set of values, often used to define categories in categorical variables</li>
@@ -463,8 +463,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] "b"</code></pre>
 </div>
 </div>
-<p>In the example above, we’ve called an element of the list, <code>my_list</code>, using an index number in a set of brackets. Since we entered the index, <code>2</code>, inside brackets next to our list name, we received the second element of the list, the character <code>b</code>. We can also modify elements of a list in the same way.</p>
-<p>Let’s say that I now want to change <code>'b'</code>, the second element of <code>my_list</code>, to the word <code>'blueberry'</code>:</p>
+<p>In the example above, we’ve called an element of the list, <code>my_list</code>, using an index number in a set of brackets. Since we entered the number <code>2</code> inside brackets next to our list name, we received the second element of the list, the character <code>'b'</code>. We can also modify elements of a list in the same way.</p>
+<p>Let’s now say that we want to change <code>'b'</code>, the second element of <code>my_list</code>, to the word <code>'blueberry'</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>my_list[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">'blueberry'</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>my_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -520,9 +520,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exercise" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">2.6</span> Exercise</h2>
-<p>For the remainder of today’s session, I’d like you play around with the election data. In particular:</p>
+<p>For the remainder of today’s session, I’d like you to play around with the election data. In particular:</p>
 <ol type="1">
-<li>Identify the variable type for the <code>ST</code>, <code>pct_johnson</code>, and <code>winner</code> columns.</li>
+<li>Identify the data type for the <code>ST</code>, <code>pct_johnson</code>, and <code>winner</code> columns.</li>
 <li>Calculate the mean <code>vote_margin</code> across the states.</li>
 <li>Use the <code>table()</code> function to count the number of states won by each presidential candidate.</li>
 <li>Create a variable which contains the total number of votes received by Hillary Clinton (contained in the column <code>clinton_vote</code>) and a variable containing the total number of votes received by Donald Trump (<code>trump_vote</code>). Take the difference of the two.</li>

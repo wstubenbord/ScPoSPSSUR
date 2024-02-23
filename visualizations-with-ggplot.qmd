@@ -1,141 +1,376 @@
 # Visualizing with `ggplot2`
 
-You might be wondering how I managed to win all of those trophies on my office bookshelf.[^visualizations-with-ggplot-1] The answer: `ggplot2`. What is `ggplot2` you ask? It's a data visualization package from *tidyverse* which allows you to build highly-customizable (and sometimes beautiful) graphics. It's also the topic of today's session.
+```{r eval=knitr::is_latex_output(), include=FALSE}
+# Ensures that the Roboto Condensed fonts are included in the PDF render.  For 
+# some reason, the default PDF rendering engine has trouble withcustom fonts.  
+# This chunk only runs for the PDF render.
+knitr::opts_chunk$set(dev = "cairo_pdf")
+```
 
-[^visualizations-with-ggplot-1]: It turns out that I have neither trophies nor an office, but let's not let that spoil things now.
+By now, you might be wondering how I managed to win all of those trophies in my office.[^visualizations-with-ggplot-1] The short answer: `ggplot2`. What is `ggplot2`, you ask? It's a data visualization package from the *tidyverse* which allows you to build highly customizable (and sometimes beautiful) graphics. It's also the topic of this chapter.
 
-But first we need to step back and think a little bit more about the motivation for data analysis and visualization in general.
+[^visualizations-with-ggplot-1]: I have neither trophies nor an office, but let's not let that spoil things.
+
+But first, we need to step back and talk a little bit more about description, the purpose of data visualization, and where this all fits in. We'll continue from the previous chapter with a brief refresher on descriptive statistics, then move on to the principles of data visualization, and finish with some practical applications of `ggplot2`. Our end goal for today is to create something informative and rather nice-looking, like this:[^visualizations-with-ggplot-2]
+
+[^visualizations-with-ggplot-2]: Credit for the following visualization and for the series of examples derived from it goes to @healy2019.
+
+```{r, message = FALSE, echo = FALSE}
+library(scales)     # Used for the dollar labels
+library(hrbrthemes) # A theme used for graphs
+library(tidyverse)
+library(gapminder)
+data(gapminder)
+
+# Source: https://youtu.be/04GFB33lUJE?feature=shared&t=2335
+
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha=0.5) + 
+  scale_x_log10(labels = label_dollar()) +
+  scale_size(labels = label_number(scale_cut = cut_short_scale())) +
+  labs(x = "GDP Per Capita (log scale, inflation-adjusted USD)",
+       y = "Life Expectancy in Years",
+       size = "Population",
+       color = "Continent",
+       title = "Economic Growth and Life Expectancy",
+       caption = " Source: Gapminder \n Note: Observations are country-years.") +
+  theme_ipsum_rc()
+```
 
 ## Descriptive Statistics
 
-In the previous chapter, we learned how to use `dplyr` functions to summarize data. We started with individual-level observations (i.e., GSS respondents) and used `group_by()` , `summarize()`, and `mutate()` to distill data into summary statistics, such as the proportion of GSS respondents by religious affiliation or the mean number of children by respondent's degree level. We can't yet say much about whether more Americans are Protestant or Catholic or whether U.S. college graduates tend to have more or less children than high school graduates — these questions require inferential statistics — but, we are developing the tools we need to do so.
+In the previous chapter, we learned how to use `dplyr` functions to summarize data. We started with individual-level observations (i.e., GSS respondents) and used `group_by()` , `summarize()`, and `mutate()` to distill our granular data into summary statistics, such as the proportion of GSS respondents by religious affiliation or the mean number of children by respondent's degree level. We can't say much yet about whether more Americans are Protestant or Catholic or whether U.S. college graduates tend to have more or less children than high school graduates — these questions require inference — but, we're now able to produce some of the statistics we'll need to examine these types of questions later.
 
-The point of producing **descriptive statistics**, like a proportion or mean, is that they allow us to identify some characteristics for a set of observations (usually, a sample). If you recall from your statistics class, for quantitative variables, we have **measures of central tendency**, which give us an indication of where the typical observation falls in the distribution, **measures of spread**, which tell us how far apart our observations are from the center, and what we might call other distributional measures, which tell us, for example, how many values are in our sample or what the largest and smallest values are.
+The point of producing **descriptive statistics**, like proportions or means, is that they allow us to identify characteristics of a set of observations (usually, a sample). For quantitative variables, if you recall from your statistics class, we can describe data with different types of measures. We have, for instance, **measures of central tendency**, which give us an indication of where the center of our distribution is (or what the typical observation may be), **measures of spread**, which tell us how far apart observations are from the center of the distribution, and what we might call other distributional measures, which can tell us how many values are in our sample or what the largest and smallest values may be. Categorical variables are even simpler, we can generally describe them with just a **frequency** (count) or **relative frequency** (the count expressed as a proportion or percentage).
 
-## Measures for Quantitative Variables
+### Measures for a Single Quantitative Variable
 
-**Measures of Central Tendency**
+The tables below provide a brief overview of some of the measures we've already used or might use to describe a quantitative variable.
 
-|           |                                                                                            |                |
-|----------------------|---------------------------------|-----------------|
-| *Measure* | *Description*                                                                              | *`R` Function* |
-| Mean      | The sum of the values divided by the count of values. Sensitive to outliers.               | `mean()`       |
-| Median    | The middle value, half of the values are above and half are below. Resistant to outliers.  | `median()`     |
+#### Central Tendency {.unnumbered}
 
-**Measures of Spread**
+|           |                                                                                                      |                |
+|---------------------|-----------------------------|----------------------|
+| *Measure* | *Description*                                                                                        | *`R` Function* |
+| Mean      | The sum of the values divided by the count. It's sensitive to outliers.                              | `mean()`       |
+| Median    | The middle value, where half of the values are above and half are below. It's resistant to outliers. | `median()`     |
 
-|                           |                                                                                                                                                           |                |
-|----------------------|---------------------------------|-----------------|
-| *Measure*                 | *Description*                                                                                                                                             | *`R` Function* |
-| Variance                  | The sum of the squared deviations from the mean, divided by the count minus one. It gives us a sense of how far values typically are away from the mean.  | `var()`        |
-| Standard Deviation        | The square root of the variance. It's the more commonly reported measure of spread and, again, tells us how far values typically are away from the mean.  | `sd()`         |
-| Range                     | The maximum minus the minimum, a measure of the distribution's overall spread.                                                                            | `range()`      |
-| Interquartile Range (IQR) | The distance between the 75th percentile value and the 25th percentile value. It gives us a sense of the spread for the middle-most values.               | `IQR()`        |
+#### Spread {.unnumbered}
 
-**Other Distributional Measures**
+|                           |                                                                                                                                                   |                |
+|---------------------|-----------------------------|----------------------|
+| *Measure*                 | *Description*                                                                                                                                     | *`R` Function* |
+| Variance                  | The sum of squared deviations from the mean divided by the count minus one. It gives us a sense of how far values typically are from the mean.    | `var()`        |
+| Standard Deviation        | The square root of the variance. The more commonly reported measure of spread which, again, tells us how far values typically are from the mean.  | `sd()`         |
+| Interquartile Range (IQR) | The distance between the 75th percentile value and the 25th percentile value. It gives us an indication of the spread for the middle-most values. | `IQR()`        |
 
-|           |                                                  |
-|-----------|--------------------------------------------------|
-| *Measure* | *`R` Function*                                   |
-| Minimum   | `min()`                                          |
-| Maximum   | `max()`                                          |
-| Count     | `n()`, if each row corresponds to an observation |
+#### Other Distributional Measures {.unnumbered}
 
-```{r}
-require(tidyverse)
-require(socviz)
+|           |                       |                |
+|-----------|-----------------------|----------------|
+| *Measure* | *Description*         | *`R` Function* |
+| Minimum   | The smallest value.   | `min()`        |
+| Maximum   | The largest value.    | `max()`        |
+| Count     | The number of values. | `n()`          |
 
+#### Example {.unnumbered}
 
+Below is a table of descriptive statistics for the popular vote share received by candidates in the 2016 U.S. Presidential election by state (including the District of Columbia). Note, the unit of observation is a U.S. state and so we can read this as saying Trump received 4.09% of the vote share in his lowest performing state, 68.17% in his highest, and a mean of 48.26% and standard deviation of 11.92% across states.
 
-
-clinton <- election %>%
-  summarize(n = n(),
-            min = min(pct_clinton),
-            max = max(pct_clinton),
-            median = median(pct_clinton),
-            mean = max(pct_clinton),
-            iqr = IQR(pct_clinton),
-            var = var(pct_clinton),
-            sd = sd(pct_clinton)
-            )
-
-trump <- election %>%
-  summarize(n = n(),
-            min = min(pct_trump),
-            max = max(pct_trump),
-            median = median(pct_trump),
-            mean = max(pct_trump),
-            iqr = IQR(pct_trump),
-            var = var(pct_trump),
-            sd = sd(pct_trump)
-            )
-
-merge(clinton, trump)
-```
-```{r}
-require(tidyverse)
-require(socviz)
-
-election %>%
-  select(state, pct_trump, pct_clinton) %>%
-  summarize_all(list(min = min,
-            max = max,
-            median = median,
-            mean = max,
-            iqr = IQR,
-            var = var,
-            sd = sd,
-            na.rm = TRUE
-            )) %>%
-  pivot_longer(cols = everything,
-               names_sep = "_",
-               names_to  = c("variable", ".value"))
-
+```{r, echo = FALSE, include=FALSE, warning = FALSE}
+library(socviz)
+library(stringr)
+library(MASS)
 ```
 
-```{r}
-require(tidyverse)
-require(socviz)
-
+```{r, echo = FALSE, warning=FALSE}
+# Getting the whole set of descriptive statistics for the election data
 election %>%
-  summarize(across(c(pct_trump,pct_clinton),
-                   list(min = min,
-                        max = max,
-                        median = median,
-                        mean = max,
-                        iqr = IQR,
-                        var = var,
-                        sd = sd),
+  summarize(across(.cols = c(pct_trump, pct_clinton, pct_johnson, pct_other),
+                   .fns = list(median = median,
+                               mean = mean,
+                               var = var,
+                               sd = sd,
+                               iqr = IQR,
+                               min = min,
+                               max = max
+                               ),
                    na.rm = TRUE,
-                   .names = "{fn}_{col}")) %>%
-  pivot_longer(cols = everything())
+                   .names = "{.col}_{.fn}"
+                   )
+            ) %>%
+  pivot_longer(cols = everything(),
+               names_to = "candidate",
+               names_prefix = "pct_",
+               values_to = "val") %>%
+  separate(col = candidate, 
+           sep = "_", 
+           into=c("candidate", "measure")) %>%
+  pivot_wider(names_from = measure,
+              values_from = val) %>%
+  mutate(candidate = str_to_title(candidate),
+         across(.cols = where(is.numeric),
+                ~ round(.x,2))
+         ) %>%
+  knitr::kable()
+```
+
+As a general rule, we don't use variance in our descriptions and we report mean and standard deviation together. These latter two are especially important for inferential methods, like linear regression.
+
+### Measure for Two Quantitative Variable
+
+To these univariate characteristics, we can add a measure for describing relationships between two quantitative variables: the *correlation coefficient*.
+
+|                   |                                                                                                       |                |
+|---------------------|---------------------------------|------------------|
+| *Measure*         | *Description*                                                                                         | *`R` Function* |
+| Correlation ($r$) | A measure of the strength and direction of the linear association between two quantitative variables. | `cor()`        |
+
+In statistics, we generally make a distinction between an **association**, a relationship between two variables, and a **correlation**, or the linear association between two *quantitative* variables. Associations can refer to some relationship between variables of any type, but a correlation is a specific measure we calculate for two quantitative variables using a specific formula (or the `cor()` function in `R`). The distinction between association and correlation often gets lost in everyday language, but we'll try to maintain some precision here. Correlations range between -1 and +1, with either extreme representing a perfect linear association of data points with some slope. The figure below shows a range of different correlations.
+
+```{r, echo = FALSE, include=FALSE, warning = FALSE}
+require(MASS)
+require(patchwork)
+```
+
+```{r,  echo = FALSE, warning=FALSE}
+n = 200           # The number of observations appearing in the scatterplot
+lims = c(-3,3)    # The bounds for the scatterplots
+
+cor_n_one <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,-1,-1,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_n_p66 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,-.66,-.66,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_n_p33 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,-.33,-.33,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_zero <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,0,0,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_p_p33 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,0.33,0.33,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_p_p66 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,0.66,0.66,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_p_one <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,1,1,1), ncol = 2), 
+                     empirical = TRUE))
+
+p1 <- ggplot(cor_n_one) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = -1") + xlim(lims) + ylim(lims) + theme_bw()
+p2 <- ggplot(cor_n_p66) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = -0.66") + xlim(lims) + ylim(lims) + theme_bw()
+p3 <- ggplot(cor_n_p33) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = -0.33") + xlim(lims) + ylim(lims) + theme_bw()
+p4 <- ggplot(cor_zero) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 0") + xlim(lims) + ylim(lims) +  theme_bw()
+p5 <- ggplot(cor_p_p33) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 0.33") + xlim(lims) + ylim(lims) + theme_bw()
+p6 <- ggplot(cor_p_p66) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 0.66") + xlim(lims) + ylim(lims) + theme_bw()
+p7 <- ggplot(cor_p_one) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 1") + xlim(lims) + ylim(lims) + theme_bw()
+
+p8 <- (p1 + p2 + p3) / p4 / (p5 + p6 + p7) + plot_annotation("A Series of Correlations")
+p8
+```
+
+```{r, echo = FALSE, include=FALSE, warning = FALSE}
+detach("package:MASS", unload=TRUE)
+rm(list = ls())
+```
+
+To describe a relationship between quantitative variables, it's useful to talk about:
+
+-   Strength, whether there is a strong (close to -1 or 1) or weak correlation (close to 0)
+-   Direction, whether the relationship is positive or negative
+-   Form, whether the association is linear or non-linear
+-   Outliers, whether there are any observations that break the general pattern
+
+The correlation coefficient is sensitive to outliers (i.e., a stray observation can greatly influence the measure) and the general form of the relationship. You can see the effect of both in Francis Anscombe's classic example. The figure below shows four different sets of observations, each with the same correlation ($r \approx 0.82$).
+
+```{r,  echo = FALSE, warning=FALSE}
+anscombe <- anscombe
+p1 <- ggplot(anscombe, aes(x=x1, y=y1)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p2 <- ggplot(anscombe, aes(x=x2, y=y2)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p3 <- ggplot(anscombe, aes(x=x3, y=y3)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p4 <- ggplot(anscombe, aes(x=x4, y=y4)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p1 + p2 + p3 + p4 + plot_annotation("Anscombe's Quartet")
 
 ```
 
-It's worth taking a step back to think about how this type of analysis works in the research setting and what our goals might be.
+## Why Visualize?
 
-We've been conducting this sort of analysis blindly so far, as a means of exploring the features of `R` and testing out its features. But, in the social sciences, we usually want to come to data with a set of questions and hypotheses (or predictions) before we start examining it.
+This brings us to our central point: data visualization isn't just fun, it is essential. Correlations and other summary measures can be terribly misleading, but checking our plots gives us a chance to ensure that the underlying data matches our expectations. In the case of Anscombe's quartet, only one of the plots corresponds to what we might expect for a correlation of 0.82.
 
-Usually, we conduct this sort of analysis in the pursuit of answers to research q Wrequir
-We could, for example, find the
+There are other clear benefits to data visualization beyond the analytic. They can convey complex data in simple terms, for example, and they can form lasting impressions. The communicative benefits of data visualization, especially in a world where digital mediums have taken precedence, can be difficult to overstate.
+
+y are a vector for communication and, as a result, come with a host of other concerns beyond...
+
+come with some responsibility on the part of the analyst for ensuring that the end-result is both clear
+
+These communicative benefits require some responsibility on the part of the analyst, however. It can be surprisingly easy to mislead, unintentionally or otherwise, and as
+
+It may be apparent to you by now that there are analytic advantages to visualizing our data. We can easily identify the general form of a relationship and we can observe whether outliers or non-linear relationships may be biasing our measurements.
+
+But there are other clear benefits to visualizing data. They can convey information quickly. They can
+
+## Making a Cake with `ggplot2`
+
+`ggplot2` works in layers. We start with a bare plot, just our axes and their labels, and then work our way up to the final product.
+
+Let's take a look at some more interesting data. This time we'll use the eponymous Gapminder data from the Gapminder package.
 
 ```{r}
-# Load the packages
-require(tidyverse)
-require(socviz)
-
-# Store it in another tibble
-gss <- gss_sm
-
-partkids <- gss %>%
-  group_by(kids, partners_rc) %>%
-  tally() %>%
-  mutate(pct = round(n/sum(n)*100,1)) %>%
-  drop_na(partners_rc, kids) %>%
-  arrange(desc(kids)) %>%
-  filter(partners_rc == "4+")
-  
-
+library(gapminder)
+data(gapminder)
 ```
 
-## Recoding variables
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp))
+```
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) + 
+  geom_point()  
+```
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_x_log10()
+```
+
+```{r, warning = FALSE}
+library(scales)     # Used for the dollar labels
+library(hrbrthemes) # A theme used for graphs
+# Source: https://youtu.be/04GFB33lUJE?feature=shared&t=2335
+
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha=0.5) + 
+  scale_x_log10(labels = label_dollar()) +
+  scale_size(labels = label_number(scale_cut = cut_short_scale())) +
+  labs(x = "GDP Per Capita (log scale)",
+       y = "Life Expectancy in Years",
+       size = "Population",
+       color = "Continent",
+       title = "Economic Growth and Life Expectancy",
+       caption = " Source: Gapminder \n Note: Observations are country-years.") +
+  theme_ipsum_rc()
+```
+
+## Line Chart
+
+Populations of european countries
+
+```{r}
+my_countries = c('France', 'United Kingdom', 'Italy')
+gapminder %>%
+  filter(country %in% my_countries) %>%
+  ggplot(aes(x = year, y = pop, color = country)) +
+  geom_line(size=2) +  
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) + 
+  labs(x="Year",
+       y = "Population",
+       color = "Country",
+       title = "Population Growth in Europe",
+       caption = "Source: Gapminder") + 
+  theme_bw() + theme(text = element_text(size = 14, family = "Roboto Condensed"),
+                     plot.title = element_text(size = 20, face = "bold"),
+                     axis.title.x = element_text(hjust=1), 
+                     axis.title.y = element_text(hjust=1))
+
+
+my_countries = c('France', 'United Kingdom', 'Italy')
+gapminder %>%
+  filter(country %in% my_countries) %>%
+  ggplot(aes(x = year, y = gdpPercap, color = country)) +
+  geom_line(size=2) +  
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) + 
+  labs(x="Year",
+       y = "GDP Per Capita (USD)",
+       color = "Country",
+       title = "Economic Growth in Europe",
+       caption = "Source: Gapminder") + 
+  theme_bw() + theme(text = element_text(size = 14, family = "Roboto Condensed"),
+                     plot.title = element_text(size = 20, face = "bold"),
+                     axis.title.x = element_text(hjust=1), 
+                     axis.title.y = element_text(hjust=1))
+```
+
+## Maps
+
+```{r, message = FALSE}
+library(maps)
+library(socviz)
+library(ggthemes)
+library(tidyverse)
+
+data(election)
+party_colors <- c("#2E74C0", "#CB454A")
+us_states <- map_data("state")
+election$region <- tolower(election$state)
+us_states_elec <- left_join(us_states, election, by = join_by(region))
+
+us_states_elec %>%
+  ggplot(mapping = aes(x = long, 
+                       y = lat,
+                       group = group,
+                       fill = pct_trump))+
+  geom_polygon(color = "gray90", size = 0.1) +
+  coord_map(projection = "albers", 
+            lat0 = 39, 
+            lat1 = 45) + 
+  scale_fill_gradient(low = "white", 
+                      high = party_colors[2],
+                      limits = c(0,100)) + 
+  labs(title = "Trump vote") + theme_map() + theme(legend.position = "right") + 
+  labs(fill = "Percent") -> p_trump
+
+us_states_elec %>%
+  ggplot(mapping = aes(x = long, 
+                       y = lat,
+                       group = group,
+                       fill = pct_clinton))+
+  geom_polygon(color = "gray90", size = 0.1) +
+  coord_map(projection = "albers", 
+            lat0 = 39, 
+            lat1 = 45) + 
+  scale_fill_gradient(low = "white", 
+                      high = party_colors[1],
+                      limits = c(0,100)) + 
+  labs(title = "Clinton vote") + theme_map() + theme(legend.position = "right") + 
+  labs(fill = "Percent") -> p_clinton
+
+p_clinton / p_trump
+
+```

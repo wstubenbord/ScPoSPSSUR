@@ -5,7 +5,8 @@ project:
 book:
   title: "Statistical Programming for the Social Sciences Using R"
   author: "Wesley Stubenbord"
-  date: "2/18/2024"
+  date: today
+  date-format: "D MMMM YYYY"
   sidebar:
     search: true
   chapters:
