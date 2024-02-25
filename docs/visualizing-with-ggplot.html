@@ -531,7 +531,7 @@ div.csl-indent {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/Nightengale_diagram.jpg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Florence Nightingale’s (1858), “Diagram of the causes of mortality in the army in the East.” This is a more effective form of pie chart where the perceptual relative size trade-off is negated by the amount of information conveyed and the seasonal nature of the data.</figcaption>
+<figcaption class="figure-caption">Florence Nightingale’s (1858), “Diagram of the causes of mortality in the army in the East.” A more effective type of pie chart where the perceptual relative size issue is negated by the amount of information conveyed and the potentially seasonal nature of the data.</figcaption>
 </figure>
 </div>
 </section>
@@ -773,7 +773,7 @@ gapminder %&gt;%
 <p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>That’s maybe not the result we thought it was going to be. Instead of one smooth curve, as before, we now have we now have a different colored curve for each of the continents. We can also see in the key on the right-hand side that population size is affecting the width of the lines.</p>
+<p>That’s maybe not the result we thought it was going to be. Instead of one smooth curve, as before, we now have a different colored curve for each of the continents. We can also see in the key on the right-hand side that population size is affecting the width of the lines.</p>
 <p>One thing to know about <code>ggplot2</code> is that each item added to the <code>ggplot()</code> object inherits <code>ggplot()</code>’s aesthetics. So because we defined <code>color</code> by continent and <code>size</code> by population in <code>ggplot()</code>’s mapping argument, <code>geom_point()</code> and <code>geom_smooth()</code> are also also colored by continent and sized by population.</p>
 <p>If we want to instead ensure that the <code>color</code> and <code>size</code> arguments only affect <code>geom_point()</code>, we need to move those aesthetics to <code>geom_point()</code>’s own aesthetic mapping. See below:</p>
 <div class="cell">
@@ -796,7 +796,7 @@ gapminder %&gt;%
 </section>
 <section id="changing-scales" class="level3" data-number="4.4.6">
 <h3 data-number="4.4.6" class="anchored" data-anchor-id="changing-scales"><span class="header-section-number">4.4.6</span> Changing Scales</h3>
-<p>We’re going to change the x-axis scale to a logarithmic scale, since the data appears to follow a logarithmic form, and then we’re going to fix another scale, fix the labels, and add a title. Scales can be changed by adding functions from the <code>scale_</code> family to our plot. Like <code>geom_</code>, there are a variety of options depending on the need. In this case, we want a logarithmic scale for our x-axis in base 10 (a standard logarithm), so we use <code>scale_x_log10()</code>.</p>
+<p>We’re going to change the x-axis scale to a logarithmic scale, since the data appears to follow a logarithmic form, and then we’re going to fix some labels and add a title. Scales can be changed by adding functions from the <code>scale_</code> family to our plot. Like <code>geom_</code>, there are a number of options depending on the need. In this case, we want a logarithmic scale for our x-axis in base 10, so we will use <code>scale_x_log10()</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>

@@ -269,7 +269,7 @@ What makes for a good visualization then? The unsatisfying answer is that it dep
 
 It may be apparent, in the foregoing discussion, that the most interesting visualizations generally involve two or more variables and are aimed at bringing the reader's attention to the relationships between them. The principles discussed here are, of course, not intended to be exhaustive and you'll sometimes find that the choices we make in visualizations often come down to taste. At the very least, however, we should all endeavor to use visualizations to convey our information clearly and truthfully.
 
-![Florence Nightingale's (1858), "Diagram of the causes of mortality in the army in the East." This is a more effective form of pie chart where the perceptual relative size trade-off is negated by the amount of information conveyed and the seasonal nature of the data.](images/Nightengale_diagram.jpg)
+![Florence Nightingale's (1858), "Diagram of the causes of mortality in the army in the East." A more effective type of pie chart where the perceptual relative size issue is negated by the amount of information conveyed and the potentially seasonal nature of the data.](images/Nightengale_diagram.jpg)
 
 ## `Using ggplot2`
 
@@ -461,7 +461,7 @@ gapminder %>%
   geom_smooth()
 ```
 
-That's maybe not the result we thought it was going to be. Instead of one smooth curve, as before, we now have we now have a different colored curve for each of the continents. We can also see in the key on the right-hand side that population size is affecting the width of the lines.
+That's maybe not the result we thought it was going to be. Instead of one smooth curve, as before, we now have a different colored curve for each of the continents. We can also see in the key on the right-hand side that population size is affecting the width of the lines.
 
 One thing to know about `ggplot2` is that each item added to the `ggplot()` object inherits `ggplot()`'s aesthetics. So because we defined `color` by continent and `size` by population in `ggplot()`'s mapping argument, `geom_point()` and `geom_smooth()` are also also colored by continent and sized by population.
 
@@ -483,7 +483,7 @@ Let's remove `geom_smooth()` again anyways, since it doesn't seem particularly u
 
 ### Changing Scales
 
-We're going to change the x-axis scale to a logarithmic scale, since the data appears to follow a logarithmic form, and then we're going to fix another scale, fix the labels, and add a title. Scales can be changed by adding functions from the `scale_` family to our plot. Like `geom_`, there are a variety of options depending on the need. In this case, we want a logarithmic scale for our x-axis in base 10 (a standard logarithm), so we use `scale_x_log10()`.
+We're going to change the x-axis scale to a logarithmic scale, since the data appears to follow a logarithmic form, and then we're going to fix some labels and add a title. Scales can be changed by adding functions from the `scale_` family to our plot. Like `geom_`, there are a number of options depending on the need. In this case, we want a logarithmic scale for our x-axis in base 10, so we will use `scale_x_log10()`.
 
 ```{r}
 gapminder %>%
