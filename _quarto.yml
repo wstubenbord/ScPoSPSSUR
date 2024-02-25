@@ -14,6 +14,7 @@ book:
     - intro-to-r.qmd
     - working-with-data-in-r.qmd
     - summarizing-with-dplyr.qmd
+    - visualizing-with-ggplot.qmd
     - part: "Assignments"
       chapters:
       - homework-1.qmd

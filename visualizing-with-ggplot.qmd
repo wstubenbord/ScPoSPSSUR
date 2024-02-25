@@ -1,0 +1,727 @@
+# Visualizing with `ggplot2`
+
+```{r eval=knitr::is_latex_output(), include=FALSE}
+# Ensures that the Roboto Condensed fonts are included in the PDF render.  For 
+# some reason, the default PDF rendering engine has trouble with custom fonts.  
+# This chunk only runs for the PDF render.
+knitr::opts_chunk$set(dev = "cairo_pdf")
+```
+
+At this point, you might be wondering how I managed to win all of those trophies in my office.[^visualizing-with-ggplot-1] The short answer: `ggplot2`. What is `ggplot2`, you ask?[^visualizing-with-ggplot-2] It's a data visualization package from the tidyverse which allows you to build highly customizable (and sometimes beautiful) graphics. It's also the topic of this chapter.
+
+[^visualizing-with-ggplot-1]: I have neither trophies nor an office, but let's not let that spoil things.
+
+[^visualizing-with-ggplot-2]: R.I.P. ggplot1 (2006-2008)
+
+But first, we need to step back and talk a little bit more about description, the purpose of data visualization, and where this all fits in. We'll continue from the previous chapter with a brief refresher on descriptive statistics, then move on to the principles of data visualization, and finish with some practical applications of `ggplot2`. Our end goal for today is to create something informative and rather nice-looking, like this:[^visualizing-with-ggplot-3]
+
+[^visualizing-with-ggplot-3]: Credit for this visualization and the series of examples derived from it belong to @healy2019.
+
+```{r, message = FALSE, echo = FALSE}
+library(scales)     # Used for the dollar labels
+library(hrbrthemes) # A theme used for graphs
+library(tidyverse)
+library(gapminder)
+data(gapminder)
+
+# Source: https://youtu.be/04GFB33lUJE?feature=shared&t=2335
+
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha=0.5) + 
+  scale_x_log10(labels = label_dollar()) +
+  scale_size(labels = label_number(scale_cut = cut_short_scale())) +
+  labs(x = "GDP Per Capita (log scale, inflation-adjusted USD)",
+       y = "Life Expectancy in Years",
+       size = "Population",
+       color = "Continent",
+       title = "Economic Growth and Life Expectancy",
+       caption = " Source: Gapminder \n Note: Observations are country-years.") +
+  theme_ipsum_rc()
+```
+
+## Descriptive Statistics
+
+In the previous chapter, we learned how to use `dplyr` functions to summarize data. We started with individual-level observations (i.e., GSS respondents) and used `group_by()` , `summarize()`, and `mutate()` to distill our granular data into summary statistics, such as the proportion of GSS respondents by religious affiliation or the mean number of children by respondent's degree level. We can't say much yet about whether more Americans are Protestant or Catholic or whether U.S. college graduates tend to have more or less children than high school graduates — these questions require inference — but, we're now able to produce some of the statistics we'll need to examine these types of questions later on.
+
+The point of producing **descriptive statistics**, like proportions or means, is that they allow us to identify characteristics of a set of observations (usually, a sample). For quantitative variables, if you recall from your statistics class, we can describe data with different types of measures. We have, for instance: **measures of central tendency**, which give us an indication of where the center of our distribution is (or what the typical observation may be); **measures of spread**, which tell us how far apart observations are from the center of the distribution; and what we might call other distributional measures, which can tell us how many values are in our sample or what the largest and smallest values may be. Categorical variables are simpler and we can generally describe them with a **frequency** (count) or **relative frequency** (the count expressed as a proportion or percentage) alone.
+
+### Measures for a Single Quantitative Variable
+
+The tables below provide a brief overview of some of the measures we've already used or might use to describe a quantitative variable.
+
+#### Central Tendency {.unnumbered}
+
+|           |                                                                                                       |                |
+|------------|-------------------------------------------------|------------|
+| *Measure* | *Description*                                                                                         | *`R` Function* |
+| Mean      | The sum of the values divided by the count. It is sensitive to outliers.                              | `mean()`       |
+| Median    | The middle value, where half of the values are above and half are below. It is resistant to outliers. | `median()`     |
+
+#### Spread {.unnumbered}
+
+|                           |                                                                                                                                                                              |                |
+|------------|-------------------------------------------------|------------|
+| *Measure*                 | *Description*                                                                                                                                                                | *`R` Function* |
+| Variance                  | The sum of squared deviations from the mean divided by the count minus one.[^visualizing-with-ggplot-4] It gives us a sense of how far values typically are from the mean.   | `var()`        |
+| Standard Deviation        | The square root of the variance.[^visualizing-with-ggplot-5] The more commonly reported measure of spread which, again, tells us how far values typically are from the mean. | `sd()`         |
+| Interquartile Range (IQR) | The distance between the 75th percentile value and the 25th percentile value. It gives us an indication of the spread for the middle-most values.                            | `IQR()`        |
+
+[^visualizing-with-ggplot-4]: The formula for the sample variance is: $S^2={{\sum{({x_i - \overline{x}})^2 }} \over{n-1}}$
+
+[^visualizing-with-ggplot-5]: The formula for the sample standard deviation is: $S={\sqrt{{\sum{({x_i - \overline{x}})^2 }} \over{n-1}}}$
+
+#### Other Distributional Measures {.unnumbered}
+
+|           |                       |                |
+|-----------|-----------------------|----------------|
+| *Measure* | *Description*         | *`R` Function* |
+| Minimum   | The smallest value.   | `min()`        |
+| Maximum   | The largest value.    | `max()`        |
+| Count     | The number of values. | `n()`          |
+
+#### Example {.unnumbered}
+
+Below is a table of descriptive statistics for the popular vote share received by candidates in the 2016 U.S. Presidential election by state (including the District of Columbia). Note, the unit of observation is a U.S. state and so we can read this as saying that Trump received 4.09% of the vote share in his lowest performing state and 68.17% in his highest, with a mean of 48.26% and standard deviation of 11.92% across states.
+
+```{r, echo = FALSE, include=FALSE, warning = FALSE}
+library(socviz)
+library(stringr)
+library(MASS)
+```
+
+```{r, echo = FALSE, warning=FALSE}
+# Getting the whole set of descriptive statistics for the election data
+election %>%
+  summarize(across(.cols = c(pct_trump, pct_clinton, pct_johnson, pct_other),
+                   .fns = list(median = median,
+                               mean = mean,
+                               var = var,
+                               sd = sd,
+                               iqr = IQR,
+                               min = min,
+                               max = max
+                               ),
+                   na.rm = TRUE,
+                   .names = "{.col}_{.fn}"
+                   )
+            ) %>%
+  pivot_longer(cols = everything(),
+               names_to = "candidate",
+               names_prefix = "pct_",
+               values_to = "val") %>%
+  separate(col = candidate, 
+           sep = "_", 
+           into=c("candidate", "measure")) %>%
+  pivot_wider(names_from = measure,
+              values_from = val) %>%
+  mutate(candidate = str_to_title(candidate),
+         across(.cols = where(is.numeric),
+                ~ round(.x,2))
+         ) %>%
+  knitr::kable()
+```
+
+As a general rule, we don't use variance in our descriptions and we report mean and standard deviation together. These latter two are especially important for certain inferential methods.
+
+### Measure for Two Quantitative Variable
+
+To these univariate characteristics, we can add a measure for describing the relationship between two quantitative variables: the *correlation coefficient*.
+
+|                   |                                                                                                       |                |
+|-------------|-----------------------------------------------|-------------|
+| *Measure*         | *Description*                                                                                         | *`R` Function* |
+| Correlation ($r$) | A measure of the strength and direction of the linear association between two quantitative variables. | `cor()`        |
+
+In statistics, we generally make a distinction between an **association**, a relationship between two variables, and a **correlation**, or the linear association between two *quantitative* variables. Associations can refer to some relationship between variables of any type, but a correlation is a measure we calculate for two quantitative variables using a specific formula (or the `cor()` function in `R`). The distinction between association and correlation often gets lost in everyday language, but we'll try to maintain some precision here.
+
+Correlations range between -1 and +1, with both extremes representing a perfect linear association of data points with some slope. The figure below shows a range of correlations for different sets of observations.
+
+```{r, echo = FALSE, include=FALSE, warning = FALSE}
+require(MASS)
+require(patchwork)
+```
+
+```{r,  echo = FALSE, warning=FALSE}
+n = 200           # The number of observations appearing in the scatterplot
+lims = c(-3,3)    # The bounds for the scatterplots
+
+cor_n_one <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,-1,-1,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_n_p66 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,-.66,-.66,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_n_p33 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,-.33,-.33,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_zero <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,0,0,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_p_p33 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,0.33,0.33,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_p_p66 <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,0.66,0.66,1), ncol = 2), 
+                     empirical = TRUE))
+
+cor_p_one <- as.data.frame(mvrnorm(n, mu = c(0,0), 
+                     Sigma = matrix(c(1,1,1,1), ncol = 2), 
+                     empirical = TRUE))
+
+p1 <- ggplot(cor_n_one) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = -1") + xlim(lims) + ylim(lims) + theme_bw()
+p2 <- ggplot(cor_n_p66) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = -0.66") + xlim(lims) + ylim(lims) + theme_bw()
+p3 <- ggplot(cor_n_p33) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = -0.33") + xlim(lims) + ylim(lims) + theme_bw()
+p4 <- ggplot(cor_zero) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 0") + xlim(lims) + ylim(lims) +  theme_bw()
+p5 <- ggplot(cor_p_p33) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 0.33") + xlim(lims) + ylim(lims) + theme_bw()
+p6 <- ggplot(cor_p_p66) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 0.66") + xlim(lims) + ylim(lims) + theme_bw()
+p7 <- ggplot(cor_p_one) + geom_point(aes(x=V1, y=V2)) + labs(x = "X", y = "Y", title = "r = 1") + xlim(lims) + ylim(lims) + theme_bw()
+
+p8 <- (p1 + p2 + p3) / p4 / (p5 + p6 + p7) + plot_annotation("A Series of Correlations")
+p8
+```
+
+```{r, echo = FALSE, include=FALSE, warning = FALSE}
+detach("package:MASS", unload=TRUE)
+rm(list = ls())
+```
+
+To describe a relationship between quantitative variables, it is useful to talk about:
+
+-   Strength, whether there is a strong (closer to -1 or +1) or weak correlation (closer to 0)
+-   Direction, whether the relationship is positive or negative
+-   Form, whether the association is linear or non-linear
+-   Outliers, whether there are observations that break the general pattern
+
+The correlation coefficient is sensitive to outliers, which means that a stray observation can greatly influence the measure, and the general form of the relationship. You can see the effect of both in Francis Anscombe's classic example. The figure below shows four different sets of observations, each with the same correlation ($r \approx 0.82$) and other summary statistics.
+
+```{r,  echo = FALSE, warning=FALSE}
+anscombe <- anscombe
+p1 <- ggplot(anscombe, aes(x=x1, y=y1)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p2 <- ggplot(anscombe, aes(x=x2, y=y2)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p3 <- ggplot(anscombe, aes(x=x3, y=y3)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p4 <- ggplot(anscombe, aes(x=x4, y=y4)) + geom_point() + scale_x_continuous(breaks = seq(0,20,2)) +  scale_y_continuous(breaks = seq(0,12,3)) + labs(x="X", y="Y") + theme_bw()
+p1 + p2 + p3 + p4 + plot_annotation("Anscombe's Quartet")
+
+```
+
+## Why Visualize?
+
+This brings us to our central point: data visualization isn't just fun, it is necessary. Correlations and other summary measures can be terribly misleading if used blindly. Checking a visual presentation of our data provides us with the opportunity to ensure that the underlying data matches our expectations. In the case of Anscombe's quartet, only one of the plots corresponds to what we might expect for a correlation of 0.82.[^visualizing-with-ggplot-6]
+
+[^visualizing-with-ggplot-6]: For an even more extreme example, see Alberto Cairo's [Datasaurus Dozen](https://jumpingrivers.github.io/datasauRus/), all of which have approximately the same correlation and summary statistics.
+
+```{r, include = FALSE, warning = FALSE}
+# The Datasaurus Dozen for presentation purposes.
+library(datasauRus)
+
+if(requireNamespace("ggplot2")){
+  library(ggplot2)
+  ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset))+
+    geom_point()+
+    theme_void()+
+    theme(legend.position = "none")+
+    facet_wrap(~dataset, ncol = 2) 
+}
+
+if(requireNamespace("dplyr")){
+  suppressPackageStartupMessages(library(dplyr))
+  datasaurus_dozen %>% 
+    group_by(dataset) %>% 
+    summarize(
+      mean_x    = mean(x),
+      mean_y    = mean(y),
+      std_dev_x = sd(x),
+      std_dev_y = sd(y),
+      corr_x_y  = cor(x, y)
+    ) %>%
+    knitr::kable()
+}
+```
+
+There are other clear benefits to data visualization beyond the purely analytic. They can convey complex data in simple terms, for instance, and they can form lasting impressions.
+
+![Charles Minard's famous, "*Carte figurative des pertes successives en hommes de l'Armée Française dans la campagne de Russie 1812–1813"* (Source: [Wikimedia](https://commons.wikimedia.org/wiki/File:Minard.png))*.*](images/Minard_map%20of%20Napoleons%20march.png)
+
+Theses communicative benefits of data visualization can be difficult to overstate. But it is important to remember that as much as we may want to convince others with aesthetically pleasing figures, it is the underlying veracity of our visualizations which matters most. To put it simply, if the visualization is eye catching, but uses poor quality data, it is not a good visualization. Similarly, if the visualization presents good data in a misleading light or fails to convey any meaning at all, it is not a good visualization. We need good data to make good visualizations and we need to be good analysts to ensure that accurate meanings are being conveyed.
+
+![A bar chart produced by the American sociologist W.E.B. Du Bois (1868-1963) for the Paris Exposition Universelle in 1900 to show the economic progress of African Americans after emancipation (Source: [U.S. Library of Congress](https://www.loc.gov/pictures/item/2013650354/)).](images/Dubois%20bar%20chart.jpg)
+
+## Some Principles
+
+What makes for a good visualization then? The unsatisfying answer is that it depends. But, here are at some guiding principles that may be helpful:
+
+*Avoid features which distract from the data*. Better charts, as Healy (2019) argues, usually maximize the data-to-ink ratio. This means that we're not adding extras when they provide no benefit to interpretation and ensuring that the features of the visualization all speak to the data in some way. We should avoid, for example, making 3D charts when an extra dimension serves no purpose.
+
+*Avoid perceptual traps*. You have no doubt seen graphs with truncated Y-labels, which can overemphasize volatility in trends. Contrary to what you may have heard, these types of graphs can sometimes be appropriate - especially, when a small marginal change in an otherwise stable trend is of great consequence. But this sort of example belies a bigger issue, which is the challenge of matching the perception of the reader with the actual patterns in the data. You must take care not only when deciding on the appropriate scale for an axis, but also on the type of graph, the ordering and size of various elements, the choice of color gradient, and the relative width and height (aspect ratio) of the final product. Pie charts, as an example of a type of graph, happen to be particularly unintuitive because of the difficulty we human beings have in perceiving the relative size of different segments of a circle. In a bar chart, in contrast, we only need to compare the length of different bars to understand relative size, a much simpler cognitive undertaking.
+
+*Use the right measure*. When it comes to analyzing data, you will undoubtedly have many options in terms of the measures you can use to convey your findings. But it is equally important that you choose the measure which is most appropriate for the comparisons you are making. This is not a problem specific to data visualization, per se, but it is one which crops up all too often. If you want, for example, to compare crime rates across geographic units, you will want to adjust your data to a *per capita* basis.[^visualizing-with-ggplot-7] If you wish to compare typical worker salaries across countries, you will want to compare medians rather than means.
+
+[^visualizing-with-ggplot-7]: This problem is particularly common in maps, as illustrated in this [blog post](https://kieranhealy.org/blog/archives/2015/06/12/americas-ur-choropleths/) about density maps.
+
+It may be apparent, in the foregoing discussion, that the most interesting visualizations generally involve two or more variables and are aimed at bringing the reader's attention to the relationships between them. The principles discussed here are, of course, not intended to be exhaustive and you'll sometimes find that the choices we make in visualizations often come down to taste. At the very least, however, we should all endeavor to use visualizations to convey our information clearly and truthfully.
+
+![Florence Nightingale's (1858), "Diagram of the causes of mortality in the army in the East." This is a more effective form of pie chart where the perceptual relative size trade-off is negated by the amount of information conveyed and the seasonal nature of the data.](images/Nightengale_diagram.jpg)
+
+## `Using ggplot2`
+
+The everyday graphs we make when conducting data analysis will usually be more functional than pretty, but that doesn't need to stop us from combining the two today. In the example below, we'll focus mainly on the mechanics of constructing a visualization using `ggplot2` rather than on how to use them analytically, however. We'll work on combining these two purposes later.
+
+To get started, we'll load a new data set called `gapminder`, which contains a set of data on countries. Conveniently, the `gapminder` data is located in the `gapminder` package. As usual, be sure to install the package before loading it for the first time.
+
+```{r}
+library(gapminder)
+data(gapminder)
+```
+
+The `data()` function used above is an alternative to `gapminder <- gapminder`. It loads the `gapminder` data from the package into a `gapminder` object in our environment. You can use either, but it's good to keep learning new functions at this stage so that you can understand what they do when you see them elsewhere.
+
+As will become second nature to you to you soon, we can inspect this data using `glimpse()`, `view()`, or by clicking on the object in the environment pane.
+
+```{r}
+glimpse(gapminder)
+```
+
+Our new tibble has 1,704 rows and 6 variables. `?gapminder` provides some more information on the variables. There is something a little bit different about this data compared to the GSS data. Whereas in the GSS data each row corresponds to a separate person, in the Gapminder data, each row corresponds to a year for a particular country. We have, for instance, a row with data for Afghanistan in 1952 and another row for Afghanistan in 1957 in the next row. The unit of observation is called a "country-year." Consider for a moment how this might affect the answers you get when using `mean()` or `median()`.
+
+In the social sciences, we call this format **long data**. The differences in the way tabular data is stored has important implications for the way we analyze it. We'll discuss this more in depth in the next chapter, however, and focus on graphing today. Luckily for us, the `gapminder` data is already in an ideal format for `ggplot2`.
+
+### Brief Exercise {.unnumbered}
+
+As a brief exercise and to refresh your memory, let's use `dplyr` to find the minimum and maximum years in the `gapminder` data. Try it on your own first and then check your answer below.
+
+::: {.callout-tip collapse="true"}
+### Answer
+
+```{r}
+gapminder %>%
+  summarize(min_year = min(year),
+            max_year = max(year))
+```
+:::
+
+Now see whether you can find the minimum and maximum year for *each country* along with the number of times each country appears in the data.
+
+::: {.callout-tip collapse="true"}
+### Answer
+
+```{r}
+gapminder %>%
+  group_by(country) %>%
+    summarize(min_year = min(year),
+              max_year = max(year),
+              n = n())
+```
+:::
+
+### How `ggplot2` Works
+
+Back to visualizations. Much like a cake, `ggplot2` involves layers. We start with a bare plot which has only our axes and their labels and then we work our way up to the final product, layer by layer.
+
+### Making the Base Plot
+
+Just as with `dplyr`, we can use the pipe operator to work with `ggplot2`. We first take the Gapminder data *and then* add a new function, `ggplot()`.
+
+```{r}
+gapminder %>%
+  ggplot()
+```
+
+Without any arguments supplied, the `ggplot()` function produces a blank plot (shown above), a canvas on which we'll paint our visualization. You should be able to see this plot after running it in your R Script in the lower right pane of your R Studio window (under the 'Plots' tab).  We'd rather see a completed canvas than a blank canvas, however, so we're going to supply an argument called `mapping`. The `mapping` argument tells `ggplot` how we are going to map the data to the plot.
+
+```         
+gapminder %>%
+  ggplot(mapping = )
+```
+
+The mapping argument, in turn, requires us to specify an 'aesthetic' which will always be contained in `aes()`. So now we have:
+
+```         
+gapminder %>%
+  ggplot(mapping = aes())
+```
+
+If we were to run this, we would still get a blank plot. The `ggplot()` function knows we're using the gapminder data (since we used the pipe operator), but it doesn't yet know what we would like to see on our x- and y-axes. For this we need to define the aesthetic characteristics. Since our goal is to recreate the graph we saw in the beginning of this chapter, which showed the relationship between GDP per capita (`gdpPerCap`) and life expectancy (`lifeExp`), we'll supply these variables to the `x` and `y` arguments inside the `aes()` function.
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp))
+```
+
+Ahah! Now, we have a not-so-blank plot. We can see instead an x-axis, as specified, showing `gdpPerCap`, and a y-axis, showing `lifeExp`. But where are our data?
+
+### Specifying the Type of Plot
+
+In order to add data, we have to tell ggplot exactly what type of plot we'd like to create. We could produce a scatterplot, for example, which will cause the data to appear as points, or we could create a line graph, which will connect points with lines. There are other options, but these seem like the most sensible choices for now.
+
+In `ggplot()`, the different types of plots are called *geoms* and we can add them as a layer to our base plot by using the `+` sign followed by the `geom_` function that corresponds to what we want to see. If we wanted to see a line plot, we would use `geom_line()`. We want to see points, so we'll use the `geom_point()` function. Let's see how it looks:
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) +
+  geom_point()
+  
+```
+
+We now have a plot which shows us each country-year as a point. Notice, we didn't need to supply an argument to `geom_point()` nor did we have to tell `ggplot()` anything other than the mapping of `x` and `y` values (and, of course, the initial source of data, `gapminder`, via the pipe operator).
+
+`ggplot` objects are unique in that we can add additional layers by using the `+` operator to join them to the base plot and each other. Just like with the pipe operator, however, we need to make sure that the `+` appears at the end of each line (except the last) and not at the beginning. Be on the lookout for these types of syntax errors:
+
+```         
+# This will not produce a plot with points, 
+# because the + operator is in the wrong spot.
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) 
+  + geom_point()
+  
+# This will produce a plot with points.
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) +
+  geom_point()
+```
+
+### Adding a Smoother
+
+Can we add more layers to our plot? You bet. We can, for instance, add a line of best fit on top of our points with a `geom_smooth()` function:
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) +
+  geom_point() + 
+  geom_smooth()
+
+```
+
+The warning here tells us that `geom_smooth()` used a default argument and formula to calculate the line of best fit.[^visualizing-with-ggplot-8]
+
+[^visualizing-with-ggplot-8]: 'gam' stands for general additive model and is one method of adding a line of best fit. 'lm', or linear model, is another best fit method.
+
+### Mapping More Aesthetics
+
+What else can we do with this visualization? Well, we might want to see if there are other elements that can be changed to reveal more patterns in the data. What if we compared the relationship between `gdpPercap` and `lifeExp` by each country's continent, for example? We could create a graph for each continent, showing only the relevant countries for each, but we could also modify another element, like the color of the data points, in our current plot.
+
+To do this, we need to modify the aesthetics of our data mapping. We'll add another argument to the `aes()` function inside of the `ggplot()` mapping argument for `color`. And, of course, since we want to color the data points by continent, we need to specify `color = continent`. We'll skip the line of best fit this time.
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       color = continent)) +
+  geom_point()
+```
+
+Voila. Now we can see how this relationship plays out among countries within different continents. It might also be interesting to see how this relationship plays out by population size. Since population size is a continuous quantitative variable, discrete colors maybe aren't the best choice. We could add a color gradient scale (as you might see in a heat map, for example) or we could modify some other element.
+
+What about changing the size of the points according to population? Bigger countries will have larger points and smaller countries will have smaller points with a continuum in between. To do this, we need to add a size argument to the aesthetic mapping, this time according to population (`pop`).
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       color = continent,
+                       size = pop)) +
+  geom_point()
+```
+
+Each time we add an aesthetic, we can see that `ggplot()` makes the necessary change to the plot and then adds a key to interpret each element. We now have scales for population (the `size` value in our aesthetic mapping) and continent (the `color` value). Another optional aesthetic argument you can use is `shape`, which changes the points from dots to different symbols (like x's or o's). `line` is another one which changes the type of line for `geom_line()`.
+
+Because we have a lot of data points and they're all overlapping, we're going to skip shape and make it so that the points have some transparency. We can add an `alpha` argument to the `geom_point()` component which controls transparency. `alpha` takes a value between 0 and 1, where 0 is invisible and 1 is not-transparent. We'll use halfway, `0.5`, but you can play around with the different levels for your preferred value.
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       color = continent,
+                       size = pop)) +
+  geom_point(alpha = 0.5)
+```
+
+We are getting pretty close to the graph we started the chapter with. At this point, we could add `geom_smooth()` back to our plot. Take a look at what happens when you do though.
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       color = continent,
+                       size = pop)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth()
+```
+
+That's maybe not the result we thought it was going to be. Instead of one smooth curve, as before, we now have we now have a different colored curve for each of the continents. We can also see in the key on the right-hand side that population size is affecting the width of the lines.
+
+One thing to know about `ggplot2` is that each item added to the `ggplot()` object inherits `ggplot()`'s aesthetics. So because we defined `color` by continent and `size` by population in `ggplot()`'s mapping argument, `geom_point()` and `geom_smooth()` are also also colored by continent and sized by population.
+
+If we want to instead ensure that the `color` and `size` arguments only affect `geom_point()`, we need to move those aesthetics to `geom_point()`'s own aesthetic mapping. See below:
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) +
+  geom_point(mapping = aes(color = continent,
+                       size = pop),
+             alpha = 0.5) +
+  geom_smooth()
+```
+
+`geom_point()`'s mapping argument accepts the same values (i.e., `aes(color = , size = )`).
+
+Let's remove `geom_smooth()` again anyways, since it doesn't seem particularly useful and the plot looks better without it. We can return the `color` and `size` arguments to `ggplot()` or we can leave them as is. Just a few more changes before we get to the finished product.
+
+### Changing Scales
+
+We're going to change the x-axis scale to a logarithmic scale, since the data appears to follow a logarithmic form, and then we're going to fix another scale, fix the labels, and add a title. Scales can be changed by adding functions from the `scale_` family to our plot. Like `geom_`, there are a variety of options depending on the need. In this case, we want a logarithmic scale for our x-axis in base 10 (a standard logarithm), so we use `scale_x_log10()`.
+
+```{r}
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha = 0.5) +
+  scale_x_log10()
+```
+
+Great! We can see the relationship between GDP per capita and life expectancy clearly now.
+
+We don't always have to change the scales, but in this case, the pattern of the data calls for it.[^visualizing-with-ggplot-9] If you don't add a `scale_` function, `ggplot2` will simply use the default. In the case of our y-axis here, it looks fine and so we don't need a `scale_y_` function.
+
+[^visualizing-with-ggplot-9]: Understanding when to use scale transformations is a statistical matter, which we won't go into here.
+
+Note, that there is a big difference between the scale of our axes (the correspondence between distance along the axis and the values in our data) and our axis labels (how we write each value). Just because the numbers on the axis are written in a strange format, doesn't necessarily mean we need to adjust the scale. We may just need to re-write the labels.
+
+As you can see, our x-axis labels are still written in an unhelpful format (scientific notation) even though the form of our data has been transformed by the change in scale
+
+### Changing Scale Labels
+
+X-axis scale labels written in scientific notation are not especially easy to read and neither are those for population (the `size` aesthetic). Fortunately, there is a very helpful package called `scales`, which we can use to help out with the usually messy problem of fixing scale labels.
+
+You should already have a copy of `scales` installed and if you'd like, you can load it via `library()`. Another way to access it's functions is to use the name of the package followed by `::` and the name of the desired function. We used this same method in the previous chapter for `knitr::kable()`.
+
+For the scale on the x-axis, which corresponds to a variable in U.S. dollars, we're going to use `scales::label_currency()`.[^visualizing-with-ggplot-10] We'll add this helper function to the `labels =` argument of our `scale_` function. In this case, `scale_x_log10(labels = scales::label_currency()`.
+
+[^visualizing-with-ggplot-10]: The default currency for `label_currency()` is U.S. dollars.
+
+Other useful `scales` functions include `scales::comma` and `scales::percent` - neither of which require parentheses at the end, unlike `label_currency()`. Since we also want to fix the label for the `size` function, we'll add another `scale_` function for size and then set the `labels` argument to use commas. It will look like this: `scale_size(labels = scales::comma)`.
+
+See below for both steps put together:
+
+```{r, warning = FALSE}
+library(hrbrthemes) # A theme used for graphs
+# Source: https://youtu.be/04GFB33lUJE?feature=shared&t=2335
+
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha = 0.5) + 
+  scale_x_log10(labels = scales::label_currency()) +
+  scale_size(labels = scales::comma)
+```
+
+Our scale labels have been fixed.
+
+### Adding Titles
+
+Finally, to change the titles of different features, we can add a `labs()` function to the end of our object. The `labs()` function will set titles for each part of the plot according to the values given to a set of corresponding named arguments. In the code below, you can see that we've changed the title for the `x` and `y` axes, the size key ("Population"), the color key ("Continent"), the overall title of the graph ("Economic Growth and Life Expectancy"), and then added a caption at the bottom.
+
+```{r, warning = FALSE}
+library(scales)     # Used for the dollar labels
+library(hrbrthemes) # A theme used for graphs
+# Source: https://youtu.be/04GFB33lUJE?feature=shared&t=2335
+
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha = 0.5) + 
+  scale_x_log10(labels = scales::label_currency()) +
+  scale_size(labels = scales::comma) +
+  labs(x = "GDP Per Capita (log scale)",
+       y = "Life Expectancy in Years",
+       size = "Population",
+       color = "Continent",
+       title = "Economic Growth and Life Expectancy",
+       caption = " Source: Gapminder \n Note: Observations are country-years.")
+```
+
+At this point, we have a good looking graph and you could call it a day here. As you will discover though, there are endless options for customizing graphics made using `ggplot2`. It's the reason why `ggplot2` graphics can be made to look so good.
+
+### Adding a Theme
+
+Themes are customizable sets of aesthetic characteristics that change things like font types and sizes, the alignment of different elements, and the presence of gridlines. You can adjust many of these things by adding a `theme()` function to the end of your plot and playing around with the many different available arguments.
+
+Alternatively, you can use a theme that someone else has created by installing their package. This is perhaps ideal, because then you can find a theme that matches your general preferences and tweak minor elements as needed by adding another `theme()` layer on top. Playing around with theme settings on your own can be a very time consuming affair and in general, I don't recommend it for graphs used only for analytic purposes.
+
+`ggthemes`, for example, is a popular theme package with themes that mimic, for example, the styles used in *The Economist* (`theme_economist()`) and the *Wall Street Journal* (`theme_wsj()`). You can see some more of the styles available in `ggthemes` [here](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/). The theme I used for the graph at the start of this chapter is called `theme_ipsum_rc()` and it comes from the `hrbrthemes` package. Remember, if you use a theme from a package, you need to first download the package and then load the library. Some custom themes, like ipsum, also require you to install and register new fonts in `R`, which can be a pain.
+
+If you'd like to avoid the trouble of installing extra packages, you can also use some of the default themes provided in `ggplot2`, many of which are also quite nice. Adding `theme_bw()` to our plot from the previous example, for instance, does this:
+
+```{r, warning = FALSE}
+library(scales)     # Used for the dollar labels
+library(hrbrthemes) # A theme used for graphs
+# Source: https://youtu.be/04GFB33lUJE?feature=shared&t=2335
+
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha = 0.5) + 
+  scale_x_log10(labels = scales::label_currency()) +
+  scale_size(labels = scales::comma) +
+  labs(x = "GDP Per Capita (log scale)",
+       y = "Life Expectancy in Years",
+       size = "Population",
+       color = "Continent",
+       title = "Economic Growth and Life Expectancy",
+       caption = " Source: Gapminder \n Note: Observations are country-years.") +
+  theme_bw()
+```
+You can see that it has added a border to our plot and removed the gray background from both the plot and the scales.  Try using `theme_minimal()`, `theme_classic()`, and `theme_void()` instead to see how they change the aesthetics.
+
+### Final Product
+
+To return to the final product, I'll use `theme_ipsum_rc()` from `hrbrthemes`.  I'll also replace the size_scale with a more complicated function which makes it easier to read.
+
+```{r, warning = FALSE}
+library(hrbrthemes) # A theme used for graphs
+
+gapminder %>%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp,
+                       size = pop,
+                       color = continent)) +
+  geom_point(alpha = 0.5) + 
+  scale_x_log10(labels = label_currency()) +
+  scale_size(labels = label_number(scale_cut = cut_short_scale())) +
+  labs(x = "GDP Per Capita (log scale)",
+       y = "Life Expectancy in Years",
+       size = "Population",
+       color = "Continent",
+       title = "Economic Growth and Life Expectancy",
+       caption = " Source: Gapminder \n Note: Observations are country-years.") +
+  theme_ipsum_rc()
+```
+Whichever plot you choose to use as your final plot, you can save it by clicking on the plot tab in the lower right-hand corner of your R Studio window followed by export.  We'll discuss better ways of doing this in future chapters.
+
+## Other Plots
+
+We've so far only covered one type of plot, a scatterplot.  It won't surprise you to hear that there are many other types of plots that we can create using `ggplot2`.  The good news is that the structure and components of `ggplot2` are consistent and once you start creating plots, you can always re-use code.
+
+A quick example of a line chart using the `gapminder` data is shown below for instance.  Note, we've made a few changes to our ggplot function.  We first filtered the data for a small subset of countries, so that we can see them in our graph.  Then we used `geom_line()` as our `geom_` instead of `geom_point()`.  Most importantly, we've set `color` to represent each country to ensure that our data is mapped to the appropriate unit of observation.
+
+```{r}
+my_countries = c('France', 'United Kingdom', 'Italy')
+
+gapminder %>%
+  filter(country %in% my_countries) %>%
+  ggplot(aes(x = year, 
+             y = pop, 
+             color = country)) +
+  geom_line()
+```
+Try setting `color = continent` in the example above and see what happens.  `ggplot2` doesn't naturally understand the correct unit of observation and so specifying continent as `color` leads it to believe that it needs connect the data points according to continent for each year and across years.  Since France, Italy, and the U.K. are in the same continent, it draws a line connecting each of the three data points in the same year and then connects them across years, leading to a jagged and meaningless graph.
+
+Here's a slightly more polished looking version of the initial plot with some aesthetic and label changes.  We can easily change the countries used and these other features. Note, you may especially wish to change the font family to something like 'Arial', since you may not have 'Roboto Condensed' installed.
+```{r}
+my_countries = c('France', 'United Kingdom', 'Italy')
+
+gapminder %>%
+  filter(country %in% my_countries) %>%
+  ggplot(aes(x = year, 
+             y = pop, 
+             color = country)) +
+  geom_line(size = 2) +  
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) + 
+  labs(x="Year",
+       y = "Population",
+       color = "Country",
+       title = "Population Growth in Europe",
+       caption = "Source: Gapminder") + 
+  theme_bw() + 
+  theme(text = element_text(size = 14, family = "Roboto Condensed"),
+                     plot.title = element_text(size = 20, face = "bold"),
+                     axis.title.x = element_text(hjust=1), 
+                     axis.title.y = element_text(hjust=1))
+```
+Last, but not least, we have a bar chart.  Here again we've filtered for some countries.  We've then filtered for a specific year, removed color (which works slightly differently for bar charts), and have added the `geom_col()` geom to specify that it is a bar chart we are making.
+
+```{r}
+my_countries = c('France', 'United Kingdom', 'Italy', "Germany", "Spain")
+
+gapminder %>%
+  filter(country %in% my_countries) %>%
+  filter(year == 2007) %>%
+  ggplot(mapping = aes(x = country, 
+                       y = pop)) +  
+  geom_col()
+```
+We will work through other examples of visualizations, such as the map below, and the specific quirks of how they work in future chapters. 
+
+```{r, message = FALSE, echo = FALSE}
+library(maps)
+library(socviz)
+library(ggthemes)
+library(tidyverse)
+
+data(election)
+party_colors <- c("#2E74C0", "#CB454A")
+us_states <- map_data("state")
+election$region <- tolower(election$state)
+us_states_elec <- left_join(us_states, election, by = join_by(region))
+
+us_states_elec %>%
+  ggplot(mapping = aes(x = long, 
+                       y = lat,
+                       group = group,
+                       fill = pct_trump))+
+  geom_polygon(color = "gray90", size = 0.1) +
+  coord_map(projection = "albers", 
+            lat0 = 39, 
+            lat1 = 45) + 
+  scale_fill_gradient(low = "white", 
+                      high = party_colors[2],
+                      limits = c(0,100)) + 
+  labs(title = "Trump vote") + theme_map() + theme(legend.position = "right") + 
+  labs(fill = "Percent") -> p_trump
+
+us_states_elec %>%
+  ggplot(mapping = aes(x = long, 
+                       y = lat,
+                       group = group,
+                       fill = pct_clinton))+
+  geom_polygon(color = "gray90", size = 0.1) +
+  coord_map(projection = "albers", 
+            lat0 = 39, 
+            lat1 = 45) + 
+  scale_fill_gradient(low = "white", 
+                      high = party_colors[1],
+                      limits = c(0,100)) + 
+  labs(title = "Clinton vote") + theme_map() + theme(legend.position = "right") + 
+  labs(fill = "Percent") -> p_clinton
+
+p_clinton / p_trump
+```
+## Summary
+
+In this chapter, we've reviewed some of the measures we might use to describe data, discussed some general principles for producing good data visualizations, and learned how to create and modify some basic plots in `ggplot2`.
+
+You will likely need to read this chapter and reference the code more than once.  `ggplot2`'s structure is not very intuitive to new users.  The more you use it, however, and get a feel for how the different elements of a plot map to the various objects and arguments, the more control you will have over the visualizations you produce
+
+So, keep practicing and save your work, adding comments so that you remember what you were doing.  Go back to some of the examples used here and play around with the different arguments.  Try to change the plot types.  Use different scales.  See if you can make something interesting.  As you inevitably get errors, try to make a mental note of what works and what doesn't.  Eventually, you'll have amassed a stockpile of  code that you can re-use and adjust to create the right visualizations whenever you need them.

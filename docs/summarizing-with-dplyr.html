@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./homework-1.html" rel="next">
+<link href="./visualizing-with-ggplot.html" rel="next">
 <link href="./working-with-data-in-r.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -196,6 +196,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizing-with-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -247,7 +253,7 @@ div.csl-indent {
   <li><a href="#grouping-and-summarizing" id="toc-grouping-and-summarizing" class="nav-link" data-scroll-target="#grouping-and-summarizing"><span class="header-section-number">3.6</span> Grouping and Summarizing</a>
   <ul class="collapse">
   <li><a href="#grouping-by-two-variables" id="toc-grouping-by-two-variables" class="nav-link" data-scroll-target="#grouping-by-two-variables"><span class="header-section-number">3.6.1</span> Grouping by Two Variables</a></li>
-  <li><a href="#the-order-of-group_by-arguments" id="toc-the-order-of-group_by-arguments" class="nav-link" data-scroll-target="#the-order-of-group_by-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group_by()</code> arguments</a></li>
+  <li><a href="#ordering-group_by-arguments" id="toc-ordering-group_by-arguments" class="nav-link" data-scroll-target="#ordering-group_by-arguments"><span class="header-section-number">3.6.2</span> Ordering <code>group_by()</code> Arguments</a></li>
   </ul></li>
   <li><a href="#calculating-with-mutate" id="toc-calculating-with-mutate" class="nav-link" data-scroll-target="#calculating-with-mutate"><span class="header-section-number">3.7</span> Calculating with <code>mutate()</code></a></li>
   <li><a href="#how-r-reads-functions" id="toc-how-r-reads-functions" class="nav-link" data-scroll-target="#how-r-reads-functions"><span class="header-section-number">3.8</span> How <code>R</code> Reads Functions</a></li>
@@ -430,7 +436,7 @@ Clinton   Trump
 # ℹ 2,857 more rows</code></pre>
 </div>
 </div>
-<p>In the code above, we told <code>R</code> that we wanted to take the GSS data and then only the <code>id</code>, <code>sex</code>, and <code>religion</code> variables. The select function output a new tibble containing only those three variables entered as arguments. The number of rows or observations, 2,867, is the same as in the original data.</p>
+<p>In the code above, we told <code>R</code> that we wanted to take the GSS data <em>and then</em> (using the pipe operator) only the <code>id</code>, <code>sex</code>, and <code>religion</code> variables. The select function outputs a new tibble containing only those three variables entered as arguments. The number of rows or observations, 2,867, is the same as in the original data.</p>
 <p>We can now save a copy of our new three-variable tibble by assigning it to a new object. Let’s call this new object <code>gender_relig</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gender_relig <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
@@ -473,7 +479,7 @@ Clinton   Trump
 </div>
 </div>
 <p>As you can see, our data doesn’t appear to have changed in the output above. We still have 32 variables and 2,867 observations. But, there is now a helpful note at the top of our output that says, <code>Groups: religion[6]</code>. Our observations have been successfully grouped according to the six religious affiliations in our data.</p>
-<p>Next, we have to add another line to our pipe function which specifies how we want to <code>summarize()</code> the groups. We want it to count up our rows, so we’ll use the <code>n()</code> function. The <code>n()</code> function just counts the number of rows in a data frame.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<p>Next, we have to add another line to our pipe function which specifies how we want to <code>summarize()</code> the groups. Remember, for each of these additions to our pipe function we’re adding a pipe operator the end of each line, except for the last line. We want it to count up our rows here, so we’ll use the <code>n()</code> function. The <code>n()</code> function counts the number of rows in a data frame.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span>      <span class="co"># Group by religion</span></span>
@@ -490,7 +496,7 @@ Clinton   Trump
 6 &lt;NA&gt;          18</code></pre>
 </div>
 </div>
-<p>As you can see, we provided <code>summarize()</code> with a new column name, <code>total</code>, and a measurement, <code>n()</code>. The pipe operator ensured that we grouped our data first and then summarized. Now, we have the total number of respondents for each group (religious affiliation).</p>
+<p>As you can see, we provided <code>summarize()</code> with a new column name, <code>total</code>, and a measurement, <code>n()</code>. The pipe operator between the two lines ensured that we grouped our data first and then summarized. Now, we have the total number of respondents for each group (religious affiliation).</p>
 <p>If we want, we can save a copy of our new tibble in another object, as in the command below. The original data object in our environment (i.e., <code>gss</code>) will always remain untouched unless we intentionally re-assign it (i.e., <code>gss &lt;- gss %&gt;% ...</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>relig <span class="ot">&lt;-</span> gss <span class="sc">%&gt;%</span></span>
@@ -543,8 +549,8 @@ Clinton   Trump
 </div>
 <p>In the output above, we can now identify the number of Protestants who are male, 559, and the number who are female, 812.</p>
 </section>
-<section id="the-order-of-group_by-arguments" class="level3" data-number="3.6.2">
-<h3 data-number="3.6.2" class="anchored" data-anchor-id="the-order-of-group_by-arguments"><span class="header-section-number">3.6.2</span> The Order of <code>group_by()</code> arguments</h3>
+<section id="ordering-group_by-arguments" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="ordering-group_by-arguments"><span class="header-section-number">3.6.2</span> Ordering <code>group_by()</code> Arguments</h3>
 <p>It is worth noting that the ordering of arguments in the <code>group_by()</code> function sometimes matters (i.e., <code>group_by(religion, sex)</code> as opposed to <code>group_by(sex, religion)</code>.</p>
 <p>Because religion came first in our argument order, our results show us the number of Protestants who are male and the number of Protestants who are female. But, we could have very easily shown the number of males who are Protestant and the number of females who are Protestant.</p>
 <p>For a count, these are the same thing. The <em>number of Protestants who are male</em> is the same as the <em>number of males who are Protestant</em>. But when we start calculating relative frequencies and percentages using <code>group_by()</code>, the order will matter.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> You’ll get a sense for this in a moment.</p>
@@ -1114,8 +1120,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./homework-1.html" class="pagination-link">
-        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./visualizing-with-ggplot.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

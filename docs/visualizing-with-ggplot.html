@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Programming for the Social Sciences Using R - 4&nbsp; Visualizing with ggplot2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./homework-1.html" rel="next">
+<link href="./summarizing-with-dplyr.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./visualizing-with-ggplot.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with `ggplot2`</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Programming for the Social Sciences Using R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/wstubenbord/ScPoSPSSUR" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-to-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summarizing-with-dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizing-with-ggplot.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Appendix</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link active" data-scroll-target="#descriptive-statistics"><span class="header-section-number">4.1</span> Descriptive Statistics</a>
+  <ul class="collapse">
+  <li><a href="#measures-for-a-single-quantitative-variable" id="toc-measures-for-a-single-quantitative-variable" class="nav-link" data-scroll-target="#measures-for-a-single-quantitative-variable"><span class="header-section-number">4.1.1</span> Measures for a Single Quantitative Variable</a></li>
+  <li><a href="#measure-for-two-quantitative-variable" id="toc-measure-for-two-quantitative-variable" class="nav-link" data-scroll-target="#measure-for-two-quantitative-variable"><span class="header-section-number">4.1.2</span> Measure for Two Quantitative Variable</a></li>
+  </ul></li>
+  <li><a href="#why-visualize" id="toc-why-visualize" class="nav-link" data-scroll-target="#why-visualize"><span class="header-section-number">4.2</span> Why Visualize?</a></li>
+  <li><a href="#some-principles" id="toc-some-principles" class="nav-link" data-scroll-target="#some-principles"><span class="header-section-number">4.3</span> Some Principles</a></li>
+  <li><a href="#using-ggplot2" id="toc-using-ggplot2" class="nav-link" data-scroll-target="#using-ggplot2"><span class="header-section-number">4.4</span> <code>Using ggplot2</code></a>
+  <ul class="collapse">
+  <li><a href="#brief-exercise" id="toc-brief-exercise" class="nav-link" data-scroll-target="#brief-exercise">Brief Exercise</a></li>
+  <li><a href="#how-ggplot2-works" id="toc-how-ggplot2-works" class="nav-link" data-scroll-target="#how-ggplot2-works"><span class="header-section-number">4.4.1</span> How <code>ggplot2</code> Works</a></li>
+  <li><a href="#making-the-base-plot" id="toc-making-the-base-plot" class="nav-link" data-scroll-target="#making-the-base-plot"><span class="header-section-number">4.4.2</span> Making the Base Plot</a></li>
+  <li><a href="#specifying-the-type-of-plot" id="toc-specifying-the-type-of-plot" class="nav-link" data-scroll-target="#specifying-the-type-of-plot"><span class="header-section-number">4.4.3</span> Specifying the Type of Plot</a></li>
+  <li><a href="#adding-a-smoother" id="toc-adding-a-smoother" class="nav-link" data-scroll-target="#adding-a-smoother"><span class="header-section-number">4.4.4</span> Adding a Smoother</a></li>
+  <li><a href="#mapping-more-aesthetics" id="toc-mapping-more-aesthetics" class="nav-link" data-scroll-target="#mapping-more-aesthetics"><span class="header-section-number">4.4.5</span> Mapping More Aesthetics</a></li>
+  <li><a href="#changing-scales" id="toc-changing-scales" class="nav-link" data-scroll-target="#changing-scales"><span class="header-section-number">4.4.6</span> Changing Scales</a></li>
+  <li><a href="#changing-scale-labels" id="toc-changing-scale-labels" class="nav-link" data-scroll-target="#changing-scale-labels"><span class="header-section-number">4.4.7</span> Changing Scale Labels</a></li>
+  <li><a href="#adding-titles" id="toc-adding-titles" class="nav-link" data-scroll-target="#adding-titles"><span class="header-section-number">4.4.8</span> Adding Titles</a></li>
+  <li><a href="#adding-a-theme" id="toc-adding-a-theme" class="nav-link" data-scroll-target="#adding-a-theme"><span class="header-section-number">4.4.9</span> Adding a Theme</a></li>
+  <li><a href="#final-product" id="toc-final-product" class="nav-link" data-scroll-target="#final-product"><span class="header-section-number">4.4.10</span> Final Product</a></li>
+  </ul></li>
+  <li><a href="#other-plots" id="toc-other-plots" class="nav-link" data-scroll-target="#other-plots"><span class="header-section-number">4.5</span> Other Plots</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.6</span> Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>At this point, you might be wondering how I managed to win all of those trophies in my office.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The short answer: <code>ggplot2</code>. What is <code>ggplot2</code>, you ask?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> It’s a data visualization package from the tidyverse which allows you to build highly customizable (and sometimes beautiful) graphics. It’s also the topic of this chapter.</p>
+<p>But first, we need to step back and talk a little bit more about description, the purpose of data visualization, and where this all fits in. We’ll continue from the previous chapter with a brief refresher on descriptive statistics, then move on to the principles of data visualization, and finish with some practical applications of <code>ggplot2</code>. Our end goal for today is to create something informative and rather nice-looking, like this:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="descriptive-statistics" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">4.1</span> Descriptive Statistics</h2>
+<p>In the previous chapter, we learned how to use <code>dplyr</code> functions to summarize data. We started with individual-level observations (i.e., GSS respondents) and used <code>group_by()</code> , <code>summarize()</code>, and <code>mutate()</code> to distill our granular data into summary statistics, such as the proportion of GSS respondents by religious affiliation or the mean number of children by respondent’s degree level. We can’t say much yet about whether more Americans are Protestant or Catholic or whether U.S. college graduates tend to have more or less children than high school graduates — these questions require inference — but, we’re now able to produce some of the statistics we’ll need to examine these types of questions later on.</p>
+<p>The point of producing <strong>descriptive statistics</strong>, like proportions or means, is that they allow us to identify characteristics of a set of observations (usually, a sample). For quantitative variables, if you recall from your statistics class, we can describe data with different types of measures. We have, for instance: <strong>measures of central tendency</strong>, which give us an indication of where the center of our distribution is (or what the typical observation may be); <strong>measures of spread</strong>, which tell us how far apart observations are from the center of the distribution; and what we might call other distributional measures, which can tell us how many values are in our sample or what the largest and smallest values may be. Categorical variables are simpler and we can generally describe them with a <strong>frequency</strong> (count) or <strong>relative frequency</strong> (the count expressed as a proportion or percentage) alone.</p>
+<section id="measures-for-a-single-quantitative-variable" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="measures-for-a-single-quantitative-variable"><span class="header-section-number">4.1.1</span> Measures for a Single Quantitative Variable</h3>
+<p>The tables below provide a brief overview of some of the measures we’ve already used or might use to describe a quantitative variable.</p>
+<section id="central-tendency" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="central-tendency">Central Tendency</h4>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 67%">
+<col style="width: 16%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><em>Measure</em></td>
+<td><em>Description</em></td>
+<td><em><code>R</code> Function</em></td>
+</tr>
+<tr class="even">
+<td>Mean</td>
+<td>The sum of the values divided by the count. It is sensitive to outliers.</td>
+<td><code>mean()</code></td>
+</tr>
+<tr class="odd">
+<td>Median</td>
+<td>The middle value, where half of the values are above and half are below. It is resistant to outliers.</td>
+<td><code>median()</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spread" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="spread">Spread</h4>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 67%">
+<col style="width: 16%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><em>Measure</em></td>
+<td><em>Description</em></td>
+<td><em><code>R</code> Function</em></td>
+</tr>
+<tr class="even">
+<td>Variance</td>
+<td>The sum of squared deviations from the mean divided by the count minus one.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> It gives us a sense of how far values typically are from the mean.</td>
+<td><code>var()</code></td>
+</tr>
+<tr class="odd">
+<td>Standard Deviation</td>
+<td>The square root of the variance.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> The more commonly reported measure of spread which, again, tells us how far values typically are from the mean.</td>
+<td><code>sd()</code></td>
+</tr>
+<tr class="even">
+<td>Interquartile Range (IQR)</td>
+<td>The distance between the 75th percentile value and the 25th percentile value. It gives us an indication of the spread for the middle-most values.</td>
+<td><code>IQR()</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="other-distributional-measures" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="other-distributional-measures">Other Distributional Measures</h4>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td><em>Measure</em></td>
+<td><em>Description</em></td>
+<td><em><code>R</code> Function</em></td>
+</tr>
+<tr class="even">
+<td>Minimum</td>
+<td>The smallest value.</td>
+<td><code>min()</code></td>
+</tr>
+<tr class="odd">
+<td>Maximum</td>
+<td>The largest value.</td>
+<td><code>max()</code></td>
+</tr>
+<tr class="even">
+<td>Count</td>
+<td>The number of values.</td>
+<td><code>n()</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="example">Example</h4>
+<p>Below is a table of descriptive statistics for the popular vote share received by candidates in the 2016 U.S. Presidential election by state (including the District of Columbia). Note, the unit of observation is a U.S. state and so we can read this as saying that Trump received 4.09% of the vote share in his lowest performing state and 68.17% in his highest, with a mean of 48.26% and standard deviation of 11.92% across states.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">candidate</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">var</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">iqr</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Trump</td>
+<td style="text-align: right;">48.17</td>
+<td style="text-align: right;">48.26</td>
+<td style="text-align: right;">142.03</td>
+<td style="text-align: right;">11.92</td>
+<td style="text-align: right;">16.20</td>
+<td style="text-align: right;">4.09</td>
+<td style="text-align: right;">68.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Clinton</td>
+<td style="text-align: right;">46.17</td>
+<td style="text-align: right;">44.61</td>
+<td style="text-align: right;">148.49</td>
+<td style="text-align: right;">12.19</td>
+<td style="text-align: right;">15.73</td>
+<td style="text-align: right;">21.88</td>
+<td style="text-align: right;">90.86</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Johnson</td>
+<td style="text-align: right;">3.44</td>
+<td style="text-align: right;">3.72</td>
+<td style="text-align: right;">2.05</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">1.79</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: right;">9.34</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">2.74</td>
+<td style="text-align: right;">3.41</td>
+<td style="text-align: right;">12.30</td>
+<td style="text-align: right;">3.51</td>
+<td style="text-align: right;">1.53</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">24.32</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>As a general rule, we don’t use variance in our descriptions and we report mean and standard deviation together. These latter two are especially important for certain inferential methods.</p>
+</section>
+</section>
+<section id="measure-for-two-quantitative-variable" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="measure-for-two-quantitative-variable"><span class="header-section-number">4.1.2</span> Measure for Two Quantitative Variable</h3>
+<p>To these univariate characteristics, we can add a measure for describing the relationship between two quantitative variables: the <em>correlation coefficient</em>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 64%">
+<col style="width: 17%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><em>Measure</em></td>
+<td><em>Description</em></td>
+<td><em><code>R</code> Function</em></td>
+</tr>
+<tr class="even">
+<td>Correlation (<span class="math inline">\(r\)</span>)</td>
+<td>A measure of the strength and direction of the linear association between two quantitative variables.</td>
+<td><code>cor()</code></td>
+</tr>
+</tbody>
+</table>
+<p>In statistics, we generally make a distinction between an <strong>association</strong>, a relationship between two variables, and a <strong>correlation</strong>, or the linear association between two <em>quantitative</em> variables. Associations can refer to some relationship between variables of any type, but a correlation is a measure we calculate for two quantitative variables using a specific formula (or the <code>cor()</code> function in <code>R</code>). The distinction between association and correlation often gets lost in everyday language, but we’ll try to maintain some precision here.</p>
+<p>Correlations range between -1 and +1, with both extremes representing a perfect linear association of data points with some slope. The figure below shows a range of correlations for different sets of observations.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>To describe a relationship between quantitative variables, it is useful to talk about:</p>
+<ul>
+<li>Strength, whether there is a strong (closer to -1 or +1) or weak correlation (closer to 0)</li>
+<li>Direction, whether the relationship is positive or negative</li>
+<li>Form, whether the association is linear or non-linear</li>
+<li>Outliers, whether there are observations that break the general pattern</li>
+</ul>
+<p>The correlation coefficient is sensitive to outliers, which means that a stray observation can greatly influence the measure, and the general form of the relationship. You can see the effect of both in Francis Anscombe’s classic example. The figure below shows four different sets of observations, each with the same correlation (<span class="math inline">\(r \approx 0.82\)</span>) and other summary statistics.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="why-visualize" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="why-visualize"><span class="header-section-number">4.2</span> Why Visualize?</h2>
+<p>This brings us to our central point: data visualization isn’t just fun, it is necessary. Correlations and other summary measures can be terribly misleading if used blindly. Checking a visual presentation of our data provides us with the opportunity to ensure that the underlying data matches our expectations. In the case of Anscombe’s quartet, only one of the plots corresponds to what we might expect for a correlation of 0.82.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<p>There are other clear benefits to data visualization beyond the purely analytic. They can convey complex data in simple terms, for instance, and they can form lasting impressions.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Minard_map of Napoleons march.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Charles Minard’s famous, “<em>Carte figurative des pertes successives en hommes de l’Armée Française dans la campagne de Russie 1812–1813”</em> (Source: <a href="https://commons.wikimedia.org/wiki/File:Minard.png">Wikimedia</a>)<em>.</em></figcaption>
+</figure>
+</div>
+<p>Theses communicative benefits of data visualization can be difficult to overstate. But it is important to remember that as much as we may want to convince others with aesthetically pleasing figures, it is the underlying veracity of our visualizations which matters most. To put it simply, if the visualization is eye catching, but uses poor quality data, it is not a good visualization. Similarly, if the visualization presents good data in a misleading light or fails to convey any meaning at all, it is not a good visualization. We need good data to make good visualizations and we need to be good analysts to ensure that accurate meanings are being conveyed.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Dubois bar chart.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">A bar chart produced by the American sociologist W.E.B. Du Bois (1868-1963) for the Paris Exposition Universelle in 1900 to show the economic progress of African Americans after emancipation (Source: <a href="https://www.loc.gov/pictures/item/2013650354/">U.S. Library of Congress</a>).</figcaption>
+</figure>
+</div>
+</section>
+<section id="some-principles" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="some-principles"><span class="header-section-number">4.3</span> Some Principles</h2>
+<p>What makes for a good visualization then? The unsatisfying answer is that it depends. But, here are at some guiding principles that may be helpful:</p>
+<p><em>Avoid features which distract from the data</em>. Better charts, as Healy (2019) argues, usually maximize the data-to-ink ratio. This means that we’re not adding extras when they provide no benefit to interpretation and ensuring that the features of the visualization all speak to the data in some way. We should avoid, for example, making 3D charts when an extra dimension serves no purpose.</p>
+<p><em>Avoid perceptual traps</em>. You have no doubt seen graphs with truncated Y-labels, which can overemphasize volatility in trends. Contrary to what you may have heard, these types of graphs can sometimes be appropriate - especially, when a small marginal change in an otherwise stable trend is of great consequence. But this sort of example belies a bigger issue, which is the challenge of matching the perception of the reader with the actual patterns in the data. You must take care not only when deciding on the appropriate scale for an axis, but also on the type of graph, the ordering and size of various elements, the choice of color gradient, and the relative width and height (aspect ratio) of the final product. Pie charts, as an example of a type of graph, happen to be particularly unintuitive because of the difficulty we human beings have in perceiving the relative size of different segments of a circle. In a bar chart, in contrast, we only need to compare the length of different bars to understand relative size, a much simpler cognitive undertaking.</p>
+<p><em>Use the right measure</em>. When it comes to analyzing data, you will undoubtedly have many options in terms of the measures you can use to convey your findings. But it is equally important that you choose the measure which is most appropriate for the comparisons you are making. This is not a problem specific to data visualization, per se, but it is one which crops up all too often. If you want, for example, to compare crime rates across geographic units, you will want to adjust your data to a <em>per capita</em> basis.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> If you wish to compare typical worker salaries across countries, you will want to compare medians rather than means.</p>
+<p>It may be apparent, in the foregoing discussion, that the most interesting visualizations generally involve two or more variables and are aimed at bringing the reader’s attention to the relationships between them. The principles discussed here are, of course, not intended to be exhaustive and you’ll sometimes find that the choices we make in visualizations often come down to taste. At the very least, however, we should all endeavor to use visualizations to convey our information clearly and truthfully.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Nightengale_diagram.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Florence Nightingale’s (1858), “Diagram of the causes of mortality in the army in the East.” This is a more effective form of pie chart where the perceptual relative size trade-off is negated by the amount of information conveyed and the seasonal nature of the data.</figcaption>
+</figure>
+</div>
+</section>
+<section id="using-ggplot2" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="using-ggplot2"><span class="header-section-number">4.4</span> <code>Using ggplot2</code></h2>
+<p>The everyday graphs we make when conducting data analysis will usually be more functional than pretty, but that doesn’t need to stop us from combining the two today. In the example below, we’ll focus mainly on the mechanics of constructing a visualization using <code>ggplot2</code> rather than on how to use them analytically, however. We’ll work on combining these two purposes later.</p>
+<p>To get started, we’ll load a new data set called <code>gapminder</code>, which contains a set of data on countries. Conveniently, the <code>gapminder</code> data is located in the <code>gapminder</code> package. As usual, be sure to install the package before loading it for the first time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(gapminder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>data()</code> function used above is an alternative to <code>gapminder &lt;- gapminder</code>. It loads the <code>gapminder</code> data from the package into a <code>gapminder</code> object in our environment. You can use either, but it’s good to keep learning new functions at this stage so that you can understand what they do when you see them elsewhere.</p>
+<p>As will become second nature to you to you soon, we can inspect this data using <code>glimpse()</code>, <code>view()</code>, or by clicking on the object in the environment pane.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gapminder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,704
+Columns: 6
+$ country   &lt;fct&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", …
+$ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+$ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+$ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+$ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+$ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …</code></pre>
+</div>
+</div>
+<p>Our new tibble has 1,704 rows and 6 variables. <code>?gapminder</code> provides some more information on the variables. There is something a little bit different about this data compared to the GSS data. Whereas in the GSS data each row corresponds to a separate person, in the Gapminder data, each row corresponds to a year for a particular country. We have, for instance, a row with data for Afghanistan in 1952 and another row for Afghanistan in 1957 in the next row. The unit of observation is called a “country-year.” Consider for a moment how this might affect the answers you get when using <code>mean()</code> or <code>median()</code>.</p>
+<p>In the social sciences, we call this format <strong>long data</strong>. The differences in the way tabular data is stored has important implications for the way we analyze it. We’ll discuss this more in depth in the next chapter, however, and focus on graphing today. Luckily for us, the <code>gapminder</code> data is already in an ideal format for <code>ggplot2</code>.</p>
+<section id="brief-exercise" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="brief-exercise">Brief Exercise</h3>
+<p>As a brief exercise and to refresh your memory, let’s use <code>dplyr</code> to find the minimum and maximum years in the <code>gapminder</code> data. Try it on your own first and then check your answer below.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">min_year =</span> <span class="fu">min</span>(year),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">max_year =</span> <span class="fu">max</span>(year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  min_year max_year
+     &lt;int&gt;    &lt;int&gt;
+1     1952     2007</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Now see whether you can find the minimum and maximum year for <em>each country</em> along with the number of times each country appears in the data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">min_year =</span> <span class="fu">min</span>(year),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">max_year =</span> <span class="fu">max</span>(year),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 142 × 4
+   country     min_year max_year     n
+   &lt;fct&gt;          &lt;int&gt;    &lt;int&gt; &lt;int&gt;
+ 1 Afghanistan     1952     2007    12
+ 2 Albania         1952     2007    12
+ 3 Algeria         1952     2007    12
+ 4 Angola          1952     2007    12
+ 5 Argentina       1952     2007    12
+ 6 Australia       1952     2007    12
+ 7 Austria         1952     2007    12
+ 8 Bahrain         1952     2007    12
+ 9 Bangladesh      1952     2007    12
+10 Belgium         1952     2007    12
+# ℹ 132 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="how-ggplot2-works" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="how-ggplot2-works"><span class="header-section-number">4.4.1</span> How <code>ggplot2</code> Works</h3>
+<p>Back to visualizations. Much like a cake, <code>ggplot2</code> involves layers. We start with a bare plot which has only our axes and their labels and then we work our way up to the final product, layer by layer.</p>
+</section>
+<section id="making-the-base-plot" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="making-the-base-plot"><span class="header-section-number">4.4.2</span> Making the Base Plot</h3>
+<p>Just as with <code>dplyr</code>, we can use the pipe operator to work with <code>ggplot2</code>. We first take the Gapminder data <em>and then</em> add a new function, <code>ggplot()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Without any arguments supplied, the <code>ggplot()</code> function produces a blank plot (shown above), a canvas on which we’ll paint our visualization. You should be able to see this plot after running it in your R Script in the lower right pane of your R Studio window (under the ‘Plots’ tab). We’d rather see a completed canvas than a blank canvas, however, so we’re going to supply an argument called <code>mapping</code>. The <code>mapping</code> argument tells <code>ggplot</code> how we are going to map the data to the plot.</p>
+<pre><code>gapminder %&gt;%
+  ggplot(mapping = )</code></pre>
+<p>The mapping argument, in turn, requires us to specify an ‘aesthetic’ which will always be contained in <code>aes()</code>. So now we have:</p>
+<pre><code>gapminder %&gt;%
+  ggplot(mapping = aes())</code></pre>
+<p>If we were to run this, we would still get a blank plot. The <code>ggplot()</code> function knows we’re using the gapminder data (since we used the pipe operator), but it doesn’t yet know what we would like to see on our x- and y-axes. For this we need to define the aesthetic characteristics. Since our goal is to recreate the graph we saw in the beginning of this chapter, which showed the relationship between GDP per capita (<code>gdpPerCap</code>) and life expectancy (<code>lifeExp</code>), we’ll supply these variables to the <code>x</code> and <code>y</code> arguments inside the <code>aes()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ahah! Now, we have a not-so-blank plot. We can see instead an x-axis, as specified, showing <code>gdpPerCap</code>, and a y-axis, showing <code>lifeExp</code>. But where are our data?</p>
+</section>
+<section id="specifying-the-type-of-plot" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="specifying-the-type-of-plot"><span class="header-section-number">4.4.3</span> Specifying the Type of Plot</h3>
+<p>In order to add data, we have to tell ggplot exactly what type of plot we’d like to create. We could produce a scatterplot, for example, which will cause the data to appear as points, or we could create a line graph, which will connect points with lines. There are other options, but these seem like the most sensible choices for now.</p>
+<p>In <code>ggplot()</code>, the different types of plots are called <em>geoms</em> and we can add them as a layer to our base plot by using the <code>+</code> sign followed by the <code>geom_</code> function that corresponds to what we want to see. If we wanted to see a line plot, we would use <code>geom_line()</code>. We want to see points, so we’ll use the <code>geom_point()</code> function. Let’s see how it looks:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We now have a plot which shows us each country-year as a point. Notice, we didn’t need to supply an argument to <code>geom_point()</code> nor did we have to tell <code>ggplot()</code> anything other than the mapping of <code>x</code> and <code>y</code> values (and, of course, the initial source of data, <code>gapminder</code>, via the pipe operator).</p>
+<p><code>ggplot</code> objects are unique in that we can add additional layers by using the <code>+</code> operator to join them to the base plot and each other. Just like with the pipe operator, however, we need to make sure that the <code>+</code> appears at the end of each line (except the last) and not at the beginning. Be on the lookout for these types of syntax errors:</p>
+<pre><code># This will not produce a plot with points, 
+# because the + operator is in the wrong spot.
+gapminder %&gt;%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) 
+  + geom_point()
+  
+# This will produce a plot with points.
+gapminder %&gt;%
+  ggplot(mapping = aes(x = gdpPercap, 
+                       y = lifeExp)) +
+  geom_point()</code></pre>
+</section>
+<section id="adding-a-smoother" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="adding-a-smoother"><span class="header-section-number">4.4.4</span> Adding a Smoother</h3>
+<p>Can we add more layers to our plot? You bet. We can, for instance, add a line of best fit on top of our points with a <code>geom_smooth()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The warning here tells us that <code>geom_smooth()</code> used a default argument and formula to calculate the line of best fit.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+</section>
+<section id="mapping-more-aesthetics" class="level3" data-number="4.4.5">
+<h3 data-number="4.4.5" class="anchored" data-anchor-id="mapping-more-aesthetics"><span class="header-section-number">4.4.5</span> Mapping More Aesthetics</h3>
+<p>What else can we do with this visualization? Well, we might want to see if there are other elements that can be changed to reveal more patterns in the data. What if we compared the relationship between <code>gdpPercap</code> and <code>lifeExp</code> by each country’s continent, for example? We could create a graph for each continent, showing only the relevant countries for each, but we could also modify another element, like the color of the data points, in our current plot.</p>
+<p>To do this, we need to modify the aesthetics of our data mapping. We’ll add another argument to the <code>aes()</code> function inside of the <code>ggplot()</code> mapping argument for <code>color</code>. And, of course, since we want to color the data points by continent, we need to specify <code>color = continent</code>. We’ll skip the line of best fit this time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Voila. Now we can see how this relationship plays out among countries within different continents. It might also be interesting to see how this relationship plays out by population size. Since population size is a continuous quantitative variable, discrete colors maybe aren’t the best choice. We could add a color gradient scale (as you might see in a heat map, for example) or we could modify some other element.</p>
+<p>What about changing the size of the points according to population? Bigger countries will have larger points and smaller countries will have smaller points with a continuum in between. To do this, we need to add a size argument to the aesthetic mapping, this time according to population (<code>pop</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop)) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Each time we add an aesthetic, we can see that <code>ggplot()</code> makes the necessary change to the plot and then adds a key to interpret each element. We now have scales for population (the <code>size</code> value in our aesthetic mapping) and continent (the <code>color</code> value). Another optional aesthetic argument you can use is <code>shape</code>, which changes the points from dots to different symbols (like x’s or o’s). <code>line</code> is another one which changes the type of line for <code>geom_line()</code>.</p>
+<p>Because we have a lot of data points and they’re all overlapping, we’re going to skip shape and make it so that the points have some transparency. We can add an <code>alpha</code> argument to the <code>geom_point()</code> component which controls transparency. <code>alpha</code> takes a value between 0 and 1, where 0 is invisible and 1 is not-transparent. We’ll use halfway, <code>0.5</code>, but you can play around with the different levels for your preferred value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop)) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We are getting pretty close to the graph we started the chapter with. At this point, we could add <code>geom_smooth()</code> back to our plot. Take a look at what happens when you do though.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop)) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following aesthetics were dropped during statistical transformation: size.
+ℹ This can happen when ggplot fails to infer the correct grouping structure in
+  the data.
+ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+  variable into a factor?</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>That’s maybe not the result we thought it was going to be. Instead of one smooth curve, as before, we now have we now have a different colored curve for each of the continents. We can also see in the key on the right-hand side that population size is affecting the width of the lines.</p>
+<p>One thing to know about <code>ggplot2</code> is that each item added to the <code>ggplot()</code> object inherits <code>ggplot()</code>’s aesthetics. So because we defined <code>color</code> by continent and <code>size</code> by population in <code>ggplot()</code>’s mapping argument, <code>geom_point()</code> and <code>geom_smooth()</code> are also also colored by continent and sized by population.</p>
+<p>If we want to instead ensure that the <code>color</code> and <code>size</code> arguments only affect <code>geom_point()</code>, we need to move those aesthetics to <code>geom_point()</code>’s own aesthetic mapping. See below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">color =</span> continent,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><code>geom_point()</code>’s mapping argument accepts the same values (i.e., <code>aes(color = , size = )</code>).</p>
+<p>Let’s remove <code>geom_smooth()</code> again anyways, since it doesn’t seem particularly useful and the plot looks better without it. We can return the <code>color</code> and <code>size</code> arguments to <code>ggplot()</code> or we can leave them as is. Just a few more changes before we get to the finished product.</p>
+</section>
+<section id="changing-scales" class="level3" data-number="4.4.6">
+<h3 data-number="4.4.6" class="anchored" data-anchor-id="changing-scales"><span class="header-section-number">4.4.6</span> Changing Scales</h3>
+<p>We’re going to change the x-axis scale to a logarithmic scale, since the data appears to follow a logarithmic form, and then we’re going to fix another scale, fix the labels, and add a title. Scales can be changed by adding functions from the <code>scale_</code> family to our plot. Like <code>geom_</code>, there are a variety of options depending on the need. In this case, we want a logarithmic scale for our x-axis in base 10 (a standard logarithm), so we use <code>scale_x_log10()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Great! We can see the relationship between GDP per capita and life expectancy clearly now.</p>
+<p>We don’t always have to change the scales, but in this case, the pattern of the data calls for it.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> If you don’t add a <code>scale_</code> function, <code>ggplot2</code> will simply use the default. In the case of our y-axis here, it looks fine and so we don’t need a <code>scale_y_</code> function.</p>
+<p>Note, that there is a big difference between the scale of our axes (the correspondence between distance along the axis and the values in our data) and our axis labels (how we write each value). Just because the numbers on the axis are written in a strange format, doesn’t necessarily mean we need to adjust the scale. We may just need to re-write the labels.</p>
+<p>As you can see, our x-axis labels are still written in an unhelpful format (scientific notation) even though the form of our data has been transformed by the change in scale</p>
+</section>
+<section id="changing-scale-labels" class="level3" data-number="4.4.7">
+<h3 data-number="4.4.7" class="anchored" data-anchor-id="changing-scale-labels"><span class="header-section-number">4.4.7</span> Changing Scale Labels</h3>
+<p>X-axis scale labels written in scientific notation are not especially easy to read and neither are those for population (the <code>size</code> aesthetic). Fortunately, there is a very helpful package called <code>scales</code>, which we can use to help out with the usually messy problem of fixing scale labels.</p>
+<p>You should already have a copy of <code>scales</code> installed and if you’d like, you can load it via <code>library()</code>. Another way to access it’s functions is to use the name of the package followed by <code>::</code> and the name of the desired function. We used this same method in the previous chapter for <code>knitr::kable()</code>.</p>
+<p>For the scale on the x-axis, which corresponds to a variable in U.S. dollars, we’re going to use <code>scales::label_currency()</code>.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> We’ll add this helper function to the <code>labels =</code> argument of our <code>scale_</code> function. In this case, <code>scale_x_log10(labels = scales::label_currency()</code>.</p>
+<p>Other useful <code>scales</code> functions include <code>scales::comma</code> and <code>scales::percent</code> - neither of which require parentheses at the end, unlike <code>label_currency()</code>. Since we also want to fix the label for the <code>size</code> function, we’ll add another <code>scale_</code> function for size and then set the <code>labels</code> argument to use commas. It will look like this: <code>scale_size(labels = scales::comma)</code>.</p>
+<p>See below for both steps put together:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes) <span class="co"># A theme used for graphs</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Source: https://youtu.be/04GFB33lUJE?feature=shared&amp;t=2335</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Our scale labels have been fixed.</p>
+</section>
+<section id="adding-titles" class="level3" data-number="4.4.8">
+<h3 data-number="4.4.8" class="anchored" data-anchor-id="adding-titles"><span class="header-section-number">4.4.8</span> Adding Titles</h3>
+<p>Finally, to change the titles of different features, we can add a <code>labs()</code> function to the end of our object. The <code>labs()</code> function will set titles for each part of the plot according to the values given to a set of corresponding named arguments. In the code below, you can see that we’ve changed the title for the <code>x</code> and <code>y</code> axes, the size key (“Population”), the color key (“Continent”), the overall title of the graph (“Economic Growth and Life Expectancy”), and then added a caption at the bottom.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)     <span class="co"># Used for the dollar labels</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes) <span class="co"># A theme used for graphs</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Source: https://youtu.be/04GFB33lUJE?feature=shared&amp;t=2335</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Economic Growth and Life Expectancy"</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">" Source: Gapminder </span><span class="sc">\n</span><span class="st"> Note: Observations are country-years."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>At this point, we have a good looking graph and you could call it a day here. As you will discover though, there are endless options for customizing graphics made using <code>ggplot2</code>. It’s the reason why <code>ggplot2</code> graphics can be made to look so good.</p>
+</section>
+<section id="adding-a-theme" class="level3" data-number="4.4.9">
+<h3 data-number="4.4.9" class="anchored" data-anchor-id="adding-a-theme"><span class="header-section-number">4.4.9</span> Adding a Theme</h3>
+<p>Themes are customizable sets of aesthetic characteristics that change things like font types and sizes, the alignment of different elements, and the presence of gridlines. You can adjust many of these things by adding a <code>theme()</code> function to the end of your plot and playing around with the many different available arguments.</p>
+<p>Alternatively, you can use a theme that someone else has created by installing their package. This is perhaps ideal, because then you can find a theme that matches your general preferences and tweak minor elements as needed by adding another <code>theme()</code> layer on top. Playing around with theme settings on your own can be a very time consuming affair and in general, I don’t recommend it for graphs used only for analytic purposes.</p>
+<p><code>ggthemes</code>, for example, is a popular theme package with themes that mimic, for example, the styles used in <em>The Economist</em> (<code>theme_economist()</code>) and the <em>Wall Street Journal</em> (<code>theme_wsj()</code>). You can see some more of the styles available in <code>ggthemes</code> <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">here</a>. The theme I used for the graph at the start of this chapter is called <code>theme_ipsum_rc()</code> and it comes from the <code>hrbrthemes</code> package. Remember, if you use a theme from a package, you need to first download the package and then load the library. Some custom themes, like ipsum, also require you to install and register new fonts in <code>R</code>, which can be a pain.</p>
+<p>If you’d like to avoid the trouble of installing extra packages, you can also use some of the default themes provided in <code>ggplot2</code>, many of which are also quite nice. Adding <code>theme_bw()</code> to our plot from the previous example, for instance, does this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)     <span class="co"># Used for the dollar labels</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes) <span class="co"># A theme used for graphs</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Source: https://youtu.be/04GFB33lUJE?feature=shared&amp;t=2335</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Economic Growth and Life Expectancy"</span>,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">" Source: Gapminder </span><span class="sc">\n</span><span class="st"> Note: Observations are country-years."</span>) <span class="sc">+</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>You can see that it has added a border to our plot and removed the gray background from both the plot and the scales. Try using <code>theme_minimal()</code>, <code>theme_classic()</code>, and <code>theme_void()</code> instead to see how they change the aesthetics.</p>
+</section>
+<section id="final-product" class="level3" data-number="4.4.10">
+<h3 data-number="4.4.10" class="anchored" data-anchor-id="final-product"><span class="header-section-number">4.4.10</span> Final Product</h3>
+<p>To return to the final product, I’ll use <code>theme_ipsum_rc()</code> from <code>hrbrthemes</code>. I’ll also replace the size_scale with a more complicated function which makes it easier to read.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes) <span class="co"># A theme used for graphs</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> <span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale_cut =</span> <span class="fu">cut_short_scale</span>())) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Economic Growth and Life Expectancy"</span>,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">" Source: Gapminder </span><span class="sc">\n</span><span class="st"> Note: Observations are country-years."</span>) <span class="sc">+</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_ipsum_rc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Whichever plot you choose to use as your final plot, you can save it by clicking on the plot tab in the lower right-hand corner of your R Studio window followed by export. We’ll discuss better ways of doing this in future chapters.</p>
+</section>
+</section>
+<section id="other-plots" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="other-plots"><span class="header-section-number">4.5</span> Other Plots</h2>
+<p>We’ve so far only covered one type of plot, a scatterplot. It won’t surprise you to hear that there are many other types of plots that we can create using <code>ggplot2</code>. The good news is that the structure and components of <code>ggplot2</code> are consistent and once you start creating plots, you can always re-use code.</p>
+<p>A quick example of a line chart using the <code>gapminder</code> data is shown below for instance. Note, we’ve made a few changes to our ggplot function. We first filtered the data for a small subset of countries, so that we can see them in our graph. Then we used <code>geom_line()</code> as our <code>geom_</code> instead of <code>geom_point()</code>. Most importantly, we’ve set <code>color</code> to represent each country to ensure that our data is mapped to the appropriate unit of observation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>my_countries <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'France'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'Italy'</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> my_countries) <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> pop, </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> country)) <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Try setting <code>color = continent</code> in the example above and see what happens. <code>ggplot2</code> doesn’t naturally understand the correct unit of observation and so specifying continent as <code>color</code> leads it to believe that it needs connect the data points according to continent for each year and across years. Since France, Italy, and the U.K. are in the same continent, it draws a line connecting each of the three data points in the same year and then connects them across years, leading to a jagged and meaningless graph.</p>
+<p>Here’s a slightly more polished looking version of the initial plot with some aesthetic and label changes. We can easily change the countries used and these other features. Note, you may especially wish to change the font family to something like ‘Arial’, since you may not have ‘Roboto Condensed’ installed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>my_countries <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'France'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'Italy'</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> my_countries) <span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> pop, </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> country)) <span class="sc">+</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>  </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale_cut =</span> <span class="fu">cut_short_scale</span>())) <span class="sc">+</span> </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Year"</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Population"</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Country"</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Population Growth in Europe"</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: Gapminder"</span>) <span class="sc">+</span> </span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">family =</span> <span class="st">"Roboto Condensed"</span>),</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>                     <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">1</span>), </span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Last, but not least, we have a bar chart. Here again we’ve filtered for some countries. We’ve then filtered for a specific year, removed color (which works slightly differently for bar charts), and have added the <code>geom_col()</code> geom to specify that it is a bar chart we are making.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>my_countries <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'France'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'Italy'</span>, <span class="st">"Germany"</span>, <span class="st">"Spain"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> my_countries) <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> country, </span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> pop)) <span class="sc">+</span>  </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We will work through other examples of visualizations, such as the map below, and the specific quirks of how they work in future chapters.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="summary" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.6</span> Summary</h2>
+<p>In this chapter, we’ve reviewed some of the measures we might use to describe data, discussed some general principles for producing good data visualizations, and learned how to create and modify some basic plots in <code>ggplot2</code>.</p>
+<p>You will likely need to read this chapter and reference the code more than once. <code>ggplot2</code>’s structure is not very intuitive to new users. The more you use it, however, and get a feel for how the different elements of a plot map to the various objects and arguments, the more control you will have over the visualizations you produce</p>
+<p>So, keep practicing and save your work, adding comments so that you remember what you were doing. Go back to some of the examples used here and play around with the different arguments. Try to change the plot types. Use different scales. See if you can make something interesting. As you inevitably get errors, try to make a mental note of what works and what doesn’t. Eventually, you’ll have amassed a stockpile of code that you can re-use and adjust to create the right visualizations whenever you need them.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-healy2019" class="csl-entry" role="listitem">
+Healy, Kieran. 2019. <em>Data Visualization: A Practical Introduction</em>. Princeton: Princeton University Press. <a href="https://socviz.co">socviz.co</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>I have neither trophies nor an office, but let’s not let that spoil things.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>R.I.P. ggplot1 (2006-2008)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Credit for this visualization and the series of examples derived from it belong to <span class="citation" data-cites="healy2019">Healy (<a href="references.html#ref-healy2019" role="doc-biblioref">2019</a>)</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>The formula for the sample variance is: <span class="math inline">\(S^2={{\sum{({x_i - \overline{x}})^2 }} \over{n-1}}\)</span><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>The formula for the sample standard deviation is: <span class="math inline">\(S={\sqrt{{\sum{({x_i - \overline{x}})^2 }} \over{n-1}}}\)</span><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>For an even more extreme example, see Alberto Cairo’s <a href="https://jumpingrivers.github.io/datasauRus/">Datasaurus Dozen</a>, all of which have approximately the same correlation and summary statistics.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>This problem is particularly common in maps, as illustrated in this <a href="https://kieranhealy.org/blog/archives/2015/06/12/americas-ur-choropleths/">blog post</a> about density maps.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>‘gam’ stands for general additive model and is one method of adding a line of best fit. ‘lm’, or linear model, is another best fit method.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Understanding when to use scale transformations is a statistical matter, which we won’t go into here.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>The default currency for <code>label_currency()</code> is U.S. dollars.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./summarizing-with-dplyr.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./homework-1.html" class="pagination-link">
+        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
