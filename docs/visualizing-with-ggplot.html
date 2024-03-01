@@ -314,9 +314,9 @@ div.csl-indent {
 <h4 class="unnumbered anchored" data-anchor-id="central-tendency">Central Tendency</h4>
 <table class="table">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 67%">
-<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 55%">
+<col style="width: 22%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -341,9 +341,9 @@ div.csl-indent {
 <h4 class="unnumbered anchored" data-anchor-id="spread">Spread</h4>
 <table class="table">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 67%">
-<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 55%">
+<col style="width: 22%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -467,9 +467,9 @@ div.csl-indent {
 <p>To these univariate characteristics, we can add a measure for describing the relationship between two quantitative variables: the <em>correlation coefficient</em>.</p>
 <table class="table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 64%">
-<col style="width: 17%">
+<col style="width: 23%">
+<col style="width: 53%">
+<col style="width: 23%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -811,17 +811,14 @@ gapminder %&gt;%
 <p>For the scale on the x-axis, which corresponds to a variable in U.S. dollars, we’ll use the function <code>scales::label_currency()</code>.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> We’ll add this helper function to the <code>labels =</code> argument of our <code>scale_</code> function in the example below. Other useful <code>scales</code> functions include <code>scales::comma</code> and <code>scales::percent</code> - neither of which require parentheses at the end, unlike <code>label_currency()</code>.</p>
 <p>Since we also want to fix the label for the <code>size</code> function, we’ll also add a <code>scale_</code> function for our size aesthetic (in a separate object) and then set the <code>labels</code> argument to use commas. See below for both steps put together:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes) <span class="co"># A theme used for graphs</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Source: https://youtu.be/04GFB33lUJE?feature=shared&amp;t=2335</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -833,24 +830,20 @@ gapminder %&gt;%
 <p>To change the titles of different elements, we can add a <code>labs()</code> function to the end of our object. The <code>labs()</code> function will set titles for each part of the plot according to the values given to a set of corresponding arguments.</p>
 <p>In the code below, you can see that we’ve changed the title for the <code>x</code> and <code>y</code> axes, the <code>size</code> key (“Population”), the <code>color</code> key (“Continent”), the overall <code>title</code> of the graph (“Economic Growth and Life Expectancy”), and then added a <code>caption</code> at the bottom.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)     <span class="co"># Used for the dollar labels</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes) <span class="co"># A theme used for graphs</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Source: https://youtu.be/04GFB33lUJE?feature=shared&amp;t=2335</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Economic Growth and Life Expectancy"</span>,</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">" Source: Gapminder </span><span class="sc">\n</span><span class="st"> Note: Observations are country-years."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Economic Growth and Life Expectancy"</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">" Source: Gapminder </span><span class="sc">\n</span><span class="st"> Note: Observations are country-years."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -864,25 +857,21 @@ gapminder %&gt;%
 <p>Among pre-packaged themes, <code>ggthemes</code>, for example, is a popular package with themes that mimic the styles used in <em>The Economist</em> (<code>theme_economist()</code>), for example, and the <em>Wall Street Journal</em> (<code>theme_wsj()</code>). You can see some more of the styles available in <code>ggthemes</code> <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">here</a>. The theme I used for the graph at the start of this chapter is called <code>theme_ipsum_rc()</code> which comes from the <code>hrbrthemes</code> package. Remember, if you use a theme from a package, you need to first download the package and then load the library (or access the specific function using <code>::</code>). Some custom themes, like ipsum, also require you to install and register new fonts in <code>R</code>, which can be a pain.</p>
 <p>If you’d like to avoid the trouble of installing extra packages, you can also use some of the default themes provided in <code>ggplot2</code>, many of which are also quite nice. Adding <code>theme_bw()</code> from <code>ggplot2</code> to the plot from the previous example, for instance, does this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)     <span class="co"># Used for the dollar labels</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hrbrthemes) <span class="co"># A theme used for graphs</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Source: https://youtu.be/04GFB33lUJE?feature=shared&amp;t=2335</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Economic Growth and Life Expectancy"</span>,</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">" Source: Gapminder </span><span class="sc">\n</span><span class="st"> Note: Observations are country-years."</span>) <span class="sc">+</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> lifeExp,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Economic Growth and Life Expectancy"</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">" Source: Gapminder </span><span class="sc">\n</span><span class="st"> Note: Observations are country-years."</span>) <span class="sc">+</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -902,8 +891,8 @@ gapminder %&gt;%
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> pop,</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> continent)) <span class="sc">+</span></span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> <span class="fu">label_currency</span>()) <span class="sc">+</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale_cut =</span> <span class="fu">cut_short_scale</span>())) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_currency</span>()) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">scale_cut =</span> scales<span class="sc">::</span><span class="fu">cut_short_scale</span>())) <span class="sc">+</span></span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"GDP Per Capita (log scale)"</span>,</span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life Expectancy in Years"</span>,</span>
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Population"</span>,</span>
@@ -919,8 +908,8 @@ gapminder %&gt;%
 </section>
 <section id="other-plots" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="other-plots"><span class="header-section-number">4.7</span> Other Plots</h2>
-<p>We’ve so far only covered one type of plot, a scatterplot. It won’t surprise you to hear that there are many other types of plots that we can create using <code>ggplot2</code>. The good news is that the structure and components of plots are generally consistent across types and that once you start creating plots, you can always re-use the code.</p>
-<p>A quick example of a line chart using the <code>gapminder</code> data is shown below. Note, we’ve made a few changes. We first filtered the data for a small subset of countries so that we can our graph won’t be swamped by too many countries. Then we used <code>geom_line()</code> as our <code>geom_</code> instead of <code>geom_point()</code>. Perhaps most importantly, we’ve set <code>color</code> to represent each country in order to ensure that our data is mapped to the appropriate unit of observation.</p>
+<p>We’ve so far only covered one type of plot, a scatterplot. It won’t surprise you to learn that there are many other types of plots that we can create using <code>ggplot2</code>. The good news is that the structure and components of plots are generally consistent across types and that once you start creating plots, you can always re-use the code.</p>
+<p>A quick example of a line chart using the <code>gapminder</code> data is shown below. Note, we’ve made a few changes. We first filtered the data for a small subset of countries so that our graph won’t be swamped with too many countries. Then we used <code>geom_line()</code> as our <code>geom_</code> instead of <code>geom_point()</code>. Perhaps most importantly, we’ve set <code>color</code> to represent each country in order to ensure that our data is mapped to the appropriate unit of observation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>my_countries <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'France'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'Italy'</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -934,7 +923,7 @@ gapminder %&gt;%
 <p><img src="visualizing-with-ggplot_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Try setting <code>color = continent</code> in the example above and see what happens. You get a bit of a mess. <code>ggplot2</code> doesn’t naturally understand the correct unit of observation, so specifying continent as <code>color</code> leads it to believe that it needs connect the data points according to the continent for each year and across years. Since France, Italy, and the U.K. are in the same continent, it draws a line connecting each of the three data points inside each year and then connects them across years, leading to a jagged, meaningless graph.</p>
+<p>Try setting <code>color = continent</code> in the example above and see what happens. You end up with a bit of a mess. <code>ggplot2</code> doesn’t naturally understand the correct unit of observation, so specifying continent as <code>color</code> leads it to believe that it needs connect the data points according to the continent for each year and across years. Since France, Italy, and the U.K. are in the same continent, it draws a line connecting each of the three data points inside each year and then connects them across years, leading to a jagged, meaningless graph.</p>
 <p>Here’s a slightly more polished looking version of the initial line graph with some aesthetic and label changes. We can easily change the countries used and other features like the size of <code>geom_line()</code>. Perhaps confusingly, <code>geom_line()</code> can also take a <code>size</code> argument outside of the mapping argument. Note also that you may wish to change the font family in the graphic below to something like ‘Arial’, since you may not have ‘Roboto Condensed’ installed on your computer.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>my_countries <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'France'</span>, <span class="st">'United Kingdom'</span>, <span class="st">'Italy'</span>)</span>
@@ -945,7 +934,7 @@ gapminder %&gt;%
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> pop, </span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> country)) <span class="sc">+</span></span>
 <span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>  </span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number</span>(<span class="at">scale_cut =</span> <span class="fu">cut_short_scale</span>())) <span class="sc">+</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">scale_cut =</span> scales<span class="sc">::</span><span class="fu">cut_short_scale</span>())) <span class="sc">+</span> </span>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Year"</span>,</span>
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Population"</span>,</span>
 <span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Country"</span>,</span>
