@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Programming for the Social Sciences Using R - 5&nbsp; Workflows and Wrangling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./homework-1.html" rel="next">
+<link href="./visualizing-with-ggplot.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./workflows-and-wrangling.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Programming for the Social Sciences Using R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/wstubenbord/ScPoSPSSUR" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-to-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summarizing-with-dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizing-with-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflows-and-wrangling.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Appendix</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#whats-happening-under-the-hood" id="toc-whats-happening-under-the-hood" class="nav-link active" data-scroll-target="#whats-happening-under-the-hood"><span class="header-section-number">5.1</span> What’s Happening Under the Hood?</a></li>
+  <li><a href="#file-structures-file-paths-and-the-working-directory" id="toc-file-structures-file-paths-and-the-working-directory" class="nav-link" data-scroll-target="#file-structures-file-paths-and-the-working-directory"><span class="header-section-number">5.2</span> File Structures, File Paths, and the Working Directory</a></li>
+  <li><a href="#the-problem-with-file-paths" id="toc-the-problem-with-file-paths" class="nav-link" data-scroll-target="#the-problem-with-file-paths"><span class="header-section-number">5.3</span> The Problem with File Paths</a></li>
+  <li><a href="#r-projects-and-here" id="toc-r-projects-and-here" class="nav-link" data-scroll-target="#r-projects-and-here"><span class="header-section-number">5.4</span> R Projects and <code>here</code></a>
+  <ul class="collapse">
+  <li><a href="#r-projects" id="toc-r-projects" class="nav-link" data-scroll-target="#r-projects"><span class="header-section-number">5.4.1</span> R Projects</a></li>
+  <li><a href="#here" id="toc-here" class="nav-link" data-scroll-target="#here"><span class="header-section-number">5.4.2</span> <code>here</code></a></li>
+  <li><a href="#organizing-your-project" id="toc-organizing-your-project" class="nav-link" data-scroll-target="#organizing-your-project"><span class="header-section-number">5.4.3</span> Organizing Your Project</a></li>
+  </ul></li>
+  <li><a href="#getting-data-into-r" id="toc-getting-data-into-r" class="nav-link" data-scroll-target="#getting-data-into-r"><span class="header-section-number">5.5</span> Getting Data into <code>R</code></a></li>
+  <li><a href="#loading-files-from-csvs" id="toc-loading-files-from-csvs" class="nav-link" data-scroll-target="#loading-files-from-csvs"><span class="header-section-number">5.6</span> Loading files from CSVs</a></li>
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">5.7</span> Tidy Data</a></li>
+  <li><a href="#pivoting-from-wide-to-long" id="toc-pivoting-from-wide-to-long" class="nav-link" data-scroll-target="#pivoting-from-wide-to-long"><span class="header-section-number">5.8</span> Pivoting from Wide to Long</a></li>
+  <li><a href="#merging-data" id="toc-merging-data" class="nav-link" data-scroll-target="#merging-data"><span class="header-section-number">5.9</span> Merging Data</a></li>
+  <li><a href="#recoding-variables" id="toc-recoding-variables" class="nav-link" data-scroll-target="#recoding-variables"><span class="header-section-number">5.10</span> Recoding variables</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.11</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we want for a particular project oftentimes isn’t contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.</p>
+<p>This chapter covers some of the processes and functions in <code>R</code> made for dealing with these unfortunate eventualities. We’ll start with the general problem of working with files in <code>R</code>, then learn how to get data in, and then we’ll learn more about how to make data analyzable.</p>
+<p>This chapter will not, of course, provide you with the all of the answers to the data wrangling problems you will eventually encounter. We will barely scratch the surface. But, once you manage to get data in, data wrangling becomes a matter of learning new functions and practicing the tidy data skills you’ve already started to learn.</p>
+<section id="whats-happening-under-the-hood" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="whats-happening-under-the-hood"><span class="header-section-number">5.1</span> What’s Happening Under the Hood?</h2>
+<p>Up until now, we’ve been writing our code in plain-text files saved with a <code>.R</code> file extension (or what we’ve been calling R Script files) and we haven’t needed to load data from other files or to save anything new.</p>
+<p>But, this isn’t entirely true. We have actualy been loading data from files saved on our computers, it just so happens that our use of packages and the <code>library()</code> function have concealed and greatly simplified the back-end interactions leading to data showing up in our RStudio environments. This is why, if you were to disable the Wi-Fi on your computer, you would still be able to access data from the GSS.</p>
+<p>As with any type of computer program, <code>R</code> operates within the file structure of your computer. It uses data, functions, and other compiled code which has been saved across a number of files (and file types) in different locations to run the program itself and to enable you to do things with the program. This is the case for everything from the apps on your smartphone to the operating system of your laptop. The reason we don’t usually see the underlying files or code is because software developers realize that most people would rather not be bothered by these sorts of technical details - or worse, they might mess something up. We don’t need to know how an engine works to drive a car, after all, and if we were to start tinkering around inside we might start breaking things.</p>
+<p>For this chapter, we don’t need to go deep into the engine bay of <code>R</code> or <code>RStudio</code>. All we need to know is how to get <code>R</code> to interact with files saved in different locations on our computers and how to organize them in a way that makes them easy to access.</p>
+</section>
+<section id="file-structures-file-paths-and-the-working-directory" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="file-structures-file-paths-and-the-working-directory"><span class="header-section-number">5.2</span> File Structures, File Paths, and the Working Directory</h2>
+<p>Your computer’s operating system (Windows, MacOS, or Linux) organizes the files on your computer into folders. You might have created some folders on your own, renamed some, or stored files like photos, documents, and other items across them. There are usually default folders for files of a particular type. Pictures might go in a “Pictures” folder, for example, and documents in a “Documents” folder. Within a “Documents” folder, you might have a folder for “Sciences Po” and another sub-folder for “SPSSUR.” The way files are organized across folders and sub-folders on a computer’s hard drive is often referred to as the <strong>file structure</strong>. Within a file structure, each file has what is called a <strong>file path</strong>, which is an address that tells you where the file is located. In Windows, they usually look something like this:</p>
+<pre><code>"C:\Users\wcs26\Documents\Sciences Po\SPSSUR\my_file.R"</code></pre>
+<p>In MacOS, they might look more like this:</p>
+<pre><code>"/Users/wcs26/Documents/Sciences Po/SPSSUR/my_file.R"</code></pre>
+<p>As an important aside, when you need to write file paths inside of <code>R</code>, it’s generally preferable to write file paths in the MacOS format you see above (i.e., using backwards slashes, <code>/</code>) even if you are using a PC. This is because the forwards slash, <code>\</code>, is a special character in <code>R</code>.</p>
+<p>Within the operating systems themselves, file paths are slightly easier to find in Windows than in MacOS, since you can get most of the way the way there by clicking in the address bar at the top of a Windows Explorer window (see below).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This gives the folder path, which when followed by another slash and the file name and extension, gives the file path. In MacOS, finding a file path more require a little more work (see <a href="https://support.apple.com/en-mt/guide/mac-help/mchlp1774/mac#:~:text=On%20your%20Mac%2C%20click%20the,bottom%20of%20the%20Finder%20window.">here</a> for instructions).<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><img src="images/Windows-file-path.PNG" class="img-fluid" width="598"></p>
+<p>When working with multiple files in <code>R</code>, as you often will, you will have to pay some attention to the file structure and file paths. If you are loading data from a file, for instance, <code>R</code> will need to know exactly where the data file is located. If you are saving a graph, on the other hand, <code>R</code> will need to know where you want to save it.</p>
+<p><code>R</code> makes an educated guess as to where the files you are working with (or will be working with) are located based on how you open <code>R</code>. This is called the <strong>working directory</strong>, which you can easily identify with the command below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sometimes the working directory isn’t quite what you think it should have been. You may sometimes (although we will avoid this) need to change the working directory. If so, you can always manually change it using <code>setwd()</code>.</p>
+</section>
+<section id="the-problem-with-file-paths" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="the-problem-with-file-paths"><span class="header-section-number">5.3</span> The Problem with File Paths</h2>
+<p>For any function that loads a file, you’ll have to provide a file path. If we need to load data then, we’ll need to use a file path for our data file. The problem is this though: if we have a file saved in a specific location on our computer and we use a file path inside our code to load it, how are other people going to use the same code when their file structure will probably look very different?</p>
+<p>For example, let’s say I send you some code in an R Script as well as a data file called <code>important_data.csv</code>. I then have a line in my R Script file that looks like this:</p>
+<pre><code>read_csv("C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv")</code></pre>
+<p>The command tries to read in a data file, <code>important_data.csv</code>, located at the address inside the function. So, <code>R</code> searches for <code>C:</code> and then <code>Users</code> and so on, until it hits a folder it can’t find. Chances are that will happen very quickly (since you and I have different file structures) and so then it will stop running and give an error.</p>
+<p>This type of construction, where the file path lists every folder and sub-folder on the way to the destination, is called an <strong>absolute</strong> file path. If any part of the address is incorrect, the file will not be read. What then? Well, one solution is to use what are called <strong>relative</strong> file paths. A relative file path might look something more like this:</p>
+<pre><code>read_csv("important_data.csv")</code></pre>
+<p>In this case, because we have not provided the full address, <code>R</code> assumes that the working directory is the rest of the missing file path (i.e., <code>C:/Users/wcs26/Documents/Sciences Po/SPSSUR/</code>). If it is correct and the file is located within your working directory, then it will work perfectly fine and the data will be read. If the file is not located in the working directory, however, it will fail. The trouble is that <code>R</code> can only keep one working directory at a time per session, so if you start working with multiple <code>R</code> scripts in different folders, it will (or rather, you will) get confused quickly and your relative references will also fail.</p>
+</section>
+<section id="r-projects-and-here" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="r-projects-and-here"><span class="header-section-number">5.4</span> R Projects and <code>here</code></h2>
+<p>Fortunately, there is a better way. To avoid confused working directories and the borderline criminal act of hard-coding absolute file paths in our scripts, we’re going to use two solutions that will help keep our file references straight.</p>
+<section id="r-projects" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="r-projects"><span class="header-section-number">5.4.1</span> R Projects</h3>
+<p>The first is R Projects. Creating an R Project helps to ensure that all of the files used in your data analysis project are kept together in a single folder and in a separate <code>R</code> session. When you open an R Project file (<code>.Rproj</code>), R Studio opens a fresh working session (i.e., any other scripts you are working in are kept in a separate R Studio window) and the working directory is correctly set to the location of the project. All of the files you need will be right where you need them.</p>
+<p>Let’s create one for today’s classwork. In RStudio, go to File &gt; New Project &gt; New Directory &gt; New Project. Then, type in a project name matching our course naming standards (e.g., “Stubenbord_Wesley_Session 5 Classwork”). Create the project as a sub-directory of your SPSSUR course folder (wherever this may be and whatever it may be called on your computer). Once this is done, this is where the R Project file will live.</p>
+<p><img src="images/Creating-R-Project.PNG" class="img-fluid" width="409"></p>
+<p>You’ll find yourself in a new R Studio session with only a console window open. In you file structure, where you created your project, you will find a new folder which contains a <code>.Rproj</code> file along with a sub-folder with some settings stored for your project. This is your project folder and the <code>.Rproj</code> file is how you will open your project. Use this folder only for the files related to this project.</p>
+<p><img src="images/R-Project-Folder.PNG" class="img-fluid" width="483"></p>
+<p>Back in R Studio, in the lower-right hand pane with the “Files” tab, you’ll see all of the files currently associated with the project (which should be zero apart from the <code>.Rproj</code> Project file itself).</p>
+<p>In this same tab, you can add an R Script file to this project by clicking on “New Blank File” &gt; “R Script”. Go ahead and save it with an appropriate name.</p>
+<p><img src="images/R-Project-RStudio-Window.PNG" class="img-fluid"></p>
+<p>Running <code>getwd()</code> in your new script file or directly in the console will show you that your working directory does indeed match your R Project location. Huzzah.</p>
+<p><img src="images/R-project-getwd.PNG" class="img-fluid"></p>
+</section>
+<section id="here" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="here"><span class="header-section-number">5.4.2</span> <code>here</code></h3>
+<p>The second tool is a package called <code>here</code>. <code>here</code> contains a very useful function, called <code>here()</code>, which will help ensure that our code is always oriented to the correct working directory: the location of the associated R Project file.</p>
+<p>We’ll come back to the application of this function in a moment, but for now, install <code>here</code>, load it, and test the <code>here()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages('here')</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at C:/Users/wcs26/OneDrive/Documents/College/7_Ph.D/Sciences Po/Statistical Programming for the Social Sciences/SPSSUR Textbook</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">here</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "C:/Users/wcs26/OneDrive/Documents/College/7_Ph.D/Sciences Po/Statistical Programming for the Social Sciences/SPSSUR Textbook"</code></pre>
+</div>
+</div>
+</section>
+<section id="organizing-your-project" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="organizing-your-project"><span class="header-section-number">5.4.3</span> Organizing Your Project</h3>
+<p>RProjects and <code>here</code>, while extremely useful, won’t spare you entirely from the task of having to organize your project folders. I recommend always creating a sub-folder within your project directory to store data sets (called <code>data</code> for example) and an additional sub-folder to store figure or graphs (called <code>figures</code>, for example). You might find other folders (like a a <code>docs</code> folder for documentation) useful depending on the project. You can create these folders directly within R Studio via the ‘Files’ tab in the lower-right hand pane.</p>
+<p><img src="images/R-Project-sub-folders.PNG" class="img-fluid"></p>
+</section>
+</section>
+<section id="getting-data-into-r" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="getting-data-into-r"><span class="header-section-number">5.5</span> Getting Data into <code>R</code></h2>
+<p>Let us return to the primordial problem, though, which is getting data into <code>R</code>. In the social sciences, the data we use can come from a variety of sources: we might take our data from long-running surveys, such as the General Social Survey, the European Social Survey, or the World Values Survey. We can also use administrative data produced by government agencies, like the Federal Bureau of Investigation’s Uniform Crime Reports or data from New York City’s Open Data initiative. Or, we can use data from other sources, which might not have been produced with research or administrative purposes in mind. For example, we can scrape data from social media to see how public sentiment on a particular topic changes over time.</p>
+<p>In any case, however, the most common format you are likely to see is a CSV, which stands for comma separated values. CSVs are particularly appealing for data storage, because they are lightweight and simple. All they consist of is data in rows (separated by new lines) and columns (separated by commas). A CSV file could consist of this, for example:</p>
+<pre><code>"id","name","age","country"
+1011232,"Bill Gates",75,"United States"
+1022234,"Warren Buffet",82,"United States"</code></pre>
+<p>When you open a CSV file in software like Microsoft Excel, Excel automatically parses it, separating the values into different columns based on the position of the commas and into different rows based on the line breaks.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> CSVs can sometimes have their values separated by other <strong>delimiters</strong>. Apart from the comma, CSV files in Europe often separate their values with semi-colons instead.</p>
+<p><img src="images/excel-parsing.PNG" class="img-fluid" width="607"></p>
+</section>
+<section id="loading-files-from-csvs" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="loading-files-from-csvs"><span class="header-section-number">5.6</span> Loading files from CSVs</h2>
+<p>Thankfully, loading CSV files is not especially difficult in <code>R</code>. <code>R</code> has a base function for loading CSVs, <code>read.csv()</code>, but there’s a better version called <code>read_csv()</code> from the <code>readr</code> package which we’ll use today. <code>readr</code> is another package located in the <code>tidyverse</code> which must also be loaded separately like the <code>scales</code> package in the previous chapter.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>On the course Moodle site, you’ll find a CSV titled <code>billionaires_2020-2023.csv</code>, which contains some data on the world’s billionaires. Download this file and then save it in the <code>data</code> sub-folder you created in your <code>Session 5 Classwork</code> project folder. Open the <code>Session 5 Classwork</code> project and a script file inside of it. Let’s load a few libraries first and then the data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>read_csv()</code> requires a file path in order to read the file into our <code>R</code> session. Because the data set is located in a sub-folder and because we want to use a relative path (rather than an absolute path), we can use <code>here()</code>.</p>
+<p>Remember, <code>here()</code> provides the file path to your R Project folder. Any additional folder or file names used as arguments inside of the <code>here()</code> function (separated by commas) will be added to that path. If your R Project folder is located at <code>C:\Users\Documents\My Projects</code>, for example, <code>here("data")</code> will output <code>C:\Users\Documents\My Projects\data</code>.</p>
+<p>Entering the following, for example, should return the file path of the data set if you’ve saved it in a sub-folder called “data” within your R Project folder.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"billionaires_2020-2023.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "C:/Users/wcs26/OneDrive/Documents/College/7_Ph.D/Sciences Po/Statistical Programming for the Social Sciences/SPSSUR Textbook/data/billionaires_2020-2023.csv"</code></pre>
+</div>
+</div>
+<p>To read the actual data set into <code>R</code>, now all we need to do is put this <code>here</code> function inside of <code>read_csv()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"billionaires_2020-2023.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2640 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (8): name, gender, country, countrycode, region, marital, residence_coun...
+dbl (5): id, 2020, 2021, 2022, 2023
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2,640 × 13
+      id name        gender country countrycode region marital residence_country
+   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
+ 1     1 A. Jayson … male   United… USA         North… Married United States    
+ 2     9 Abdulla Al… male   United… ARE         Middl… Married United Arab Emir…
+ 3    10 Abdulla bi… male   United… ARE         Middl… &lt;NA&gt;    United Arab Emir…
+ 4    12 Abdulsamad… male   Nigeria NGA         Sub-S… Married Nigeria          
+ 5    13 Abhay Firo… male   India   IND         South… Married India            
+ 6    14 Abhay Soi   male   India   IND         South… &lt;NA&gt;    &lt;NA&gt;             
+ 7    16 Abigail Be… female United… USA         North… &lt;NA&gt;    &lt;NA&gt;             
+ 8    17 Abigail Jo… female United… USA         North… Married United States    
+ 9    18 Abilio dos… male   Brazil  BRA         Latin… Married Brazil           
+10    20 Acharya Ba… male   India   IND         South… Single  India            
+# ℹ 2,630 more rows
+# ℹ 5 more variables: selfmade &lt;chr&gt;, `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
+#   `2023` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>As you can see from the output above, <code>read_csv()</code> worked. If our data had used a semi-colon as a delimiter instead of a comma, we could have used <code>read_csv2()</code> instead. We can see that the data set has 2,640 rows and 13 columns. Let’s save this in an object in our environment.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data"</span>,<span class="st">"billionaires_2020-2023.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2640 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (8): name, gender, country, countrycode, region, marital, residence_coun...
+dbl (5): id, 2020, 2021, 2022, 2023
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>You’ll notice that <code>read_csv()</code> says a lot each time you run it. Don’t confuse the red text you see here with errors, however. It’s just trying to be helpful by giving you some information about the data you’re reading in. Notably, we can see that there are 8 character columns and 5 <code>dbl</code> columns. <code>dbl</code> stands for <code>double</code> and is a type of numeric value. We can, of course, use <code>glimpse()</code> to see the variables again along with a few of the first values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(billionaires)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,640
+Columns: 13
+$ id                &lt;dbl&gt; 1, 9, 10, 12, 13, 14, 16, 17, 18, 20, 25, 26, 27, 29…
+$ name              &lt;chr&gt; "A. Jayson Adair", "Abdulla Al Futtaim", "Abdulla bi…
+$ gender            &lt;chr&gt; "male", "male", "male", "male", "male", "male", "fem…
+$ country           &lt;chr&gt; "United States", "United Arab Emirates", "United Ara…
+$ countrycode       &lt;chr&gt; "USA", "ARE", "ARE", "NGA", "IND", "IND", "USA", "US…
+$ region            &lt;chr&gt; "North America", "Middle East &amp; North Africa", "Midd…
+$ marital           &lt;chr&gt; "Married", "Married", NA, "Married", "Married", NA, …
+$ residence_country &lt;chr&gt; "United States", "United Arab Emirates", "United Ara…
+$ selfmade          &lt;chr&gt; "self-made", "self-made", "inherited", "self-made", …
+$ `2020`            &lt;dbl&gt; NA, 2.437, 4.293, 3.365, 1.740, NA, NA, 12.531, 2.66…
+$ `2021`            &lt;dbl&gt; 1.110, 2.441, 3.107, 5.437, 2.663, NA, NA, 23.189, 2…
+$ `2022`            &lt;dbl&gt; 1.140, 2.591, 2.695, 7.151, 2.902, NA, NA, 21.971, 2…
+$ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.4, 2…</code></pre>
+</div>
+</div>
+<p>There are other ways you can take a look into your data. We can take a random slice of the data using <code>slice_sample()</code> from <code>dplyr</code>, for example. We can also use <code>slice_head()</code> to see the first few rows, <code>slice_tail()</code> to see the last few rows, or <code>slice_min()</code> and <code>slice_max()</code> to see the rows with the largest or smallest values for some variable. Give them each a try.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 13
+     id name         gender country countrycode region marital residence_country
+  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
+1  2979 Michael Mor… male   United… USA         North… Married United States    
+2  2856 Martin Bouy… male   France  FRA         Europ… &lt;NA&gt;    France           
+3  1047 Drorit Wert… female Israel  ISR         Middl… Divorc… Israel           
+4  1139 Eric Douglas male   Sweden  SWE         Europ… Married Sweden           
+5   413 Benedicte F… female Denmark DNK         Europ… &lt;NA&gt;    Denmark          
+# ℹ 5 more variables: selfmade &lt;chr&gt;, `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
+#   `2023` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>No matter how we do it, our purpose at this stage should always be to get a sense for whether any potential issues are lurking beneath the surface.</p>
+<p>You may have noticed from <code>glimpse</code> that there is something a little bit weird about this data. Four columns at the end have numbers as titles. What are these columns? They’re the estimated net worth of each of the listed individuals for each of the named years (i.e., 2020, 2021, 2022, 2023). The values are in billions of US dollars.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>We can use <code>slice_max()</code> to see who was the richest person in 2023, for example. Note, however, that when we reference a variable which begins with a number, we have to use the <code>`</code> character to enclose the variable name. This is because <code>R</code> does not allow object names to start with a number.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>, <span class="at">n =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 13
+     id name         gender country countrycode region marital residence_country
+  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
+1   425 Bernard Arn… male   France  FRA         Europ… Married France           
+# ℹ 5 more variables: selfmade &lt;chr&gt;, `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
+#   `2023` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Now we can see that Bernard Arnault was the richest person in 2023 with a recorded net worth of $211 billion. What if we want to see what the cumulative net worth of French billionaires was for these years? Maybe we could use <code>dplyr</code> to summarize:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"France"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_nw =</span> <span class="fu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  country total_nw
+  &lt;chr&gt;      &lt;int&gt;
+1 France         0</code></pre>
+</div>
+</div>
+<p>Here we run into an issue. We can’t <code>group_by(country, year)</code>, because there is no variable called <code>year</code>. There’s also no <code>net_worth</code> variable that we can put into our <code>summarize()</code> function. So, we’re stuck with bad options. We could try something like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"France"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">nw_2023 =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">nw_2022 =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">2022</span><span class="st">`</span>),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">nw_2021 =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">2021</span><span class="st">`</span>),</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">nw_2020 =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">2020</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  country nw_2023 nw_2022 nw_2021 nw_2020
+  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 France     585.      NA      NA      NA</code></pre>
+</div>
+</div>
+<p>That got us the total net worth of French billionaires in 2023, at least, but it didn’t calculate anything for the other years. The reason why we’re having a hard time here is that our data is not in the right format for <code>tidyverse</code> functions.</p>
+</section>
+<section id="tidy-data" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">5.7</span> Tidy Data</h2>
+<p>In the previous chapter, we learned that the <code>gapminder</code> data was in just the right format for <code>ggplot</code>. We called this a <strong>long</strong> format, which is the word usually used in the social sciences to describe it. In a long format, the rows are repeated observations for some unit of analysis across some dimension (like time). In the case of the <code>gapminder</code> data, we had countries, our unit of analysis, and repeated observations across years for a set of variables of interest (e.g., life expectancy and GDP per capita), as shown below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">lifeExp</th>
+<th style="text-align: right;">gdpPercap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">1952</td>
+<td style="text-align: right;">67.41</td>
+<td style="text-align: right;">7029.809</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">1957</td>
+<td style="text-align: right;">68.93</td>
+<td style="text-align: right;">8662.835</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">1962</td>
+<td style="text-align: right;">70.51</td>
+<td style="text-align: right;">10560.486</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">1967</td>
+<td style="text-align: right;">71.55</td>
+<td style="text-align: right;">12999.918</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">France</td>
+<td style="text-align: right;">1972</td>
+<td style="text-align: right;">72.38</td>
+<td style="text-align: right;">16107.192</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>In the <code>billionaires</code> data, we instead have a variable of interest (net worth) split across several columns by some dimension (time).</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: right;">2020</th>
+<th style="text-align: right;">2021</th>
+<th style="text-align: right;">2022</th>
+<th style="text-align: right;">2023</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">A. Jayson Adair</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.110</td>
+<td style="text-align: right;">1.140</td>
+<td style="text-align: right;">1.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">Abdulla Al Futtaim</td>
+<td style="text-align: right;">2.437</td>
+<td style="text-align: right;">2.441</td>
+<td style="text-align: right;">2.591</td>
+<td style="text-align: right;">2.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">Abdulla bin Ahmad Al Ghurair</td>
+<td style="text-align: right;">4.293</td>
+<td style="text-align: right;">3.107</td>
+<td style="text-align: right;">2.695</td>
+<td style="text-align: right;">3.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The column titles are values (e.g., 2020, 2021), not actually variables. This is called <strong>wide</strong> data. Wide data has it’s uses. Mainly, it can be very convenient for storing a large amount of data in a small amount of space. If you’re looking to print a lot of data on paper, wide data is your format. Long data, on the other hand, is better for data analysis.</p>
+<p>The <code>tidyverse</code> functions require data to be in what Hadley Wickham and collaborators call a <strong>tidy</strong> format. In tidy data, each variable is in a column, each observation is in a row, and each cell contains a single value (Wickham et al.&nbsp;2019). It is, in other words, in a consistent long-format. If we want to be able to use all of the great features of <code>dplyr</code> and <code>ggplot</code>, then we need to transform our data into a tidy format.</p>
+</section>
+<section id="pivoting-from-wide-to-long" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="pivoting-from-wide-to-long"><span class="header-section-number">5.8</span> Pivoting from Wide to Long</h2>
+<p>Fortunately, <code>dplyr</code> has some handy functions for this. Since we have data in a wide format and wish to go to a long format, we’ll need to use a function called <code>pivot_longer()</code>. There are three arguments we need to provide to <code>pivot_longer()</code>.</p>
+<p>First, in the <code>cols =</code> argument, we need to provide the columns we are trying to combine into a single variable. In our case, our net worth values are distributed across the <code>`2020`</code>, <code>`2021`</code>, <code>`2022`</code>, and <code>`2023`</code> columns, so we’ll put those in a vector and add them here. Next, in the <code>names_to =</code> argument, we need to identify where we want to put the names for each of those values (in other words, the titles for each of our former columns). Since each of those column names corresponds to a year, we’ll tell it to put them in a <code>"year"</code> column. Last, we need to specify a name for the variable holding all of the values that were stored across those columns. Since the values were net worth, we’ll call this new variable <code>net_worth</code>. We might also want to drop the rows which contain NA values for net worth, so we’ll add an optional fourth argument, <code>values_drop_na =</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">2020</span><span class="st">`</span>, <span class="st">`</span><span class="at">2021</span><span class="st">`</span>, <span class="st">`</span><span class="at">2022</span><span class="st">`</span>, <span class="st">`</span><span class="at">2023</span><span class="st">`</span>),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"year"</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"net_worth"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9,142 × 11
+      id name        gender country countrycode region marital residence_country
+   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
+ 1     1 A. Jayson … male   United… USA         North… Married United States    
+ 2     1 A. Jayson … male   United… USA         North… Married United States    
+ 3     1 A. Jayson … male   United… USA         North… Married United States    
+ 4     9 Abdulla Al… male   United… ARE         Middl… Married United Arab Emir…
+ 5     9 Abdulla Al… male   United… ARE         Middl… Married United Arab Emir…
+ 6     9 Abdulla Al… male   United… ARE         Middl… Married United Arab Emir…
+ 7     9 Abdulla Al… male   United… ARE         Middl… Married United Arab Emir…
+ 8    10 Abdulla bi… male   United… ARE         Middl… &lt;NA&gt;    United Arab Emir…
+ 9    10 Abdulla bi… male   United… ARE         Middl… &lt;NA&gt;    United Arab Emir…
+10    10 Abdulla bi… male   United… ARE         Middl… &lt;NA&gt;    United Arab Emir…
+# ℹ 9,132 more rows
+# ℹ 3 more variables: selfmade &lt;chr&gt;, year &lt;chr&gt;, net_worth &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>If you take a look at the data now, you can see that we’ve increased our number of rows substantially (to 9,142) and each net worth value is now in a separate row according to the corresponding year and individual. Now we can do much of the same type of data analysis and visualization that we’ve been doing over the past couple of chapters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A quick and dirty plot.</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="ot">&lt;-</span> billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">2020</span><span class="st">`</span>, <span class="st">`</span><span class="at">2021</span><span class="st">`</span>, <span class="st">`</span><span class="at">2022</span><span class="st">`</span>, <span class="st">`</span><span class="at">2023</span><span class="st">`</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"year"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"net_worth"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country, year) <span class="sc">%&gt;%</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">"France"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">agg_nw =</span> <span class="fu">sum</span>(net_worth)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> agg_nw, <span class="at">group =</span> country)) <span class="sc">+</span> </span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"The Wealth of France's Billionaires"</span>,</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Net Worth (USD in Billions)"</span>) <span class="sc">+</span> </span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'country'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="workflows-and-wrangling_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="merging-data" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="merging-data"><span class="header-section-number">5.9</span> Merging Data</h2>
+<p>Let’s say that we want to do some further analysis involving data outside of the data set we are currently using. Can we add it to our existing data set? The answer is yes.</p>
+<p>On the course Moodle site, you’ll find another data set called <code>age.xlsx</code>. This is an Excel file. Fortunately, the <code>readxl</code> package (also contained in the <code>tidverse</code> and requiring separate loading) has just the function. Download the file from the Moodle page, add it to your project’s data folder, and use the command below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>bil_age <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"age.xlsx"</span>), <span class="at">sheet =</span> <span class="st">"Sheet1"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bil_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,724
+Columns: 3
+$ id   &lt;dbl&gt; 1, 9, 12, 13, 14, 16, 17, 18, 20, 25, 26, 27, 29, 32, 33, 34, 36,…
+$ year &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023,…
+$ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 39, 6…</code></pre>
+</div>
+</div>
+<p>As we can see from the output, there isn’t much in here, just an ID, a year, and an age. If we want to use this data in our analysis, we now need to merge it with our previously tidied data. We might just want to check the <code>year</code> column to see how many years this data covers.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 1
+   year
+  &lt;dbl&gt;
+1  2023
+2    NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#An alternative way:</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(bil_age$year)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There’s only one year and some missing values. Before we go ahead and merge, we should also check to make sure that there is only age value for each of the IDs. The code below will count the number of rows</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(id) <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 59 × 2
+      id     n
+   &lt;dbl&gt; &lt;int&gt;
+ 1     1     4
+ 2     9     2
+ 3    12     5
+ 4    13     5
+ 5    14     2
+ 6    15     2
+ 7    16     2
+ 8    17     5
+ 9    18     5
+10    19     2
+# ℹ 49 more rows</code></pre>
+</div>
+</div>
+<p>It looks like there are a few duplicates in here. Let’s see if dropping the NAs fixes our problem. They won’t be useful in our analysis later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age) <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(id) <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 2
+# ℹ 2 variables: id &lt;dbl&gt;, n &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>Good, no results, which means that dropping the NAs solved our problem with duplicates. Let’s save the tibble without the NAs and carry on with our merge.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age) <span class="ot">-&gt;</span> bil_age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that we’ve use our assignment operator in a somewhat unorthodox way here. Instead of using it at the begining of the piped function, we’ve added it to the end. This works and is also acceptable.</p>
+<p>Now, let’s merge. Here, we’ll use a function from <code>dplyr</code> called <code>left_join()</code>. There are other types of <code>_join()</code> functions depending on the use case. In our case, we have an existing data set and we simply want to add data to it. We don’t care much about what happens to any data in our age data that does not match. We’ll use <code>left_join()</code> as a result. Other types of joins include a <code>right_join()</code>, an <code>inner_join()</code>, a <code>left_join()</code> and a <code>full_join()</code>. Take a look at the supporting documentation to learn more about them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(<span class="at">x =</span> tidy_bil, </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> bil_age, </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">join_by</span>(id, year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This didn’t quite work and, if we look at our error, we can see why. The <code>year</code> column in our <code>tidy_bil</code> data is a character and the the <code>year</code> column in our age data is a double. We’ll have to convert the column in <code>tidy_bil</code> to continue. We should probably convert <code>year</code> to a date format, but I’m going to cheat here for now and just convert it to a numeric variable for convenience.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year)) <span class="ot">-&gt;</span> tidy_bil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s try the merge again:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="ot">&lt;-</span> <span class="fu">left_join</span>(<span class="at">x =</span> tidy_bil, </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">y =</span> bil_age, </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">join_by</span>(id, year))</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># An alternative way to do this is:</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_bil &lt;- tidy_bil %&gt;%</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  left_join(bil_age,</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co">#            join_by(id, year))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Success! Whenever you do these sorts of things, I recommend running the code without re-assigning it back to the original object first and then only re-assigning it after you are sure it works. Otherwise, you may start to get confused. If you take a look at <code>tidy_bil</code>, you can see that we now have an age column. Now we can do something like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> tidy_bil,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> net_worth))</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 6569 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="workflows-and-wrangling_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An alternative way to do this is:</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_bil %&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  ggplot(mapping = aes(x = age,</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                       y = net_worth)) +</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_point() + theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The use of <code>ggplot()</code> above differs from the method you learned last chapter. In this case, we first save our base <code>ggplot()</code> layer to an object (arbitrarily named <code>p</code> here) and then we add layers to the object in a separate line of code. You’ll commonly see this in references elsewhere. Either style of writing your <code>ggplot()</code> code is fine. I tend to prefer the piped form from last chapter, because it allows you to add in your filters and do any other data manipulations in the same command.</p>
+</section>
+<section id="recoding-variables" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="recoding-variables"><span class="header-section-number">5.10</span> Recoding variables</h2>
+<p>There is one more thing we might want to learn here: recoding. Recoding is useful when the categories within a data set aren’t quite appropriate for the way we want to analyze them.</p>
+<p>Let’s say we want to compare the net worth of billionaires in our data set by marital status. For this, we could actually use the wide data. Let’s imagine that we don’t have our wide data in the first place. Could we get our long data into a wide format? Yes, using <code>pivot_wider()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> year,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> net_worth</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,040 × 14
+      id name        gender country countrycode region marital residence_country
+   &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
+ 1     1 A. Jayson … male   United… USA         North… Married United States    
+ 2     1 A. Jayson … male   United… USA         North… Married United States    
+ 3     9 Abdulla Al… male   United… ARE         Middl… Married United Arab Emir…
+ 4     9 Abdulla Al… male   United… ARE         Middl… Married United Arab Emir…
+ 5    10 Abdulla bi… male   United… ARE         Middl… &lt;NA&gt;    United Arab Emir…
+ 6    12 Abdulsamad… male   Nigeria NGA         Sub-S… Married Nigeria          
+ 7    12 Abdulsamad… male   Nigeria NGA         Sub-S… Married Nigeria          
+ 8    13 Abhay Firo… male   India   IND         South… Married India            
+ 9    13 Abhay Firo… male   India   IND         South… Married India            
+10    14 Abhay Soi   male   India   IND         South… &lt;NA&gt;    &lt;NA&gt;             
+# ℹ 5,030 more rows
+# ℹ 6 more variables: selfmade &lt;chr&gt;, age &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
+#   `2023` &lt;dbl&gt;, `2020` &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>We’ll just use the original data anyways though. To see what values are actually in our <code>marital</code> variable, we’ll use this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(marital)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 1
+  marital           
+  &lt;chr&gt;             
+1 Married           
+2 &lt;NA&gt;              
+3 Single            
+4 Widowed           
+5 Separated         
+6 Divorced          
+7 Widowed, Remarried
+8 In Relationship   
+9 Engaged           </code></pre>
+</div>
+</div>
+<p>There are 9 distinct categories. Nine is perhaps too many. What if we decide we want to use just three categories: “Married/Widowed”, “Single”, and “Other”.</p>
+<p>To re-categorize our data according to the new groupings, we can use the <code>case_match()</code> function inside of a <code>dplyr</code> <code>mutate()</code> function. Essentially, we are modifying a column such that the values of the column take on the recoded values of our previous column. We could mutate the original variable directly (in this case, <code>marital</code>), but it’s generally best practice to put our recoded values inside of their own, new column. We’ll call it <code>marital_rc</code> to indicate that it has been recoded.</p>
+<p>The first argument in <code>case_match()</code> is the column that needs to be recoded. The following arguments follow the format <code>old_values ~ new_values</code>. The values to be recoded go on the left-hand side and the values they will be recoded as go on the right. We separate the left and right-hand sides with a <code>~</code> and we use a comma to separate our next set of values to be recoded. Since we are re-coding multiple values, we’ll put them inside of vectors.</p>
+<p>Remember, test this without re-assigning the result to your original object and then once you are sure it works, you can go ahead and do it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">marital_rc =</span> <span class="fu">case_match</span>(marital,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Married'</span>, <span class="st">'Widowed, Remarried'</span>, <span class="st">'Widowed'</span>) <span class="sc">~</span> <span class="st">'Married/Widowed'</span>,</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Single'</span>) <span class="sc">~</span> <span class="st">'Single'</span>,</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Engaged'</span>, <span class="st">'In Relationship'</span>, <span class="st">'Divorced'</span>, <span class="st">'Separated'</span>) <span class="sc">~</span> <span class="st">'Other'</span>)) <span class="ot">-&gt;</span> billionaires</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Did it work correctly?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(marital_rc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 1
+  marital_rc     
+  &lt;chr&gt;          
+1 Married/Widowed
+2 &lt;NA&gt;           
+3 Single         
+4 Other          </code></pre>
+</div>
+</div>
+<p>Yes, we’ve recoded successfully. There seem to be NAs in our data, but we don’t necessarily want to drop them. Let’s make a quick graph showing median net worth with our recoded marital status variable for 2023.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(marital_rc) <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">median_nw =</span> <span class="fu">median</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> marital_rc,</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> median_nw,</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">fill =</span> marital_rc)) <span class="sc">+</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="workflows-and-wrangling_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note, of course, that we can’t make any claims about associations here. There are a lot of missing values (<code>NA</code>) and we don’t know whether they would be biased towards a particular category. Our <code>Other</code> category is also quite expansive and maybe not analytically appropriate. Last, but not least, we don’t know whether any of the visual differences we are seeing in median net worth across category are due to random chance or due to some relationship between the variables. We’ll return to this last point in the next chapter when we begin talking about inferential methods.</p>
+</section>
+<section id="exercises" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.11</span> Exercises</h2>
+<p>For the remainder of class, keep playing around with this data set to practice the new functions you’ve learned and the <code>dplyr</code> functions you’ve learned in previous chapters.</p>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Note that if you copy and paste a path from a Windows Explorer into <code>R</code>, you’ll have to change the direction of the <code>\</code> to <code>/</code> or deal with the <code>\</code> issue in a different way (there are other ways, but hopefully you won’t need to copy and paste paths anyways).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>If you are using a Linux-based OS, you probably won’t need an explanation of file structures and file paths.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><strong>Parsing</strong> refers to how software reads the values.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>As before, rather than load the entire <code>readr</code> package via <code>library()</code>, you can also use the <code>::</code> syntax, as in <code>readr::read_csv()</code>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>This data comes from my own research. The net worth estimates are adjusted estimates derived from Forbes’ annual <em>World’s Billionaires</em> list. They are inflation-adjusted to 2023 USD.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./visualizing-with-ggplot.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./homework-1.html" class="pagination-link">
+        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

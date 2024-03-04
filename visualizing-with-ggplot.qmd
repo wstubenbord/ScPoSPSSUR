@@ -55,7 +55,7 @@ The tables below provide a brief overview of some of the measures we've already 
 #### Central Tendency {.unnumbered}
 
 |           |                                                                                                       |                |
-|----------------|----------------------------------------|----------------|
+|-----------|-------------------------------------------------------------------------------------------------------|----------------|
 | *Measure* | *Description*                                                                                         | *`R` Function* |
 | Mean      | The sum of the values divided by the count. It is sensitive to outliers.                              | `mean()`       |
 | Median    | The middle value, where half of the values are above and half are below. It is resistant to outliers. | `median()`     |
@@ -63,7 +63,7 @@ The tables below provide a brief overview of some of the measures we've already 
 #### Spread {.unnumbered}
 
 |                           |                                                                                                                                                                              |                |
-|----------------|----------------------------------------|----------------|
+|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
 | *Measure*                 | *Description*                                                                                                                                                                | *`R` Function* |
 | Variance                  | The sum of squared deviations from the mean divided by the count minus one.[^visualizing-with-ggplot-4] It gives us a sense of how far values typically are from the mean.   | `var()`        |
 | Standard Deviation        | The square root of the variance.[^visualizing-with-ggplot-5] The more commonly reported measure of spread which, again, tells us how far values typically are from the mean. | `sd()`         |
@@ -131,7 +131,7 @@ As a general rule, we don't use variance in our descriptions and we report mean 
 To these univariate characteristics, we can add a measure for describing the relationship between two quantitative variables: the *correlation coefficient*.
 
 |                   |                                                                                                       |                |
-|-----------------|---------------------------------------|-----------------|
+|-------------------|-------------------------------------------------------------------------------------------------------|----------------|
 | *Measure*         | *Description*                                                                                         | *`R` Function* |
 | Correlation ($r$) | A measure of the strength and direction of the linear association between two quantitative variables. | `cor()`        |
 
@@ -439,7 +439,7 @@ gapminder %>%
 
 You can now see some trends for some specific countries, including a certain rich and high population country in the Americas. Each time we add an aesthetic,`ggplot()` makes the necessary change to the plot and then adds a key to interpret each element. We now have scales for population (the `size` value in our aesthetic mapping) and continent (the `color` value in our mapping). Another optional aesthetic argument you can use is `shape`, which changes the points from dots to different symbols (like x's or o's). `line` is another option which changes the type of line for `geom_line()`.
 
-Because we have a lot of data points and they're overlapping, we're going to skip shape and make it so that the points have some transparency. We can do this by adding an `alpha` argument to the `geom_point()` component which controls transparency. `alpha` takes a value between 0 and 1, where 0 is completely translucent and 1 is not-transparent. We'll use choose a halfway number, `0.5`, but you can play around with the different levels to find your preferred value.
+Because we have a lot of data points and they're overlapping, we're going to skip shape and make it so that the points have some transparency. We can do this by adding an `alpha` argument to the `geom_point()` component which controls transparency. `alpha` takes a value between 0 and 1, where 0 is completely translucent and 1 is not-transparent. We'll choose a halfway number, `0.5`, but you can play around with the different levels to find your preferred value.
 
 ```{r}
 gapminder %>%
@@ -498,17 +498,19 @@ Now we can see the relationship between GDP per capita and life expectancy more 
 
 [^visualizing-with-ggplot-9]: GDP per capita is not normally distributed hence the need for a log-transformation here. The decision on whether to transform an axis or not is a statistical matter, which we won't go into here.
 
-Note, that there is a big difference between the scale of our axes (the numeric distance between positions along the axis) and our axis labels (how we write each value). Just because the numbers on the axis are written in a strange format doesn't necessarily mean we will need to change the scale. We may just need to re-write the labels. As you can see, our x-axis labels are still written in an unhelpful format (scientific notation).
+Note that there is a conceptual difference between a scale (the numeric distance between positions on some axis) and labels (how the values of those different positions are recorded). Just because the numbers on the axis are written in a strange or unhelpful format, in other words, doesn't necessarily mean we that will need to change the scale. We may just need to edit the labels. As you can see in our previous example, even after the scale change, the x-axis labels are still not recorded in the most legible format (scientific notation).
 
 ### Changing Scale Labels
 
-Changing the labels for axes and other scales can be a pain. Fortunately, there is a very helpful package we can use called `scales`.
+Changing the labels for axes and other scales can be a bit of a pain. Fortunately, there is a very helpful package we can use called `scales`.
 
-You should already have a copy of `scales` installed and you can load it via `library()`. Another way to access it's functions is to use the name of the package followed by `::` and the name of the desired function. We used this same method in the previous chapter for `knitr::kable()`.
+You should already have a copy of `scales` installed and you can load it via `library()`.[^visualizing-with-ggplot-10] Another way to access it's functions is to use the name of the package followed by `::` and the name of the desired function. We used this same method in the previous chapter for `knitr::kable()`.
 
-For the scale on the x-axis, which corresponds to a variable in U.S. dollars, we'll use the function `scales::label_currency()`.[^visualizing-with-ggplot-10] We'll add this helper function to the `labels =` argument of our `scale_` function in the example below. Other useful `scales` functions include `scales::comma` and `scales::percent` - neither of which require parentheses at the end, unlike `label_currency()`.
+[^visualizing-with-ggplot-10]: `scales` is contained in the `tidverse`, but it isn't automatically loaded when you use `library(tidyverse)`.
 
-[^visualizing-with-ggplot-10]: The default currency for `label_currency()` is U.S. dollars.
+For the scale on the x-axis, which corresponds to a variable in U.S. dollars, we'll use the function `scales::label_currency()`.[^visualizing-with-ggplot-11] We'll add this helper function to the `labels =` argument of our `scale_` function in the example below. Other useful `scales` functions include `scales::comma` and `scales::percent` - neither of which require parentheses at the end, unlike `label_currency()`.
+
+[^visualizing-with-ggplot-11]: The default currency for `label_currency()` is U.S. dollars.
 
 Since we also want to fix the label for the `size` function, we'll also add a `scale_` function for our size aesthetic (in a separate object) and then set the `labels` argument to use commas. See below for both steps put together:
 

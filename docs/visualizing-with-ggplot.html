@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./homework-1.html" rel="next">
+<link href="./workflows-and-wrangling.html" rel="next">
 <link href="./summarizing-with-dplyr.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -204,6 +204,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflows-and-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -314,9 +320,9 @@ div.csl-indent {
 <h4 class="unnumbered anchored" data-anchor-id="central-tendency">Central Tendency</h4>
 <table class="table">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 55%">
-<col style="width: 22%">
+<col style="width: 8%">
+<col style="width: 79%">
+<col style="width: 12%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -341,9 +347,9 @@ div.csl-indent {
 <h4 class="unnumbered anchored" data-anchor-id="spread">Spread</h4>
 <table class="table">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 55%">
-<col style="width: 22%">
+<col style="width: 12%">
+<col style="width: 80%">
+<col style="width: 7%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -467,9 +473,9 @@ div.csl-indent {
 <p>To these univariate characteristics, we can add a measure for describing the relationship between two quantitative variables: the <em>correlation coefficient</em>.</p>
 <table class="table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 53%">
-<col style="width: 23%">
+<col style="width: 13%">
+<col style="width: 74%">
+<col style="width: 11%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -738,7 +744,7 @@ gapminder %&gt;%
 </div>
 </div>
 <p>You can now see some trends for some specific countries, including a certain rich and high population country in the Americas. Each time we add an aesthetic,<code>ggplot()</code> makes the necessary change to the plot and then adds a key to interpret each element. We now have scales for population (the <code>size</code> value in our aesthetic mapping) and continent (the <code>color</code> value in our mapping). Another optional aesthetic argument you can use is <code>shape</code>, which changes the points from dots to different symbols (like x’s or o’s). <code>line</code> is another option which changes the type of line for <code>geom_line()</code>.</p>
-<p>Because we have a lot of data points and they’re overlapping, we’re going to skip shape and make it so that the points have some transparency. We can do this by adding an <code>alpha</code> argument to the <code>geom_point()</code> component which controls transparency. <code>alpha</code> takes a value between 0 and 1, where 0 is completely translucent and 1 is not-transparent. We’ll use choose a halfway number, <code>0.5</code>, but you can play around with the different levels to find your preferred value.</p>
+<p>Because we have a lot of data points and they’re overlapping, we’re going to skip shape and make it so that the points have some transparency. We can do this by adding an <code>alpha</code> argument to the <code>geom_point()</code> component which controls transparency. <code>alpha</code> takes a value between 0 and 1, where 0 is completely translucent and 1 is not-transparent. We’ll choose a halfway number, <code>0.5</code>, but you can play around with the different levels to find your preferred value.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, </span>
@@ -802,13 +808,13 @@ gapminder %&gt;%
 </div>
 </div>
 <p>Now we can see the relationship between GDP per capita and life expectancy more clearly. We don’t always have to change the scale of our x- and y-axes, but in this case, the distribution of our x-values calls for it.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> If you don’t add a <code>scale_</code> function, <code>ggplot2</code> will simply use the default. We don’t need a scale transformation for our y-axis here, so we’ll skip adding a <code>scale_y_</code> function and let <code>ggplot2</code> use the default.</p>
-<p>Note, that there is a big difference between the scale of our axes (the numeric distance between positions along the axis) and our axis labels (how we write each value). Just because the numbers on the axis are written in a strange format doesn’t necessarily mean we will need to change the scale. We may just need to re-write the labels. As you can see, our x-axis labels are still written in an unhelpful format (scientific notation).</p>
+<p>Note that there is a conceptual difference between a scale (the numeric distance between positions on some axis) and labels (how the values of those different positions are recorded). Just because the numbers on the axis are written in a strange or unhelpful format, in other words, doesn’t necessarily mean we that will need to change the scale. We may just need to edit the labels. As you can see in our previous example, even after the scale change, the x-axis labels are still not recorded in the most legible format (scientific notation).</p>
 </section>
 <section id="changing-scale-labels" class="level3" data-number="4.5.6">
 <h3 data-number="4.5.6" class="anchored" data-anchor-id="changing-scale-labels"><span class="header-section-number">4.5.6</span> Changing Scale Labels</h3>
-<p>Changing the labels for axes and other scales can be a pain. Fortunately, there is a very helpful package we can use called <code>scales</code>.</p>
-<p>You should already have a copy of <code>scales</code> installed and you can load it via <code>library()</code>. Another way to access it’s functions is to use the name of the package followed by <code>::</code> and the name of the desired function. We used this same method in the previous chapter for <code>knitr::kable()</code>.</p>
-<p>For the scale on the x-axis, which corresponds to a variable in U.S. dollars, we’ll use the function <code>scales::label_currency()</code>.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> We’ll add this helper function to the <code>labels =</code> argument of our <code>scale_</code> function in the example below. Other useful <code>scales</code> functions include <code>scales::comma</code> and <code>scales::percent</code> - neither of which require parentheses at the end, unlike <code>label_currency()</code>.</p>
+<p>Changing the labels for axes and other scales can be a bit of a pain. Fortunately, there is a very helpful package we can use called <code>scales</code>.</p>
+<p>You should already have a copy of <code>scales</code> installed and you can load it via <code>library()</code>.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> Another way to access it’s functions is to use the name of the package followed by <code>::</code> and the name of the desired function. We used this same method in the previous chapter for <code>knitr::kable()</code>.</p>
+<p>For the scale on the x-axis, which corresponds to a variable in U.S. dollars, we’ll use the function <code>scales::label_currency()</code>.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> We’ll add this helper function to the <code>labels =</code> argument of our <code>scale_</code> function in the example below. Other useful <code>scales</code> functions include <code>scales::comma</code> and <code>scales::percent</code> - neither of which require parentheses at the end, unlike <code>label_currency()</code>.</p>
 <p>Since we also want to fix the label for the <code>size</code> function, we’ll also add a <code>scale_</code> function for our size aesthetic (in a separate object) and then set the <code>labels</code> argument to use commas. See below for both steps put together:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="sc">%&gt;%</span></span>
@@ -1005,7 +1011,8 @@ Healy, Kieran. 2019. <em>Data Visualization: A Practical Introduction</em>. Prin
 <li id="fn7"><p>This problem is particularly common in maps, as illustrated in this <a href="https://kieranhealy.org/blog/archives/2015/06/12/americas-ur-choropleths/">blog post</a> about density maps.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8"><p>‘gam’ stands for general additive model and is one method of adding a line of best fit. ‘lm’, or linear model, is another best fit method.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn9"><p>GDP per capita is not normally distributed hence the need for a log-transformation here. The decision on whether to transform an axis or not is a statistical matter, which we won’t go into here.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>The default currency for <code>label_currency()</code> is U.S. dollars.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p><code>scales</code> is contained in the <code>tidverse</code>, but it isn’t automatically loaded when you use <code>library(tidyverse)</code>.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>The default currency for <code>label_currency()</code> is U.S. dollars.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
@@ -1250,8 +1257,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./homework-1.html" class="pagination-link">
-        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./workflows-and-wrangling.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

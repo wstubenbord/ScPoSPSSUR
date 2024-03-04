@@ -15,6 +15,7 @@ book:
     - working-with-data-in-r.qmd
     - summarizing-with-dplyr.qmd
     - visualizing-with-ggplot.qmd
+    - workflows-and-wrangling.qmd
     - part: "Assignments"
       chapters:
       - homework-1.qmd
