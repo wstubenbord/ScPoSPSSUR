@@ -1,24 +1,24 @@
 # Workflows and Wrangling
 
-At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we want for a particular project oftentimes isn't contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.
+At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we might want to use for a particular project often isn't contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.
 
 This chapter covers some of the processes and functions in `R` made for dealing with these unfortunate eventualities. We'll start with the general problem of working with files in `R`, then learn how to get data in, and then we'll learn more about how to make data analyzable.
 
-This chapter will not, of course, provide you with the all of the answers to the data wrangling problems you will eventually encounter. We will barely scratch the surface. But, once you manage to get data in, data wrangling becomes a matter of learning new functions and practicing the tidy data skills you've already started to learn.
+This chapter will not, of course, provide you with the all of the answers to the data wrangling problems you will eventually encounter. It will barely scratch the surface. But, once you manage to get data in, data wrangling becomes a matter of learning new functions and practicing the tidy data skills you've already started to learn.
 
 ## What's Happening Under the Hood?
 
-Up until now, we've been writing our code in plain-text files saved with a `.R` file extension (or what we've been calling R Script files) and we haven't needed to load data from other files or to save anything new.
+Up until now, we've been writing our code in plain-text files saved with a `.R` file extension (or what we have been calling R Script files) and we haven't needed to load data from other files or to save anything.
 
-But, this isn't entirely true. We have actualy been loading data from files saved on our computers, it just so happens that our use of packages and the `library()` function have concealed and greatly simplified the back-end interactions leading to data showing up in our RStudio environments. This is why, if you were to disable the Wi-Fi on your computer, you would still be able to access data from the GSS.
+But, this isn't entirely true. We have actually been loading data from files saved on our computers, it just happens to be case that our use of packages and the `library()` function have concealed and greatly simplified the back-end interactions leading to data showing up in our RStudio environments. This is why, if you were to disable the Wi-Fi on your computer, you would still be able to access the `gss_sm` data from the `socviz` package.
 
-As with any type of computer program, `R` operates within the file structure of your computer. It uses data, functions, and other compiled code which has been saved across a number of files (and file types) in different locations to run the program itself and to enable you to do things with the program. This is the case for everything from the apps on your smartphone to the operating system of your laptop. The reason we don't usually see the underlying files or code is because software developers realize that most people would rather not be bothered by these sorts of technical details - or worse, they might mess something up. We don't need to know how an engine works to drive a car, after all, and if we were to start tinkering around inside we might start breaking things.
+As with any type of computer program, `R` operates within the file structure of your computer. It uses data, functions, and other compiled code which has been saved across a number of files (and file types) in different locations to run the program and to enable you to interact with the program. This is the case for everything from the apps on your smartphone to the operating system on your laptop. The reason we usually don't see the underlying files or code is because software developers realize that most people would rather not be bothered by these sorts of technical details, or worse, they might mess something up. We don't need to know how an engine works to drive a car, after all, and if we were to start tinkering around inside the engine bay we might break things.
 
-For this chapter, we don't need to go deep into the engine bay of `R` or `RStudio`. All we need to know is how to get `R` to interact with files saved in different locations on our computers and how to organize them in a way that makes them easy to access.
+For this chapter, we don't need to go deep into the code of `R` or `RStudio`. If you find yourself especially interested in how software works, you might be interested in taking a computer science course. All we need to know, instead, is how to get `R` to interact with files saved in different locations on our computers and how to organize them in a way that makes them easy to access.
 
 ## File Structures, File Paths, and the Working Directory
 
-Your computer's operating system (Windows, MacOS, or Linux) organizes the files on your computer into folders. You might have created some folders on your own, renamed some, or stored files like photos, documents, and other items across them. There are usually default folders for files of a particular type. Pictures might go in a "Pictures" folder, for example, and documents in a "Documents" folder. Within a "Documents" folder, you might have a folder for "Sciences Po" and another sub-folder for "SPSSUR." The way files are organized across folders and sub-folders on a computer's hard drive is often referred to as the **file structure**. Within a file structure, each file has what is called a **file path**, which is an address that tells you where the file is located. In Windows, they usually look something like this:
+Your computer's operating system (Windows, MacOS, or Linux) organizes the files on your computer into folders. You might have created some folders on your own, renamed some, or stored files like photos, documents, and other items across them. There are usually default folders for files of a particular type. Pictures might go in a "Pictures" folder, for example, and documents in a "Documents" folder. Within a "Documents" folder, you might then have a folder for "Sciences Po" and another sub-folder for "SPSSUR." The way files are organized across folders and sub-folders on a computer's hard drive is usually referred to as your computer's **file structure**. Within a file structure, each file has what is called a **file path**, an address which tells you where the file is located. In Windows, they usually look something like this:
 
 ```         
 "C:\Users\wcs26\Documents\Sciences Po\SPSSUR\my_file.R"
@@ -30,75 +30,83 @@ In MacOS, they might look more like this:
 "/Users/wcs26/Documents/Sciences Po/SPSSUR/my_file.R"
 ```
 
-As an important aside, when you need to write file paths inside of `R`, it's generally preferable to write file paths in the MacOS format you see above (i.e., using backwards slashes, `/`) even if you are using a PC. This is because the forwards slash, `\`, is a special character in `R`.
+As an important aside, when you write file paths inside of `R`, you will generally want to write them in the MacOS format you see above (i.e., using forwards slashes, `/`) even if you are using a PC. This is because the backwards slash, `\`, is a special character in `R`.
 
-Within the operating systems themselves, file paths are slightly easier to find in Windows than in MacOS, since you can get most of the way the way there by clicking in the address bar at the top of a Windows Explorer window (see below).[^ch-5-1] This gives the folder path, which when followed by another slash and the file name and extension, gives the file path. In MacOS, finding a file path more require a little more work (see [here](https://support.apple.com/en-mt/guide/mac-help/mchlp1774/mac#:~:text=On%20your%20Mac%2C%20click%20the,bottom%20of%20the%20Finder%20window.) for instructions).[^ch-5-2]
+Within the operating systems themselves, file paths are slightly easier to find in Windows than in MacOS, since you can get most of the way there by clicking in the address bar at the top of a Windows Explorer window (see below for an example).[^workflows-and-wrangling-1] This gives the folder path, which when followed by another slash, the file name, and the file extension, gives the file path. In MacOS, finding a file path requires a little more work (see [here](https://support.apple.com/en-mt/guide/mac-help/mchlp1774/mac#:~:text=On%20your%20Mac%2C%20click%20the,bottom%20of%20the%20Finder%20window.) for some guidance).[^workflows-and-wrangling-2]
 
-[^ch-5-1]: Note that if you copy and paste a path from a Windows Explorer into `R`, you'll have to change the direction of the `\` to `/` or deal with the `\` issue in a different way (there are other ways, but hopefully you won't need to copy and paste paths anyways).
+[^workflows-and-wrangling-1]: Note that if you copy and paste a path from a Windows Explorer into `R`, you'll have to change the direction of the `\` to `/` or deal with the `\` issue in a different way (there are other ways, but hopefully you won't need to copy and paste paths anyways).
 
-[^ch-5-2]: If you are using a Linux-based OS, you probably won't need an explanation of file structures and file paths.
+[^workflows-and-wrangling-2]: If you are using a Linux-based OS, you probably won't need an explanation of file structures and file paths, given the greater transparency of file paths and structures you regularly encounter.
 
 ![](images/Windows-file-path.PNG){width="598"}
 
-When working with multiple files in `R`, as you often will, you will have to pay some attention to the file structure and file paths. If you are loading data from a file, for instance, `R` will need to know exactly where the data file is located. If you are saving a graph, on the other hand, `R` will need to know where you want to save it.
+When working with multiple files in `R`, as you will in more involved analysis projects, you will have to pay some attention to the file structure and file paths. When you load data from a file, for instance, `R` will need to know exactly where the file is located. If you are saving a graph, on the other hand, `R` will need to know where you want to save it.
 
-`R` makes an educated guess as to where the files you are working with (or will be working with) are located based on how you open `R`. This is called the **working directory**, which you can easily identify with the command below:
+`R` makes an educated guess as to where in the file structure you are working (or will be working) based on how you open `R`. This is called the **working directory** and you can identify where `R` has located it using the command below:
 
 ```{r, eval = FALSE}
 getwd()
 ```
 
-Sometimes the working directory isn't quite what you think it should have been. You may sometimes (although we will avoid this) need to change the working directory. If so, you can always manually change it using `setwd()`.
+Sometimes the working directory doesn't quite match where you think you are working from and you may need to change it manually. We will try to avoid this, but if you need to, you can manually set the working directory using `setwd()`.
 
 ## The Problem with File Paths
 
-For any function that loads a file, you'll have to provide a file path. If we need to load data then, we'll need to use a file path for our data file. The problem is this though: if we have a file saved in a specific location on our computer and we use a file path inside our code to load it, how are other people going to use the same code when their file structure will probably look very different?
+As mentioned, you will generally have to provide a file path for any function that loads data into `R`. The problem with file structures and file paths, however, is that everyone is different. So, if we have a file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?
 
-For example, let's say I send you some code in an R Script as well as a data file called `important_data.csv`. I then have a line in my R Script file that looks like this:
+To make this more concrete, let's say that I send you some code in an R Script along with a data file called `important_data.csv`. In the code which generates all sorts of nice figures and analysis using this data, I have a line that looks like this:
 
 ```         
 read_csv("C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv")
 ```
 
-The command tries to read in a data file, `important_data.csv`, located at the address inside the function. So, `R` searches for `C:` and then `Users` and so on, until it hits a folder it can't find. Chances are that will happen very quickly (since you and I have different file structures) and so then it will stop running and give an error.
+This command tries to read in a data file, `important_data.csv`, located within `C:/`, the `Users` folder, the `wcs26` folder, and so on and so forth. Your code will attempt to read the file located at the end of this path, but as soon as it hits a folder it can't find on your computer, it will stop and produce an error:
 
-This type of construction, where the file path lists every folder and sub-folder on the way to the destination, is called an **absolute** file path. If any part of the address is incorrect, the file will not be read. What then? Well, one solution is to use what are called **relative** file paths. A relative file path might look something more like this:
+```         
+Error: 'C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv' does not exist.
+```
+
+This type of construction, in which every folder and sub-folder on the way to the destination is provided, is called an **absolute** file path. If any part of the address is incorrect, `R` won't be able to find the file and the file won't be read. So, what's the alternative?
+
+Well, one solution is to use what are called **relative** file paths. A relative file path might look something like this:
 
 ```         
 read_csv("important_data.csv")
 ```
 
-In this case, because we have not provided the full address, `R` assumes that the working directory is the rest of the missing file path (i.e., `C:/Users/wcs26/Documents/Sciences Po/SPSSUR/`). If it is correct and the file is located within your working directory, then it will work perfectly fine and the data will be read. If the file is not located in the working directory, however, it will fail. The trouble is that `R` can only keep one working directory at a time per session, so if you start working with multiple `R` scripts in different folders, it will (or rather, you will) get confused quickly and your relative references will also fail.
+In this case, because we haven't provided the full address, `R` fills in the rest by guessing and, naturally, it guesses that the missing part of the address is the working directory (i.e., `C:/Users/wcs26/Documents/Sciences Po/SPSSUR/`) - which is where it believes you are working from. If `R` guessed correctly and the file is located in your working directory, then this will work perfectly and the data will be read correctly. If the file isn't located in the working directory, however, it will fail.
+
+The trouble is that sometimes you will start your `R` session in one place and then use files in another place. Since `R` can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and your relative file paths will also fail.
 
 ## R Projects and `here`
 
-Fortunately, there is a better way. To avoid confused working directories and the borderline criminal act of hard-coding absolute file paths in our scripts, we're going to use two solutions that will help keep our file references straight.
+Fortunately, there is a better way. To avoid these working directory problems and the borderline criminal act of hard-coding absolute file paths in scripts, we're going to use two solutions that will help keep our working directory and file paths straight.
 
 ### R Projects
 
-The first is R Projects. Creating an R Project helps to ensure that all of the files used in your data analysis project are kept together in a single folder and in a separate `R` session. When you open an R Project file (`.Rproj`), R Studio opens a fresh working session (i.e., any other scripts you are working in are kept in a separate R Studio window) and the working directory is correctly set to the location of the project. All of the files you need will be right where you need them.
+The first is R Projects, a tool to organize your files in R Studio. When you create an R Project file (`.Rproj`), R Studio creates a new folder on your computer which is made to store all of the associated files you may have for a project (e.g., your data, your code, and any outputs). Every time you open that R Project file, R Studio then opens a new working session with a working directory correctly set to the location of your project file. All of the files will be right where you need them.
 
-Let's create one for today's classwork. In RStudio, go to File \> New Project \> New Directory \> New Project. Then, type in a project name matching our course naming standards (e.g., "Stubenbord_Wesley_Session 5 Classwork"). Create the project as a sub-directory of your SPSSUR course folder (wherever this may be and whatever it may be called on your computer). Once this is done, this is where the R Project file will live.
+Let's create one for today's classwork. In R Studio, use the navigation bar at the top of your screen to go to File \> New Project \> New Directory \> New Project. Then, in the provided prompt, type in a project name that matches our course naming standards (e.g., "Stubenbord_Wesley_Session 5 Classwork"). Create this project as a sub-directory of your SPSSUR course folder (wherever this may be and whatever it may be called on your computer). Once this is done, this is where your projects files will live - a permanent home just for them. You can verify that the new project folder has been created by navigating to it in your computer's file structure browser (e.g., Windows Explorer in Windows).
 
 ![](images/Creating-R-Project.PNG){width="409"}
 
-You'll find yourself in a new R Studio session with only a console window open. In you file structure, where you created your project, you will find a new folder which contains a `.Rproj` file along with a sub-folder with some settings stored for your project. This is your project folder and the `.Rproj` file is how you will open your project. Use this folder only for the files related to this project.
+After you create a new project, you'll find yourself in a clean R Studio session with only a console window open. The folder in your computer system will contain only the new `.Rproj` file and a sub-folder with some saved settings stored for your project. This `.Rproj` file is how you will access your project from now on. Instead of opening a .R script to access your code, you will always want to open your `.Rproj` file first and then the .R script. Don't put anything in this new folder other than files directly associated with the project you are working on. In this case, that means this folder is only intended to store files associated with today's classwork.
 
 ![](images/R-Project-Folder.PNG){width="483"}
 
-Back in R Studio, in the lower-right hand pane with the "Files" tab, you'll see all of the files currently associated with the project (which should be zero apart from the `.Rproj` Project file itself).
+Back in R Studio, in the lower-right hand pane with the "Files" tab, you'll see all of the files currently associated with the project. At the moment, there shouldn't be anything apart from the `.Rproj` file itself).
 
-In this same tab, you can add an R Script file to this project by clicking on "New Blank File" \> "R Script". Go ahead and save it with an appropriate name.
+In this same "Files" tab, you can add a new R Script file to this project by clicking on the "New Blank File" button \> "R Script". Go ahead and create one and then save it with an appropriate file name.
 
 ![](images/R-Project-RStudio-Window.PNG)
 
-Running `getwd()` in your new script file or directly in the console will show you that your working directory does indeed match your R Project location. Huzzah.
+Running `getwd()` from your new script file or directly in the console will show you that your working directory does indeed match your R Project location. Huzzah.
 
 ![](images/R-project-getwd.PNG)
 
 ### `here`
 
-The second tool is a package called `here`. `here` contains a very useful function, called `here()`, which will help ensure that our code is always oriented to the correct working directory: the location of the associated R Project file.
+The second tool is a package called `here`. `here` contains a useful function, called `here()`, which will help ensure that your code is always oriented to the correct working directory: the location of the associated R Project file. There are some occasions where, despite our best efforts, R Projects won't save us from erroneous working directories. `here` helps cover those cases.
 
 We'll come back to the application of this function in a moment, but for now, install `here`, load it, and test the `here()` function.
 
@@ -109,17 +117,23 @@ library(here)
 here()
 ```
 
+You should see, again, the correct working directory for your R Project.
+
 ### Organizing Your Project
 
-RProjects and `here`, while extremely useful, won't spare you entirely from the task of having to organize your project folders. I recommend always creating a sub-folder within your project directory to store data sets (called `data` for example) and an additional sub-folder to store figure or graphs (called `figures`, for example). You might find other folders (like a a `docs` folder for documentation) useful depending on the project. You can create these folders directly within R Studio via the 'Files' tab in the lower-right hand pane.
+RProjects and `here`, while both extremely useful, also won't spare you entirely from the task of organizing your project files. A clean and organized work space will make your life significantly easier in the long-run. To facilitate this, I always recommend creating a sub-folder within your project directory to store data sets (called `data` for example), an additional sub-folder to store figure or graphs (called `figures`, for example), and another to store documentation (called `docs` for example). These sub-folder names are commonly used among programmers and also help to ensure consistency across projects with many collaborators. You can create these folders directly in R Studio using the "New Folder" button near the top of the 'Files' tab in the lower-right hand pane.
 
 ![](images/R-Project-sub-folders.PNG)
 
+When finished, you will have your code in the main project folder along with the `.RProj` file and several affiliated sub-folders for storing things later.
+
 ## Getting Data into `R`
 
-Let us return to the primordial problem, though, which is getting data into `R`. In the social sciences, the data we use can come from a variety of sources: we might take our data from long-running surveys, such as the General Social Survey, the European Social Survey, or the World Values Survey. We can also use administrative data produced by government agencies, like the Federal Bureau of Investigation's Uniform Crime Reports or data from New York City's Open Data initiative. Or, we can use data from other sources, which might not have been produced with research or administrative purposes in mind. For example, we can scrape data from social media to see how public sentiment on a particular topic changes over time.
+Let us get back to the primordial problem now, which is getting data into `R`. In the social sciences, the data we use can come from a variety of different sources: we might take our data from long-running surveys, for instance, such as the [General Social Survey](https://gss.norc.org/), the [European Social Survey](https://www.europeansocialsurvey.org/), or the [World Values Survey](https://www.worldvaluessurvey.org/). We can also use administrative data produced by government agencies, like the Federal Bureau of Investigation's [Uniform Crime Reports](https://www.fbi.gov/how-we-can-help-you/more-fbi-services-and-information/ucr) or data from New York City's [Open Data](https://opendata.cityofnewyork.us/) initiative.
 
-In any case, however, the most common format you are likely to see is a CSV, which stands for comma separated values. CSVs are particularly appealing for data storage, because they are lightweight and simple. All they consist of is data in rows (separated by new lines) and columns (separated by commas). A CSV file could consist of this, for example:
+Alternatively, we can use data from other sources, which may not have been produced with research or administrative purposes in mind. For example, we can scrape data from social media to see how political sentiment changes in times of crises or we can use data from online dating apps to see how social norms around courtship have changed.
+
+In any case, the most common format you are likely to find data stored in is a CSV file, which stands for comma separated values. CSVs are particularly appealing for data storage because they are lightweight and they simple. They don't contain any extra formatting - all they consist of is plain-text data in rows (separated by new lines) and columns (separated by commas). A CSV file could consist of the following, for example:
 
 ```         
 "id","name","age","country"
@@ -127,19 +141,19 @@ In any case, however, the most common format you are likely to see is a CSV, whi
 1022234,"Warren Buffet",82,"United States"
 ```
 
-When you open a CSV file in software like Microsoft Excel, Excel automatically parses it, separating the values into different columns based on the position of the commas and into different rows based on the line breaks.[^ch-5-3] CSVs can sometimes have their values separated by other **delimiters**. Apart from the comma, CSV files in Europe often separate their values with semi-colons instead.
+When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and into different rows, based on the line breaks.[^workflows-and-wrangling-3] Excel will automatically recognize, for example, that name is a column containing two values, "Bill Gates" in one row and "Warren Buffett" in another. CSVs don't always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., `,` or `;`) that separates values in a data file is called a **delimiter**.
 
-[^ch-5-3]: **Parsing** refers to how software reads the values.
+[^workflows-and-wrangling-3]: **Parsing** refers to how software reads the values.
 
 ![](images/excel-parsing.PNG){width="607"}
 
 ## Loading files from CSVs
 
-Thankfully, loading CSV files is not especially difficult in `R`. `R` has a base function for loading CSVs, `read.csv()`, but there's a better version called `read_csv()` from the `readr` package which we'll use today. `readr` is another package located in the `tidyverse` which must also be loaded separately like the `scales` package in the previous chapter.[^ch-5-4]
+Thankfully, loading CSV files is not very difficult in `R`. `R` has a base function for loading CSVs, `read.csv()`, but there is a better version called `read_csv()` which comes from the `readr` package. `readr` is also located in the `tidyverse`, but must also be loaded separately, just like the `scales` package in the previous chapter.[^workflows-and-wrangling-4]
 
-[^ch-5-4]: As before, rather than load the entire `readr` package via `library()`, you can also use the `::` syntax, as in `readr::read_csv()`.
+[^workflows-and-wrangling-4]: As before, rather than load the entire `readr` package via `library()`, you can also use the `::` syntax, as in `readr::read_csv()`.
 
-On the course Moodle site, you'll find a CSV titled `billionaires_2020-2023.csv`, which contains some data on the world's billionaires. Download this file and then save it in the `data` sub-folder you created in your `Session 5 Classwork` project folder. Open the `Session 5 Classwork` project and a script file inside of it. Let's load a few libraries first and then the data set.
+On the course Moodle site, you'll find a CSV titled `billionaires_2020-2023.csv`, which contains some limited data on the world's billionaires from my own research. Go ahead and download this file and then save it in the `data` sub-folder you created in your `Session 5 Classwork` project folder. Open the `Session 5 Classwork` project and a script file inside of it, if you haven't already. We'll load a few libraries first and then the data set.
 
 ```{r, warning = FALSE}
 library(tidyverse)
@@ -147,48 +161,50 @@ library(readr)
 library(here)
 ```
 
-`read_csv()` requires a file path in order to read the file into our `R` session. Because the data set is located in a sub-folder and because we want to use a relative path (rather than an absolute path), we can use `here()`.
+As with any function that reads data, `read_csv()` requires a file path to locate the data nad read it into our `R` session. Because the data set is located in a sub-folder and because we want to use a relative path (rather than an absolute path), we'll use `here()`.
 
-Remember, `here()` provides the file path to your R Project folder. Any additional folder or file names used as arguments inside of the `here()` function (separated by commas) will be added to that path. If your R Project folder is located at `C:\Users\Documents\My Projects`, for example, `here("data")` will output `C:\Users\Documents\My Projects\data`.
+Remember, `here()` provides the file path to your R Project folder. Any additional folder or file names used as arguments inside of the `here()` function (separated by a comma) will be added to the project folder path. If your R Project folder is located at `C:\Users\Documents\My Projects`, for example, `here("data")` will output `C:\Users\Documents\My Projects\data`. You must enclose the name of your sub-folders in quotation marks.
 
-Entering the following, for example, should return the file path of the data set if you've saved it in a sub-folder called "data" within your R Project folder.
+Entering the following should return the file path of the data set if you have saved it within your `data` subfolder:
 
 ```{r}
 here("data","billionaires_2020-2023.csv")
 ```
 
-To read the actual data set into `R`, now all we need to do is put this `here` function inside of `read_csv()`.
+To read the actual data into `R`, now all we need to do is put this `here` function inside of `read_csv()` in the `file =` argument.
 
 ```{r}
 read_csv(file = here("data","billionaires_2020-2023.csv"))
 ```
 
-As you can see from the output above, `read_csv()` worked. If our data had used a semi-colon as a delimiter instead of a comma, we could have used `read_csv2()` instead. We can see that the data set has 2,640 rows and 13 columns. Let's save this in an object in our environment.
+As you can see from the output above, `read_csv()` worked! If our data had used a semi-colon as a delimiter instead of a comma, we would have just used `read_csv2()` instead.
+
+We can see from the resulting output that this data set has 2,640 rows and 13 columns. Let's save this into a new object in our environment.
 
 ```{r}
 billionaires <- read_csv(file = here("data","billionaires_2020-2023.csv"))
 ```
 
-You'll notice that `read_csv()` says a lot each time you run it. Don't confuse the red text you see here with errors, however. It's just trying to be helpful by giving you some information about the data you're reading in. Notably, we can see that there are 8 character columns and 5 `dbl` columns. `dbl` stands for `double` and is a type of numeric value. We can, of course, use `glimpse()` to see the variables again along with a few of the first values.
+You'll notice that `read_csv()` says a lot each time you run it. Don't confuse the red text you see here with errors, however. It's just trying to be helpful by giving you some more information about the data we're reading in. We can see from this output, for example, that there are 8 character columns and 5 `dbl` columns. `dbl` stands for `double` and is a type of numeric value. We can, of course, use `glimpse()` to see the variables again along with some of the first few values.
 
 ```{r}
 glimpse(billionaires)
 ```
 
-There are other ways you can take a look into your data. We can take a random slice of the data using `slice_sample()` from `dplyr`, for example. We can also use `slice_head()` to see the first few rows, `slice_tail()` to see the last few rows, or `slice_min()` and `slice_max()` to see the rows with the largest or smallest values for some variable. Give them each a try.
+There are other ways you can take a peek at your data. We can take a random slice of the data using `slice_sample()` from `dplyr`, for example. We can also use `slice_head()` to see the first few rows, `slice_tail()` to see the last few rows, or `slice_min()` and `slice_max()` to see the rows with the largest or smallest values for some variable. Give them each a try and look at their documentation to see some helpful optional arguments you can use as well, like `n =`.
 
 ```{r}
 billionaires %>%
   slice_sample(n = 5)
 ```
 
-No matter how we do it, our purpose at this stage should always be to get a sense for whether any potential issues are lurking beneath the surface.
+No matter how we choose to do it, though, our purpose at this point of reading data in should always be to get a sense for any potential issues lurking beneath the surface of our data file.
 
-You may have noticed from `glimpse` that there is something a little bit weird about this data. Four columns at the end have numbers as titles. What are these columns? They're the estimated net worth of each of the listed individuals for each of the named years (i.e., 2020, 2021, 2022, 2023). The values are in billions of US dollars.[^ch-5-5]
+You may have noticed from `glimpse` that there is something a little bit weird about this data. Four columns at the end have numbers as titles. What are these columns? Since this data doesn't come from a package and there's no documentation, I will tell you: they're the estimated net worth of each of the listed individuals in billions of 2023-inflation adjusted dollars for each of the named years (i.e., 2020, 2021, 2022, 2023). The values are in billions of US dollars.[^workflows-and-wrangling-5]
 
-[^ch-5-5]: This data comes from my own research. The net worth estimates are adjusted estimates derived from Forbes' annual *World's Billionaires* list. They are inflation-adjusted to 2023 USD.
+[^workflows-and-wrangling-5]: The net worth estimates here are derived from the Forbes' annual *World's Billionaires* list and inflation-adjusted using an implict GDP price deflator from the U.S. Federal Reserve.
 
-We can use `slice_max()` to see who was the richest person in 2023, for example. Note, however, that when we reference a variable which begins with a number, we have to use the `` ` `` character to enclose the variable name. This is because `R` does not allow object names to start with a number.
+Now that we know what the data is, we can start to make sense of it. We can use `slice_max()` , for instance, to see who was the richest person in 2023. In this case, note that when we reference a variable which begins with a number, we have to use the `` ` `` character to enclose the variable name. This is because `R` does not allow object names to start with a number.
 
 ```{r}
 billionaires %>%
@@ -196,7 +212,7 @@ billionaires %>%
 
 ```
 
-Now we can see that Bernard Arnault was the richest person in 2023 with a recorded net worth of \$211 billion. What if we want to see what the cumulative net worth of French billionaires was for these years? Maybe we could use `dplyr` to summarize:
+Now we can see that Bernard Arnault was the richest person in 2023 with an estimated net worth of \$211 billion. What if we want to see what the cumulative net worth of all French billionaires was for the years covered in this data? Maybe we could use `dplyr` to summarize:
 
 ```{r}
 billionaires %>%
@@ -205,7 +221,7 @@ billionaires %>%
   summarize(total_nw = sum())
 ```
 
-Here we run into an issue. We can't `group_by(country, year)`, because there is no variable called `year`. There's also no `net_worth` variable that we can put into our `summarize()` function. So, we're stuck with bad options. We could try something like this:
+Here we run into a problem. We can't `group_by(country, year)`, because there is no variable called `year`. There's also no `net_worth` variable that we can put into our `summarize()` function. So, we're stuck with bad options. We could try something like this, for example:
 
 ```{r}
 billionaires %>%
@@ -217,11 +233,11 @@ billionaires %>%
             nw_2020 = sum(`2020`))
 ```
 
-That got us the total net worth of French billionaires in 2023, at least, but it didn't calculate anything for the other years. The reason why we're having a hard time here is that our data is not in the right format for `tidyverse` functions.
+That got us the total net worth of French billionaires in 2023, at least, but it didn't calculate a result for the other years. The reason why we're having a hard time here is that our data is not in the right format for `tidyverse` functions.
 
 ## Tidy Data
 
-In the previous chapter, we learned that the `gapminder` data was in just the right format for `ggplot`. We called this a **long** format, which is the word usually used in the social sciences to describe it. In a long format, the rows are repeated observations for some unit of analysis across some dimension (like time). In the case of the `gapminder` data, we had countries, our unit of analysis, and repeated observations across years for a set of variables of interest (e.g., life expectancy and GDP per capita), as shown below.
+In the previous chapter, we learned that the `gapminder` data was in just the right format for `ggplot`. We called this **long** format data, which is usally how we describe this format in the social sciences. In a long format, rows are repeated observations for some unit of analysis (like a country) across some dimension (like time). In the case of the `gapminder` data, each of these observations (country-years) had a value for a set of variables of interest (e.g., life expectancy and GDP per capita) as shown below.
 
 ```{r, echo = FALSE}
 library(gapminder)
@@ -234,7 +250,7 @@ gapminder %>%
   knitr::kable()
 ```
 
-In the `billionaires` data, we instead have a variable of interest (net worth) split across several columns by some dimension (time).
+In the `billionaires` data, we instead have one row per unit of analysis (billionaires) and multiple columns for a single variable of interest (net worth).
 
 ```{r, echo = FALSE}
 billionaires %>%
@@ -244,15 +260,15 @@ billionaires %>%
 
 ```
 
-The column titles are values (e.g., 2020, 2021), not actually variables. This is called **wide** data. Wide data has it's uses. Mainly, it can be very convenient for storing a large amount of data in a small amount of space. If you're looking to print a lot of data on paper, wide data is your format. Long data, on the other hand, is better for data analysis.
+The column titles (e.g., 2020, 2021), to be clear, are not actually different variables, they are simply values of a single variable (e.g., year). When data is split in this way, we say it is in a **wide** format. Wide data does have it's uses. It is very convenient, for instance, for storing a large amount of data in a small amount of space - a particular concern when you are printing data sets. Long data, on the other hand, is much better for data analysis.
 
-The `tidyverse` functions require data to be in what Hadley Wickham and collaborators call a **tidy** format. In tidy data, each variable is in a column, each observation is in a row, and each cell contains a single value (Wickham et al. 2019). It is, in other words, in a consistent long-format. If we want to be able to use all of the great features of `dplyr` and `ggplot`, then we need to transform our data into a tidy format.
+The `tidyverse` functions require data to be in what Hadley Wickham and collaborators call a **tidy** format. In tidy data, each variable is in a column, each observation is in a row, and each cell contains a single value (Wickham et al. 2019). It is, in other words, in a consistent *long*-format. If we want to be able to use all of the great features of `dplyr` and `ggplot`, we need to transform our data into a tidy format.
 
 ## Pivoting from Wide to Long
 
-Fortunately, `dplyr` has some handy functions for this. Since we have data in a wide format and wish to go to a long format, we'll need to use a function called `pivot_longer()`. There are three arguments we need to provide to `pivot_longer()`.
+Fortunately, `dplyr` has some handy functions for this. Since we have data in a wide format and wish to change it to a long format, we'll need to use a function called `pivot_longer()`. There are three arguments we need to provide to `pivot_longer()`.
 
-First, in the `cols =` argument, we need to provide the columns we are trying to combine into a single variable. In our case, our net worth values are distributed across the `` `2020` ``, `` `2021` ``, `` `2022` ``, and `` `2023` `` columns, so we'll put those in a vector and add them here. Next, in the `names_to =` argument, we need to identify where we want to put the names for each of those values (in other words, the titles for each of our former columns). Since each of those column names corresponds to a year, we'll tell it to put them in a `"year"` column. Last, we need to specify a name for the variable holding all of the values that were stored across those columns. Since the values were net worth, we'll call this new variable `net_worth`. We might also want to drop the rows which contain NA values for net worth, so we'll add an optional fourth argument, `values_drop_na =`.
+First, in the `cols =` argument, we need to provide the columns we are trying to combine into a single variable. In our case, our net worth values are distributed across the `` `2020` ``, `` `2021` ``, `` `2022` ``, and `` `2023` `` columns, so we'll put those in a vector and use them for this argument. Next, in the `names_to =` argument, we need to identify where we want to put the names for each of those values (in other words, the titles for each of our former columns). Since each of those column names corresponds to a year, we'll tell it to put them in a `"year"` column. Last, we need to specify a name for the variable holding all of the values that were stored across those columns. Since the values were net worth, we'll call this new variable `net_worth`. We might also want to drop the rows which contain NA values for net worth and so we'll add an optional fourth argument, `values_drop_na =`.
 
 ```{r}
 billionaires %>%
@@ -262,7 +278,7 @@ billionaires %>%
                values_drop_na = TRUE)
 ```
 
-If you take a look at the data now, you can see that we've increased our number of rows substantially (to 9,142) and each net worth value is now in a separate row according to the corresponding year and individual. Now we can do much of the same type of data analysis and visualization that we've been doing over the past couple of chapters.
+If we take a look at the data now, we can see that we've increased our number of rows substantially (to 9,142) and each net worth value is now in a separate row according to the corresponding year and individual. It looks tidy. Now we can do much of the same type of data analysis and visualization we have been doing over the past couple of chapters.
 
 ```{r}
 # A quick and dirty plot.
@@ -286,9 +302,9 @@ tidy_bil %>%
 
 ## Merging Data
 
-Let's say that we want to do some further analysis involving data outside of the data set we are currently using. Can we add it to our existing data set? The answer is yes.
+Let's say that we want to do some further analysis involving additional data not contained in the data set we are currently using. Can we add it to our existing data set? The answer is yes.
 
-On the course Moodle site, you'll find another data set called `age.xlsx`. This is an Excel file. Fortunately, the `readxl` package (also contained in the `tidverse` and requiring separate loading) has just the function. Download the file from the Moodle page, add it to your project's data folder, and use the command below:
+On the course Moodle site, you'll find another data set called `age.xlsx`. This is an Excel file. Fortunately, the `readxl` package (also contained in the `tidverse` and requiring separate loading) has just the function. Download the file from the Moodle page, add it to your project's data folder, and then use the command below:
 
 ```{r}
 library(readxl)
@@ -298,7 +314,7 @@ bil_age <- read_xlsx(path = here("data", "age.xlsx"), sheet = "Sheet1")
 glimpse(bil_age)
 ```
 
-As we can see from the output, there isn't much in here, just an ID, a year, and an age. If we want to use this data in our analysis, we now need to merge it with our previously tidied data.  We might just want to check the `year` column to see how many years this data covers.
+As we can see from the output, there isn't too much in here, just an ID, a year, and an age. If we want to use this data in our next analysis, we now need to merge it with our previously tidied data. We might just want to check the `year` column to see how many years this age data covers.
 
 ```{r}
 bil_age %>%
@@ -307,7 +323,8 @@ bil_age %>%
 #An alternative way:
 #unique(bil_age$year)
 ```
-There's only one year and some missing values. Before we go ahead and merge, we should also check to make sure that there is only age value for each of the IDs. The code below will count the number of rows
+
+There's only one year, unfortunately, and quite a few missing values. Before we go ahead and merge, we should also check to make sure that there is only one age value for each ID. Merging data with multiple values for each unit of analysis will cause rather large problems. Keep a careful eye on your data as you do these types of things. The code below will count the number of rows:
 
 ```{r}
 bil_age %>%
@@ -315,7 +332,7 @@ bil_age %>%
   filter(n > 1)
 ```
 
-It looks like there are a few duplicates in here.  Let's see if dropping the NAs fixes our problem. They won't be useful in our analysis later.
+It looks like there are a few duplicates in here. We can investigate further, but let's see if dropping the NAs fixes our problem. They won't be useful in our analysis later anyways.
 
 ```{r}
 bil_age %>%
@@ -324,23 +341,24 @@ bil_age %>%
   filter(n > 1)
 ```
 
-Good, no results, which means that dropping the NAs solved our problem with duplicates. Let's save the tibble without the NAs and carry on with our merge.
+Good, no results, which means that dropping the NAs solved our problem with duplicates. Let's save the tibble without the missing values and carry on with our merge.
 
 ```{r}
 bil_age %>%
   drop_na(age) -> bil_age
 ```
 
-Note that we've use our assignment operator in a somewhat unorthodox way here. Instead of using it at the begining of the piped function, we've added it to the end. This works and is also acceptable.
+Note that we've use our assignment operator in a somewhat unorthodox way here. Instead of using it at the beginning of the piped function, we've added it to the end. This works and is also acceptable.
 
-Now, let's merge. Here, we'll use a function from `dplyr` called `left_join()`. There are other types of `_join()` functions depending on the use case. In our case, we have an existing data set and we simply want to add data to it. We don't care much about what happens to any data in our age data that does not match.  We'll use `left_join()` as a result. Other types of joins include a `right_join()`, an `inner_join()`, a `left_join()` and a `full_join()`. Take a look at the supporting documentation to learn more about them.
+Now, let's merge. Here, we'll use a function from `dplyr` called `left_join()`. There are other types of `_join()` functions depending on the use case. In our case, we have an existing data set and simply want to add data from another tibble to it. We don't care much about what happens to the rows in the `bil_age` data set that don't match up. We'll use `left_join()` here as a result. Other types of joins include a `right_join()`, an `inner_join()`, a `left_join()` and a `full_join()`. Take a look at the supporting documentation to learn more about them.
 
 ```{r, eval = FALSE}
 left_join(x = tidy_bil, 
           y = bil_age, 
           join_by(id, year))
 ```
-This didn't quite work and, if we look at our error, we can see why.  The `year` column in our `tidy_bil` data is a character and the the `year` column in our age data is a double.  We'll have to convert the column in `tidy_bil` to continue.  We should probably convert `year` to a date format, but I'm going to cheat here for now and just convert it to a numeric variable for convenience.
+
+This didn't quite work and, if we look at our error, we can see why. The `year` column in our `tidy_bil` data is a character and the the `year` column in our age data is a double. We'll have to convert the column in `tidy_bil` to continue. We should probably convert `year` to a date format, but we're going to cheat here and just convert it to a numeric variable for convenience. Hopefully this won't come back to bite us later.
 
 ```{r}
 tidy_bil %>%
@@ -348,6 +366,7 @@ tidy_bil %>%
 ```
 
 Let's try the merge again:
+
 ```{r}
 tidy_bil <- left_join(x = tidy_bil, 
                       y = bil_age, 
@@ -357,7 +376,10 @@ tidy_bil <- left_join(x = tidy_bil,
 #  left_join(bil_age,
 #            join_by(id, year))
 ```
-Success!  Whenever you do these sorts of things, I recommend running the code without re-assigning it back to the original object first and then only re-assigning it after you are sure it works.  Otherwise, you may start to get confused.  If you take a look at `tidy_bil`, you can see that we now have an age column. Now we can do something like this:
+
+Success! Whenever you do these sorts of things, try running the code without re-assigning it back to the original object first and then assign it after you are sure it works. Otherwise, you may start running into unexpected errors as you change your data. You can always re-load it if you've made a mistake somewhere.
+
+If we take a look at `tidy_bil`, we can now see that we have an age column. Now we can do something like this:
 
 ```{r}
 p <- ggplot(data = tidy_bil,
@@ -373,13 +395,17 @@ p + geom_point() + theme_bw()
 #  geom_point() + theme_bw()
 ```
 
-The use of `ggplot()` above differs from the method you learned last chapter.  In this case, we first save our base `ggplot()` layer to an object (arbitrarily named `p` here) and then we add layers to the object in a separate line of code. You'll commonly see this in references elsewhere. Either style of writing your `ggplot()` code is fine. I tend to prefer the piped form from last chapter, because it allows you to add in your filters and do any other data manipulations in the same command.
+Notice here that we are also using `ggplot()` in a different way from the previous chapter. In this case, we first save our base `ggplot()` layer to an object (arbitrarily named `p`) and then we add layers to the object in a separate line of code. You'll see this method used often in references elsewhere. Either style of writing your `ggplot()` code is fine, but I tend to prefer the piped form from the previous chapter for own use, since it allows you to add filters and do other data manipulations in the same piped command generating the plot. This is a stylistic and workflow preference - you will find many forking paths that will produce the same result as you continue to learn `R`.
 
-## Recoding variables
+A more general understanding to take away here, however, is the fact that since we aren't using a piped function, we do need to specify a `data =` argument in the `ggplot()` function. The use of the pipe operator ordinarily absolves us of having to specify a data argument in all `dplyr` functions, because the pipe operator does it for us (i.e., "take this *AND THEN.*..").
 
-There is one more thing we might want to learn here: recoding. Recoding is useful when the categories within a data set aren't quite appropriate for the way we want  to analyze them.
+For example, to use a filter on a tibble you could simply enter `filter(data = tidy_bil, year == 2020)` as a stand-alone function and it would give you the same answer as `tidy_bil %>% filter(year == 2020)`. The pipe operator, however, allows us to string together multiple of these such functions, which makes it efficient for complex data analysis.
 
-Let's say we want to compare the net worth of billionaires in our data set by marital status. For this, we could actually use the wide data. Let's imagine that we don't have our wide data in the first place. Could we get our long data into a wide format? Yes, using `pivot_wider()`:
+## Pivoting from Long to Wide
+
+There is one more thing we should learn here: recoding. Recoding is useful when the categories within a data set aren't quite appropriate for how we want to analyze them.
+
+Let's say we want to compare the net worth of billionaires in our data set by marital status, for example. For this, we could use the wide data. Let's imagine that we don't have our wide data in the first place though. Could we get our long data into a wide format? Yes, using `pivot_wider()`:
 
 ```{r}
 tidy_bil %>%
@@ -396,13 +422,14 @@ billionaires %>%
   distinct(marital)
 ```
 
-There are 9 distinct categories. Nine is perhaps too many. What if we decide we want to use just three categories: "Married/Widowed", "Single", and "Other".
+There are 9 distinct categories. Nine is perhaps too many. What if we decide we want to use just three categories: "Married/Widowed", "Single", and "Other" instead?
 
-To re-categorize our data according to the new groupings, we can use the `case_match()` function inside of a `dplyr` `mutate()` function. Essentially, we are modifying a column such that the values of the column take on the recoded values of our previous column. We could mutate the original variable directly (in this case, `marital`), but it's generally best practice to put our recoded values inside of their own, new column. We'll call it `marital_rc` to indicate that it has been recoded.
+## `case_match()` for Recoding
 
-The first argument in `case_match()` is the column that needs to be recoded. The following arguments follow the format `old_values ~ new_values`.  The values to be recoded go on the left-hand side and the values they will be recoded as go on the right. We separate the left and right-hand sides with a `~` and we use a comma to separate our next set of values to be recoded. Since we are re-coding multiple values, we'll put them inside of vectors. 
+To recode our data according to the new groupings, we can use the `case_match()` function inside of a `dplyr` `mutate()` function. Essentially, we are modifying a column so that the values of the new column take on the recoded values of the old column. We could mutate the original variable directly (in this case, `marital`), but it's generally best practice to put our recoded values inside of their own, new column to make sure we don't make an error. Otherwise, we'd have to reload our data and we'd need to re-run all of the other code in our analysis. We'll call this recoded variable `marital_rc`.
 
-Remember, test this without re-assigning the result to your original object and then once you are sure it works, you can go ahead and do it.
+The first argument in `case_match()` is the column that needs to be recoded. The following arguments, which contain the recoding scheme, follow the format `old_values ~ new_values`. The original values go on the left-hand side and the values to be recoded go on the right. To separate the left and right-hand sides, we use a `~` character and then a comma to separate each set of old and new values. Since we are re-coding multiple old values at a time, we'll put those sets of old values inside of vectors. Remember, test this without re-assigning the result to your original object to make sure that you've done it correctly and then re-assign it once you are confident you've done it right.
+
 ```{r}
 billionaires %>%
   mutate(
@@ -420,7 +447,7 @@ billionaires %>%
   distinct(marital_rc)
 ```
 
-Yes, we've recoded successfully. There seem to be NAs in our data, but we don't necessarily want to drop them.  Let's make a quick graph showing median net worth with our recoded marital status variable for 2023.
+Yes, we've recoded successfully. There seem to be some missing values in our data, but we don't necessarily want to drop them. Let's make a quick graph showing median net worth with our recoded marital status variable for 2023.
 
 ```{r}
 billionaires %>%
@@ -432,8 +459,10 @@ billionaires %>%
   geom_col() + theme_minimal()
 ```
 
-Note, of course, that we can't make any claims about associations here. There are a lot of missing values (`NA`) and we don't know whether they would be biased towards a particular category. Our `Other` category is also quite expansive and maybe not analytically appropriate. Last, but not least, we don't know whether any of the visual differences we are seeing in median net worth across category are due to random chance or due to some relationship between the variables. We'll return to this last point in the next chapter when we begin talking about inferential methods.
+Note, of course, that we can't make any claims about associations here. There are a lot of missing values (`NA`) and we don't know whether they would be biased towards a particular category. Our `Other` category is also quite expansive and maybe not analytically appropriate.
+
+Last, but not least, we don't know whether any of the visual differences we are seeing in median net worth across category are due to random chance or due to some relationship between the variables. We'll return to this latter point in the next chapter when we begin talking about inferential methods.
 
 ## Exercises
 
-For the remainder of class, keep playing around with this data set to practice the new functions you've learned and the `dplyr` functions you've learned in previous chapters.
+For the remainder of class or for homework, keep playing around with this data set to practice the new functions you've learned and the `dplyr` functions you've learned in previous chapters.
