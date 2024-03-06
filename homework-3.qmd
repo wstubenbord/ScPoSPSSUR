@@ -1,0 +1,59 @@
+# Homework 3 {.unnumbered}
+
+**Due Date:** Wednesday, March 13 by 23:59:59
+
+**Instructions:** For this homework, you will need to submit a zipped R Project folder containing an R Script or Quarto document with your code.[^homework-3-1] Your R Project folder should follow the conventions discussed in class. Your R Script (or Quarto file) should contain both an appropriately formatted header and file name.
+
+[^homework-3-1]: If you are using Quarto, whenever the instructions say to output the results to console, your results should output within the document itself after running the code chunk.
+
+Your code must also compile. This means that any R user should be able to use your R Project to replicate the answers you get in this assignment without receiving a terminal error while running it. Packages used in this assignment should be loaded at the beginning of the code after the header. You can assume that this R user has the necessary packages installed.
+
+Data files needed for this assignment can be found on the course Moodle page.
+
+**Question 1**
+
+For this question, use the "billionaires_2020-2023.csv" file introduced in class, performing any necessary transformations to answer the questions.
+
+***Part A:***
+
+For each country in the data set, identify the number of billionaires and the mean, median, standard deviation, minimum and maximum of net worth for 2023. Sort the resulting tibble by descending order in terms of number of billionaires. Output the results to the console.
+
+***Part B:***
+
+Find the top 5 individuals by net worth for each year. Output the resulting tibble to the console.
+
+***Part C:***
+
+Identify the individual(s) who appeared among the annual top 5 richest individuals most frequently. Output the results to the console.
+
+**Question 2**
+
+For this question, use the "billionaires_2020-2023.csv" and "age.xlsx" files used in class, again, performing any necessary transformations to answer the questions.
+
+***Part A:***
+
+Create a tibble which shows the median age of billionaires for the United States, China, France, Germany, and Italy in 2023. In a brief comment, identify the country with the oldest median age.
+
+***Part B:***
+
+Plot the results of *Part A* in a bar chart.
+
+**Question #3**
+
+For this question, use the file wdi.csv, which contains an extract from the World Bank Development Indicators, and eu.csv, which contains a list of countries in the European Union.
+
+***Part A:***
+
+Merge the European Union data with the World Bank data.
+
+***Part B:***
+
+Create a re-coded `EU` variable such that countries in the European Union are labeled as "EU" and countries not in the European Union are labeled as "Non-EU" (Hint: check the help page for `case_match()` for an example on how to code missing values).
+
+***Part C:***
+
+Filter for countries in the "Europe & Central Asia" region. Now, create a scatterplot showing the relationship between GDP per capita and life expectancy. In your scatter plot, make a visual distinction between E.U. and non-E.U. countries.
+
+***Part D:***
+
+In 2-3 sentences, briefly compare the relationship between GDP and life expectancy across E.U. and non-E.U. countries for the data used in Part C.
