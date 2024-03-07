@@ -241,20 +241,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#whats-happening-under-the-hood" id="toc-whats-happening-under-the-hood" class="nav-link active" data-scroll-target="#whats-happening-under-the-hood"><span class="header-section-number">5.1</span> What’s Happening Under the Hood?</a></li>
   <li><a href="#file-structures-file-paths-and-the-working-directory" id="toc-file-structures-file-paths-and-the-working-directory" class="nav-link" data-scroll-target="#file-structures-file-paths-and-the-working-directory"><span class="header-section-number">5.2</span> File Structures, File Paths, and the Working Directory</a></li>
   <li><a href="#the-problem-with-file-paths" id="toc-the-problem-with-file-paths" class="nav-link" data-scroll-target="#the-problem-with-file-paths"><span class="header-section-number">5.3</span> The Problem with File Paths</a></li>
-  <li><a href="#r-projects-and-here" id="toc-r-projects-and-here" class="nav-link" data-scroll-target="#r-projects-and-here"><span class="header-section-number">5.4</span> R Projects and <code>here</code></a>
+  <li><a href="#the-problem-with-file-paths-1" id="toc-the-problem-with-file-paths-1" class="nav-link" data-scroll-target="#the-problem-with-file-paths-1"><span class="header-section-number">5.4</span> The Problem with File Paths</a></li>
+  <li><a href="#r-projects-and-here" id="toc-r-projects-and-here" class="nav-link" data-scroll-target="#r-projects-and-here"><span class="header-section-number">5.5</span> R Projects and <code>here</code></a>
   <ul class="collapse">
-  <li><a href="#r-projects" id="toc-r-projects" class="nav-link" data-scroll-target="#r-projects"><span class="header-section-number">5.4.1</span> R Projects</a></li>
-  <li><a href="#here" id="toc-here" class="nav-link" data-scroll-target="#here"><span class="header-section-number">5.4.2</span> <code>here</code></a></li>
-  <li><a href="#organizing-your-project" id="toc-organizing-your-project" class="nav-link" data-scroll-target="#organizing-your-project"><span class="header-section-number">5.4.3</span> Organizing Your Project</a></li>
+  <li><a href="#r-projects" id="toc-r-projects" class="nav-link" data-scroll-target="#r-projects"><span class="header-section-number">5.5.1</span> R Projects</a></li>
+  <li><a href="#here" id="toc-here" class="nav-link" data-scroll-target="#here"><span class="header-section-number">5.5.2</span> <code>here</code></a></li>
+  <li><a href="#organizing-your-project" id="toc-organizing-your-project" class="nav-link" data-scroll-target="#organizing-your-project"><span class="header-section-number">5.5.3</span> Organizing Your Project</a></li>
   </ul></li>
-  <li><a href="#getting-data-into-r" id="toc-getting-data-into-r" class="nav-link" data-scroll-target="#getting-data-into-r"><span class="header-section-number">5.5</span> Getting Data into <code>R</code></a></li>
-  <li><a href="#loading-files-from-csvs" id="toc-loading-files-from-csvs" class="nav-link" data-scroll-target="#loading-files-from-csvs"><span class="header-section-number">5.6</span> Loading files from CSVs</a></li>
-  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">5.7</span> Tidy Data</a></li>
-  <li><a href="#pivoting-from-wide-to-long" id="toc-pivoting-from-wide-to-long" class="nav-link" data-scroll-target="#pivoting-from-wide-to-long"><span class="header-section-number">5.8</span> Pivoting from Wide to Long</a></li>
-  <li><a href="#merging-data" id="toc-merging-data" class="nav-link" data-scroll-target="#merging-data"><span class="header-section-number">5.9</span> Merging Data</a></li>
-  <li><a href="#pivoting-from-long-to-wide" id="toc-pivoting-from-long-to-wide" class="nav-link" data-scroll-target="#pivoting-from-long-to-wide"><span class="header-section-number">5.10</span> Pivoting from Long to Wide</a></li>
-  <li><a href="#case_match-for-recoding" id="toc-case_match-for-recoding" class="nav-link" data-scroll-target="#case_match-for-recoding"><span class="header-section-number">5.11</span> <code>case_match()</code> for Recoding</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.12</span> Exercises</a></li>
+  <li><a href="#getting-data-into-r" id="toc-getting-data-into-r" class="nav-link" data-scroll-target="#getting-data-into-r"><span class="header-section-number">5.6</span> Getting Data into <code>R</code></a></li>
+  <li><a href="#loading-files-from-csvs" id="toc-loading-files-from-csvs" class="nav-link" data-scroll-target="#loading-files-from-csvs"><span class="header-section-number">5.7</span> Loading files from CSVs</a></li>
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">5.8</span> Tidy Data</a></li>
+  <li><a href="#pivoting-from-wide-to-long" id="toc-pivoting-from-wide-to-long" class="nav-link" data-scroll-target="#pivoting-from-wide-to-long"><span class="header-section-number">5.9</span> Pivoting from Wide to Long</a></li>
+  <li><a href="#merging-data" id="toc-merging-data" class="nav-link" data-scroll-target="#merging-data"><span class="header-section-number">5.10</span> Merging Data</a></li>
+  <li><a href="#pivoting-from-long-to-wide" id="toc-pivoting-from-long-to-wide" class="nav-link" data-scroll-target="#pivoting-from-long-to-wide"><span class="header-section-number">5.11</span> Pivoting from Long to Wide</a></li>
+  <li><a href="#case_match-for-recoding" id="toc-case_match-for-recoding" class="nav-link" data-scroll-target="#case_match-for-recoding"><span class="header-section-number">5.12</span> <code>case_match()</code> for Recoding</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.13</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -278,11 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<<<<<<< HEAD
 <p>At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we might want to use for a particular project often isn’t contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.</p>
-=======
-<p>At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we want to use for a particular project oftentimes isn’t contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.</p>
->>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p>This chapter covers some of the processes and functions in <code>R</code> made for dealing with these unfortunate eventualities. We’ll start with the general problem of working with files in <code>R</code>, then learn how to get data in, and then we’ll learn more about how to make data analyzable.</p>
 <p>This chapter will not, of course, provide you with the all of the answers to the data wrangling problems you will eventually encounter. It will barely scratch the surface. But, once you manage to get data in, data wrangling becomes a matter of learning new functions and practicing the tidy data skills you’ve already started to learn.</p>
 <section id="whats-happening-under-the-hood" class="level2" data-number="5.1">
@@ -302,7 +299,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Within the operating systems themselves, file paths are slightly easier to find in Windows than in MacOS, since you can get most of the way there by clicking in the address bar at the top of a Windows Explorer window (see below for an example).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This gives the folder path, which when followed by another slash, the file name, and the file extension, gives the file path. In MacOS, finding a file path requires a little more work (see <a href="https://support.apple.com/en-mt/guide/mac-help/mchlp1774/mac#:~:text=On%20your%20Mac%2C%20click%20the,bottom%20of%20the%20Finder%20window.">here</a> for some guidance).<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p><img src="images/Windows-file-path.PNG" class="img-fluid" width="598"></p>
 <p>When working with multiple files in <code>R</code>, as you will in more involved analysis projects, you will have to pay some attention to the file structure and file paths. When you load data from a file, for instance, <code>R</code> will need to know exactly where the file is located. If you are saving a graph, on the other hand, <code>R</code> will need to know where you want to save it.</p>
-<<<<<<< HEAD
 <p><code>R</code> makes an educated guess as to where in the file structure you are working (or will be working) based on how you open <code>R</code>. This is called the <strong>working directory</strong> and you can identify where <code>R</code> has located it using the command below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -312,48 +308,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-problem-with-file-paths" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="the-problem-with-file-paths"><span class="header-section-number">5.3</span> The Problem with File Paths</h2>
 <p>As mentioned, you will generally have to provide a file path for any function that loads data into <code>R</code>. The problem with file structures and file paths, however, is that everyone is different. So, if we have a file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?</p>
-=======
-<p><code>R</code> makes an educated guess as to where in the file structure you are working (or will be working) based on how you open <code>R</code>. This is called the <strong>working directory</strong> and you can identify where <code>R</code> has located using the command below:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Sometimes the working directory doesn’t quite match where you think you are working from and you may sometimes need to change it manually. We will try to avoid this, but if you need to, you can manually set the working directory using <code>setwd()</code>.</p>
 </section>
-<section id="the-problem-with-file-paths" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="the-problem-with-file-paths"><span class="header-section-number">5.3</span> The Problem with File Paths</h2>
+<section id="the-problem-with-file-paths-1" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="the-problem-with-file-paths-1"><span class="header-section-number">5.4</span> The Problem with File Paths</h2>
 <p>As mentioned, you will generally have to provide a file path for any function that loads data into <code>R</code>. The problem with file structures and file paths, however, is that everyone is different. So, if we have file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?</p>
->>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p>To make this more concrete, let’s say that I send you some code in an R Script along with a data file called <code>important_data.csv</code>. In the code which generates all sorts of nice figures and analysis using this data, I have a line that looks like this:</p>
 <pre><code>read_csv("C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv")</code></pre>
 <p>This command tries to read in a data file, <code>important_data.csv</code>, located within <code>C:/</code>, the <code>Users</code> folder, the <code>wcs26</code> folder, and so on and so forth. Your code will attempt to read the file located at the end of this path, but as soon as it hits a folder it can’t find on your computer, it will stop and produce an error:</p>
 <pre><code>Error: 'C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv' does not exist.</code></pre>
-<<<<<<< HEAD
 <p>This type of construction, in which every folder and sub-folder on the way to the destination is provided, is called an <strong>absolute</strong> file path. If any part of the address is incorrect, <code>R</code> won’t be able to find the file and the file won’t be read. So, what’s the alternative?</p>
 <p>Well, one solution is to use what are called <strong>relative</strong> file paths. A relative file path might look something like this:</p>
 <pre><code>read_csv("important_data.csv")</code></pre>
 <p>In this case, because we haven’t provided the full address, <code>R</code> fills in the rest by guessing and, naturally, it guesses that the missing part of the address is the working directory (i.e., <code>C:/Users/wcs26/Documents/Sciences Po/SPSSUR/</code>) - which is where it believes you are working from. If <code>R</code> guessed correctly and the file is located in your working directory, then this will work perfectly and the data will be read correctly. If the file isn’t located in the working directory, however, it will fail.</p>
 <p>The trouble is that sometimes you will start your <code>R</code> session in one place and then use files in another place. Since <code>R</code> can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and your relative file paths will also fail.</p>
-=======
-<p>This type of file path construction, in which every folder and sub-folder on the way to the destination is provided, is called an <strong>absolute</strong> file path. If any part of the address is incorrect, <code>R</code> won’t be able to find the file and the file won’t be read. You won’t be able to re-create all of my nice graphs and analysis as a result. So, what’s the alternative?</p>
-<p>Well, one solution is to use what are called <strong>relative</strong> file paths. A relative file path might look something like this:</p>
-<pre><code>read_csv("important_data.csv")</code></pre>
-<p>In this case, because we haven’t provided the full address, <code>R</code> fills in the rest by guessing and, naturally, it guesses that the missing part of the address is the working directory (i.e., <code>C:/Users/wcs26/Documents/Sciences Po/SPSSUR/</code>) - which is where it believes you are working from. If <code>R</code> guessed correctly and the file is located in your working directory, then this will work perfectly and the data will be read correctly. If the file isn’t located in the working directory, however, it will fail.</p>
-<p>The trouble is that sometimes you will start your <code>R</code> session in one place and then use files in another place. Since <code>R</code> can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and even your relative file paths will fail.</p>
->>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 </section>
-<section id="r-projects-and-here" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="r-projects-and-here"><span class="header-section-number">5.4</span> R Projects and <code>here</code></h2>
+<section id="r-projects-and-here" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="r-projects-and-here"><span class="header-section-number">5.5</span> R Projects and <code>here</code></h2>
 <p>Fortunately, there is a better way. To avoid these working directory problems and the borderline criminal act of hard-coding absolute file paths in scripts, we’re going to use two solutions that will help keep our working directory and file paths straight.</p>
-<section id="r-projects" class="level3" data-number="5.4.1">
-<h3 data-number="5.4.1" class="anchored" data-anchor-id="r-projects"><span class="header-section-number">5.4.1</span> R Projects</h3>
+<section id="r-projects" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="r-projects"><span class="header-section-number">5.5.1</span> R Projects</h3>
 <p>The first is R Projects, a tool to organize your files in R Studio. When you create an R Project file (<code>.Rproj</code>), R Studio creates a new folder on your computer which is made to store all of the associated files you may have for a project (e.g., your data, your code, and any outputs). Every time you open that R Project file, R Studio then opens a new working session with a working directory correctly set to the location of your project file. All of the files will be right where you need them.</p>
 <p>Let’s create one for today’s classwork. In R Studio, use the navigation bar at the top of your screen to go to File &gt; New Project &gt; New Directory &gt; New Project. Then, in the provided prompt, type in a project name that matches our course naming standards (e.g., “Stubenbord_Wesley_Session 5 Classwork”). Create this project as a sub-directory of your SPSSUR course folder (wherever this may be and whatever it may be called on your computer). Once this is done, this is where your projects files will live - a permanent home just for them. You can verify that the new project folder has been created by navigating to it in your computer’s file structure browser (e.g., Windows Explorer in Windows).</p>
 <p><img src="images/Creating-R-Project.PNG" class="img-fluid" width="409"></p>
-<<<<<<< HEAD
 <p>After you create a new project, you’ll find yourself in a clean R Studio session with only a console window open. The folder in your computer system will contain only the new <code>.Rproj</code> file and a sub-folder with some saved settings stored for your project. This <code>.Rproj</code> file is how you will access your project from now on. Instead of opening a .R script to access your code, you will always want to open your <code>.Rproj</code> file first and then the .R script. Don’t put anything in this new folder other than files directly associated with the project you are working on. In this case, that means this folder is only intended to store files associated with today’s classwork.</p>
-=======
-<p>After you create a new project, you’ll find yourself in a clean R Studio session with only a console window open. The folder in your computer system will contain only the new <code>.Rproj</code> file and a sub-folder with some saved settings stored for your project. This .Rproject file is how you will access your project from now on. Instead of opening a .R script to access your code, you will always want to open your .Rproject file and then the .R script. Don’t put anything in this new folder other than files directly associated with the project you are working on. In this case, that means this folder is only intended to store files associated with today’s classwork.</p>
->>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p><img src="images/R-Project-Folder.PNG" class="img-fluid" width="483"></p>
 <p>Back in R Studio, in the lower-right hand pane with the “Files” tab, you’ll see all of the files currently associated with the project. At the moment, there shouldn’t be anything apart from the <code>.Rproj</code> file itself).</p>
 <p>In this same “Files” tab, you can add a new R Script file to this project by clicking on the “New Blank File” button &gt; “R Script”. Go ahead and create one and then save it with an appropriate file name.</p>
@@ -361,8 +339,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Running <code>getwd()</code> from your new script file or directly in the console will show you that your working directory does indeed match your R Project location. Huzzah.</p>
 <p><img src="images/R-project-getwd.PNG" class="img-fluid"></p>
 </section>
-<section id="here" class="level3" data-number="5.4.2">
-<h3 data-number="5.4.2" class="anchored" data-anchor-id="here"><span class="header-section-number">5.4.2</span> <code>here</code></h3>
+<section id="here" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="here"><span class="header-section-number">5.5.2</span> <code>here</code></h3>
 <p>The second tool is a package called <code>here</code>. <code>here</code> contains a useful function, called <code>here()</code>, which will help ensure that your code is always oriented to the correct working directory: the location of the associated R Project file. There are some occasions where, despite our best efforts, R Projects won’t save us from erroneous working directories. <code>here</code> helps cover those cases.</p>
 <p>We’ll come back to the application of this function in a moment, but for now, install <code>here</code>, load it, and test the <code>here()</code> function.</p>
 <div class="cell">
@@ -378,34 +356,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>You should see, again, the correct working directory for your R Project.</p>
 </section>
-<section id="organizing-your-project" class="level3" data-number="5.4.3">
-<h3 data-number="5.4.3" class="anchored" data-anchor-id="organizing-your-project"><span class="header-section-number">5.4.3</span> Organizing Your Project</h3>
+<section id="organizing-your-project" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="organizing-your-project"><span class="header-section-number">5.5.3</span> Organizing Your Project</h3>
 <p>RProjects and <code>here</code>, while both extremely useful, also won’t spare you entirely from the task of organizing your project files. A clean and organized work space will make your life significantly easier in the long-run. To facilitate this, I always recommend creating a sub-folder within your project directory to store data sets (called <code>data</code> for example), an additional sub-folder to store figure or graphs (called <code>figures</code>, for example), and another to store documentation (called <code>docs</code> for example). These sub-folder names are commonly used among programmers and also help to ensure consistency across projects with many collaborators. You can create these folders directly in R Studio using the “New Folder” button near the top of the ‘Files’ tab in the lower-right hand pane.</p>
 <p><img src="images/R-Project-sub-folders.PNG" class="img-fluid"></p>
 <p>When finished, you will have your code in the main project folder along with the <code>.RProj</code> file and several affiliated sub-folders for storing things later.</p>
 </section>
 </section>
-<section id="getting-data-into-r" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="getting-data-into-r"><span class="header-section-number">5.5</span> Getting Data into <code>R</code></h2>
+<section id="getting-data-into-r" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="getting-data-into-r"><span class="header-section-number">5.6</span> Getting Data into <code>R</code></h2>
 <p>Let us get back to the primordial problem now, which is getting data into <code>R</code>. In the social sciences, the data we use can come from a variety of different sources: we might take our data from long-running surveys, for instance, such as the <a href="https://gss.norc.org/">General Social Survey</a>, the <a href="https://www.europeansocialsurvey.org/">European Social Survey</a>, or the <a href="https://www.worldvaluessurvey.org/">World Values Survey</a>. We can also use administrative data produced by government agencies, like the Federal Bureau of Investigation’s <a href="https://www.fbi.gov/how-we-can-help-you/more-fbi-services-and-information/ucr">Uniform Crime Reports</a> or data from New York City’s <a href="https://opendata.cityofnewyork.us/">Open Data</a> initiative.</p>
 <p>Alternatively, we can use data from other sources, which may not have been produced with research or administrative purposes in mind. For example, we can scrape data from social media to see how political sentiment changes in times of crises or we can use data from online dating apps to see how social norms around courtship have changed.</p>
-<<<<<<< HEAD
 <p>In any case, the most common format you are likely to find data stored in is a CSV file, which stands for comma separated values. CSVs are particularly appealing for data storage because they are lightweight and they simple. They don’t contain any extra formatting - all they consist of is plain-text data in rows (separated by new lines) and columns (separated by commas). A CSV file could consist of the following, for example:</p>
 <pre><code>"id","name","age","country"
 1011232,"Bill Gates",75,"United States"
 1022234,"Warren Buffet",82,"United States"</code></pre>
 <p>When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and into different rows, based on the line breaks.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Excel will automatically recognize, for example, that name is a column containing two values, “Bill Gates” in one row and “Warren Buffett” in another. CSVs don’t always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., <code>,</code> or <code>;</code>) that separates values in a data file is called a <strong>delimiter</strong>.</p>
-=======
-<p>In any case, the most common format you are likely to find data stored in is a CSV file, which stands for comma separated values. CSVs are particularly appealing for data storage because they are lightweight and they simple. They don’t contain any extra formatting - all they consist of is plain-text data in rows (separated by new lines) and columns (separated by commas). A CSV file could look as simple as this, for example:</p>
-<pre><code>"id","name","age","country"
-1011232,"Bill Gates",75,"United States"
-1022234,"Warren Buffet",82,"United States"</code></pre>
-<p>When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and different rows, based on the line breaks.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Excel will automatically recognize, for example, that name is a column containing two values, “Bill Gates” in one row and “Warren Buffett” in another. CSVs don’t always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., <code>,</code> or <code>;</code>) that separates values in a data file is called a <strong>delimiter</strong>.</p>
->>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p><img src="images/excel-parsing.PNG" class="img-fluid" width="607"></p>
 </section>
-<section id="loading-files-from-csvs" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="loading-files-from-csvs"><span class="header-section-number">5.6</span> Loading files from CSVs</h2>
+<section id="loading-files-from-csvs" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="loading-files-from-csvs"><span class="header-section-number">5.7</span> Loading files from CSVs</h2>
 <p>Thankfully, loading CSV files is not very difficult in <code>R</code>. <code>R</code> has a base function for loading CSVs, <code>read.csv()</code>, but there is a better version called <code>read_csv()</code> which comes from the <code>readr</code> package. <code>readr</code> is also located in the <code>tidyverse</code>, but must also be loaded separately, just like the <code>scales</code> package in the previous chapter.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <p>On the course Moodle site, you’ll find a CSV titled <code>billionaires_2020-2023.csv</code>, which contains some limited data on the world’s billionaires from my own research. Go ahead and download this file and then save it in the <code>data</code> sub-folder you created in your <code>Session 5 Classwork</code> project folder. Open the <code>Session 5 Classwork</code> project and a script file inside of it, if you haven’t already. We’ll load a few libraries first and then the data set.</p>
 <div class="cell">
@@ -510,19 +480,11 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 <pre><code># A tibble: 5 × 13
      id name         gender country countrycode region marital residence_country
   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
-<<<<<<< HEAD
-1  1299 Fumio Kaneko &lt;NA&gt;   Japan   JPN         East … &lt;NA&gt;    &lt;NA&gt;             
-2    92 Alejandro B… male   Argent… ARG         Latin… Married Uruguay          
-3  3919 Simon Nixon  male   United… GBR         Europ… Single  United Kingdom   
-4  4373 Walther Mor… male   Brazil  BRA         Latin… Married Brazil           
-5  4310 Vikram Lal   male   India   IND         South… Married India            
-=======
-1  4801 Zhang Yong   male   Singap… SGP         East … Married Singapore        
-2  3497 Regine Leib… female Germany DEU         Europ… Married Germany          
-3  3321 Peter Hargr… male   United… GBR         Europ… Married United Kingdom   
-4  4642 Yan Zhi      male   China   CHN         East … Married China            
-5  2044 John Hancock male   Austra… AUS         East … Married Canada           
->>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
+1  2157 Juan Abello  male   Spain   ESP         Europ… Married Spain            
+2  1347 Genhuo Shao  male   China   CHN         East … Married China            
+3  4628 Xuansong Zh… male   China   CHN         East … &lt;NA&gt;    China            
+4  2889 Masaru Wasa… male   Japan   JPN         East … &lt;NA&gt;    Japan            
+5  3275 Paul Lee     &lt;NA&gt;   United… USA         North… &lt;NA&gt;    &lt;NA&gt;             
 # ℹ 5 more variables: selfmade &lt;chr&gt;, `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
 #   `2023` &lt;dbl&gt;</code></pre>
 </div>
@@ -573,8 +535,8 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 </div>
 <p>That got us the total net worth of French billionaires in 2023, at least, but it didn’t calculate a result for the other years. The reason why we’re having a hard time here is that our data is not in the right format for <code>tidyverse</code> functions.</p>
 </section>
-<section id="tidy-data" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">5.7</span> Tidy Data</h2>
+<section id="tidy-data" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">5.8</span> Tidy Data</h2>
 <p>In the previous chapter, we learned that the <code>gapminder</code> data was in just the right format for <code>ggplot</code>. We called this <strong>long</strong> format data, which is usally how we describe this format in the social sciences. In a long format, rows are repeated observations for some unit of analysis (like a country) across some dimension (like time). In the case of the <code>gapminder</code> data, each of these observations (country-years) had a value for a set of variables of interest (e.g., life expectancy and GDP per capita) as shown below.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -668,8 +630,8 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 <p>The column titles (e.g., 2020, 2021), to be clear, are not actually different variables, they are simply values of a single variable (e.g., year). When data is split in this way, we say it is in a <strong>wide</strong> format. Wide data does have it’s uses. It is very convenient, for instance, for storing a large amount of data in a small amount of space - a particular concern when you are printing data sets. Long data, on the other hand, is much better for data analysis.</p>
 <p>The <code>tidyverse</code> functions require data to be in what Hadley Wickham and collaborators call a <strong>tidy</strong> format. In tidy data, each variable is in a column, each observation is in a row, and each cell contains a single value (Wickham et al.&nbsp;2019). It is, in other words, in a consistent <em>long</em>-format. If we want to be able to use all of the great features of <code>dplyr</code> and <code>ggplot</code>, we need to transform our data into a tidy format.</p>
 </section>
-<section id="pivoting-from-wide-to-long" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="pivoting-from-wide-to-long"><span class="header-section-number">5.8</span> Pivoting from Wide to Long</h2>
+<section id="pivoting-from-wide-to-long" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="pivoting-from-wide-to-long"><span class="header-section-number">5.9</span> Pivoting from Wide to Long</h2>
 <p>Fortunately, <code>dplyr</code> has some handy functions for this. Since we have data in a wide format and wish to change it to a long format, we’ll need to use a function called <code>pivot_longer()</code>. There are three arguments we need to provide to <code>pivot_longer()</code>.</p>
 <p>First, in the <code>cols =</code> argument, we need to provide the columns we are trying to combine into a single variable. In our case, our net worth values are distributed across the <code>`2020`</code>, <code>`2021`</code>, <code>`2022`</code>, and <code>`2023`</code> columns, so we’ll put those in a vector and use them for this argument. Next, in the <code>names_to =</code> argument, we need to identify where we want to put the names for each of those values (in other words, the titles for each of our former columns). Since each of those column names corresponds to a year, we’ll tell it to put them in a <code>"year"</code> column. Last, we need to specify a name for the variable holding all of the values that were stored across those columns. Since the values were net worth, we’ll call this new variable <code>net_worth</code>. We might also want to drop the rows which contain NA values for net worth and so we’ll add an optional fourth argument, <code>values_drop_na =</code>.</p>
 <div class="cell">
@@ -728,8 +690,8 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 </div>
 </div>
 </section>
-<section id="merging-data" class="level2" data-number="5.9">
-<h2 data-number="5.9" class="anchored" data-anchor-id="merging-data"><span class="header-section-number">5.9</span> Merging Data</h2>
+<section id="merging-data" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="merging-data"><span class="header-section-number">5.10</span> Merging Data</h2>
 <p>Let’s say that we want to do some further analysis involving additional data not contained in the data set we are currently using. Can we add it to our existing data set? The answer is yes.</p>
 <p>On the course Moodle site, you’ll find another data set called <code>age.xlsx</code>. This is an Excel file. Fortunately, the <code>readxl</code> package (also contained in the <code>tidverse</code> and requiring separate loading) has just the function. Download the file from the Moodle page, add it to your project’s data folder, and then use the command below:</p>
 <div class="cell">
@@ -845,8 +807,8 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <p>A more general understanding to take away here, however, is the fact that since we aren’t using a piped function, we do need to specify a <code>data =</code> argument in the <code>ggplot()</code> function. The use of the pipe operator ordinarily absolves us of having to specify a data argument in all <code>dplyr</code> functions, because the pipe operator does it for us (i.e., “take this <em>AND THEN.</em>..”).</p>
 <p>For example, to use a filter on a tibble you could simply enter <code>filter(data = tidy_bil, year == 2020)</code> as a stand-alone function and it would give you the same answer as <code>tidy_bil %&gt;% filter(year == 2020)</code>. The pipe operator, however, allows us to string together multiple of these such functions, which makes it efficient for complex data analysis.</p>
 </section>
-<section id="pivoting-from-long-to-wide" class="level2" data-number="5.10">
-<h2 data-number="5.10" class="anchored" data-anchor-id="pivoting-from-long-to-wide"><span class="header-section-number">5.10</span> Pivoting from Long to Wide</h2>
+<section id="pivoting-from-long-to-wide" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="pivoting-from-long-to-wide"><span class="header-section-number">5.11</span> Pivoting from Long to Wide</h2>
 <p>There is one more thing we should learn here: recoding. Recoding is useful when the categories within a data set aren’t quite appropriate for how we want to analyze them.</p>
 <p>Let’s say we want to compare the net worth of billionaires in our data set by marital status, for example. For this, we could use the wide data. Let’s imagine that we don’t have our wide data in the first place though. Could we get our long data into a wide format? Yes, using <code>pivot_wider()</code>:</p>
 <div class="cell">
@@ -895,8 +857,8 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 </div>
 <p>There are 9 distinct categories. Nine is perhaps too many. What if we decide we want to use just three categories: “Married/Widowed”, “Single”, and “Other” instead?</p>
 </section>
-<section id="case_match-for-recoding" class="level2" data-number="5.11">
-<h2 data-number="5.11" class="anchored" data-anchor-id="case_match-for-recoding"><span class="header-section-number">5.11</span> <code>case_match()</code> for Recoding</h2>
+<section id="case_match-for-recoding" class="level2" data-number="5.12">
+<h2 data-number="5.12" class="anchored" data-anchor-id="case_match-for-recoding"><span class="header-section-number">5.12</span> <code>case_match()</code> for Recoding</h2>
 <p>To recode our data according to the new groupings, we can use the <code>case_match()</code> function inside of a <code>dplyr</code> <code>mutate()</code> function. Essentially, we are modifying a column so that the values of the new column take on the recoded values of the old column. We could mutate the original variable directly (in this case, <code>marital</code>), but it’s generally best practice to put our recoded values inside of their own, new column to make sure we don’t make an error. Otherwise, we’d have to reload our data and we’d need to re-run all of the other code in our analysis. We’ll call this recoded variable <code>marital_rc</code>.</p>
 <p>The first argument in <code>case_match()</code> is the column that needs to be recoded. The following arguments, which contain the recoding scheme, follow the format <code>old_values ~ new_values</code>. The original values go on the left-hand side and the values to be recoded go on the right. To separate the left and right-hand sides, we use a <code>~</code> character and then a comma to separate each set of old and new values. Since we are re-coding multiple old values at a time, we’ll put those sets of old values inside of vectors. Remember, test this without re-assigning the result to your original object to make sure that you’ve done it correctly and then re-assign it once you are confident you’ve done it right.</p>
 <div class="cell">
@@ -937,8 +899,8 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <p>Note, of course, that we can’t make any claims about associations here. There are a lot of missing values (<code>NA</code>) and we don’t know whether they would be biased towards a particular category. Our <code>Other</code> category is also quite expansive and maybe not analytically appropriate.</p>
 <p>Last, but not least, we don’t know whether any of the visual differences we are seeing in median net worth across category are due to random chance or due to some relationship between the variables. We’ll return to this latter point in the next chapter when we begin talking about inferential methods.</p>
 </section>
-<section id="exercises" class="level2" data-number="5.12">
-<h2 data-number="5.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.12</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="5.13">
+<h2 data-number="5.13" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.13</span> Exercises</h2>
 <p>For the remainder of class or for homework, keep playing around with this data set to practice the new functions you’ve learned and the <code>dplyr</code> functions you’ve learned in previous chapters.</p>
 
 
