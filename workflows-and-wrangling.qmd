@@ -1,25 +1,28 @@
 # Workflows and Wrangling
 
-
-At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we might want to use for a particular project often isn't contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.
+At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from the library, and then we access the data and begin summarizing it. The bad news is that the data we might want to use for a particular project oftentimes isn't contained in a package. The even worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.
 
 This chapter covers some of the processes and functions in `R` made for dealing with these unfortunate eventualities. We'll start with the general problem of working with files in `R`, then learn how to get data in, and then we'll learn more about how to make data analyzable.
 
-This chapter will not, of course, provide you with the all of the answers to the data wrangling problems you will eventually encounter. It will barely scratch the surface. But, once you manage to get data in, data wrangling becomes a matter of learning new functions and practicing the tidy data skills you've already started to learn.
+This chapter will not, of course, provide you with the answers to all of the data wrangling problems you will eventually encounter. It will barely scratch the surface. But, once you manage to get data in, data wrangling becomes a matter of learning new functions and practicing the tidy data skills you've already started to learn.
 
 ## What's Happening Under the Hood?
 
-Up until now, we've been writing our code in plain-text files saved with a `.R` file extension (or what we have been calling R Script files) and we haven't needed to load data from other files or to save anything.
+Up until now, we've been writing our code in plain-text files saved with a `.R` file extension (or what we've been calling R script files) and haven't needed to load data from other files or to save anything.
 
-But, this isn't entirely true. We have actually been loading data from files saved on our computers, it just happens to be case that our use of packages and the `library()` function have concealed and greatly simplified the back-end interactions leading to data showing up in our RStudio environments. This is why, if you were to disable the Wi-Fi on your computer, you would still be able to access the `gss_sm` data from the `socviz` package.
+This isn't entirely true though. We have actually been loading data from files saved on our computers. It just so happens that the packages we installed earlier and the `library()` function have gone to great lengths to simplify and conceal the back-end interactions that led to data showing up in our RStudio environment. All of this data is saved somewhere on our computers, we just might not know where it is.
 
-As with any type of computer program, `R` operates within the file structure of your computer. It uses data, functions, and other compiled code which has been saved across a number of files (and file types) in different locations to run the program and to enable you to interact with the program. This is the case for everything from the apps on your smartphone to the operating system on your laptop. The reason we usually don't see the underlying files or code is because software developers realize that most people would rather not be bothered by these sorts of technical details, or worse, they might mess something up. We don't need to know how an engine works to drive a car, after all, and if we were to start tinkering around inside the engine bay we might break things.
+As with any type of computer program, `R` itself operates from somewhere on your hard drive. It uses data, functions, and other compiled code which have been saved across a number of files (and file types) in different locations to run the program and allow us to interact with it. This is the case for everything software-related from the apps on your smartphone to the operating system on your laptop. It's all running from code saved somewhere in the device's memory.
 
-For this chapter, we don't need to go deep into the code of `R` or `RStudio`. If you find yourself especially interested in how software works, you might be interested in taking a computer science course. All we need to know, instead, is how to get `R` to interact with files saved in different locations on our computers and how to organize them in a way that makes them easy to access.
+For this chapter, we don't have to go deep into the code that composes `R` or `RStudio`. All we need to know, instead, is how to get `R` to interact with files saved in different locations on our computer as well as how to organize them in a way that makes them easy to access.
 
 ## File Structures, File Paths, and the Working Directory
 
-Your computer's operating system (Windows, MacOS, or Linux) organizes the files on your computer into folders. You might have created some folders on your own, renamed some, or stored files like photos, documents, and other items across them. There are usually default folders for files of a particular type. Pictures might go in a "Pictures" folder, for example, and documents in a "Documents" folder. Within a "Documents" folder, you might then have a folder for "Sciences Po" and another sub-folder for "SPSSUR." The way files are organized across folders and sub-folders on a computer's hard drive is usually referred to as your computer's **file structure**. Within a file structure, each file has what is called a **file path**, an address which tells you where the file is located. In Windows, they usually look something like this:
+Your computer's operating system (Windows, MacOS, or Linux) organizes the files on your computer into folders. You might have created some of them on your own, renamed them, or stored files like photos, documents, and other items across them. Pictures might go in a "Pictures" folder, for example, and documents in a "Documents" folder. You might have a "Sciences Po" folder, for example, and then a sub-folder for "SPSSUR."[^workflows-and-wrangling-1]
+
+[^workflows-and-wrangling-1]: You may also have all of your files saved on your "Desktop" folder, in which case, you should consider applying the Marie Kondo principles of tidying up to your digital spaces. A minor caveat, though, which is that "bringing joy" may not be a good criteria for computer system files.
+
+The way files are organized across folders and sub-folders on a computer's hard drive is usually referred to as your computer's **file structure**. Within a file structure, each file has a **file path**, which is an address that defines where the file is located. In Windows, they usually look something like this:
 
 ```         
 "C:\Users\wcs26\Documents\Sciences Po\SPSSUR\my_file.R"
@@ -31,49 +34,43 @@ In MacOS, they might look more like this:
 "/Users/wcs26/Documents/Sciences Po/SPSSUR/my_file.R"
 ```
 
-As an important aside, when you write file paths inside of `R`, you will generally want to write them in the MacOS format you see above (i.e., using forwards slashes, `/`) even if you are using a PC. This is because the backwards slash, `\`, is a special character in `R`.
+As an important aside, when you write file paths in `R`, you will generally want to write them in the MacOS format you see above (i.e., using forwards slashes, `/`) even if you are using a PC. This is because the backwards slash, `\`, is a special character in `R` and the forward slash works just as well here.
 
-Within the operating systems themselves, file paths are slightly easier to find in Windows than in MacOS, since you can get most of the way there by clicking in the address bar at the top of a Windows Explorer window (see below for an example).[^workflows-and-wrangling-1] This gives the folder path, which when followed by another slash, the file name, and the file extension, gives the file path. In MacOS, finding a file path requires a little more work (see [here](https://support.apple.com/en-mt/guide/mac-help/mchlp1774/mac#:~:text=On%20your%20Mac%2C%20click%20the,bottom%20of%20the%20Finder%20window.) for some guidance).[^workflows-and-wrangling-2]
+Within the operating systems themselves, file paths are slightly easier to find in Windows than in MacOS since you can get most of the way there by clicking in the address bar at the top of a Windows Explorer window (see below for an example).[^workflows-and-wrangling-2] This gives the folder path, which when followed by another slash, the file name, and the file extension, gives the file path. In MacOS, finding a file path requires a little more work (see [here](https://support.apple.com/en-mt/guide/mac-help/mchlp1774/mac#:~:text=On%20your%20Mac%2C%20click%20the,bottom%20of%20the%20Finder%20window.) for some guidance).[^workflows-and-wrangling-3]
 
-[^workflows-and-wrangling-1]: Note that if you copy and paste a path from a Windows Explorer into `R`, you'll have to change the direction of the `\` to `/` or deal with the `\` issue in a different way (there are other ways, but hopefully you won't need to copy and paste paths anyways).
+[^workflows-and-wrangling-2]: Note that if you copy and paste a path from a Windows Explorer into `R`, you'll have to change the direction of the `\` to `/` or deal with the `\` issue in a different way (there are other ways, but hopefully you won't need to copy and paste paths anyways).
 
-[^workflows-and-wrangling-2]: If you are using a Linux-based OS, you probably won't need an explanation of file structures and file paths, given the greater transparency of file paths and structures you regularly encounter.
+[^workflows-and-wrangling-3]: If you are using a Linux-based OS, you probably won't need an explanation of file structures and file paths, given the greater transparency of file paths and structures you regularly encounter.
 
 ![](images/Windows-file-path.PNG){width="598"}
 
-When working with multiple files in `R`, as you will in more involved analysis projects, you will have to pay some attention to the file structure and file paths. When you load data from a file, for instance, `R` will need to know exactly where the file is located. If you are saving a graph, on the other hand, `R` will need to know where you want to save it.
+When working with multiple files in `R`, as you will in more involved analysis projects, you will need to pay some attention to the file structure and file paths. When you load data from a file, for instance, `R` will have to know exactly where the file is located. If you are saving a graph, similarly, `R` will want to know where you want to save it.
 
-`R` makes an educated guess as to where in the file structure you are working (or will be working) based on how you open `R`. This is called the **working directory** and you can identify where `R` has located it using the command below:
+`R` makes an educated guess as to where in the file structure you are working (or will be working) based on how you open your `R` session. This is called the **working directory** and you can identify where `R` has identified it using the command below:
 
 ```{r, eval = FALSE}
 getwd()
 ```
 
-Sometimes the working directory doesn't quite match where you think you are working from and you may need to change it manually. We will try to avoid this, but if you need to, you can manually set the working directory using `setwd()`.
+Sometimes the working directory doesn't quite match where you think you may be working from and you might need to change it manually. We will endeavour to avoid this when we can, but if you must, you can manually set the working directory using `setwd()`.
 
 ## The Problem with File Paths
 
-As mentioned, you will generally have to provide a file path for any function that loads data into `R`. The problem with file structures and file paths, however, is that everyone is different. So, if we have a file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?
+As mentioned, functions that load data generally require you to provide a file path that leads to the data. The problem with file structures and file paths, however, is that everyone's is different. So, if we have a file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?
 
-Sometimes the working directory doesn't quite match where you think you are working from and you may sometimes need to change it manually. We will try to avoid this, but if you need to, you can manually set the working directory using `setwd()`.
-
-## The Problem with File Paths
-
-As mentioned, you will generally have to provide a file path for any function that loads data into `R`. The problem with file structures and file paths, however, is that everyone is different. So, if we have file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?
-
-To make this more concrete, let's say that I send you some code in an R Script along with a data file called `important_data.csv`. In the code which generates all sorts of nice figures and analysis using this data, I have a line that looks like this:
+To make this more concrete, let's say that I send you an R Script along with a data file called `important_data.csv` so that you can replicate some nice figures and analysis I did. In that R Script, I have a line that looks like this:
 
 ```         
 read_csv("C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv")
 ```
 
-This command tries to read in a data file, `important_data.csv`, located within `C:/`, the `Users` folder, the `wcs26` folder, and so on and so forth. Your code will attempt to read the file located at the end of this path, but as soon as it hits a folder it can't find on your computer, it will stop and produce an error:
+This command tries to read in a data file, `important_data.csv`, located within `C:/`, the `Users/` folder, the `wcs26/` folder, and so on and so forth. As soon as you run it, `R` will attempt to read the file located at the end of this path. As soon as it hits a folder it can't find on your computer, however, it will stop and produce an error that looks something like this:
 
 ```         
 Error: 'C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv' does not exist.
 ```
 
-This type of construction, in which every folder and sub-folder on the way to the destination is provided, is called an **absolute** file path. If any part of the address is incorrect, `R` won't be able to find the file and the file won't be read. So, what's the alternative?
+This type of file path construction, in which every folder and sub-folder on the way to the destination is provided, is called an **absolute** file path. If any part of the address is incorrect, `R` won't be able to find the file and the file won't be read. So, what's the alternative?
 
 Well, one solution is to use what are called **relative** file paths. A relative file path might look something like this:
 
@@ -82,7 +79,6 @@ read_csv("important_data.csv")
 ```
 
 In this case, because we haven't provided the full address, `R` fills in the rest by guessing and, naturally, it guesses that the missing part of the address is the working directory (i.e., `C:/Users/wcs26/Documents/Sciences Po/SPSSUR/`) - which is where it believes you are working from. If `R` guessed correctly and the file is located in your working directory, then this will work perfectly and the data will be read correctly. If the file isn't located in the working directory, however, it will fail.
-
 
 The trouble is that sometimes you will start your `R` session in one place and then use files in another place. Since `R` can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and your relative file paths will also fail.
 
@@ -149,17 +145,17 @@ In any case, the most common format you are likely to find data stored in is a C
 1022234,"Warren Buffet",82,"United States"
 ```
 
-When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and into different rows, based on the line breaks.[^workflows-and-wrangling-3] Excel will automatically recognize, for example, that name is a column containing two values, "Bill Gates" in one row and "Warren Buffett" in another. CSVs don't always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., `,` or `;`) that separates values in a data file is called a **delimiter**.
+When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and into different rows, based on the line breaks.[^workflows-and-wrangling-4] Excel will automatically recognize, for example, that name is a column containing two values, "Bill Gates" in one row and "Warren Buffett" in another. CSVs don't always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., `,` or `;`) that separates values in a data file is called a **delimiter**.
 
-[^workflows-and-wrangling-3]: **Parsing** refers to how software reads the values.
+[^workflows-and-wrangling-4]: **Parsing** refers to how software reads the values.
 
 ![](images/excel-parsing.PNG){width="607"}
 
 ## Loading files from CSVs
 
-Thankfully, loading CSV files is not very difficult in `R`. `R` has a base function for loading CSVs, `read.csv()`, but there is a better version called `read_csv()` which comes from the `readr` package. `readr` is also located in the `tidyverse`, but must also be loaded separately, just like the `scales` package in the previous chapter.[^workflows-and-wrangling-4]
+Thankfully, loading CSV files is not very difficult in `R`. `R` has a base function for loading CSVs, `read.csv()`, but there is a better version called `read_csv()` which comes from the `readr` package. `readr` is also located in the `tidyverse`, but must also be loaded separately, just like the `scales` package in the previous chapter.[^workflows-and-wrangling-5]
 
-[^workflows-and-wrangling-4]: As before, rather than load the entire `readr` package via `library()`, you can also use the `::` syntax, as in `readr::read_csv()`.
+[^workflows-and-wrangling-5]: As before, rather than load the entire `readr` package via `library()`, you can also use the `::` syntax, as in `readr::read_csv()`.
 
 On the course Moodle site, you'll find a CSV titled `billionaires_2020-2023.csv`, which contains some limited data on the world's billionaires from my own research. Go ahead and download this file and then save it in the `data` sub-folder you created in your `Session 5 Classwork` project folder. Open the `Session 5 Classwork` project and a script file inside of it, if you haven't already. We'll load a few libraries first and then the data set.
 
@@ -208,9 +204,9 @@ billionaires %>%
 
 No matter how we choose to do it, though, our purpose at this point of reading data in should always be to get a sense for any potential issues lurking beneath the surface of our data file.
 
-You may have noticed from `glimpse` that there is something a little bit weird about this data. Four columns at the end have numbers as titles. What are these columns? Since this data doesn't come from a package and there's no documentation, I will tell you: they're the estimated net worth of each of the listed individuals in billions of 2023-inflation adjusted dollars for each of the named years (i.e., 2020, 2021, 2022, 2023). The values are in billions of US dollars.[^workflows-and-wrangling-5]
+You may have noticed from `glimpse` that there is something a little bit weird about this data. Four columns at the end have numbers as titles. What are these columns? Since this data doesn't come from a package and there's no documentation, I will tell you: they're the estimated net worth of each of the listed individuals in billions of 2023-inflation adjusted dollars for each of the named years (i.e., 2020, 2021, 2022, 2023). The values are in billions of US dollars.[^workflows-and-wrangling-6]
 
-[^workflows-and-wrangling-5]: The net worth estimates here are derived from the Forbes' annual *World's Billionaires* list and inflation-adjusted using an implict GDP price deflator from the U.S. Federal Reserve.
+[^workflows-and-wrangling-6]: The net worth estimates here are derived from the Forbes' annual *World's Billionaires* list and inflation-adjusted using an implict GDP price deflator from the U.S. Federal Reserve.
 
 Now that we know what the data is, we can start to make sense of it. We can use `slice_max()` , for instance, to see who was the richest person in 2023. In this case, note that when we reference a variable which begins with a number, we have to use the `` ` `` character to enclose the variable name. This is because `R` does not allow object names to start with a number.
 
