@@ -278,7 +278,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<<<<<<< HEAD
 <p>At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we might want to use for a particular project often isn’t contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.</p>
+=======
+<p>At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we want to use for a particular project oftentimes isn’t contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.</p>
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p>This chapter covers some of the processes and functions in <code>R</code> made for dealing with these unfortunate eventualities. We’ll start with the general problem of working with files in <code>R</code>, then learn how to get data in, and then we’ll learn more about how to make data analyzable.</p>
 <p>This chapter will not, of course, provide you with the all of the answers to the data wrangling problems you will eventually encounter. It will barely scratch the surface. But, once you manage to get data in, data wrangling becomes a matter of learning new functions and practicing the tidy data skills you’ve already started to learn.</p>
 <section id="whats-happening-under-the-hood" class="level2" data-number="5.1">
@@ -298,6 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Within the operating systems themselves, file paths are slightly easier to find in Windows than in MacOS, since you can get most of the way there by clicking in the address bar at the top of a Windows Explorer window (see below for an example).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This gives the folder path, which when followed by another slash, the file name, and the file extension, gives the file path. In MacOS, finding a file path requires a little more work (see <a href="https://support.apple.com/en-mt/guide/mac-help/mchlp1774/mac#:~:text=On%20your%20Mac%2C%20click%20the,bottom%20of%20the%20Finder%20window.">here</a> for some guidance).<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p><img src="images/Windows-file-path.PNG" class="img-fluid" width="598"></p>
 <p>When working with multiple files in <code>R</code>, as you will in more involved analysis projects, you will have to pay some attention to the file structure and file paths. When you load data from a file, for instance, <code>R</code> will need to know exactly where the file is located. If you are saving a graph, on the other hand, <code>R</code> will need to know where you want to save it.</p>
+<<<<<<< HEAD
 <p><code>R</code> makes an educated guess as to where in the file structure you are working (or will be working) based on how you open <code>R</code>. This is called the <strong>working directory</strong> and you can identify where <code>R</code> has located it using the command below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -307,15 +312,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-problem-with-file-paths" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="the-problem-with-file-paths"><span class="header-section-number">5.3</span> The Problem with File Paths</h2>
 <p>As mentioned, you will generally have to provide a file path for any function that loads data into <code>R</code>. The problem with file structures and file paths, however, is that everyone is different. So, if we have a file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?</p>
+=======
+<p><code>R</code> makes an educated guess as to where in the file structure you are working (or will be working) based on how you open <code>R</code>. This is called the <strong>working directory</strong> and you can identify where <code>R</code> has located using the command below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sometimes the working directory doesn’t quite match where you think you are working from and you may sometimes need to change it manually. We will try to avoid this, but if you need to, you can manually set the working directory using <code>setwd()</code>.</p>
+</section>
+<section id="the-problem-with-file-paths" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="the-problem-with-file-paths"><span class="header-section-number">5.3</span> The Problem with File Paths</h2>
+<p>As mentioned, you will generally have to provide a file path for any function that loads data into <code>R</code>. The problem with file structures and file paths, however, is that everyone is different. So, if we have file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?</p>
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p>To make this more concrete, let’s say that I send you some code in an R Script along with a data file called <code>important_data.csv</code>. In the code which generates all sorts of nice figures and analysis using this data, I have a line that looks like this:</p>
 <pre><code>read_csv("C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv")</code></pre>
 <p>This command tries to read in a data file, <code>important_data.csv</code>, located within <code>C:/</code>, the <code>Users</code> folder, the <code>wcs26</code> folder, and so on and so forth. Your code will attempt to read the file located at the end of this path, but as soon as it hits a folder it can’t find on your computer, it will stop and produce an error:</p>
 <pre><code>Error: 'C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv' does not exist.</code></pre>
+<<<<<<< HEAD
 <p>This type of construction, in which every folder and sub-folder on the way to the destination is provided, is called an <strong>absolute</strong> file path. If any part of the address is incorrect, <code>R</code> won’t be able to find the file and the file won’t be read. So, what’s the alternative?</p>
 <p>Well, one solution is to use what are called <strong>relative</strong> file paths. A relative file path might look something like this:</p>
 <pre><code>read_csv("important_data.csv")</code></pre>
 <p>In this case, because we haven’t provided the full address, <code>R</code> fills in the rest by guessing and, naturally, it guesses that the missing part of the address is the working directory (i.e., <code>C:/Users/wcs26/Documents/Sciences Po/SPSSUR/</code>) - which is where it believes you are working from. If <code>R</code> guessed correctly and the file is located in your working directory, then this will work perfectly and the data will be read correctly. If the file isn’t located in the working directory, however, it will fail.</p>
 <p>The trouble is that sometimes you will start your <code>R</code> session in one place and then use files in another place. Since <code>R</code> can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and your relative file paths will also fail.</p>
+=======
+<p>This type of file path construction, in which every folder and sub-folder on the way to the destination is provided, is called an <strong>absolute</strong> file path. If any part of the address is incorrect, <code>R</code> won’t be able to find the file and the file won’t be read. You won’t be able to re-create all of my nice graphs and analysis as a result. So, what’s the alternative?</p>
+<p>Well, one solution is to use what are called <strong>relative</strong> file paths. A relative file path might look something like this:</p>
+<pre><code>read_csv("important_data.csv")</code></pre>
+<p>In this case, because we haven’t provided the full address, <code>R</code> fills in the rest by guessing and, naturally, it guesses that the missing part of the address is the working directory (i.e., <code>C:/Users/wcs26/Documents/Sciences Po/SPSSUR/</code>) - which is where it believes you are working from. If <code>R</code> guessed correctly and the file is located in your working directory, then this will work perfectly and the data will be read correctly. If the file isn’t located in the working directory, however, it will fail.</p>
+<p>The trouble is that sometimes you will start your <code>R</code> session in one place and then use files in another place. Since <code>R</code> can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and even your relative file paths will fail.</p>
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 </section>
 <section id="r-projects-and-here" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="r-projects-and-here"><span class="header-section-number">5.4</span> R Projects and <code>here</code></h2>
@@ -325,7 +349,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The first is R Projects, a tool to organize your files in R Studio. When you create an R Project file (<code>.Rproj</code>), R Studio creates a new folder on your computer which is made to store all of the associated files you may have for a project (e.g., your data, your code, and any outputs). Every time you open that R Project file, R Studio then opens a new working session with a working directory correctly set to the location of your project file. All of the files will be right where you need them.</p>
 <p>Let’s create one for today’s classwork. In R Studio, use the navigation bar at the top of your screen to go to File &gt; New Project &gt; New Directory &gt; New Project. Then, in the provided prompt, type in a project name that matches our course naming standards (e.g., “Stubenbord_Wesley_Session 5 Classwork”). Create this project as a sub-directory of your SPSSUR course folder (wherever this may be and whatever it may be called on your computer). Once this is done, this is where your projects files will live - a permanent home just for them. You can verify that the new project folder has been created by navigating to it in your computer’s file structure browser (e.g., Windows Explorer in Windows).</p>
 <p><img src="images/Creating-R-Project.PNG" class="img-fluid" width="409"></p>
+<<<<<<< HEAD
 <p>After you create a new project, you’ll find yourself in a clean R Studio session with only a console window open. The folder in your computer system will contain only the new <code>.Rproj</code> file and a sub-folder with some saved settings stored for your project. This <code>.Rproj</code> file is how you will access your project from now on. Instead of opening a .R script to access your code, you will always want to open your <code>.Rproj</code> file first and then the .R script. Don’t put anything in this new folder other than files directly associated with the project you are working on. In this case, that means this folder is only intended to store files associated with today’s classwork.</p>
+=======
+<p>After you create a new project, you’ll find yourself in a clean R Studio session with only a console window open. The folder in your computer system will contain only the new <code>.Rproj</code> file and a sub-folder with some saved settings stored for your project. This .Rproject file is how you will access your project from now on. Instead of opening a .R script to access your code, you will always want to open your .Rproject file and then the .R script. Don’t put anything in this new folder other than files directly associated with the project you are working on. In this case, that means this folder is only intended to store files associated with today’s classwork.</p>
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p><img src="images/R-Project-Folder.PNG" class="img-fluid" width="483"></p>
 <p>Back in R Studio, in the lower-right hand pane with the “Files” tab, you’ll see all of the files currently associated with the project. At the moment, there shouldn’t be anything apart from the <code>.Rproj</code> file itself).</p>
 <p>In this same “Files” tab, you can add a new R Script file to this project by clicking on the “New Blank File” button &gt; “R Script”. Go ahead and create one and then save it with an appropriate file name.</p>
@@ -361,11 +389,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.5" class="anchored" data-anchor-id="getting-data-into-r"><span class="header-section-number">5.5</span> Getting Data into <code>R</code></h2>
 <p>Let us get back to the primordial problem now, which is getting data into <code>R</code>. In the social sciences, the data we use can come from a variety of different sources: we might take our data from long-running surveys, for instance, such as the <a href="https://gss.norc.org/">General Social Survey</a>, the <a href="https://www.europeansocialsurvey.org/">European Social Survey</a>, or the <a href="https://www.worldvaluessurvey.org/">World Values Survey</a>. We can also use administrative data produced by government agencies, like the Federal Bureau of Investigation’s <a href="https://www.fbi.gov/how-we-can-help-you/more-fbi-services-and-information/ucr">Uniform Crime Reports</a> or data from New York City’s <a href="https://opendata.cityofnewyork.us/">Open Data</a> initiative.</p>
 <p>Alternatively, we can use data from other sources, which may not have been produced with research or administrative purposes in mind. For example, we can scrape data from social media to see how political sentiment changes in times of crises or we can use data from online dating apps to see how social norms around courtship have changed.</p>
+<<<<<<< HEAD
 <p>In any case, the most common format you are likely to find data stored in is a CSV file, which stands for comma separated values. CSVs are particularly appealing for data storage because they are lightweight and they simple. They don’t contain any extra formatting - all they consist of is plain-text data in rows (separated by new lines) and columns (separated by commas). A CSV file could consist of the following, for example:</p>
 <pre><code>"id","name","age","country"
 1011232,"Bill Gates",75,"United States"
 1022234,"Warren Buffet",82,"United States"</code></pre>
 <p>When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and into different rows, based on the line breaks.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Excel will automatically recognize, for example, that name is a column containing two values, “Bill Gates” in one row and “Warren Buffett” in another. CSVs don’t always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., <code>,</code> or <code>;</code>) that separates values in a data file is called a <strong>delimiter</strong>.</p>
+=======
+<p>In any case, the most common format you are likely to find data stored in is a CSV file, which stands for comma separated values. CSVs are particularly appealing for data storage because they are lightweight and they simple. They don’t contain any extra formatting - all they consist of is plain-text data in rows (separated by new lines) and columns (separated by commas). A CSV file could look as simple as this, for example:</p>
+<pre><code>"id","name","age","country"
+1011232,"Bill Gates",75,"United States"
+1022234,"Warren Buffet",82,"United States"</code></pre>
+<p>When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and different rows, based on the line breaks.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Excel will automatically recognize, for example, that name is a column containing two values, “Bill Gates” in one row and “Warren Buffett” in another. CSVs don’t always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., <code>,</code> or <code>;</code>) that separates values in a data file is called a <strong>delimiter</strong>.</p>
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 <p><img src="images/excel-parsing.PNG" class="img-fluid" width="607"></p>
 </section>
 <section id="loading-files-from-csvs" class="level2" data-number="5.6">
@@ -474,11 +510,19 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 <pre><code># A tibble: 5 × 13
      id name         gender country countrycode region marital residence_country
   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
+<<<<<<< HEAD
 1  1299 Fumio Kaneko &lt;NA&gt;   Japan   JPN         East … &lt;NA&gt;    &lt;NA&gt;             
 2    92 Alejandro B… male   Argent… ARG         Latin… Married Uruguay          
 3  3919 Simon Nixon  male   United… GBR         Europ… Single  United Kingdom   
 4  4373 Walther Mor… male   Brazil  BRA         Latin… Married Brazil           
 5  4310 Vikram Lal   male   India   IND         South… Married India            
+=======
+1  4801 Zhang Yong   male   Singap… SGP         East … Married Singapore        
+2  3497 Regine Leib… female Germany DEU         Europ… Married Germany          
+3  3321 Peter Hargr… male   United… GBR         Europ… Married United Kingdom   
+4  4642 Yan Zhi      male   China   CHN         East … Married China            
+5  2044 John Hancock male   Austra… AUS         East … Married Canada           
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 # ℹ 5 more variables: selfmade &lt;chr&gt;, `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
 #   `2023` &lt;dbl&gt;</code></pre>
 </div>

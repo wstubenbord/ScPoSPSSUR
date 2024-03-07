@@ -1,6 +1,10 @@
 # Workflows and Wrangling
 
+<<<<<<< HEAD
 At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we might want to use for a particular project often isn't contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.
+=======
+At this point in the course, we have primarily been working with data from packages, which is generally convenient and straight forward. We install the package with the data we want, we load the package from our library, and then we access the data and begin summarizing it. The bad news is that the data we want to use for a particular project oftentimes isn't contained in a package. The worse news is that we usually need to clean and transform the data in order to get it into a format that actually works for analysis.
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 This chapter covers some of the processes and functions in `R` made for dealing with these unfortunate eventualities. We'll start with the general problem of working with files in `R`, then learn how to get data in, and then we'll learn more about how to make data analyzable.
 
@@ -42,17 +46,29 @@ Within the operating systems themselves, file paths are slightly easier to find 
 
 When working with multiple files in `R`, as you will in more involved analysis projects, you will have to pay some attention to the file structure and file paths. When you load data from a file, for instance, `R` will need to know exactly where the file is located. If you are saving a graph, on the other hand, `R` will need to know where you want to save it.
 
+<<<<<<< HEAD
 `R` makes an educated guess as to where in the file structure you are working (or will be working) based on how you open `R`. This is called the **working directory** and you can identify where `R` has located it using the command below:
+=======
+`R` makes an educated guess as to where in the file structure you are working (or will be working) based on how you open `R`. This is called the **working directory** and you can identify where `R` has located using the command below:
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 ```{r, eval = FALSE}
 getwd()
 ```
 
+<<<<<<< HEAD
 Sometimes the working directory doesn't quite match where you think you are working from and you may need to change it manually. We will try to avoid this, but if you need to, you can manually set the working directory using `setwd()`.
 
 ## The Problem with File Paths
 
 As mentioned, you will generally have to provide a file path for any function that loads data into `R`. The problem with file structures and file paths, however, is that everyone is different. So, if we have a file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?
+=======
+Sometimes the working directory doesn't quite match where you think you are working from and you may sometimes need to change it manually. We will try to avoid this, but if you need to, you can manually set the working directory using `setwd()`.
+
+## The Problem with File Paths
+
+As mentioned, you will generally have to provide a file path for any function that loads data into `R`. The problem with file structures and file paths, however, is that everyone is different. So, if we have file saved in a specific location on our computer and we have some code that reads it in, how do we make sure that other people can use our code when they have the file saved in a different location on their computer?
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 To make this more concrete, let's say that I send you some code in an R Script along with a data file called `important_data.csv`. In the code which generates all sorts of nice figures and analysis using this data, I have a line that looks like this:
 
@@ -66,7 +82,11 @@ This command tries to read in a data file, `important_data.csv`, located within 
 Error: 'C:/Users/wcs26/Documents/Sciences Po/SPSSUR/important_data.csv' does not exist.
 ```
 
+<<<<<<< HEAD
 This type of construction, in which every folder and sub-folder on the way to the destination is provided, is called an **absolute** file path. If any part of the address is incorrect, `R` won't be able to find the file and the file won't be read. So, what's the alternative?
+=======
+This type of file path construction, in which every folder and sub-folder on the way to the destination is provided, is called an **absolute** file path. If any part of the address is incorrect, `R` won't be able to find the file and the file won't be read. You won't be able to re-create all of my nice graphs and analysis as a result. So, what's the alternative?
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 Well, one solution is to use what are called **relative** file paths. A relative file path might look something like this:
 
@@ -76,7 +96,11 @@ read_csv("important_data.csv")
 
 In this case, because we haven't provided the full address, `R` fills in the rest by guessing and, naturally, it guesses that the missing part of the address is the working directory (i.e., `C:/Users/wcs26/Documents/Sciences Po/SPSSUR/`) - which is where it believes you are working from. If `R` guessed correctly and the file is located in your working directory, then this will work perfectly and the data will be read correctly. If the file isn't located in the working directory, however, it will fail.
 
+<<<<<<< HEAD
 The trouble is that sometimes you will start your `R` session in one place and then use files in another place. Since `R` can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and your relative file paths will also fail.
+=======
+The trouble is that sometimes you will start your `R` session in one place and then use files in another place. Since `R` can only keep track of one working directory at a time (per session), it (or rather you) will get confused quickly and even your relative file paths will fail.
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 ## R Projects and `here`
 
@@ -90,7 +114,11 @@ Let's create one for today's classwork. In R Studio, use the navigation bar at t
 
 ![](images/Creating-R-Project.PNG){width="409"}
 
+<<<<<<< HEAD
 After you create a new project, you'll find yourself in a clean R Studio session with only a console window open. The folder in your computer system will contain only the new `.Rproj` file and a sub-folder with some saved settings stored for your project. This `.Rproj` file is how you will access your project from now on. Instead of opening a .R script to access your code, you will always want to open your `.Rproj` file first and then the .R script. Don't put anything in this new folder other than files directly associated with the project you are working on. In this case, that means this folder is only intended to store files associated with today's classwork.
+=======
+After you create a new project, you'll find yourself in a clean R Studio session with only a console window open. The folder in your computer system will contain only the new `.Rproj` file and a sub-folder with some saved settings stored for your project. This .Rproject file is how you will access your project from now on. Instead of opening a .R script to access your code, you will always want to open your .Rproject file and then the .R script. Don't put anything in this new folder other than files directly associated with the project you are working on. In this case, that means this folder is only intended to store files associated with today's classwork.
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 ![](images/R-Project-Folder.PNG){width="483"}
 
@@ -133,7 +161,11 @@ Let us get back to the primordial problem now, which is getting data into `R`. I
 
 Alternatively, we can use data from other sources, which may not have been produced with research or administrative purposes in mind. For example, we can scrape data from social media to see how political sentiment changes in times of crises or we can use data from online dating apps to see how social norms around courtship have changed.
 
+<<<<<<< HEAD
 In any case, the most common format you are likely to find data stored in is a CSV file, which stands for comma separated values. CSVs are particularly appealing for data storage because they are lightweight and they simple. They don't contain any extra formatting - all they consist of is plain-text data in rows (separated by new lines) and columns (separated by commas). A CSV file could consist of the following, for example:
+=======
+In any case, the most common format you are likely to find data stored in is a CSV file, which stands for comma separated values. CSVs are particularly appealing for data storage because they are lightweight and they simple. They don't contain any extra formatting - all they consist of is plain-text data in rows (separated by new lines) and columns (separated by commas). A CSV file could look as simple as this, for example:
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 ```         
 "id","name","age","country"
@@ -141,7 +173,11 @@ In any case, the most common format you are likely to find data stored in is a C
 1022234,"Warren Buffet",82,"United States"
 ```
 
+<<<<<<< HEAD
 When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and into different rows, based on the line breaks.[^workflows-and-wrangling-3] Excel will automatically recognize, for example, that name is a column containing two values, "Bill Gates" in one row and "Warren Buffett" in another. CSVs don't always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., `,` or `;`) that separates values in a data file is called a **delimiter**.
+=======
+When you open a CSV file in software like Microsoft Excel, it is usually automatically parsed into different columns, based on the position of the commas, and different rows, based on the line breaks.[^workflows-and-wrangling-3] Excel will automatically recognize, for example, that name is a column containing two values, "Bill Gates" in one row and "Warren Buffett" in another. CSVs don't always use commas to separate their values - sometimes (especially in Europe), they use semi-colons. The character (e.g., `,` or `;`) that separates values in a data file is called a **delimiter**.
+>>>>>>> 62b1b27554b07dea49f49c85cd9cdb3a18401227
 
 [^workflows-and-wrangling-3]: **Parsing** refers to how software reads the values.
 
