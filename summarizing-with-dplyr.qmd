@@ -25,8 +25,6 @@ Libraries loaded. Remember, once you have the packages installed, you don't need
 
 [^summarizing-with-dplyr-3]: Anytime you install packages, do it directly in the console. If someone needs to run your code, they should see the `library()` calls in the beginning of your code after the header and will know whether they need to install additional packages or not. RStudio also has a helpful auto-prompt feature that will let you know if you are missing anything.
 
-    Instead of the `library()` function, you can also use `require()`, which has the benefit loading packages if you already have them and installing them if you don't.
-
 We'll load the data into an object in our environment. This time, we'll use a slightly shorter name for the tibble to spare ourselves some future misery. A longer name means more to retype later.
 
 ```{r}

@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./homework-1.html" rel="next">
+<link href="./linear-regression.html" rel="next">
 <link href="./visualizing-with-ggplot.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -189,6 +189,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./linear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -253,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pivoting-from-wide-to-long" id="toc-pivoting-from-wide-to-long" class="nav-link" data-scroll-target="#pivoting-from-wide-to-long"><span class="header-section-number">5.8</span> Pivoting from Wide to Long</a></li>
   <li><a href="#merging-data" id="toc-merging-data" class="nav-link" data-scroll-target="#merging-data"><span class="header-section-number">5.9</span> Merging Data</a></li>
   <li><a href="#pivoting-from-long-to-wide" id="toc-pivoting-from-long-to-wide" class="nav-link" data-scroll-target="#pivoting-from-long-to-wide"><span class="header-section-number">5.10</span> Pivoting from Long to Wide</a></li>
-  <li><a href="#case_match-for-recoding" id="toc-case_match-for-recoding" class="nav-link" data-scroll-target="#case_match-for-recoding"><span class="header-section-number">5.11</span> <code>case_match()</code> for Recoding</a></li>
+  <li><a href="#recoding-using-case_match" id="toc-recoding-using-case_match" class="nav-link" data-scroll-target="#recoding-using-case_match"><span class="header-section-number">5.11</span> <code>Recoding Using case_match()</code></a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.12</span> Exercises</a></li>
   </ul>
 </nav>
@@ -475,11 +481,11 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 <pre><code># A tibble: 5 × 13
      id name         gender country countrycode region marital residence_country
   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
-1  3891 Shiv Kishan… &lt;NA&gt;   India   IND         South… &lt;NA&gt;    &lt;NA&gt;             
-2  4167 Thomas Prit… male   United… USA         North… Married United States    
-3  1305 G.V. Prasad  male   India   IND         South… Married India            
-4  2462 Leon Black   male   United… USA         North… Married United States    
-5   371 Balkrishan … male   India   IND         South… Married India            
+1   360 Bahaa Hariri male   Lebanon LBN         Middl… Married Switzerland      
+2  2687 Lucia Maggi  female Brazil  BRA         Latin… Widowed Brazil           
+3  2615 Liu Hanyuan  male   China   CHN         East … Married China            
+4  1816 Jaime Gilin… male   Colomb… COL         Latin… Married United Kingdom   
+5  4474 Werner O. W… male   Switze… CHE         Europ… &lt;NA&gt;    Switzerland      
 # ℹ 5 more variables: selfmade &lt;chr&gt;, `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
 #   `2023` &lt;dbl&gt;</code></pre>
 </div>
@@ -751,8 +757,8 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age) <span class="ot">-&gt;</span> bil_age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Note that we’ve use our assignment operator in a somewhat unorthodox way here. Instead of using it at the beginning of the piped function, we’ve added it to the end. This works and is also acceptable.</p>
-<p>Now, let’s merge. Here, we’ll use a function from <code>dplyr</code> called <code>left_join()</code>. There are other types of <code>_join()</code> functions depending on the use case. In our case, we have an existing data set and simply want to add data from another tibble to it. We don’t care much about what happens to the rows in the <code>bil_age</code> data set that don’t match up. We’ll use <code>left_join()</code> here as a result. Other types of joins include a <code>right_join()</code>, an <code>inner_join()</code>, a <code>left_join()</code> and a <code>full_join()</code>. Take a look at the supporting documentation to learn more about them.</p>
+<p>Note that we’ve used our assignment operator in a somewhat unorthodox way here. Instead of using it at the beginning of the piped function, we’ve added it to the end. This works and is also acceptable.</p>
+<p>Now, let’s merge. Here, we’ll use a function from <code>dplyr</code> called <code>left_join()</code>. There are other types of <code>_join()</code> functions depending on the use case. In our case, we have an existing data set and we simply want to add data from another tibble to it. We don’t care much about what happens to the rows in the <code>bil_age</code> data set that don’t match up. We’ll use <code>left_join()</code> as a result. Other types of joins include <code>right_join()</code>, <code>inner_join()</code>, <code>left_join()</code> and <code>full_join()</code>. Take a look at the supporting documentation to learn more about them.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(<span class="at">x =</span> tidy_bil, </span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> bil_age, </span>
@@ -773,7 +779,7 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  left_join(bil_age,</span></span>
 <span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co">#            join_by(id, year))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Success! Whenever you do these sorts of things, try running the code without re-assigning it back to the original object first and then assign it after you are sure it works. Otherwise, you may start running into unexpected errors as you change your data. You can always re-load it if you’ve made a mistake somewhere.</p>
+<p>Success! Whenever you do these sorts of things, try running the code without re-assigning it back to the original object first and then assign it once you are sure it works. Otherwise, you may start running into unexpected errors as you change your data. You can always re-load it if you’ve made a mistake somewhere.</p>
 <p>If we take a look at <code>tidy_bil</code>, we can now see that we have an age column. Now we can do something like this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> tidy_bil,</span>
@@ -794,14 +800,13 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                       y = net_worth)) +</span></span>
 <span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_point() + theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Notice here that we are also using <code>ggplot()</code> in a different way from the previous chapter. In this case, we first save our base <code>ggplot()</code> layer to an object (arbitrarily named <code>p</code>) and then we add layers to the object in a separate line of code. You’ll see this method used often in references elsewhere. Either style of writing your <code>ggplot()</code> code is fine, but I tend to prefer the piped form from the previous chapter for own use, since it allows you to add filters and do other data manipulations in the same piped command generating the plot. This is a stylistic and workflow preference - you will find many forking paths that will produce the same result as you continue to learn <code>R</code>.</p>
-<p>A more general understanding to take away here, however, is the fact that since we aren’t using a piped function, we do need to specify a <code>data =</code> argument in the <code>ggplot()</code> function. The use of the pipe operator ordinarily absolves us of having to specify a data argument in all <code>dplyr</code> functions, because the pipe operator does it for us (i.e., “take this <em>AND THEN.</em>..”).</p>
-<p>For example, to use a filter on a tibble you could simply enter <code>filter(data = tidy_bil, year == 2020)</code> as a stand-alone function and it would give you the same answer as <code>tidy_bil %&gt;% filter(year == 2020)</code>. The pipe operator, however, allows us to string together multiple of these such functions, which makes it efficient for complex data analysis.</p>
+<p>Notice that here we are also using <code>ggplot()</code> in a different way from the previous chapter. In this case, we first save our base <code>ggplot()</code> layer to an object (arbitrarily named <code>p</code>) and then we add layers to the object in a separate line of code. You’ll see this method used often in references elsewhere. Either style of writing your <code>ggplot()</code> code is fine, but I tend to prefer the piped form, since it allows you to add filters and do other data manipulations in the same piped command generating the plot. This is a stylistic and workflow preference though. You will find many such forking paths as you continue to learn <code>R</code>.</p>
+<p>A more general understanding to take away from this example, however, is the fact that since we aren’t using a piped function, we do need to specify a <code>data =</code> argument in the <code>ggplot()</code> function. The use of the pipe operator ordinarily absolves us of having to specify a data argument in all <code>dplyr</code> functions, since the pipe operator does it for us (i.e., “take this <em>AND THEN.</em>..”).</p>
+<p>To use a filter on a tibble, for example, you could simply enter <code>filter(data = tidy_bil, year == 2020)</code> as a stand-alone command and it would give you the same answer as <code>tidy_bil %&gt;% filter(year == 2020)</code>. The pipe operator simply makes for more efficient data analysis by allowing us to string together several of these types of functions.</p>
 </section>
 <section id="pivoting-from-long-to-wide" class="level2" data-number="5.10">
 <h2 data-number="5.10" class="anchored" data-anchor-id="pivoting-from-long-to-wide"><span class="header-section-number">5.10</span> Pivoting from Long to Wide</h2>
-<p>There is one more thing we should learn here: recoding. Recoding is useful when the categories within a data set aren’t quite appropriate for how we want to analyze them.</p>
-<p>Let’s say we want to compare the net worth of billionaires in our data set by marital status, for example. For this, we could use the wide data. Let’s imagine that we don’t have our wide data in the first place though. Could we get our long data into a wide format? Yes, using <code>pivot_wider()</code>:</p>
+<p>Let’s say we want to compare the net worth of billionaires in our data set by marital status. We could use our data in wide format for this (<code>billionaires</code>). Let’s imagine that we don’t have the wide data though. Could we transform our long data into a wide format? Yes, using <code>pivot_wider()</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
@@ -827,7 +832,7 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 #   `2023` &lt;dbl&gt;, `2020` &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>We’ll just use the original data anyways though. To see what values are actually in our <code>marital</code> variable, we’ll use this:</p>
+<p>We’ll just use the original data anyways though. To see what values are in our <code>marital</code> variable, we can use this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(marital)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -848,10 +853,10 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 </div>
 <p>There are 9 distinct categories. Nine is perhaps too many. What if we decide we want to use just three categories: “Married/Widowed”, “Single”, and “Other” instead?</p>
 </section>
-<section id="case_match-for-recoding" class="level2" data-number="5.11">
-<h2 data-number="5.11" class="anchored" data-anchor-id="case_match-for-recoding"><span class="header-section-number">5.11</span> <code>case_match()</code> for Recoding</h2>
-<p>To recode our data according to the new groupings, we can use the <code>case_match()</code> function inside of a <code>dplyr</code> <code>mutate()</code> function. Essentially, we are modifying a column so that the values of the new column take on the recoded values of the old column. We could mutate the original variable directly (in this case, <code>marital</code>), but it’s generally best practice to put our recoded values inside of their own, new column to make sure we don’t make an error. Otherwise, we’d have to reload our data and we’d need to re-run all of the other code in our analysis. We’ll call this recoded variable <code>marital_rc</code>.</p>
-<p>The first argument in <code>case_match()</code> is the column that needs to be recoded. The following arguments, which contain the recoding scheme, follow the format <code>old_values ~ new_values</code>. The original values go on the left-hand side and the values to be recoded go on the right. To separate the left and right-hand sides, we use a <code>~</code> character and then a comma to separate each set of old and new values. Since we are re-coding multiple old values at a time, we’ll put those sets of old values inside of vectors. Remember, test this without re-assigning the result to your original object to make sure that you’ve done it correctly and then re-assign it once you are confident you’ve done it right.</p>
+<section id="recoding-using-case_match" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="recoding-using-case_match"><span class="header-section-number">5.11</span> <code>Recoding Using case_match()</code></h2>
+<p>Recoding is useful when the categories within a data set aren’t quite appropriate for how we want to analyze them. To recode our data according to our new groupings, we can use the <code>case_match()</code> function inside of a <code>dplyr</code> <code>mutate()</code> function. Essentially, we are modifying a column so that the values of the new column take on the recoded values of the old column. We could mutate the original column directly (in this case, <code>marital</code>), but it’s generally best practice to put our recoded values inside of their own new column to make sure we don’t make a mistake. Otherwise, we’d have to reload our data and re-run all of the other code in our analysis up to this point. That can get annoying quickly. We’ll call the recoded variable <code>marital_rc</code>.</p>
+<p>The first argument in <code>case_match()</code> is the column that needs to be recoded. The following arguments, which contain the recoding scheme, follow the format <code>old_values ~ new_values</code>. The original values go on the left-hand side and the values to be recoded go on the right. To separate the left and right-hand sides, we use a <code>~</code> character and a comma to separate each set of old and new values. Since we are re-coding multiple old values at a time, we’ll also put those sets of old values inside of vectors. Remember, test this without re-assigning the result to your original object first and then re-assign it once you are confident you’ve done it correctly.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -887,12 +892,12 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <p><img src="workflows-and-wrangling_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note, of course, that we can’t make any claims about associations here. There are a lot of missing values (<code>NA</code>) and we don’t know whether they would be biased towards a particular category. Our <code>Other</code> category is also quite expansive and maybe not analytically appropriate.</p>
-<p>Last, but not least, we don’t know whether any of the visual differences we are seeing in median net worth across category are due to random chance or due to some relationship between the variables. We’ll return to this latter point in the next chapter when we begin talking about inferential methods.</p>
+<p>Note, of course, that we can’t make any claims about associations here. There are a lot of missing values (<code>NA</code>) and we don’t know whether they would be biased towards a particular category. Our <code>Other</code> category is also quite expansive and perhaps not analytically appropriate.</p>
+<p>Last, but not least, we don’t know whether any of the visual differences we are seeing in median net worth across category are due to random chance alone or due to some relationship between the variables. We’ll return to this latter point in the next chapter when we start talking about inferential methods.</p>
 </section>
 <section id="exercises" class="level2" data-number="5.12">
 <h2 data-number="5.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.12</span> Exercises</h2>
-<p>For the remainder of class or for homework, keep playing around with this data set to practice the new functions you’ve learned and the <code>dplyr</code> functions you’ve learned in previous chapters.</p>
+<p>For the remainder of class or for homework, keep playing around with this data to practice the new functions you’ve learned and the <code>dplyr</code> functions you’ve learned in previous chapters.</p>
 
 
 </section>
@@ -1149,8 +1154,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./homework-1.html" class="pagination-link">
-        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./linear-regression.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

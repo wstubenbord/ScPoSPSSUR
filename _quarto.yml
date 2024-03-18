@@ -16,6 +16,7 @@ book:
     - summarizing-with-dplyr.qmd
     - visualizing-with-ggplot.qmd
     - workflows-and-wrangling.qmd
+    - linear-regression.qmd
     - part: "Assignments"
       chapters:
       - homework-1.qmd

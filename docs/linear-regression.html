@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Programming for the Social Sciences Using R - 6&nbsp; Linear Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./homework-1.html" rel="next">
+<link href="./workflows-and-wrangling.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./linear-regression.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Programming for the Social Sciences Using R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/wstubenbord/ScPoSPSSUR" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-to-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summarizing-with-dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizing-with-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflows-and-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./linear-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Appendix</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#some-data-exploration" id="toc-some-data-exploration" class="nav-link active" data-scroll-target="#some-data-exploration"><span class="header-section-number">6.1</span> Some Data Exploration</a></li>
+  <li><a href="#simple-ols-regression" id="toc-simple-ols-regression" class="nav-link" data-scroll-target="#simple-ols-regression"><span class="header-section-number">6.2</span> Simple OLS Regression</a></li>
+  <li><a href="#linear-regression-tables" id="toc-linear-regression-tables" class="nav-link" data-scroll-target="#linear-regression-tables"><span class="header-section-number">6.3</span> Linear Regression Tables</a></li>
+  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression"><span class="header-section-number">6.4</span> Multiple Regression</a></li>
+  <li><a href="#dont-p-hack-and-other-considerations" id="toc-dont-p-hack-and-other-considerations" class="nav-link" data-scroll-target="#dont-p-hack-and-other-considerations"><span class="header-section-number">6.5</span> Don’t P-Hack and Other Considerations</a>
+  <ul class="collapse">
+  <li><a href="#p-hacking" id="toc-p-hacking" class="nav-link" data-scroll-target="#p-hacking"><span class="header-section-number">6.5.1</span> P-Hacking</a></li>
+  <li><a href="#residual-plots-and-the-assumptions-of-ols" id="toc-residual-plots-and-the-assumptions-of-ols" class="nav-link" data-scroll-target="#residual-plots-and-the-assumptions-of-ols"><span class="header-section-number">6.5.2</span> Residual Plots and the Assumptions of OLS</a></li>
+  </ul></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">6.6</span> Exercise</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Most research in the social sciences, including the projects you will embark on shortly, relies on what we call observational data. Unlike experimental data, which has the benefit of being produced in a controlled environment, observational data has the problem of being produced in the world around us, where many of the variables we might wish we could manipulate are beyond our grasp.</p>
+<p>Consider, for instance, the rather different problems faced by two researchers. One wishes to understand the effect of a new blood pressure pill. The other wishes to understand how varying levels of education affects the income of children later on in life. In the former, the path to understanding is clear: we can recruit research participants, randomly assign them to groups, and then we can give one group the new blood pressure medicine and the other a placebo. The difference in blood pressures between the two groups at the conclusion of the study will tell us whether the new medicine worked or not. In the latter case, however, we’re unlikely to make it this far. Parents, as it turns out, are rather reluctant to hand their children over to a merry band of researchers promising that they may or may not give them an education. University ethics boards, and usually the researchers themselves, also generally protest this type of research as well.</p>
+<p>For ethical or practical reasons - you can imagine the difficulty in assigning an entire country to a treatment group for a study on cross-national differences, after all - estimating causal effects through experimental methods simply isn’t a viable option for most social science research questions. Hence, our need to rely on observational data. The resulting challenge, of course, is that isolating relationships between variables out in the real world can be exceptionally difficult. People lead complex social lives, to say nothing of the organizations and structures they compose, and if we want to say something meaningful about them we need not only need good data, but also methods which can help untangle the relationships between them.</p>
+<p>Linear regression is one such method and the subject of this chapter. It is important to realize at this stage that what linear regression can tell us about relationships between variables is often limited. It does not, except under specific circumstances, measure cause-and-effect. Instead, it is best viewed as a method for identifying statistical relationships between variables. In this respect, it is perhaps the most capable andimportant tool available to social scientists.</p>
+<p>This chapter will primarily deal with the pragmatic aspects of using linear regressions in <code>R</code> rather than with the other important statistical considerations involved in its application, including assumptions and how it is estimated. For treatments of these, I recommend Chapters <a href="https://openintro-ims.netlify.app/model-slr">7-10</a> and <a href="https://openintro-ims.netlify.app/inf-model-slr">24-27</a> of the freely available <em>Introduction to Modern Statistics</em> (including associated tutorials in <code>R</code>, which can be found <a href="https://www.openintro.org/book/ims/">here</a>). For more detailed and math-heavy treatments of the topic, consider Wooldridge’s (2019) <em>Introductory Econometrics: A Modern Approach, 7e</em> or Angrist and Pischke’s (2008) <em>Mostly Harmless Econometrics</em>.</p>
+<section id="some-data-exploration" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="some-data-exploration"><span class="header-section-number">6.1</span> Some Data Exploration</h2>
+<p>The data set we’ll use for this demonstration comes from Wooldridge (2019) and was originally taken from the U.S. Census Bureau’s 1976 Current Population Survey.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> It contains data on a small number of individuals living in the U.S. in 1976 for a series of variables such as education (<code>educ</code>), average hourly earnings (<code>wage</code>), work experience (<code>exper</code>), gender (<code>female</code>), and whether they work in a particular industry or not (e.g., <code>construc</code>).</p>
+<p>Rather than load it directly from a CSV file saved on your computer, we’ll load it from a CSV hosted on a website this time. On rare occasions, you might find other CSV files saved in this manner and you can either download them and then load them into your project in the usual manner or you can load them directly from their address on the internet.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <code>read_csv()</code> is capable of handling either.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Storing the web address in an object, which makes the code more readable.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">=</span> <span class="st">"https://raw.githubusercontent.com/wstubenbord/ScPoSPSSUR/master/data/wage1.csv"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading the CSV file from the website.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cps <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># cps &lt;- read_csv(file = "https://raw.githubusercontent.com/wstubenbord/ScPoSPSSUR/master/data/wage1.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As usual, we might want to take a glimpse at the data so that we know what’s inside.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(cps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We also might be curious about the distribution of hourly earnings. We can check it with a quick histogram.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a histogram with the base R hist() function.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(cps<span class="sc">$</span>wage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear-regression_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As is often the case for income data, the distribution of the wage variable here is right-skewed, which means that most values are located around the mean but a few values are scattered along the right-hand side of the distribution. If we want to get a more detailed sense of the distribution, one option is to use the base <code>R</code> function <code>quantile()</code> to look at the wages across certain percentiles of the distribution. In this case, we’ll look at deciles, which will show us the values for every 10th percentile.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The probs argument specifies the desired range of the percentiles returned and the increment.  In this case, we want to see deciles of income, so we use a 0.1 increment.  But, if we wanted to see quartiles, for example, we would use a 0.25 increment.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(cps<span class="sc">$</span>wage, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+ 0.53  2.92  3.13  3.50  4.05  4.65  5.70  6.34  8.02 10.00 24.98 </code></pre>
+</div>
+</div>
+<p>The results above show that 10 percent of the wage earners in this sample earned less than $2.92 per hour and 90 percent earned less than $10.00. The median hourly wage was $4.65. Perhaps this isn’t surprising, given that the data is from the 1970s. Try using the <code>quantile()</code> function to see if you can find the cut-off for the top 1% of wage earners in this data set. Check the answer below when ready to see if you managed to get it right.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Answer">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Answer
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This is one possible solution. As you can see, the top 1% threshold is $19.995.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(cps<span class="sc">$</span>wage, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.95</span>, <span class="dv">1</span>, <span class="fl">0.01</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   95%    96%    97%    98%    99%   100% 
+12.875 13.950 15.095 18.080 19.995 24.980 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Let’s take a look at education now. From glimpse, we know that <code>educ</code> is a <em>double</em>, a numeric value that can hold decimals. Let’s try <code>summary()</code> first and then we’ll see where it takes us.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A 5-number summary</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cps<span class="sc">$</span>educ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.00   12.00   12.00   12.56   14.00   18.00 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A quick histogram.  The breaks argument and seq() function specify the bin </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># intervals.  Each bar represents the count for a year of education.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(cps<span class="sc">$</span>educ, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">18</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear-regression_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can see from the histogram above that most of the respondents in this data set had 12 years of education, which corresponds to the standard length of a high school education in the U.S. We might want to check a couple more things:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many distinct values are there?</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>cps <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(educ) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(educ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 1
+    educ
+   &lt;dbl&gt;
+ 1    18
+ 2    17
+ 3    16
+ 4    15
+ 5    14
+ 6    13
+ 7    12
+ 8    11
+ 9    10
+10     9
+11     8
+12     7
+13     6
+14     5
+15     4
+16     3
+17     2
+18     0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What are the frequencies for each?</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we're using the tabyl() function from the janitor package, which creates</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the same type of frequency and proportion table we made previously using </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize() and mutate.</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>cps <span class="sc">%&gt;%</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">tabyl</span>(educ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> educ   n     percent
+    0   2 0.003802281
+    2   1 0.001901141
+    3   1 0.001901141
+    4   3 0.005703422
+    5   1 0.001901141
+    6   6 0.011406844
+    7   4 0.007604563
+    8  22 0.041825095
+    9  17 0.032319392
+   10  30 0.057034221
+   11  29 0.055133080
+   12 198 0.376425856
+   13  39 0.074144487
+   14  53 0.100760456
+   15  21 0.039923954
+   16  68 0.129277567
+   17  12 0.022813688
+   18  19 0.036121673</code></pre>
+</div>
+</div>
+<p>One other thing we can note here is that <code>educ</code> is actually an integer, a discrete quantitative variable, rather than a double, a continuous quantitative variable. The values are all whole numbers. We could change the type of <code>educ</code> to integer to correct this, but since integers stored as doubles almost never cause problems, we won’t bother. <a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>A natural question that might follow is: is there a relationship between years of schooling and wages? Let’s plot it first.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cps <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> educ,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> wage)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Years of Education"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hourly Wages"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear-regression_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>On first inspection: maybe. There certainly seems to be more variation in hourly wages as years of education increase. At least on visual inspection, wages appear to increase as education increases. We can check the correlation to give us a more concrete idea of the linear association.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(cps<span class="sc">$</span>wage, cps<span class="sc">$</span>educ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4059033</code></pre>
+</div>
+</div>
+<p>The correlation is around 0.41, which is a moderately strong, positive correlation. It’s not very strong, but it is an indication of some linear relationship between hourly wages and education.</p>
+<p>If we were to stop here, we wouldn’t have said all that much about the relationship between education and wages though. There is a correlation, but correlations can be spurious. Wages appear to increase as education increases, but we don’t know by how much. We also don’t know whether other variables might explain this apparent association. For all of these questions, we need to use linear regression.</p>
+</section>
+<section id="simple-ols-regression" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="simple-ols-regression"><span class="header-section-number">6.2</span> Simple OLS Regression</h2>
+<p>You may remember from your previous statistics course that a simple ordinary least squares (OLS) regression follows the general form:</p>
+<p><span class="math inline">\(Y = \beta_{0} +\beta_{1}X_{1} + \epsilon\)</span></p>
+<p>Where <span class="math inline">\(Y\)</span> is the dependent (or outcome) variable, <span class="math inline">\(\beta_{0}\)</span> is the intercept, <span class="math inline">\(X_1\)</span> is the independent (or explanatory) variable, <span class="math inline">\(\beta_{1}\)</span> is the coefficient, and <span class="math inline">\(\epsilon\)</span> is the error term.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> We generate an estimate of the parameters <span class="math inline">\(\beta_{0}\)</span> and <span class="math inline">\(\beta_{1}\)</span> using sample data for our variables of interest, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, and the method of ordinary least squares, which minimizes the sum of squared residuals. The line of best fit estimated in this way takes the form:</p>
+<p><span class="math inline">\(\hat{y}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}x_1\)</span></p>
+<p>Or equivalently:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p><span class="math inline">\(\hat{y} = \hat{b}_{0} + \hat{b}_{1}x_1\)</span></p>
+<p>To put it more concretely in terms of the example we have been discussing:</p>
+<p><span class="math inline">\(\widehat{wage}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}{educ}_{i}\)</span></p>
+<p>Where <span class="math inline">\(educ_i\)</span> is the level of education for a survey respondent, <span class="math inline">\(\hat{\beta}_{0}\)</span> is the y-intercept, <span class="math inline">\(\hat{\beta}_{1}\)</span> is the slope of the line (the estimated effect of education on hourly wage), and <span class="math inline">\(\widehat{wage}_{i}\)</span> is the predicted hourly wage for a given level of education.</p>
+<p>In terms of how this works in <code>R</code>, it’s rather straightforward. You provide an independent and dependent variable to a function and <code>R</code> calculates the rest. In fact, you’ve already done a version of this before using <code>geom_smooth()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cps <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> educ,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> wage)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Years of Education"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Hourly Wages"</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear-regression_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>With the argument <code>method = lm</code>, <code>geom_smooth()</code> automatically calculates the slope of the line of best fit (<span class="math inline">\(\hat{\beta}_{1}\)</span>) and the y-intercept (<span class="math inline">\(\hat{\beta}_{0}\)</span>) using the variables provided. It then draws the resulting line by connecting the predicted wage values (<span class="math inline">\(\widehat{wage_i}\)</span>) for each <code>educ</code> value. Easy enough!</p>
+<p>To obtain the estimated slope and y-intercept, we can use a different function, <code>lm()</code>. <code>lm()</code> requires us to provide the formula of the model we are trying to estimate. To do this, we simply give the dependent variable, followed by a <code>~</code> to separate the two sides of the equation, and then the independent variable. We must also specify the data source in <code>data =</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(<span class="at">formula =</span> wage <span class="sc">~</span> educ, <span class="at">data =</span> cps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wage ~ educ, data = cps)
+
+Coefficients:
+(Intercept)         educ  
+    -0.9049       0.5414  </code></pre>
+</div>
+</div>
+<p>In the resulting readout above, the y-intercept (<span class="math inline">\(\hat{\beta}_{0}\)</span>) is -0.9049 and the slope (<span class="math inline">\(\hat{\beta}_{1}\)</span>) or the coefficient for education is 0.5414. This means that the equation for the line of best fit drawn by <code>geom_smooth()</code> is:</p>
+<p><span class="math inline">\(\widehat{wage}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}({educ}_{i})\)</span></p>
+<p><span class="math inline">\(\widehat{wage}_{i} = -0.9049 + 0.5414({educ}_{i})\)</span></p>
+<p>That’s the linear regression model. The model suggests that for each additional year of education, hourly wage increases by approximately $0.54. It also suggests that the hourly wage of someone with no education is $-0.90, which is of course not possible. Regressions can make useful predictions, but because they assume a linear relationship and we have very little data at the lower bound (near zero), we do have to be careful about extrapolating beyond the limits of our data.</p>
+</section>
+<section id="linear-regression-tables" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="linear-regression-tables"><span class="header-section-number">6.3</span> Linear Regression Tables</h2>
+<p>Of course, just because we can calculate regression coefficients doesn’t mean the relationship being described is meaningful. For this, we have to consider two things: first, statistical significance and second, effect size.</p>
+<p>For statistical significance, the primary concern is whether the slope coefficient is statistically different from zero. If it isn’t, then we don’t have sufficient evidence of a linear relationship between the dependent and independent variable. The answer to this question won’t be made immediately clear by looking at the results of either <code>lm()</code> or the scatter plot.</p>
+<p>For effect size, the concern is not only whether there is evidence of a relationship or not, but whether the magnitude of the relationship is actually a meaningfully different from zero. We could have a statistically significant coefficient of $0.0001, for example, which would mean that each year of education increases hourly wage by very little. Although the coefficient might be statistically significant, practically, the result is not significant.</p>
+<p>To find the p-value necessary to evaluate statistical significance, we can use the <code>summary()</code> function on our regression results. The best way to do this is to store the regression result in an object and then use the <code>summary()</code> function on it. Both <code>lm()</code> and <code>summary()</code> are contained in base <code>R</code>, so no special packages are necessary.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> wage <span class="sc">~</span> educ, <span class="at">data =</span> cps)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wage ~ educ, data = cps)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.3396 -2.1501 -0.9674  1.1921 16.6085 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.90485    0.68497  -1.321    0.187    
+educ         0.54136    0.05325  10.167   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.378 on 524 degrees of freedom
+Multiple R-squared:  0.1648,    Adjusted R-squared:  0.1632 
+F-statistic: 103.4 on 1 and 524 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>In this more detailed readout, we can find the coefficient estimate for education and the y-intercept (as before) along with some additional information, including the standard error (a measure of how precise our coefficient estimates are), the test statistic (a Student’s t statistic here), the p-values (<code>Pr(&gt;|t|)</code>), and symbols for the statistical significance of each coefficient along with a handy key. Remember, social scientists generally use a threshold of <span class="math inline">\(p &lt; 0.05\)</span> to make a determination of statistical significance and decide whether to reject the null hypothesis or not. We can also find here the <span class="math inline">\(R^2\)</span> or coefficient of determination value, which is a measure of how well the model fits the data.</p>
+<p>Based on the information in this regression table, we can determine that there is a positive relationship between <code>educ</code> and <code>wage</code> and that it is statistically significant (i.e., unlikely to be the result of random chance alone). Given a p-value of less than 0.05, we would reject the null hypothesis that there is no relationship between education and wage.</p>
+</section>
+<section id="multiple-regression" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="multiple-regression"><span class="header-section-number">6.4</span> Multiple Regression</h2>
+<p>What if we wish to control for other variables? In this case, we can use what is called multiple regression or multivariable regression. The process remains mostly the same, but our interpretation of the coefficients change.</p>
+<p>Let’s say, for example, that we have reason to believe that the relationship between <code>educ</code> and <code>wage</code> has nothing to do with education. Instead, maybe it’s the case that those with more education also tend to have more work experience. Multiple regression allows us to test this conjecture by holding other variables constant as we examine the relationship between our key independent variable of interest (<code>educ</code>) and the dependent variable (<code>wage</code>). Often in a research project, we’ll have one or more independent variables of interest and then a series of other variables we wish to hold constant. The variables we hold constant are called controls.</p>
+<p>Implementing a multiple regression is simple. All we need to do is add <code>exper</code>, the work experience variable in our data set, and any other controls we wish to use to the formula argument of the regression. For this example, we’ll also control for tenure (the number of years someone has worked for the same employer) and gender (in this case, a binary variable where 1 represents female and 0 represents male).</p>
+<p>We’re describing a regression model that might take the form:</p>
+<p><span class="math inline">\(\widehat{wage}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}({educ}_{i}) + \hat{\beta}_{2}({exper}_{i}) + \hat{\beta}_{3}({female}_{i})\)</span></p>
+<p>The implementation of which looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>reg2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> wage <span class="sc">~</span> educ <span class="sc">+</span> exper <span class="sc">+</span> female, <span class="at">data =</span> cps)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wage ~ educ + exper + female, data = cps)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.3856 -1.9652 -0.4931  1.1199 14.8217 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1.73448    0.75362  -2.302   0.0218 *  
+educ         0.60258    0.05112  11.788  &lt; 2e-16 ***
+exper        0.06424    0.01040   6.177 1.32e-09 ***
+female      -2.15552    0.27031  -7.974 9.74e-15 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.078 on 522 degrees of freedom
+Multiple R-squared:  0.3093,    Adjusted R-squared:  0.3053 
+F-statistic: 77.92 on 3 and 522 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>We can see in our results that education, work experience, and gender are all statistically significant. Now, to interpret the education variable, we would say: a 1 year increase in education, holding work experience and gender constant, is associated with a $0.60 increase in hourly wage. Similarly, a 1 year increase in work experience is associated with a $0.06 increase in hourly wage on average, holding gender and education-level constant. And last, holding education-level and work experience constant, being female is associated with a $2.16 decrease in hourly wage.</p>
+<p>You can see how multiple regression might be a powerful tool for examining relationships between variables.</p>
+</section>
+<section id="dont-p-hack-and-other-considerations" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="dont-p-hack-and-other-considerations"><span class="header-section-number">6.5</span> Don’t P-Hack and Other Considerations</h2>
+<section id="p-hacking" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="p-hacking"><span class="header-section-number">6.5.1</span> P-Hacking</h3>
+<p>Now that you have the tools to run regressions, it is important that you don’t misuse them. One way to misuse them is to take a data set and then start going wild, running regressions on every combination of variables possible. Because we live in a world inhabited by random chance and variation, it is quite likely that you will find statistically significant results this way. Statistical significance, after all, relies on the assumption that we will incorrectly assume meaningful relationships in 5 percent of cases.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> In other words, if you were to run regressions on a thousand samples from the same population and there was no relationship between the variables of interest, you would find statistically significant results in around 50 of those samples. So, will you find statistically significant results that don’t signify a meaningful relationship? Yes, and the point is that you shouldn’t purposefully hunt for them.</p>
+<p>Here is a <a href="https://projects.fivethirtyeight.com/p-hacking/">nice simulation</a> from the data journalism site FiveThirtyEight that you can play around with to demonstrate the point.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>How to avoid p-hacking then? Don’t run a regression until you’ve written your theory and hypotheses and identified your controls. Running a regression should be one of the last things you do.</p>
+<p>The downside to this, as you might imagine, is that you might spend a great deal of time developing a brilliant theory and nicely written hypotheses only to discover at the moment of truth that the relationship you are studying is not statistically significant. You’ve discovered null findings, which are sometimes disappointing, but still valuable to the scientific process. Here too the temptation to p-hack rears it’s ugly head. Don’t do it.</p>
+</section>
+<section id="residual-plots-and-the-assumptions-of-ols" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="residual-plots-and-the-assumptions-of-ols"><span class="header-section-number">6.5.2</span> Residual Plots and the Assumptions of OLS</h3>
+<p>You might vaguely recall from your statistics course that residual plots can be a useful way to ensure that your regression meets some of the assumptions of the OLS model (namely, normally distributed residuals and constant variability).<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Conveniently, the <code>lm()</code> function produces the residuals as well. We can check whether the residuals are distributed normally with a histogram. We’ll use single-variable regression we ran earlier for demonstration purposes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>reg_residuals <span class="ot">&lt;-</span> <span class="fu">resid</span>(reg)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(reg_residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear-regression_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In this case, we can see that the residuals are <em>not</em> distributed normally, which means that we haven’t actually fit the appropriate model to our data and need to use some transformations. The proper fix for this particular issue is to take the <code>log()</code> of the <code>wage</code> variable in the regression model (just as we did in Chapter 4 with GDP). We’ve ignored this issue so far to simplify the interpretation of the coefficients.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>If we were to make this fix, however, the histogram shows the results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>reg_log <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(wage) <span class="sc">~</span> educ, <span class="at">data =</span> cps)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">resid</span>(reg_log))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear-regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Nice and (nearly) normally distributed now. The other type of residual plot we may wish to make involves plotting the residuals against the predicted y-values. Here we’re looking for a scatterplot which shows no discernible pattern.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> reg_log<span class="sc">$</span>fitted.values,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> reg_log<span class="sc">$</span>residuals)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear-regression_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As you can see, not quite what we were hoping for either. In this case, we’ve violated the assumption of equal variability. The corrections for this particular issue are beyond the scope of this course (this problem is called heteroskedasticity), but the long and short of it is that our current model may not be producing the best estimates for our slope coefficient and the p-value may not be entirely accurate as a result. If we were to correct for this issue, we would end up with similar conclusions but slightly adjusted estimates - not a death knell for this project, but a potential issue to be aware of.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
+</section>
+</section>
+<section id="exercise" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="exercise"><span class="header-section-number">6.6</span> Exercise</h2>
+<p>In the time remaining, try using the <code>gapminder</code> data from the <code>gapminder</code> package to test another regression.</p>
+<ol type="1">
+<li><p>Filter the data so that you only have values for 2007. Then, regress life expectancy (<code>lifeExp</code>) on economic growth (<code>gdpPerCap</code>). In other words, life expectancy should be the dependent variable and GDP per capita should be the independent variable.</p></li>
+<li><p>Try interpreting the coefficient for <code>gdpPercap</code>. Is the coefficient statistically significant?</p></li>
+<li><p>Try controlling for the effects of population (<code>pop</code>). Is the coefficient for GDP per capita still statistically significant? Does population appear to have an effect on life expectancy?</p></li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Other data sets from Wooldridge’s (2019) textbook, which have the advantage of being nice and clean, are available in the <code>wooldridge</code><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Note that you can’t easily load CSV files directly from Moodle, because Moodle pages are password protected. This would require several interactions with a website (opening an address, entering a password, and then navigating to the CSV file), which is considerably more complicated.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>In general, we have to be careful with dates and numeric values, which are often stored incorrectly stored as characters. This can cause problems (as we saw in the previous chapter where we had to convert a date) and sometimes needs to be corrected. <code>as.date()</code> , <code>as.numeric()</code> , or <code>as.character()</code> can all be used to convert between data types. For the example previously given, you could use the following code to change it to an integer if you so desired: <code>cps$educ &lt;- as.integer(cps$educ)</code>. Again, it serves no real purpose here though.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p><span class="math inline">\(\beta\)</span> is the Greek letter beta and <span class="math inline">\(\epsilon\)</span> is the Greek letter epsilon. We use Greek letters in statistics to denote population parameters.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>These two forms, using <span class="math inline">\(\hat{\beta}\)</span> or <span class="math inline">\(\hat{b}\)</span> are the same. It’s simply a matter of differing nomenclature.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>This is known as a Type I error.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>The associated article can be found here: <a href="https://fivethirtyeight.com/features/science-isnt-broken/" class="uri">https://fivethirtyeight.com/features/science-isnt-broken/</a>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>The other assumptions of OLS are linearity and independent observations. Chapter 24 of Introduction to Modern Statistics is a good resource for further discussion on this topic.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>In a linear regression with a log-transformed dependent variable, the coefficient for the independent variable indicates the percent change in Y associated with a one unit increase in X. For example, in the equation <span class="math inline">\(\widehat{log\_wage}_{i} = 0.5838 + 0.0827(educ_i)\)</span> a one year increase in education is associated with an 8.3 percent increase in hourly wage.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Violations of OLS assumptions can lead to inaccurate conclusions, however, and in a more serious project we would want to make sure that we’ve corrected for these types of issues.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./workflows-and-wrangling.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./homework-1.html" class="pagination-link">
+        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
