@@ -6,7 +6,7 @@ Consider, for instance, the rather different problems faced by two researchers. 
 
 For ethical or practical reasons - you can imagine the difficulty in assigning an entire country to a treatment group for a study on cross-national differences, after all - estimating causal effects through experimental methods simply isn't a viable option for most social science research questions. Hence, our need to rely on observational data. The resulting challenge, of course, is that isolating relationships between variables out in the real world can be exceptionally difficult. People lead complex social lives, to say nothing of the organizations and structures they compose, and if we want to say something meaningful about them we need not only need good data, but also methods which can help untangle the relationships between them.
 
-Linear regression is one such method and the subject of this chapter. It is important to realize at this stage that what linear regression can tell us about relationships between variables is often limited. It does not, except under specific circumstances, measure cause-and-effect. Instead, it is best viewed as a method for identifying statistical relationships between variables. In this respect, it is perhaps the most capable andimportant tool available to social scientists.
+Linear regression is one such method and the subject of this chapter. It is important to realize at this stage that what linear regression can tell us about relationships between variables is often limited. It does not, except under specific circumstances, measure cause-and-effect. Instead, it is best viewed as a method for identifying statistical relationships between variables. In this respect, it is perhaps the most capable and important tool available to social scientists.
 
 This chapter will primarily deal with the pragmatic aspects of using linear regressions in `R` rather than with the other important statistical considerations involved in its application, including assumptions and how it is estimated. For treatments of these, I recommend Chapters [7-10](https://openintro-ims.netlify.app/model-slr) and [24-27](https://openintro-ims.netlify.app/inf-model-slr) of the freely available *Introduction to Modern Statistics* (including associated tutorials in `R`, which can be found [here](https://www.openintro.org/book/ims/)). For more detailed and math-heavy treatments of the topic, consider Wooldridge's (2019) *Introductory Econometrics: A Modern Approach, 7e* or Angrist and Pischke's (2008) *Mostly Harmless Econometrics*.
 
@@ -51,7 +51,10 @@ hist(cps$wage)
 As is often the case for income data, the distribution of the wage variable here is right-skewed, which means that most values are located around the mean but a few values are scattered along the right-hand side of the distribution. If we want to get a more detailed sense of the distribution, one option is to use the base `R` function `quantile()` to look at the wages across certain percentiles of the distribution. In this case, we'll look at deciles, which will show us the values for every 10th percentile.
 
 ```{r}
-# The probs argument specifies the desired range of the percentiles returned and the increment.  In this case, we want to see deciles of income, so we use a 0.1 increment.  But, if we wanted to see quartiles, for example, we would use a 0.25 increment.
+# The probs argument specifies the desired range of the percentiles returned and
+# the increment.  In this case, we want to see deciles of income, so we use a 
+# 0.1 increment.  But, if we wanted to see quartiles, for example, we would use 
+# a 0.25 increment.
 quantile(cps$wage, probs = seq(0, 1, 0.1), na.rm = TRUE)
 ```
 
