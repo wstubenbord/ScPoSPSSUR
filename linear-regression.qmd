@@ -130,7 +130,7 @@ Where $Y$ is the dependent (or outcome) variable, $\beta_{0}$ is the intercept, 
 
 [^linear-regression-4]: $\beta$ is the Greek letter beta and $\epsilon$ is the Greek letter epsilon. We use Greek letters in statistics to denote population parameters.
 
-$\hat{y}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}x_1$
+$\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1}x_1$
 
 Or equivalently:[^linear-regression-5]
 
@@ -142,7 +142,7 @@ To put it more concretely in terms of the example we have been discussing:
 
 $\widehat{wage}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}{educ}_{i}$
 
-Where $educ_i$ is the level of education for a survey respondent, $\hat{\beta}_{0}$ is the y-intercept, $\hat{\beta}_{1}$ is the slope of the line (the estimated effect of education on hourly wage), and $\widehat{wage}_{i}$ is the predicted hourly wage for a given level of education.
+Where $educ_i$ is the level of education for a survey respondent, $\hat{\beta}_{0}$ is the y-intercept, $\hat{\beta}_{1}$ is the slope of the line (the estimated effect of education on hourly wage), and $\widehat{wage}_{i}$ is the predicted hourly wage for an individual with some level of education.
 
 In terms of how this works in `R`, it's rather straightforward. You provide an independent and dependent variable to a function and `R` calculates the rest. In fact, you've already done a version of this before using `geom_smooth()`:
 

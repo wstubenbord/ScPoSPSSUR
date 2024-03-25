@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Programming for the Social Sciences Using R - 7&nbsp; Linear Regression and Inference for Categorical Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./homework-1.html" rel="next">
+<link href="./linear-regression.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./inference-continued.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Regression and Inference for Categorical Data</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Programming for the Social Sciences Using R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/wstubenbord/ScPoSPSSUR" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-to-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summarizing-with-dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizing-with-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflows-and-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./linear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference-continued.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Regression and Inference for Categorical Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Appendix</span></span>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#categorical-variables-in-ols-regressions" id="toc-categorical-variables-in-ols-regressions" class="nav-link active" data-scroll-target="#categorical-variables-in-ols-regressions"><span class="header-section-number">7.1</span> Categorical Variables in OLS Regressions</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">7.2</span> Logistic Regression</a></li>
+  <li><a href="#other-regression-forms" id="toc-other-regression-forms" class="nav-link" data-scroll-target="#other-regression-forms"><span class="header-section-number">7.3</span> Other Regression Forms</a></li>
+  <li><a href="#chi-squared-test-for-independence" id="toc-chi-squared-test-for-independence" class="nav-link" data-scroll-target="#chi-squared-test-for-independence"><span class="header-section-number">7.4</span> Chi-Squared Test for Independence</a>
+  <ul class="collapse">
+  <li><a href="#missing-data" id="toc-missing-data" class="nav-link" data-scroll-target="#missing-data"><span class="header-section-number">7.4.1</span> Missing Data</a></li>
+  <li><a href="#bar-graph" id="toc-bar-graph" class="nav-link" data-scroll-target="#bar-graph"><span class="header-section-number">7.4.2</span> Bar Graph</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">7.5</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Regression and Inference for Categorical Data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>This chapter is split into two parts. We’ll first continue where we left off in the last chapter, covering additional topics related to linear regressions. We’ll then cover the implementation of a inferential method used to test relationships between categorical variables.</p>
+<section id="categorical-variables-in-ols-regressions" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="categorical-variables-in-ols-regressions"><span class="header-section-number">7.1</span> Categorical Variables in OLS Regressions</h2>
+<p>As discussed at the end of the previous chapter and in class, multiple or multivariable regression allows us to measure the linear relationship between an independent and dependent variable while holding other variables constant. We can, for example, see whether a positive linear relationship between years of education and wages holds after accounting for other labor market characteristics like experience, job tenure, or sex. This is straightforward for variables like experience and job tenure, which are measured in years, but you might wonder how this is possible for sex, which is categorical rather than quantitative.</p>
+<p>Fortunately, categorical variables can and often are used in regression models. Because the math behind regression requires numbers to calculate the necessary coefficients, however, they must be transformed into nominally quantitative variables first.</p>
+<p>As an example, let’s say that we want to know whether there is a relationship between religious affiliation and fertility (i.e., the number of children you have). More specifically, let’s say that we have reason to believe that Catholics tend to have more children. We could test this using GSS data. For this exercise, we’ll use a subset of GSS data from the <code>socviz</code> package. As usual, we might consider the question descriptively at first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(socviz)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Storing the data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gss <span class="ot">&lt;-</span> gss_sm</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarizing religious affiliation by mean number of children</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(religion) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_child =</span> <span class="fu">mean</span>(childs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+  religion   mean_child     n
+  &lt;fct&gt;           &lt;dbl&gt; &lt;int&gt;
+1 Protestant       2.02  1371
+2 Catholic         2.06   649
+3 Jewish           1.71    51
+4 None             1.41   619
+5 Other            1.32   159
+6 &lt;NA&gt;             2.25    18</code></pre>
+</div>
+</div>
+<p>At first glance, based on the table above, it does appear that Catholics tend to have more children. It’s not a large difference compared to some other religious affiliation groups, however. Since our question implied that we were interested in the comparison between Catholics and all other religious affiliations, let’s check that comparison as well.</p>
+<p>To do this, we’ll need to group by a new variable, which indicates whether a respondent is Catholic or not.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In previous lessons, we've used case_match() together with mutate() to re-code</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># values.  Another option you might see elsewhere is ifelse(). The first</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># argument in ifelse() is the logic condition to be checked, the second is the </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># value output if the condition is true, and the third is the value output if </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># the condition is false.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">catholic =</span> <span class="fu">ifelse</span>(religion <span class="sc">==</span> <span class="st">"Catholic"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Yes"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"No"</span>)) <span class="ot">-&gt;</span> gss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can repeat the previous summary table, this time grouping by the new <code>catholic</code> variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(catholic) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_child =</span> <span class="fu">mean</span>(childs, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  catholic mean_child     n
+  &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;
+1 No             1.79  2200
+2 Yes            2.06   649
+3 &lt;NA&gt;           2.25    18</code></pre>
+</div>
+</div>
+<p>Those who identified as Catholic appear to have more children on average than non-Catholics. We don’t know whether the difference here is due to random chance or not though. To test this, we could use a simple test called a two sample t-test for the difference in means, but since we may wish to control for other variables, a regression would be the better tool.</p>
+<p>As mentioned before, before we can test the relationship between being Catholic and number of children, we need to transform <code>catholic</code> from a categorical (character) variable into a quantitative (numeric) variable. The most logical way to do this is to create a <strong>binary</strong> variable, where <span class="math inline">\(1\)</span> represents being Catholic and <span class="math inline">\(0\)</span> represents not being Catholic.</p>
+<p>The resulting model takes the form:</p>
+<p><span class="math inline">\(\widehat{children_i} =\hat{\beta}_{0}+\hat{\beta}_{1}{catholic}_i\)</span></p>
+<p>Where <span class="math inline">\({catholic}_i= 1\)</span> if the respondent is Catholic and <span class="math inline">\({catholic}_i=0\)</span> if the respondent is not Catholic. <span class="math inline">\(\widehat{children_i}\)</span> therefore gives the predicted number of children based on whether the respondent is Catholic or not and <span class="math inline">\(\hat{\beta}_{1}\)</span> is the estimated effect of being Catholic on the number of children.</p>
+<p>We might imagine that other variables could confound the relationship between being Catholic and the number of children, like education-level perhaps or income. Here, for convenience, we’ll only control for age and number of siblings.</p>
+<p>To run the regression, we’ll first convert the state of being Catholic into a binary variable. This time, we’ll use <code>case_match()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the distinct values in the religion column</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(religion)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 1
+  religion  
+  &lt;fct&gt;     
+1 None      
+2 Catholic  
+3 Protestant
+4 Other     
+5 Jewish    
+6 &lt;NA&gt;      </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vector with non-Catholic entries</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>non_cath <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"None"</span>, <span class="st">"Protestant"</span>, <span class="st">"Other"</span>, <span class="st">"Jewish"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-code religion as a binary catholic variable</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">catholic =</span> <span class="fu">case_match</span>(religion,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Catholic"</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                               non_cath <span class="sc">~</span> <span class="dv">0</span>)) <span class="ot">-&gt;</span> gss_cath</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we can run the regression as in the previous chapter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the regression model and then summarize it</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> gss_cath, <span class="at">formula =</span> childs <span class="sc">~</span> age <span class="sc">+</span> sibs <span class="sc">+</span> catholic)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = childs ~ age + sibs + catholic, data = gss_cath)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-5.473 -1.033 -0.209  0.843  6.870 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.090051   0.088900  -1.013   0.3112    
+age          0.032417   0.001632  19.858   &lt;2e-16 ***
+sibs         0.082623   0.009015   9.166   &lt;2e-16 ***
+catholic     0.170653   0.068756   2.482   0.0131 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.526 on 2826 degrees of freedom
+  (37 observations deleted due to missingness)
+Multiple R-squared:  0.1603,    Adjusted R-squared:  0.1594 
+F-statistic: 179.8 on 3 and 2826 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>As you can see, on average Catholics appear to have more children than non-Catholics holding age and number of siblings constant. Being Catholic is associated with having approximately 0.17 more children on average than non-Catholics.</p>
+<p>Note, of course, that we haven’t checked to see the usual assumptions for OLS regression. Among other things, we also haven’t incorporated survey weights to account for the design of the GSS, considered whether there are other controls that should be included, or considered the 37 observations that were ignored due to missing data. All of these are aspects of statistical analysis that would need to consider more fully in a rigorous study.</p>
+</section>
+<section id="logistic-regression" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">7.2</span> Logistic Regression</h2>
+<p>In both this last example and in the previous chapter, we’ve focused on regression models where the dependent variable is a continuous quantitative variable. What if we want to estimate some categorical outcome, however? What if, for instance, we want to estimate the effect of parental education on the likelihood that an individual will attend college? Or, the likelihood of voting for a particular candidate in an election?</p>
+<p>For categorical outcome variables like these (e.g., going to college, voting for a candidate), we might use a different kind of regression called logistic regression. Logistic regression models have some different properties and estimation features compared to standard OLS regression models. In effect, they are a special type of multiple regression which estimate <span class="math inline">\(\widehat{y}\)</span> values between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> This property is particularly useful for estimating the probability of an outcome occurring.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> For a more detailed discussion of logistic regression properties, you might consider reading <a href="https://openintro-ims.netlify.app/model-logistic">Chapters 9</a> and <a href="https://openintro-ims.netlify.app/inf-model-logistic">26</a> of OpenIntro’s <em>Introduction to Modern Statistics</em>. We’ll focus solely on implementation and interpretation here.</p>
+<p>Let’s again use the GSS data. This time, we’ll consider our previous question in a related form: does being Catholic increase the likelihood of having any children? As before, we’ll need to create a binary variable to indicate whether the respondent has any kids.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a binary variable for having children</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here I'm using a different form of case_match, which is nice for checking</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># logical conditions.  ifelse() would also work here.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>gss_cath <span class="sc">%&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">has_kids =</span> <span class="fu">case_when</span>(childs <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                              childs <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="dv">0</span>)) <span class="ot">-&gt;</span> gss_cath</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Alternatively:</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>gss_cath <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">has_kids =</span> <span class="fu">ifelse</span>(childs <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="ot">-&gt;</span> gss_cath</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Check to make sure we re-coded successfully</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>gss_cath <span class="sc">%&gt;%</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">tabyl</span>(has_kids, kids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> has_kids   0   1   2   3  4+ NA_
+        0 797   0   0   0   0   0
+        1   0 459 733 467 403   0
+       NA   0   0   0   0   0   8</code></pre>
+</div>
+</div>
+<p>Everything looks good. We haven’t accidentally re-coded our <code>NA</code> values (something to watch out for) and only those respondents who report having kids are included in <code>has_kids = 1</code>. Now we can look at the data descriptively again:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize by catholic and has_kids</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>gss_cath <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(catholic, has_kids) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> <span class="fu">round</span>(freq<span class="sc">*</span><span class="dv">100</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'catholic'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 5
+# Groups:   catholic [3]
+  catholic has_kids     n    freq   pct
+     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
+1        0        0   638 0.29     29  
+2        0        1  1556 0.707    70.7
+3        0       NA     6 0.00273   0.3
+4        1        0   154 0.237    23.7
+5        1        1   495 0.763    76.3
+6       NA        0     5 0.278    27.8
+7       NA        1    11 0.611    61.1
+8       NA       NA     2 0.111    11.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, a nice contingency table using a couple </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of functions from the janitor package:</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#gss_cath %&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  janitor::tabyl(religion, has_kids) %&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  janitor::adorn_percentages(denominator = 'row')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Approximately 76.3% of Catholic respondents reported having any children compared to 70.7% of non-Catholic respondents. Now for the regression, using the same controls as last time:</p>
+<p><span class="math inline">\(\widehat{has\_kids}_{i} = \hat{\beta}_{0} +\hat{\beta}_{1}{catholic}_i + \hat{\beta}_{2}{age}_i + \hat{\beta}_{3}{sibs}_{i}\)</span></p>
+<p>And, it’s implementation:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we use a slightly different function:</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>log_reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">data =</span> gss_cath, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">formula =</span> has_kids <span class="sc">~</span> catholic <span class="sc">+</span> age <span class="sc">+</span> sibs, </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> binomial)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(log_reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = has_kids ~ catholic + age + sibs, family = binomial, 
+    data = gss_cath)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -1.63999    0.14175 -11.569  &lt; 2e-16 ***
+catholic     0.18961    0.11190   1.694   0.0902 .  
+age          0.04920    0.00291  16.905  &lt; 2e-16 ***
+sibs         0.08498    0.01669   5.092 3.55e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 3349.7  on 2829  degrees of freedom
+Residual deviance: 2947.8  on 2826  degrees of freedom
+  (37 observations deleted due to missingness)
+AIC: 2955.8
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>Here there appears to be no statistically significant relationship between being Catholic and having children (<span class="math inline">\(p &gt; 0.05\)</span>). If we were to take these results and the previous results at face value (ignoring other considerations about the accuracy of the estimates we’ve obtained, such as improper controls), we might say that Catholics tend to have more children than non-Catholics, but being Catholic doesn’t necessarily mean you are more likely to have children in the first place.</p>
+<p>The interpretation of the coefficients is more difficult than in a standard OLS regression. This is due to the different properties of the logistic regression model alluded to earlier. Essentially, these coefficients come to us in the form of what are called log-odds. A 1 year increase in age, in this model, is associated with a 0.049 increase in the log-odds of having children. Similarly, having an additional sibling increases the log-odds of having children by 0.08. But, log-odds don’t have an easily interpretable meaning on their own. To make them interpretable, we can exponentiate them (<span class="math inline">\(e^x\)</span>), which can be done with the following commands:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(log_reg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)    catholic         age        sibs 
+  0.1939813   1.2087758   1.0504255   1.0886907 </code></pre>
+</div>
+</div>
+<p>These new coefficients above can now be interpreted as follows: for a 1-year increase in age, the odds of being a parent increase by a factor of 1.05. Imagine, for instance, that a non-Catholic, 25-year old with two siblings has a 25% chance of being a parent. This implies that a non-Catholic, 26-year old with two siblings would have a 26.3% chance of being a parent (<span class="math inline">\(0.25 * 1.05 = 0.263\)</span>).<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Similarly, if the coefficient for Catholic had been statistically significant, we might have said that being Catholic increases the odds of being a parent by a factor of 1.21.</p>
+</section>
+<section id="other-regression-forms" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="other-regression-forms"><span class="header-section-number">7.3</span> Other Regression Forms</h2>
+<p>There are, of course, other types of regressions not covered here which are suited for a variety of needs. Below are a few commonly used variants in the social sciences (non-exhaustive, of course):</p>
+<ul>
+<li><strong>Ordinal Regression</strong> - A form of logistic regression useful for data with ordered categories, often survey results (“On a scale of ‘Strongly Disagree’ to ‘Strongly Agree’…”).</li>
+<li><strong><em>Multinomial Logistic Regression</em></strong> - Another form of logistic regression useful for unordered categories.</li>
+<li><strong><em>Linear Probability Model</em></strong> - A standard OLS regression for a categorical outcome variable. See footnote 1.</li>
+<li><strong><em>Poisson Regression</em></strong> - Used for count data, such as the number of times an event occurs within a given time span.</li>
+</ul>
+</section>
+<section id="chi-squared-test-for-independence" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="chi-squared-test-for-independence"><span class="header-section-number">7.4</span> Chi-Squared Test for Independence</h2>
+<p>Linear regression is a versatile enough tool that it probably used for the majority of social science research questions involving quantitative analysis. Logistic regression, as you just saw, can even handle questions related entirely to categorical variables. It is still worth addressing, even briefly, however, cases where you are interested in determining whether or not there is an association between two categorical variables. For this, we use an inferential method called the chi-squared test for independence.</p>
+<p>Returning to the GSS data and a question we had considered earlier in the course, let’s say that we want to know whether there is an association between marital status and reported levels of happiness among U.S. respondents. Essentially, we’ll want to know whether higher proportions of individuals in certain classes of marital status report greater levels of subjective happiness than others. To do this, we’ll want to take a look at a contingency table (also known as a cross-tab).</p>
+<p>To make our lives easier, we’ll create one by loading the <code>janitor</code> package and using <code>tabyl()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('janitor')</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'janitor'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    chisq.test, fisher.test</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(marital, happy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       marital Very Happy Pretty Happy Not Too Happy NA_
+       Married        465          657            86   4
+       Widowed         59          126            66   0
+      Divorced        100          281           114   0
+     Separated         26           46            29   1
+ Never Married        156          490           157   3
+          &lt;NA&gt;          0            1             0   0</code></pre>
+</div>
+</div>
+<p>The table above shows the raw count of respondents in each category. We can see, for example, that 465 individuals are married and report being “very happy.” 126 respondents who are widowed, similarly, report being “pretty happy.” Counts, of course, are not particularly helpful for comparing values across categories - especially when we don’t have totals we can compare them against. We can add totals with the following addition from <code>janitor</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(marital, happy) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="at">where =</span> <span class="fu">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       marital Very Happy Pretty Happy Not Too Happy NA_ Total
+       Married        465          657            86   4  1212
+       Widowed         59          126            66   0   251
+      Divorced        100          281           114   0   495
+     Separated         26           46            29   1   102
+ Never Married        156          490           157   3   806
+          &lt;NA&gt;          0            1             0   0     1
+         Total        806         1601           452   8  2867</code></pre>
+</div>
+</div>
+<p>Now, we can see that 251 individuals are widowed in total and 806 individuals in total reported being very happy. We could start to do the math ourselves here to compare across categories. Or we could let <code>janitor</code> do the work for us:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(marital, happy) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_totals</span>(<span class="at">where =</span> <span class="fu">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>(<span class="at">denominator =</span> <span class="st">"row"</span>)   <span class="co"># Try "col" or "all" as the argument.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       marital Very Happy Pretty Happy Not Too Happy         NA_ Total
+       Married  0.3836634    0.5420792     0.0709571 0.003300330     1
+       Widowed  0.2350598    0.5019920     0.2629482 0.000000000     1
+      Divorced  0.2020202    0.5676768     0.2303030 0.000000000     1
+     Separated  0.2549020    0.4509804     0.2843137 0.009803922     1
+ Never Married  0.1935484    0.6079404     0.1947891 0.003722084     1
+          &lt;NA&gt;  0.0000000    1.0000000     0.0000000 0.000000000     1
+         Total  0.2811301    0.5584234     0.1576561 0.002790373     1</code></pre>
+</div>
+</div>
+<p>Notice, the argument in <code>adorn_percentages()</code> allows us to specify how we’d like to calculate the percentages. If we want to see, for example, how the percentage of married individuals who report being “very happy” compares to the percentage of widowed individuals who report being “very happy”, then the current command (where the denominator is specified as being <code>row</code>) probably makes the most sense. As can be seen, 38.5% of married individuals report being “very happy” compared to 23.5% of widowed individuals.</p>
+<section id="missing-data" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="missing-data"><span class="header-section-number">7.4.1</span> Missing Data</h3>
+<p>At this point, it is worth pausing to note that we have some missing values which will cause problems with our analysis later on. In general, the choice of what to do with missing values depends on the particular case. In some cases, we might pursue a strategy of list-wise deletion, for example, in which we delete all rows missing data for any variables. In other cases, we might use imputation methods, which generate generate substitute values for missing data. In this particular case, we’re just going to remove the 9 missing values across the two variables.</p>
+<p>The key concern here is whether the dropped data is going to bias our estimates in some way. This isn’t necessarily a function of the number of missing values dropped (which in this case is small), but as to whether those missing values are unlike the values that were retained in some important way.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dropping NAs for marital and happy</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>gss <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(marital, happy) <span class="ot">-&gt;</span> gss_no_na</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="bar-graph" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="bar-graph"><span class="header-section-number">7.4.2</span> Bar Graph</h3>
+<p>Naturally, for large amounts of data like in the previous table, a data visualization might aid in identifying patterns. Here we’ll use a special <code>ggplot2</code> function, <code>facet_grid()</code>, which allows for the creation of multiple plots across some dimension (in this case, it creates separate bar plots by <code>marital</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the counts and proportions in a tidy format</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>gss_no_na <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(marital, happy) <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">freq =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">pct =</span> (freq<span class="sc">*</span><span class="dv">100</span>)) <span class="ot">-&gt;</span> happy_by_marit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'marital'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the tidy data to create a graph.</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: the theme at the bottom remove repeated labels for the bars.</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>happy_by_marit <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> happy,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> pct,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> happy)) <span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>marital) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x=</span><span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="inference-continued_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The graph above doesn’t show a very clear relationship. We can see that married respondents report greater levels of combined happiness, but beyond this, it is a bit of a muddle.</p>
+<p>To test more definitively whether there is an association between marital status and reported happiness, we can use the chi-squared test for independence. Chi-squared tests essentially allow you to determine whether the distribution of the categorical variables we saw across the contingency table is due to random chance alone or whether it is evidence of an association between the two variables (<code>marit</code> and <code>happy</code>). The null hypothesis is that there is no relationship between the two variables and the alternative hypothesis is that there is a relationship between marital status and reported happiness.</p>
+<p>Calculating the test statistic required to test this hypothesis follows a relatively straight-forward formula:</p>
+<p><span class="math inline">\(\chi^2 = \sum \frac{(\text{observed count} - \text{expected count})^2}{\text{expected count}}\)</span></p>
+<p>Where observed count refers to the actual count observed in the contingency table and expected count refers to the count that hypothetically would have been observed if there was no association between the variables. To implement the test, we can use <code>janitor</code> again:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>gss_no_na <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(marital, happy) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">chisq.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  .
+X-squared = 197.61, df = 8, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Easy enough! We’ve obtained the chi-squared value (the test statistic) and the p-value. The reported p-value is less than 0.05 and so we can therefore reject the null hypothesis. There is evidence of an association marital status and reported levels of happiness in this data.</p>
+<p>This is essentially all we can say based on the chi-squared results here. Any further interpretation would needs to come from subsequent tests or from descriptive analysis.</p>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7.5</span> Exercises</h2>
+<p>Use the <code>gss_sm</code> dataset from the <code>socviz</code> package to complete the following:</p>
+<ol type="1">
+<li><p>Create a variable to indicate whether a respondent’s father graduated from college or not (bachelor’s degree or higher) using <code>padeg</code>. Then, create a variable to indicate whether a respondent’s mother graduated from college or not (again, bachelor’s degree or higher) using <code>madeg</code>. Then, use a regression to determine whether either had an effect on the respondent’s number of siblings. Interpret your results.</p></li>
+<li><p>Determine whether gender, age, and whether the respondent voted for Obama have an effect on support for marijuana legalization.</p></li>
+<li><p>Determine whether there is an association between political views (<code>polviews</code>) and gender (<code>sex</code>).</p></li>
+</ol>
+
+
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>It’s worth noting that the standard OLS model can also be used for categorical outcome variables. The difference between standard OLS and logistic regression, however, is that standard OLS can estimate beyond <span class="math inline">\({\{0,1\}}\)</span>. This can sometimes be a problem when estimating probabilities, since probabilities are also bounded between <span class="math inline">\({\{0,1\}}\)</span>. When used in this way, the standard OLS model is known as a <strong>linear probability model</strong>. These models have the benefit of being easier to interpret than logistic regression.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>It’s also why logistic regression is a common machine learning technique.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>You can imagine that this doesn’t make a lot of sense, since at some point, increases in age may decrease the likelihood of being a parent. This implies some non-linearity, which is not present in the model used here. To introduce this non-linearity, essentially what you would do is add a quadratic term (and possibly even a cubic or quartic term) to the equation for age, such that the model might look more like this: <span class="math inline">\(\widehat{has\_kids}_{i} = \hat{\beta}_{0} +\hat{\beta}_{1}{catholic}_i + \hat{\beta}_{2}{age}_i + \hat{\beta}_{3}{{age}_{i}}^2 + \hat{\beta}_{5}{sibs}_{i}\)</span><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./linear-regression.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./homework-1.html" class="pagination-link">
+        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

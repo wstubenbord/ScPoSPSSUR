@@ -17,6 +17,7 @@ book:
     - visualizing-with-ggplot.qmd
     - workflows-and-wrangling.qmd
     - linear-regression.qmd
+    - inference-continued.qmd
     - part: "Assignments"
       chapters:
       - homework-1.qmd

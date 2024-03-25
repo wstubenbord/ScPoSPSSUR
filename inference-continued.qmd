@@ -1,0 +1,283 @@
+# Linear Regression and Inference for Categorical Data
+
+This chapter is split into two parts. We'll first continue where we left off in the last chapter, covering additional topics related to linear regressions. We'll then cover the implementation of a inferential method used to test relationships between categorical variables.
+
+## Categorical Variables in OLS Regressions
+
+As discussed at the end of the previous chapter and in class, multiple or multivariable regression allows us to measure the linear relationship between an independent and dependent variable while holding other variables constant. We can, for example, see whether a positive linear relationship between years of education and wages holds after accounting for other labor market characteristics like experience, job tenure, or sex. This is straightforward for variables like experience and job tenure, which are measured in years, but you might wonder how this is possible for sex, which is categorical rather than quantitative.
+
+Fortunately, categorical variables can and often are used in regression models. Because the math behind regression requires numbers to calculate the necessary coefficients, however, they must be transformed into nominally quantitative variables first.
+
+As an example, let's say that we want to know whether there is a relationship between religious affiliation and fertility (i.e., the number of children you have). More specifically, let's say that we have reason to believe that Catholics tend to have more children. We could test this using GSS data. For this exercise, we'll use a subset of GSS data from the `socviz` package. As usual, we might consider the question descriptively at first:
+
+```{r, message=FALSE}
+# Loading packages
+library(socviz)
+library(tidyverse)
+```
+
+```{r}
+# Storing the data
+gss <- gss_sm
+
+# Summarizing religious affiliation by mean number of children
+gss %>%
+  group_by(religion) %>%
+  summarize(mean_child = mean(childs, na.rm = TRUE),
+            n = n())
+```
+
+At first glance, based on the table above, it does appear that Catholics tend to have more children. It's not a large difference compared to some other religious affiliation groups, however. Since our question implied that we were interested in the comparison between Catholics and all other religious affiliations, let's check that comparison as well.
+
+To do this, we'll need to group by a new variable, which indicates whether a respondent is Catholic or not.
+
+```{r}
+# In previous lessons, we've used case_match() together with mutate() to re-code
+# values.  Another option you might see elsewhere is ifelse(). The first
+# argument in ifelse() is the logic condition to be checked, the second is the 
+# value output if the condition is true, and the third is the value output if 
+# the condition is false.
+
+gss %>% 
+  mutate(catholic = ifelse(religion == "Catholic",
+                           "Yes",
+                           "No")) -> gss
+
+```
+
+Now we can repeat the previous summary table, this time grouping by the new `catholic` variable:
+
+```{r}
+gss %>%
+  group_by(catholic) %>%
+  summarize(mean_child = mean(childs, na.rm = TRUE),
+            n = n())
+```
+
+Those who identified as Catholic appear to have more children on average than non-Catholics. We don't know whether the difference here is due to random chance or not though. To test this, we could use a simple test called a two sample t-test for the difference in means, but since we may wish to control for other variables, a regression would be the better tool.
+
+As mentioned before, before we can test the relationship between being Catholic and number of children, we need to transform `catholic` from a categorical (character) variable into a quantitative (numeric) variable. The most logical way to do this is to create a **binary** variable, where $1$ represents being Catholic and $0$ represents not being Catholic.
+
+The resulting model takes the form:
+
+$\widehat{children_i} =\hat{\beta}_{0}+\hat{\beta}_{1}{catholic}_i$
+
+Where ${catholic}_i= 1$ if the respondent is Catholic and ${catholic}_i=0$ if the respondent is not Catholic. $\widehat{children_i}$ therefore gives the predicted number of children based on whether the respondent is Catholic or not and $\hat{\beta}_{1}$ is the estimated effect of being Catholic on the number of children.
+
+We might imagine that other variables could confound the relationship between being Catholic and the number of children, like education-level perhaps or income. Here, for convenience, we'll only control for age and number of siblings.
+
+To run the regression, we'll first convert the state of being Catholic into a binary variable. This time, we'll use `case_match()`:
+
+```{r}
+# Check the distinct values in the religion column
+gss %>%
+  distinct(religion)
+
+# Create a vector with non-Catholic entries
+non_cath <- c("None", "Protestant", "Other", "Jewish")
+
+# Re-code religion as a binary catholic variable
+gss %>%
+  mutate(catholic = case_match(religion,
+                               "Catholic" ~ 1,
+                               non_cath ~ 0)) -> gss_cath
+```
+
+Now, we can run the regression as in the previous chapter:
+
+```{r}
+# Store the regression model and then summarize it
+reg <- lm(data = gss_cath, formula = childs ~ age + sibs + catholic)
+summary(reg)
+```
+
+As you can see, on average Catholics appear to have more children than non-Catholics holding age and number of siblings constant. Being Catholic is associated with having approximately 0.17 more children on average than non-Catholics.
+
+Note, of course, that we haven't checked to see the usual assumptions for OLS regression. Among other things, we also haven't incorporated survey weights to account for the design of the GSS, considered whether there are other controls that should be included, or considered the 37 observations that were ignored due to missing data. All of these are aspects of statistical analysis that would need to consider more fully in a rigorous study.
+
+## Logistic Regression
+
+In both this last example and in the previous chapter, we've focused on regression models where the dependent variable is a continuous quantitative variable. What if we want to estimate some categorical outcome, however? What if, for instance, we want to estimate the effect of parental education on the likelihood that an individual will attend college? Or, the likelihood of voting for a particular candidate in an election?
+
+For categorical outcome variables like these (e.g., going to college, voting for a candidate), we might use a different kind of regression called logistic regression. Logistic regression models have some different properties and estimation features compared to standard OLS regression models. In effect, they are a special type of multiple regression which estimate $\widehat{y}$ values between $0$ and $1$.[^inference-continued-1] This property is particularly useful for estimating the probability of an outcome occurring.[^inference-continued-2] For a more detailed discussion of logistic regression properties, you might consider reading [Chapters 9](https://openintro-ims.netlify.app/model-logistic) and [26](https://openintro-ims.netlify.app/inf-model-logistic) of OpenIntro's *Introduction to Modern Statistics*. We'll focus solely on implementation and interpretation here.
+
+[^inference-continued-1]: It's worth noting that the standard OLS model can also be used for categorical outcome variables. The difference between standard OLS and logistic regression, however, is that standard OLS can estimate beyond ${\{0,1\}}$. This can sometimes be a problem when estimating probabilities, since probabilities are also bounded between ${\{0,1\}}$. When used in this way, the standard OLS model is known as a **linear probability model**. These models have the benefit of being easier to interpret than logistic regression.
+
+[^inference-continued-2]: It's also why logistic regression is a common machine learning technique.
+
+Let's again use the GSS data. This time, we'll consider our previous question in a related form: does being Catholic increase the likelihood of having any children? As before, we'll need to create a binary variable to indicate whether the respondent has any kids.
+
+```{r}
+# Create a binary variable for having children
+# Here I'm using a different form of case_match, which is nice for checking
+# logical conditions.  ifelse() would also work here.
+gss_cath %>% 
+  mutate(has_kids = case_when(childs > 0 ~ 1,
+                              childs == 0 ~ 0)) -> gss_cath
+
+#Alternatively:
+gss_cath %>%
+  mutate(has_kids = ifelse(childs > 0, 1, 0)) -> gss_cath
+
+# Check to make sure we re-coded successfully
+gss_cath %>%
+  janitor::tabyl(has_kids, kids)
+```
+
+Everything looks good. We haven't accidentally re-coded our `NA` values (something to watch out for) and only those respondents who report having kids are included in `has_kids = 1`. Now we can look at the data descriptively again:
+
+```{r}
+# Summarize by catholic and has_kids
+gss_cath %>%
+  group_by(catholic, has_kids) %>%
+  summarize(n = n()) %>%
+  mutate(freq = n / sum(n),
+         pct = round(freq*100,1))
+
+# Alternatively, a nice contingency table using a couple 
+# of functions from the janitor package:
+#gss_cath %>%
+#  janitor::tabyl(religion, has_kids) %>%
+#  janitor::adorn_percentages(denominator = 'row')
+```
+
+Approximately 76.3% of Catholic respondents reported having any children compared to 70.7% of non-Catholic respondents. Now for the regression, using the same controls as last time:
+
+$\widehat{has\_kids}_{i} = \hat{\beta}_{0} +\hat{\beta}_{1}{catholic}_i + \hat{\beta}_{2}{age}_i + \hat{\beta}_{3}{sibs}_{i}$
+
+And, it's implementation:
+
+```{r}
+# Here we use a slightly different function:
+log_reg <- glm(data = gss_cath, 
+               formula = has_kids ~ catholic + age + sibs, 
+               family = binomial)
+
+summary(log_reg)
+```
+
+Here there appears to be no statistically significant relationship between being Catholic and having children ($p > 0.05$). If we were to take these results and the previous results at face value (ignoring other considerations about the accuracy of the estimates we've obtained, such as improper controls), we might say that Catholics tend to have more children than non-Catholics, but being Catholic doesn't necessarily mean you are more likely to have children in the first place.
+
+The interpretation of the coefficients is more difficult than in a standard OLS regression. This is due to the different properties of the logistic regression model alluded to earlier. Essentially, these coefficients come to us in the form of what are called log-odds. A 1 year increase in age, in this model, is associated with a 0.049 increase in the log-odds of having children. Similarly, having an additional sibling increases the log-odds of having children by 0.08. But, log-odds don't have an easily interpretable meaning on their own. To make them interpretable, we can exponentiate them ($e^x$), which can be done with the following commands:
+
+```{r}
+exp(coef(log_reg))
+
+```
+
+These new coefficients above can now be interpreted as follows: for a 1-year increase in age, the odds of being a parent increase by a factor of 1.05. Imagine, for instance, that a non-Catholic, 25-year old with two siblings has a 25% chance of being a parent. This implies that a non-Catholic, 26-year old with two siblings would have a 26.3% chance of being a parent ($0.25 * 1.05 = 0.263$).[^inference-continued-3] Similarly, if the coefficient for Catholic had been statistically significant, we might have said that being Catholic increases the odds of being a parent by a factor of 1.21.
+
+[^inference-continued-3]: You can imagine that this doesn't make a lot of sense, since at some point, increases in age may decrease the likelihood of being a parent. This implies some non-linearity, which is not present in the model used here. To introduce this non-linearity, essentially what you would do is add a quadratic term (and possibly even a cubic or quartic term) to the equation for age, such that the model might look more like this: $\widehat{has\_kids}_{i} = \hat{\beta}_{0} +\hat{\beta}_{1}{catholic}_i + \hat{\beta}_{2}{age}_i + \hat{\beta}_{3}{{age}_{i}}^2 + \hat{\beta}_{5}{sibs}_{i}$
+
+## Other Regression Forms
+
+There are, of course, other types of regressions not covered here which are suited for a variety of needs. Below are a few commonly used variants in the social sciences (non-exhaustive, of course):
+
+-   **Ordinal Regression** - A form of logistic regression useful for data with ordered categories, often survey results ("On a scale of 'Strongly Disagree' to 'Strongly Agree'...").
+-   ***Multinomial Logistic Regression*** - Another form of logistic regression useful for unordered categories.
+-   ***Linear Probability Model*** - A standard OLS regression for a categorical outcome variable. See footnote 1.
+-   ***Poisson Regression*** - Used for count data, such as the number of times an event occurs within a given time span.
+
+## Chi-Squared Test for Independence
+
+Linear regression is a versatile enough tool that it probably used for the majority of social science research questions involving quantitative analysis. Logistic regression, as you just saw, can even handle questions related entirely to categorical variables. It is still worth addressing, even briefly, however, cases where you are interested in determining whether or not there is an association between two categorical variables. For this, we use an inferential method called the chi-squared test for independence.
+
+Returning to the GSS data and a question we had considered earlier in the course, let's say that we want to know whether there is an association between marital status and reported levels of happiness among U.S. respondents. Essentially, we'll want to know whether higher proportions of individuals in certain classes of marital status report greater levels of subjective happiness than others. To do this, we'll want to take a look at a contingency table (also known as a cross-tab).
+
+To make our lives easier, we'll create one by loading the `janitor` package and using `tabyl()`:
+
+```{r}
+# install.packages('janitor')
+library(janitor)
+```
+
+```{r}
+gss %>%
+  tabyl(marital, happy)
+```
+
+The table above shows the raw count of respondents in each category. We can see, for example, that 465 individuals are married and report being "very happy." 126 respondents who are widowed, similarly, report being "pretty happy." Counts, of course, are not particularly helpful for comparing values across categories - especially when we don't have totals we can compare them against. We can add totals with the following addition from `janitor`:
+
+```{r}
+gss %>%
+  tabyl(marital, happy) %>%
+  adorn_totals(where = c("row", "col"))
+```
+
+Now, we can see that 251 individuals are widowed in total and 806 individuals in total reported being very happy. We could start to do the math ourselves here to compare across categories. Or we could let `janitor` do the work for us:
+
+```{r}
+gss %>%
+  tabyl(marital, happy) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages(denominator = "row")   # Try "col" or "all" as the argument.
+```
+
+Notice, the argument in `adorn_percentages()` allows us to specify how we'd like to calculate the percentages. If we want to see, for example, how the percentage of married individuals who report being "very happy" compares to the percentage of widowed individuals who report being "very happy", then the current command (where the denominator is specified as being `row`) probably makes the most sense. As can be seen, 38.5% of married individuals report being "very happy" compared to 23.5% of widowed individuals.
+
+### Missing Data
+
+At this point, it is worth pausing to note that we have some missing values which will cause problems with our analysis later on. In general, the choice of what to do with missing values depends on the particular case. In some cases, we might pursue a strategy of list-wise deletion, for example, in which we delete all rows missing data for any variables. In other cases, we might use imputation methods, which generate generate substitute values for missing data. In this particular case, we're just going to remove the 9 missing values across the two variables.
+
+The key concern here is whether the dropped data is going to bias our estimates in some way. This isn't necessarily a function of the number of missing values dropped (which in this case is small), but as to whether those missing values are unlike the values that were retained in some important way.
+
+```{r}
+# Dropping NAs for marital and happy
+gss %>%
+  drop_na(marital, happy) -> gss_no_na
+
+```
+
+### Bar Graph
+
+Naturally, for large amounts of data like in the previous table, a data visualization might aid in identifying patterns. Here we'll use a special `ggplot2` function, `facet_grid()`, which allows for the creation of multiple plots across some dimension (in this case, it creates separate bar plots by `marital`).
+
+```{r}
+# Summarize the counts and proportions in a tidy format
+gss_no_na %>%
+  group_by(marital, happy) %>%
+  summarize(n = n()) %>%
+  mutate(freq = n / sum(n),
+         pct = (freq*100)) -> happy_by_marit
+
+# Use the tidy data to create a graph.
+# Note: the theme at the bottom remove repeated labels for the bars.
+happy_by_marit %>%
+  ggplot(aes(x = happy,
+             y = pct,
+             fill = happy)) +
+  geom_col() +
+  facet_grid(~marital) + labs(x=NULL) + theme_bw() + 
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+The graph above doesn't show a very clear relationship. We can see that married respondents report greater levels of combined happiness, but beyond this, it is a bit of a muddle.
+
+To test more definitively whether there is an association between marital status and reported happiness, we can use the chi-squared test for independence. Chi-squared tests essentially allow you to determine whether the distribution of the categorical variables we saw across the contingency table is due to random chance alone or whether it is evidence of an association between the two variables (`marit` and `happy`). The null hypothesis is that there is no relationship between the two variables and the alternative hypothesis is that there is a relationship between marital status and reported happiness. 
+
+Calculating the test statistic required to test this hypothesis follows a relatively straight-forward formula:
+
+$\chi^2 = \sum \frac{(\text{observed count} - \text{expected count})^2}{\text{expected count}}$
+
+Where observed count refers to the actual count observed in the contingency table and expected count refers to the count that hypothetically would have been observed if there was no association between the variables.  To implement the test, we can use `janitor` again:
+
+```{r}
+gss_no_na %>%
+  tabyl(marital, happy) %>%
+  chisq.test()
+```
+Easy enough!  We've obtained the chi-squared value (the test statistic) and the p-value.  The reported p-value is less than 0.05 and so we can therefore reject the null hypothesis.  There is evidence of an association marital status and reported levels of happiness in this data.
+
+This is essentially all we can say based on the chi-squared results here.  Any further interpretation would needs to come from subsequent tests or from descriptive analysis.
+
+## Exercises
+
+Use the `gss_sm` dataset from the `socviz` package to complete the following:
+
+1. Create a variable to indicate whether a respondent's father graduated from college or not (bachelor's degree or higher) using `padeg`.  Then, create a variable to indicate whether a respondent's mother graduated from college or not (again, bachelor's degree or higher) using `madeg`.  Then, use a regression to determine whether either had an effect on the respondent's number of siblings. Interpret your results.
+
+2. Determine whether gender, age, and whether the respondent voted for Obama have an effect on support for marijuana legalization.
+
+3. Determine whether there is an association between political views (`polviews`) and gender (`sex`).

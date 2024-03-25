@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./homework-1.html" rel="next">
+<link href="./inference-continued.html" rel="next">
 <link href="./workflows-and-wrangling.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -195,6 +195,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./linear-regression.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference-continued.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Regression and Inference for Categorical Data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -449,12 +455,12 @@ Answer
 <p>You may remember from your previous statistics course that a simple ordinary least squares (OLS) regression follows the general form:</p>
 <p><span class="math inline">\(Y = \beta_{0} +\beta_{1}X_{1} + \epsilon\)</span></p>
 <p>Where <span class="math inline">\(Y\)</span> is the dependent (or outcome) variable, <span class="math inline">\(\beta_{0}\)</span> is the intercept, <span class="math inline">\(X_1\)</span> is the independent (or explanatory) variable, <span class="math inline">\(\beta_{1}\)</span> is the coefficient, and <span class="math inline">\(\epsilon\)</span> is the error term.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> We generate an estimate of the parameters <span class="math inline">\(\beta_{0}\)</span> and <span class="math inline">\(\beta_{1}\)</span> using sample data for our variables of interest, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, and the method of ordinary least squares, which minimizes the sum of squared residuals. The line of best fit estimated in this way takes the form:</p>
-<p><span class="math inline">\(\hat{y}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}x_1\)</span></p>
+<p><span class="math inline">\(\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1}x_1\)</span></p>
 <p>Or equivalently:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
 <p><span class="math inline">\(\hat{y} = \hat{b}_{0} + \hat{b}_{1}x_1\)</span></p>
 <p>To put it more concretely in terms of the example we have been discussing:</p>
 <p><span class="math inline">\(\widehat{wage}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}{educ}_{i}\)</span></p>
-<p>Where <span class="math inline">\(educ_i\)</span> is the level of education for a survey respondent, <span class="math inline">\(\hat{\beta}_{0}\)</span> is the y-intercept, <span class="math inline">\(\hat{\beta}_{1}\)</span> is the slope of the line (the estimated effect of education on hourly wage), and <span class="math inline">\(\widehat{wage}_{i}\)</span> is the predicted hourly wage for a given level of education.</p>
+<p>Where <span class="math inline">\(educ_i\)</span> is the level of education for a survey respondent, <span class="math inline">\(\hat{\beta}_{0}\)</span> is the y-intercept, <span class="math inline">\(\hat{\beta}_{1}\)</span> is the slope of the line (the estimated effect of education on hourly wage), and <span class="math inline">\(\widehat{wage}_{i}\)</span> is the predicted hourly wage for an individual with some level of education.</p>
 <p>In terms of how this works in <code>R</code>, it’s rather straightforward. You provide an independent and dependent variable to a function and <code>R</code> calculates the rest. In fact, you’ve already done a version of this before using <code>geom_smooth()</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cps <span class="sc">%&gt;%</span></span>
@@ -867,8 +873,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./homework-1.html" class="pagination-link">
-        <span class="nav-page-text">Homework 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./inference-continued.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Regression and Inference for Categorical Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

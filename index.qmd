@@ -19,6 +19,8 @@ If you would like to dig deeper into a particular topic or simply want to read o
 
 I'll be making frequent updates to the textbook, often changing the appearance, structure, and/or content. In general, these changes won't be substantive. In other words, they won't change what you are required to know or how you are expected to do things. You might, however, find that certain sections become more detailed as the course progresses. If you would like to see a detailed list of changes (including my frequent struggles with word choice), take a look at the [GitHub repository](https://github.com/wstubenbord/ScPoSPSSUR). For those of you with better things to do in your spare time, a brief chronological summary of updates is provided below:
 
+-   **2024.03.19** - Minor edits to Chapter 6.
+-   **2024.03.17** - Chapter 6 has been posted.
 -   **2024.03.07** - More minor edits to Chapter 5.
 -   **2024.03.06** - Minor edits to Chapter 5 for clarity, typos.
 -   **2024.03.05** - Homework 3 has been posted.
