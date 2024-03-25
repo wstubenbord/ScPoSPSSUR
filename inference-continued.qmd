@@ -1,6 +1,6 @@
 # Linear Regression and Inference for Categorical Data
 
-This chapter is split into two parts. We'll first continue where we left off in the last chapter, covering additional topics related to linear regressions. We'll then cover the implementation of a inferential method used to test relationships between categorical variables.
+This chapter is split into two parts. We'll first continue where we left off in the last chapter, covering additional topics related to linear regressions. We'll then cover the implementation of an inferential method used to test relationships between categorical variables.
 
 ## Categorical Variables in OLS Regressions
 
