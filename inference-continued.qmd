@@ -255,29 +255,30 @@ happy_by_marit %>%
 
 The graph above doesn't show a very clear relationship. We can see that married respondents report greater levels of combined happiness, but beyond this, it is a bit of a muddle.
 
-To test more definitively whether there is an association between marital status and reported happiness, we can use the chi-squared test for independence. Chi-squared tests essentially allow you to determine whether the distribution of the categorical variables we saw across the contingency table is due to random chance alone or whether it is evidence of an association between the two variables (`marit` and `happy`). The null hypothesis is that there is no relationship between the two variables and the alternative hypothesis is that there is a relationship between marital status and reported happiness. 
+To test more definitively whether there is an association between marital status and reported happiness, we can use the chi-squared test for independence. Chi-squared tests essentially allow you to determine whether the distribution of the categorical variables we saw across the contingency table is due to random chance alone or whether it is evidence of an association between the two variables (`marit` and `happy`). The null hypothesis is that there is no relationship between the two variables and the alternative hypothesis is that there is a relationship between marital status and reported happiness.
 
 Calculating the test statistic required to test this hypothesis follows a relatively straight-forward formula:
 
 $\chi^2 = \sum \frac{(\text{observed count} - \text{expected count})^2}{\text{expected count}}$
 
-Where observed count refers to the actual count observed in the contingency table and expected count refers to the count that hypothetically would have been observed if there was no association between the variables.  To implement the test, we can use `janitor` again:
+Where observed count refers to the actual count observed in the contingency table and expected count refers to the count that hypothetically would have been observed if there was no association between the variables. To implement the test, we can use `janitor` again:
 
 ```{r}
 gss_no_na %>%
   tabyl(marital, happy) %>%
   chisq.test()
 ```
-Easy enough!  We've obtained the chi-squared value (the test statistic) and the p-value.  The reported p-value is less than 0.05 and so we can therefore reject the null hypothesis.  There is evidence of an association marital status and reported levels of happiness in this data.
 
-This is essentially all we can say based on the chi-squared results here.  Any further interpretation would needs to come from subsequent tests or from descriptive analysis.
+Easy enough! We've obtained the chi-squared value (the test statistic) and the p-value. The reported p-value is less than 0.05 and so we can therefore reject the null hypothesis. There is evidence of an association between marital status and reported levels of happiness in this data.
+
+This is essentially all we can say based on the chi-squared results here. Any further interpretation would needs to come from subsequent tests or from descriptive analysis.
 
 ## Exercises
 
 Use the `gss_sm` dataset from the `socviz` package to complete the following:
 
-1. Create a variable to indicate whether a respondent's father graduated from college or not (bachelor's degree or higher) using `padeg`.  Then, create a variable to indicate whether a respondent's mother graduated from college or not (again, bachelor's degree or higher) using `madeg`.  Then, use a regression to determine whether either had an effect on the respondent's number of siblings. Interpret your results.
+1.  Create a variable to indicate whether a respondent's father graduated from college or not (bachelor's degree or higher) using `padeg`. Then, create a variable to indicate whether a respondent's mother graduated from college or not (again, bachelor's degree or higher) using `madeg`. Then, use a regression to determine whether either had an effect on the respondent's number of siblings. Interpret your results.
 
-2. Determine whether gender, age, and whether the respondent voted for Obama have an effect on support for marijuana legalization.
+2.  Determine whether gender, age, and whether the respondent voted for Obama have an effect on support for marijuana legalization.
 
-3. Determine whether there is an association between political views (`polviews`) and gender (`sex`).
+3.  Determine whether there is an association between political views (`polviews`) and gender (`sex`).
