@@ -23,6 +23,7 @@ book:
       - homework-1.qmd
       - homework-2.qmd
       - homework-3.qmd
+      - homework-4.qmd
     - references.qmd
     - part: "Appendix"
   downloads:

@@ -1,7 +1,23 @@
 # Homework 4 {.unnumbered}
 
-**Due Date:** Wednesday, March 27 by 23:59:59
+**Due Date:** Wednesday, April 10 by 23:59:59
 
-**Instructions:** For this homework, you will need to submit a zipped R Project folder containing an R Script or Quarto document with your code and data. The usual naming conventions and standards apply.
+**Instructions:** For this homework, you will need to submit a zipped R Project folder containing an R Script or Quarto document with your code and data to Moodle.[^homework-4-1] The usual naming/header conventions and standards apply.
+
+[^homework-4-1]: The assignment submission portal is under *Session 8.*
 
 **Question 1**
+
+Do U.S. adults with more children work more hours? Use the `gss_2022_extract.dta` data set posted on Moodle to investigate the relationship between hours worked per week (`hrs1`) and number of children (`childs`). Control for age and whether the respondent is divorced or not (`divorced`). Then, in a brief comment, interpret the coefficients, making sure to note which are statistically significant.
+
+**Question 2**
+
+Use the `gss_2022_extract.dta` data set to investigate the relationship between voting behavior in the 2020 U.S. presidential election and immigration policy preferences. Specifically, run a regression which estimates the relationship between voting for Trump in the 2020 election and support for deporting undocumented immigrants (`immfate`).[^homework-4-2]
+
+[^homework-4-2]: The corresponding GSS question for `immfate` is: "What should be done about immigrants who are currently living in the U.S. illegally?" The response options were: 'BECOME CITIZENS', 'BECOME PERMANENT LEGAL RESIDENTS', and 'IDENTIFIED AND DEPORTED'.
+
+In your regression, control for the effects of gender, age, whether the respondent identifies as Hispanic or not, whether they were born in the U.S. (`nativity`), and whether they obtained a bachelor’s degree (or higher) or not. In a comment, interpret the relevant coefficient(s) and indicate which variables are statistically significant.
+
+**Question 3**
+
+Use the `gss_sm` data set from the `socviz` package to determine whether there is an association between political orientation (`polviews`) and happiness (`happy`). Briefly interpret the results and describe the association (if any).

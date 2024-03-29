@@ -275,7 +275,7 @@ This is essentially all we can say based on the chi-squared results here. Any fu
 
 ## Exercises
 
-Use the `gss_sm` dataset from the `socviz` package to complete the following:
+Use the `gss_sm` data set from the `socviz` package to complete the following:
 
 1.  Create a variable to indicate whether a respondent's father graduated from college or not (bachelor's degree or higher) using `padeg`. Then, create a variable to indicate whether a respondent's mother graduated from college or not (again, bachelor's degree or higher) using `madeg`. Then, use a regression to determine whether either had an effect on the respondent's number of siblings. Interpret your results.
 
