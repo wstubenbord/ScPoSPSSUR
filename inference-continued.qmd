@@ -60,9 +60,9 @@ As mentioned before, before we can test the relationship between being Catholic 
 
 The resulting model takes the form:
 
-$\widehat{children_i} =\hat{\beta}_{0}+\hat{\beta}_{1}{catholic}_i$
+$\widehat{\textit{children}_{i}}=\hat{\beta}_{0}+\hat{\beta}_{1}\textit{catholic}_{i}$
 
-Where ${catholic}_i= 1$ if the respondent is Catholic and ${catholic}_i=0$ if the respondent is not Catholic. $\widehat{children_i}$ therefore gives the predicted number of children based on whether the respondent is Catholic or not and $\hat{\beta}_{1}$ is the estimated effect of being Catholic on the number of children.
+Where $\textit{catholic}_{i}= 1$ if the respondent is Catholic and $\textit{catholic}_{i}=0$ if the respondent is not Catholic. $\widehat{\textit{children}_{i}}$ therefore gives the predicted number of children based on whether the respondent is Catholic or not and $\hat{\beta}_{1}$ is the estimated effect of being Catholic on the number of children.
 
 We might imagine that other variables could confound the relationship between being Catholic and the number of children, like education-level perhaps or income. Here, for convenience, we'll only control for age and number of siblings.
 
@@ -93,7 +93,7 @@ summary(reg)
 
 As you can see, on average Catholics appear to have more children than non-Catholics holding age and number of siblings constant. Being Catholic is associated with having approximately 0.17 more children on average than non-Catholics.
 
-Note, of course, that we haven't checked to see the usual assumptions for OLS regression. Among other things, we also haven't incorporated survey weights to account for the design of the GSS, considered whether there are other controls that should be included, or considered the 37 observations that were ignored due to missing data. All of these are aspects of statistical analysis that would need to consider more fully in a rigorous study.
+Note, of course, that we haven't checked the usual assumptions for OLS regression. We also haven't incorporated survey weights to account for the design of the GSS, considered whether other controls should be included, or considered how the 37 observations that were ignored due to missing data might affect our results. In a more rigorous study, we would want to take consider all of these aspects thoroughly.  For now though, we will move on.
 
 ## Logistic Regression
 
@@ -143,7 +143,7 @@ gss_cath %>%
 
 Approximately 76.3% of Catholic respondents reported having any children compared to 70.7% of non-Catholic respondents. Now for the regression, using the same controls as last time:
 
-$\widehat{has\_kids}_{i} = \hat{\beta}_{0} +\hat{\beta}_{1}{catholic}_i + \hat{\beta}_{2}{age}_i + \hat{\beta}_{3}{sibs}_{i}$
+$\widehat{\textit{has\_kids}_{i}} = \hat{\beta}_{0} +\hat{\beta}_{1}{\textit{catholic}}_{i} + \hat{\beta}_{2}{\textit{age}}_{i} + \hat{\beta}_{3}{\textit{sibs}}_{i}$
 
 And, it's implementation:
 
@@ -162,12 +162,11 @@ The interpretation of the coefficients is more difficult than in a standard OLS 
 
 ```{r}
 exp(coef(log_reg))
-
 ```
 
 These new coefficients above can now be interpreted as follows: for a 1-year increase in age, the odds of being a parent increase by a factor of 1.05. Imagine, for instance, that a non-Catholic, 25-year old with two siblings has a 25% chance of being a parent. This implies that a non-Catholic, 26-year old with two siblings would have a 26.3% chance of being a parent ($0.25 * 1.05 = 0.263$).[^inference-continued-3] Similarly, if the coefficient for Catholic had been statistically significant, we might have said that being Catholic increases the odds of being a parent by a factor of 1.21.
 
-[^inference-continued-3]: You can imagine that this doesn't make a lot of sense, since at some point, increases in age may decrease the likelihood of being a parent. This implies some non-linearity, which is not present in the model used here. To introduce this non-linearity, essentially what you would do is add a quadratic term (and possibly even a cubic or quartic term) to the equation for age, such that the model might look more like this: $\widehat{has\_kids}_{i} = \hat{\beta}_{0} +\hat{\beta}_{1}{catholic}_i + \hat{\beta}_{2}{age}_i + \hat{\beta}_{3}{{age}_{i}}^2 + \hat{\beta}_{5}{sibs}_{i}$
+[^inference-continued-3]: You can imagine that this doesn't make a lot of sense, since at some point, increases in age may decrease the likelihood of being a parent. This implies some non-linearity, which is not present in the model used here. To introduce this non-linearity, essentially what you would do is add a quadratic term (and possibly even a cubic or quartic term) to the equation for age, such that the model might look more like this: $\widehat{\textit{has\_kids}}_{i} = \hat{\beta}_{0} +\hat{\beta}_{1}\textit{catholic}_{i} + \hat{\beta}_{2}{\textit{age}}_{i} + \hat{\beta}_{3}{\textit{age}_{i}}^2 + \hat{\beta}_{5}\textit{sibs}_{i}$
 
 ## Other Regression Forms
 
@@ -180,7 +179,7 @@ There are, of course, other types of regressions not covered here which are suit
 
 ## Chi-Squared Test for Independence
 
-Linear regression is a versatile enough tool that it probably used for the majority of social science research questions involving quantitative analysis. Logistic regression, as you just saw, can even handle questions related entirely to categorical variables. It is still worth addressing, even briefly, however, cases where you are interested in determining whether or not there is an association between two categorical variables. For this, we use an inferential method called the chi-squared test for independence.
+Linear regression is a versatile enough tool that it used for the majority of social science research questions involving quantitative analysis. Logistic regression, as you just saw, can even handle questions related entirely to categorical variables. It is still worth addressing, even briefly, however, cases where you are interested in determining whether or not there is an association between two categorical variables. For this, we use an inferential method called the chi-squared test for independence.
 
 Returning to the GSS data and a question we had considered earlier in the course, let's say that we want to know whether there is an association between marital status and reported levels of happiness among U.S. respondents. Essentially, we'll want to know whether higher proportions of individuals in certain classes of marital status report greater levels of subjective happiness than others. To do this, we'll want to take a look at a contingency table (also known as a cross-tab).
 

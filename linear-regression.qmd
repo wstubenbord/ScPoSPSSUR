@@ -140,9 +140,9 @@ $\hat{y} = \hat{b}_{0} + \hat{b}_{1}x_1$
 
 To put it more concretely in terms of the example we have been discussing:
 
-$\widehat{wage}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}{educ}_{i}$
+$\widehat{\textit{wage}}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}{\textit{educ}}_{i}$
 
-Where $educ_i$ is the level of education for a survey respondent, $\hat{\beta}_{0}$ is the y-intercept, $\hat{\beta}_{1}$ is the slope of the line (the estimated effect of education on hourly wage), and $\widehat{wage}_{i}$ is the predicted hourly wage for an individual with some level of education.
+Where $\textit{educ}_i$ is the level of education for a survey respondent, $\hat{\beta}_{0}$ is the y-intercept, $\hat{\beta}_{1}$ is the slope of the line (the estimated effect of education on hourly wage), and $\widehat{\textit{wage}}_{i}$ is the predicted hourly wage for an individual with some level of education.
 
 In terms of how this works in `R`, it's rather straightforward. You provide an independent and dependent variable to a function and `R` calculates the rest. In fact, you've already done a version of this before using `geom_smooth()`:
 
@@ -156,7 +156,7 @@ cps %>%
   geom_smooth(method = lm, se = FALSE)
 ```
 
-With the argument `method = lm`, `geom_smooth()` automatically calculates the slope of the line of best fit ($\hat{\beta}_{1}$) and the y-intercept ($\hat{\beta}_{0}$) using the variables provided. It then draws the resulting line by connecting the predicted wage values ($\widehat{wage_i}$) for each `educ` value. Easy enough!
+With the argument `method = lm`, `geom_smooth()` automatically calculates the slope of the line of best fit ($\hat{\beta}_{1}$) and the y-intercept ($\hat{\beta}_{0}$) using the variables provided. It then draws the resulting line by connecting the predicted wage values ($\widehat{\textit{wage}_i}$) for each `educ` value. Easy enough!
 
 To obtain the estimated slope and y-intercept, we can use a different function, `lm()`. `lm()` requires us to provide the formula of the model we are trying to estimate. To do this, we simply give the dependent variable, followed by a `~` to separate the two sides of the equation, and then the independent variable. We must also specify the data source in `data =`.
 
@@ -202,7 +202,7 @@ Implementing a multiple regression is simple. All we need to do is add `exper`, 
 
 We're describing a regression model that might take the form:
 
-$\widehat{wage}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}({educ}_{i}) + \hat{\beta}_{2}({exper}_{i}) + \hat{\beta}_{3}({female}_{i})$
+$\widehat{\textit{wage}}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}({\textit{educ}}_{i}) + \hat{\beta}_{2}(\textit{exper}_{i}) + \hat{\beta}_{3}(\textit{female}_{i})$
 
 The implementation of which looks like this:
 
