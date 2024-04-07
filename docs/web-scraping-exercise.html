@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistical Programming for the Social Sciences Using R - 9&nbsp; Web-Scraping Exercise</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./web-scraping-exercise.html">Appendix</a></li><li class="breadcrumb-item"><a href="./web-scraping-exercise.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Web-Scraping Exercise</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Programming for the Social Sciences Using R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/wstubenbord/ScPoSPSSUR" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./Statistical-Programming-for-the-Social-Sciences-Using-R.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro-to-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./working-with-data-in-r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Working with Data in <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summarizing-with-dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Summarizing Data with <code>dplyr</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./visualizing-with-ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Visualizing with <code>ggplot2</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./workflows-and-wrangling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Workflows and Wrangling</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./linear-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./inference-continued.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Linear Regression and Inference for Categorical Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./scraping-and-maps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Web Scraping and Making Maps</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Assignments</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./homework-4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homework 4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Appendix</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./web-scraping-exercise.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Web-Scraping Exercise</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Web-Scraping Exercise</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+
+<div class="body-area">
+
+    <div class="body-area-in">
+
+        <div class="body-area-subtitle">
+        </div>
+
+        <div class="page-body">
+            <div><p><strong>Page Source:</strong> https://cannabis.ny.gov/dispensary-location-verification
+            </p><div><p> More dispensaries will be added to this list as they are open to the public. Stay tuned!</p><p><em>Questions about delivery orders?</em>.</p><p>Registered patients can buy medical cannabis products from dispensing facilities operated by registered organizations across New York State.&nbsp;<strong>Click here to find a medical dispensary</strong></p><p>&nbsp;</p><h2 class="text-align-center anchored"><strong>There are currently 101 adult-use cannabis dispensaries across</strong></h2><h2 class="text-align-center anchored"><strong>New York State.&nbsp;</strong></h2>
+<table data-quarto-postprocess="true" class="table">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"><strong>Entity Name</strong></th>
+<th data-quarto-table-cell-role="th">Address</th>
+<th data-quarto-table-cell-role="th">City</th>
+<th data-quarto-table-cell-role="th">Zip Code</th>
+<th data-quarto-table-cell-role="th">Website</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1. Gotham Buds</strong></td>
+<td>248 W 125th St</td>
+<td>New York</td>
+<td>10027</td>
+<td><a href="https://gothambudsny.com" title="Gotham Buds"><u>gothambudsny.com</u></a></td>
+</tr>
+<tr class="even">
+<td><strong>2. Housing Works Cannabis, LLC</strong></td>
+<td>750 Broadway</td>
+<td>New York</td>
+<td>10003</td>
+<td><a href="https://hwcannabis.co/" target="_blank">hwcannabis.co</a></td>
+</tr>
+<tr class="odd">
+<td><strong>3. Smacked Village</strong></td>
+<td>144 Bleecker St</td>
+<td>New York</td>
+<td>10012</td>
+<td><a href="https://getsmacked.online/" target="_blank">getsmacked.online</a></td>
+</tr>
+<tr class="even">
+<td><strong>4. Just Breathe</strong></td>
+<td>75 Court St</td>
+<td>Binghamton</td>
+<td>13901</td>
+<td><a href="https://justbreathelife.org/" target="_blank">justbreathelife.org</a></td>
+</tr>
+<tr class="odd">
+<td><strong>5. The Travel Agency Union Square</strong></td>
+<td>835 Broadway</td>
+<td>New York</td>
+<td>10003</td>
+<td><a href="https://www.thetravelagency.co">thetravelagency.co</a></td>
+</tr>
+<tr class="even">
+<td><strong>6. William Jane Corporation</strong></td>
+<td>119-121 E State St</td>
+<td>Ithaca</td>
+<td>14850</td>
+<td><a href="https://williamjane420.com/" target="_blank">williamjane420.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>7. Good Grades, LLC</strong></td>
+<td>162-03 Jamaica Ave</td>
+<td>Jamaica</td>
+<td>11432</td>
+<td><a href="https://www.goodgradesnyc.com/">goodgradesnyc.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>8. Upstate Canna Co</strong></td>
+<td>1613 Union St</td>
+<td>Schenectady</td>
+<td>12309</td>
+<td><a href="https://upstate-canna.co/" target="_blank">upstate-canna.co</a></td>
+</tr>
+<tr class="odd">
+<td><strong>9. Dazed</strong></td>
+<td>33 Union Sq. W</td>
+<td>New York</td>
+<td>10003</td>
+<td><a href="https://dazed.fun" title="Dazed">dazed.fun</a></td>
+</tr>
+<tr class="even">
+<td><strong>10. Legacy Dispensary</strong></td>
+<td>1839 Central Ave</td>
+<td>Albany</td>
+<td>12205</td>
+<td><a href="https://legacy-dispensary.com/pickup-menu/">legacy-dispensary.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>11. Gotham CAURD LLC</strong></td>
+<td>3 E 3rd St</td>
+<td>New York</td>
+<td>10003</td>
+<td><a href="https://gotham.nyc/" target="_blank">gotham.nyc</a></td>
+</tr>
+<tr class="even">
+<td><strong>12. The Cannabis Place</strong></td>
+<td>74-03 Metropolitan Ave</td>
+<td>Middle Village</td>
+<td>11379</td>
+<td><a href="https://thecannabisplace.org" target="_blank">thecannabisplace.org</a></td>
+</tr>
+<tr class="odd">
+<td><strong>13. Stage One Cannabis LLC</strong></td>
+<td>810C Broadway</td>
+<td>Rensselaer</td>
+<td>12144</td>
+<td><a href="https://stageonedispensary.com/" target="_blank">stageonedispensary.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>14. Flynnstoned Corporation</strong></td>
+<td>219 Walton St</td>
+<td>Syracuse</td>
+<td>13202</td>
+<td><a href="https://flynnstoned.com/" target="_blank">flynnstoned.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>15. Half Island Flavors LLC***</strong></td>
+<td>-</td>
+<td>Bronx</td>
+<td>-</td>
+<td><a href="https://myseshnyc.com/" target="_blank">myseshnyc.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>16. Greenery Spot LLC</strong></td>
+<td>246 Main St</td>
+<td>Johnson City</td>
+<td>13790</td>
+<td><a href="https://www.greeneryspot.com/" target="_blank">greeneryspot.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>17. Royal Leaf NY&nbsp;LLC</strong></td>
+<td>817 E Tremont Ave</td>
+<td>Bronx</td>
+<td>10460</td>
+<td><a href="https://statiscannabis.com">statiscannabis.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>18. Strain Stars LLC</strong></td>
+<td>1815 Broadhollow Rd</td>
+<td>Farmingdale</td>
+<td>11735</td>
+<td><a href="https://strainstarsny.com"><span>strainstarsny.com</span></a></td>
+</tr>
+<tr class="odd">
+<td><strong>19. Exscape INC (dba Sacred Bloom)</strong></td>
+<td>1308 Vestal Pkwy&nbsp;E, 1st Floor, Set D</td>
+<td>Vestal</td>
+<td>13850</td>
+<td><a href="https://sacred-bloom.com" title="Sacred Bloom"><span>sacred-bloom.com</span></a></td>
+</tr>
+<tr class="even">
+<td><strong>20. Dank 716 LLC</strong></td>
+<td>501 Main St</td>
+<td>Buffalo</td>
+<td>14203</td>
+<td><a href="https://716dank.com" target="_blank" title="716 Dank">716dank.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>21. Herbal IQ</strong></td>
+<td>6055 Transit Rd</td>
+<td>Depew</td>
+<td>14043</td>
+<td><a href="https://herbaliq.org" title="Herbal IQ"><span>herbaliq.org</span></a></td>
+</tr>
+<tr class="even">
+<td><strong>22. EK Green LLC (dba Canterra)***</strong></td>
+<td>-</td>
+<td>Tonawanda</td>
+<td>-</td>
+<td><a href="https://canterra.co/" title="Canterra">canterra.co</a></td>
+</tr>
+<tr class="odd">
+<td><strong>23. Dosha Farms LLC (dba Dosha)</strong></td>
+<td>76 Main St</td>
+<td>Oneonta</td>
+<td>13820</td>
+<td><a href="https://doshafarms.com" title="Dosha">doshafarms.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>24. Air City Cannabis LLC***</strong></td>
+<td>-</td>
+<td>Rome</td>
+<td>-</td>
+<td><a href="https://aircitycannabis.com">aircitycannabis.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>25. North County Roots, Inc. (dba Elevate ADK)</strong></td>
+<td>622 Lake Flower Ave, Ste 7</td>
+<td>Saranac Lake</td>
+<td>12983</td>
+<td><a href="https://elevateadk.com/" target="_blank">elevateadk.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>26. Kush Culture Industry LLC (dba Terp Bros)</strong></td>
+<td>3610 Ditmars Blvd</td>
+<td>Queens</td>
+<td>11105</td>
+<td><a href="https://www.terpbrosnyc.com/"><span>terpbrosnyc.com</span></a></td>
+</tr>
+<tr class="odd">
+<td><strong>27. CONBUD LLC</strong></td>
+<td>85 Delancey St</td>
+<td>New York</td>
+<td>10002</td>
+<td><a href="https://conbud.com">conbud.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>28. The Highest Peak, LLC</strong></td>
+<td>25 Market St</td>
+<td>Potsdam</td>
+<td>13676</td>
+<td><a href="https://www.highestpeakny.com" title="The Highest Peak LLC">highestpeakny.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>29. Premier Earth Corp.</strong></td>
+<td>1297 Hertel Ave</td>
+<td>Buffalo</td>
+<td>14216</td>
+<td><a href="https://premierearth.com">premierearth.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>30. Capital District Cannabis &amp; Wellness Inc.&nbsp;</strong></td>
+<td>997 Central Ave, Ste 200</td>
+<td>Albany</td>
+<td>12205</td>
+<td><a href="https://capitaldistrictcannabis.com">capitaldistrictcannabis.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>31. Humble County LLC (dba 420 Bliss)</strong></td>
+<td>740 Hoosick Rd</td>
+<td>Troy</td>
+<td>12180</td>
+<td><a href="https://420-bliss.com">420-bliss.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>32. Amsterdam Cannabis, Inc.&nbsp;</strong></td>
+<td>1451 State Highway 5S</td>
+<td>Amsterdam</td>
+<td>12010</td>
+<td><a href="https://damcanna.com" title="Amasterdam Cannabis">damcanna.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>33. MJ Dispensary&nbsp;</strong></td>
+<td>900 Jefferson Rd, Ste 902</td>
+<td>Rochester</td>
+<td>14623</td>
+<td><a href="https://mjdispensary585.com">mjdispensary585.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>34. Cannabis Emporium (dba Hush)</strong></td>
+<td>2460 Williamsbridge Rd, Fl 1</td>
+<td>Bronx</td>
+<td>10469</td>
+<td><a href="https://hushny.com">hushny.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>35. Dagmar Cannabis</strong></td>
+<td>412 W Broadway</td>
+<td>New York</td>
+<td>10012</td>
+<td><a href="https://dagmarcannabis.com">dagmarcannabis.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>36. The Firehaus NY</strong></td>
+<td>7479 US Highway 11</td>
+<td>Potsdam</td>
+<td>13676</td>
+<td><a href="https://www.thefirehausny.com">thefirehausny.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>37. Elevate</strong></td>
+<td>127 S Terrace Ave</td>
+<td>Mt Vernon</td>
+<td>10550</td>
+<td><a href="https://elevatecannabisny.com">elevatecannabisny.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>38. Grow Together</strong></td>
+<td>2370 Coney Island Ave</td>
+<td>Brooklyn</td>
+<td>11223</td>
+<td><a href="https://growtogetherbk.com">growtogetherbk.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>39. TJ's Cannabis Corp.</strong></td>
+<td>4205 Long Branch Rd, Ste 5</td>
+<td>Liverpool</td>
+<td>13090</td>
+<td><a href="https://tjs-hydroponics.shoplightspeed.com">tjs-hydroponics.shoplightspeed.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>40. Big Gas Dispensary***</strong></td>
+<td>-</td>
+<td>Slate Hill</td>
+<td>-</td>
+<td><a href="https://biggasdispensary.com">biggasdispensary.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>41. PharmaCann of New York, LLC (dba Verilife)</strong>&nbsp;</td>
+<td>10 Executive Park Dr</td>
+<td>Albany</td>
+<td>12203</td>
+<td><a href="https://www.verilife.com/ny">verilife.com/ny</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>42. Happy Days Dispensary, Inc.</strong></td>
+<td>105 Route 109</td>
+<td>Farmingdale</td>
+<td>11735</td>
+<td><a href="https://happydaysli.com">happydaysli.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>43. Westchester Harvesting Company (dba Purple Owl Dispensary)***</strong></td>
+<td>-</td>
+<td>Mt Vernon</td>
+<td>-</td>
+<td><a href="https://thepurpleowldispensary.com">thepurpleowldispensary.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>44. The Herbal Care</strong></td>
+<td>1412 Lexington Ave</td>
+<td>New York</td>
+<td>10128</td>
+<td><a href="https://thctheherbalcare.com/">thctheherbalcare.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>45. Orange County Cannabis Co.</strong></td>
+<td>1308 Dolsontown Rd, Ste 3 &amp; 4</td>
+<td>Wawayanda</td>
+<td>10940</td>
+<td><a href="https://orangecountycannabisco.com">orangecountycannabisco.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>46. 716 Cannabis LLC</strong></td>
+<td>2053 Electric Ave</td>
+<td>Blasdell&nbsp;</td>
+<td>14219</td>
+<td><a href="https://716cannabisllc.com">716cannabisllc.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>47. WhiteboxTHC, LLC (dba Lenox Hill Cannabis Co.)</strong></td>
+<td>334 E 73rd St</td>
+<td>New York</td>
+<td>10021</td>
+<td><a href="https://lenoxhillcannabis.com">lenoxhillcannabis.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>48. Verdi</strong></td>
+<td>158 W 23rd St</td>
+<td>New York</td>
+<td>10011</td>
+<td><a href="https://verdicannabis.com">verdicannabis.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>49. Fiorello Pharmaceuticals, Inc. (dba RISE)</strong></td>
+<td>556 Jefferson Rd</td>
+<td>Rochester</td>
+<td>14623</td>
+<td><a href="https://risecannabis.com/dispensary-locations/new-york">risecannabis.com/dispensary-locations/new-york</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>50. Just a Little Higher***</strong></td>
+<td>-</td>
+<td>Queens</td>
+<td>-</td>
+<td><a href="https://justalittlehigher.com">justalittlehigher.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>51. The Flowery</strong></td>
+<td>3022 Veterans Rd W</td>
+<td>Staten Island</td>
+<td>10309</td>
+<td><a href="https://thefloweryny.com/">thefloweryny.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>52. NUGHUB NY***</strong></td>
+<td>-</td>
+<td>Staten Island</td>
+<td>-</td>
+<td><a href="https://nughubny.com">nughubny.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>53. Curaleaf NY, LLC</strong></td>
+<td>8 North Plank Rd</td>
+<td>Newburgh</td>
+<td>12550</td>
+<td><a href="https://cannabis.ny.gov/node/2686/edit?destination=/admin/content">Curaleaf.com/dispensary/new-york</a></td>
+</tr>
+<tr class="even">
+<td><strong>54. BK Exotic</strong></td>
+<td>1056 Flatbush Ave</td>
+<td>Brooklyn</td>
+<td>11226</td>
+<td><a href="http://www.brooklynexotic.com">brooklynexotic.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>55. Culture House</strong></td>
+<td>958 Sixth Ave</td>
+<td>New York</td>
+<td>10001</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><strong>56. Freshly Baked NYC***</strong></td>
+<td>-&nbsp;</td>
+<td>Long Island City</td>
+<td>-</td>
+<td><a href="https://freshlybaked.nyc/">freshlybaked.nyc</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>57. New York City Cannabis Exchange</strong>&nbsp;</td>
+<td>248-09 Jericho Turnpike</td>
+<td>Bellerose</td>
+<td>11426</td>
+<td><a href="https://nycce.co/index.php/coming-soon/">nycce.co</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>58. Urban Weeds&nbsp;</strong></td>
+<td>31-35 Steinway St</td>
+<td>Astoria&nbsp;</td>
+<td>11103</td>
+<td><a href="https://urbanweedsny.com">urbanweedsny.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>59. Treehouse Cannabis***</strong></td>
+<td>-</td>
+<td>Nyack</td>
+<td>-</td>
+<td><a href="https://www.treehousecannabis.com/">treehousecannabis.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>60. High Stone***</strong></td>
+<td>-</td>
+<td>Staten Island</td>
+<td>-</td>
+<td><a href="https://www.highstone.nyc">highstone.nyc</a></td>
+</tr>
+<tr class="odd">
+<td><strong>61. Royale Flower</strong></td>
+<td>332 Northern Blvd</td>
+<td>Albany</td>
+<td>12204</td>
+<td><a href="https://royaleflower.com/menu/?dtche%5Bpath%5D=info" target="_blank" aria-label="Link https://www.highstone.nyc" rel="noopener">royaleflower.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>62. Brownies Dispensary LLC</strong></td>
+<td>1686 Central Ave</td>
+<td>Albany</td>
+<td>12205</td>
+<td><a href="https://browniesbrand.com">browniesbrand.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>63. Northern Lights NY</strong></td>
+<td>90 Broadway, Spc 8</td>
+<td>Menands</td>
+<td>12204</td>
+<td><a href="https://www.nldispo.com/">nldispo.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>64. Buddega NYC, LLC (dba Cannabis Realm of New York)</strong></td>
+<td>475 Central Ave</td>
+<td>White Plains</td>
+<td>10606</td>
+<td><a href="https://cannabisrealmny.com">cannabisrealmny.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>65. Beechnut Ridge Enterprises LLC (dba The Grass Hole Cannabis)</strong></td>
+<td>779 State Route 3</td>
+<td>Plattsburgh</td>
+<td>12901</td>
+<td><a href="https://thegrasshole.com">thegrasshole.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>66. Cannavita</strong></td>
+<td>30-30 Steinway St</td>
+<td>Astoria</td>
+<td>11103</td>
+<td><a href="https://cannavita.us">cannavita.us</a></td>
+</tr>
+<tr class="odd">
+<td><strong>67. The Emerald Dispensary</strong></td>
+<td>85 Suydam St</td>
+<td>Brooklyn</td>
+<td>11221</td>
+<td><a href="https://theemeralddispensary.com">theemeralddispensary.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>68. Etain&nbsp;</strong></td>
+<td>75 Mamaroneck Ave</td>
+<td>White Plains</td>
+<td>10601</td>
+<td><a href="https://etainhealth.com/">etainhealth.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>69. NYCBUD</strong></td>
+<td>44-45 Vernon Blvd</td>
+<td>Long Island City</td>
+<td>11101</td>
+<td><a href="https://www.nycbud.com">nycbud.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>70. Puffalo Dreams</strong></td>
+<td>900 Niagara Falls Blvd</td>
+<td>Buffalo</td>
+<td>14201</td>
+<td><a href="https://puffalodreams.com">puffalodreams.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>71. Weed Mart by New Metro</strong></td>
+<td>221-50 Horace Harding Expy</td>
+<td>Bayside</td>
+<td>11364</td>
+<td><a href="https://newmetro.club">newmetro.club</a></td>
+</tr>
+<tr class="even">
+<td><strong>72. Public Flower</strong></td>
+<td>232 Allen St</td>
+<td>Buffalo</td>
+<td>14201</td>
+<td><a href="https://publicflower.co">publicflower.co</a></td>
+</tr>
+<tr class="odd">
+<td><strong>73. Exit 31 Exotic</strong></td>
+<td>255 Genesse St</td>
+<td>Utica</td>
+<td>13501</td>
+<td><a href="https://www.uticacannabisco.com">uticacannabisco.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>74. Tiki Leaves</strong></td>
+<td>1511 Neptune Ave</td>
+<td>Brooklyn</td>
+<td>11224</td>
+<td><a href="http://www.tikileaves.com">tikileaves.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>75. Silk Road NYC</strong></td>
+<td>166-30 Jamaica Ave</td>
+<td>Jamaica</td>
+<td>11432</td>
+<td><a href="https://silkroadnyc.com/">silkroadnyc.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>76. TreeHead Culture&nbsp;</strong></td>
+<td>665 North French Rd</td>
+<td>Amherst</td>
+<td>14228</td>
+<td><a href="https://treeheadculture.com">treeheadculture.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>77. The Travel Agency Downtown Brooklyn</strong></td>
+<td>118 Flatbush Ave</td>
+<td>Brooklyn&nbsp;</td>
+<td>11217</td>
+<td><a href="http://thetravelagency.co">thetravelagency.co</a></td>
+</tr>
+<tr class="even">
+<td><strong>78. Matawana Dispensary</strong></td>
+<td>533 5th Ave</td>
+<td>Brooklyn</td>
+<td>11215</td>
+<td><a href="https://matawanany.com">matawanany.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>79. The Bakery Cannabis Dispensary&nbsp;</strong></td>
+<td>1099 Loudon Rd</td>
+<td>Cohoes</td>
+<td>12047</td>
+<td><a href="https://dutchie.com/stores/the-bakery1">518bakery.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>80. Raven Dispensaries LLC (dba Raven's Joint)&nbsp;</strong></td>
+<td>4106 NY-31, Ste 903</td>
+<td>Clay</td>
+<td>13041</td>
+<td><a href="https://ravensjoint.com">ravensjoint.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>81. Bronx Joint</strong></td>
+<td>925 Hunts Point Ave</td>
+<td>Bronx</td>
+<td>10459</td>
+<td><a href="https://thebronxjoint.com">thebronxjoint.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>82. Polanco Brothers</strong></td>
+<td>12 East 42nd St</td>
+<td>New York</td>
+<td>10017</td>
+<td><a href="https://dutchie.com/dispensary/polanco-brothers-corp">dutchie.com/dispensary/polanco-brothers-corp</a></td>
+</tr>
+<tr class="odd">
+<td><strong>83. Liberty Buds</strong></td>
+<td>1115 1st Ave</td>
+<td>New York</td>
+<td>10065</td>
+<td><a href="https://libertybudsnyc.com">libertybudsnyc.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>84. Leafy Peaks</strong></td>
+<td>27 B Saratoga Ave</td>
+<td>Waterford</td>
+<td>12188</td>
+<td><a href="https://leafypeaks.com">leafypeaks.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>85. Bliss + Lex (Weedish LLC)</strong></td>
+<td>128 E 86th St</td>
+<td>New York</td>
+<td>10028</td>
+<td><a href="https://blissandlex.com">blissandlex.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>86. Mr Good Vybz</strong></td>
+<td>25 N Pearl St</td>
+<td>Albany</td>
+<td>12207</td>
+<td><a href="https://www.mrgoodvybz.com">mrgoodvbyz.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>87. Black Market Canna Co LLC</strong></td>
+<td>89 Main St</td>
+<td>Poughkeepsie</td>
+<td>12601</td>
+<td>Website coming soon</td>
+</tr>
+<tr class="even">
+<td><strong>88. P. Nuggs</strong></td>
+<td>4171 State Route 11, Ste 2</td>
+<td>Malone</td>
+<td>12953</td>
+<td><a href="https://pnuggs.com">pnuggs.com</a>&nbsp;</td>
+</tr>
+<tr class="odd">
+<td><strong>89. Aspire&nbsp;</strong></td>
+<td>205 N Fulton St</td>
+<td>Ithaca</td>
+<td>14850</td>
+<td><a href="https://www.aspirecannabis.org">aspirecannabis.org</a></td>
+</tr>
+<tr class="even">
+<td><strong>90. Just Breathe Fingerlakes</strong></td>
+<td>2988 US Route 20</td>
+<td>Seneca Falls</td>
+<td>13148</td>
+<td>Website coming soon</td>
+</tr>
+<tr class="odd">
+<td><strong>91. Honey Kenmore (Nickel City Green LLC)</strong></td>
+<td>2981 Delaware Ave</td>
+<td>Kenmore</td>
+<td>14217</td>
+<td><a href="https://honeykenmore.com">honeykenmore.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>92. High Points Dispensary</strong></td>
+<td>811 Canandaigua Rd</td>
+<td>Geneva</td>
+<td>14456</td>
+<td><a href="https://highpointsdispensary.net">highpointsdispensary.net</a></td>
+</tr>
+<tr class="odd">
+<td><strong>93. Trends Dispensaries, LLC</strong></td>
+<td>27-25 44th Dr</td>
+<td>Long Island City</td>
+<td>11101</td>
+<td><a href="https://trendslic.com/">trendslic.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>94. Smiley Exotics</strong></td>
+<td>201 East 30th St</td>
+<td>New York</td>
+<td>10016</td>
+<td><a href="https://www.smileyexoticsny.com">smileyexoticsny.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>95. Two Buds Dispensary</strong></td>
+<td>696 East 241st St</td>
+<td>Bronx</td>
+<td>10470</td>
+<td><a href="https://twobudsdispensary.nyc">twobudsdispensary.nyc</a></td>
+</tr>
+<tr class="even">
+<td><strong>96. Platinum Leaf&nbsp;</strong></td>
+<td>196 Rock Hill Dr</td>
+<td>Rock Hill</td>
+<td>12275</td>
+<td><a href="https://theplatinumleaf.com">theplatinumleaf.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>97. Late Bloomers NYC LLC</strong></td>
+<td>57-01 Myrtle Ave</td>
+<td>Ridgewood</td>
+<td>11385</td>
+<td><a href="https://latebloomers-nyc.com">latebloomers-nyc.com</a></td>
+</tr>
+<tr class="even">
+<td><strong>98. Good Life Collective&nbsp;</strong></td>
+<td>155 Monroe Ave</td>
+<td>Rochester</td>
+<td>14607</td>
+<td>Website coming soon</td>
+</tr>
+<tr class="odd">
+<td><strong>99. Flower Power Dispensers&nbsp;</strong></td>
+<td>22 W 66th St</td>
+<td>New York</td>
+<td>10023</td>
+<td><a href="https://www.flowerpowerdispensers.com">flowerpowerdispensers.com</a>&nbsp;</td>
+</tr>
+<tr class="even">
+<td><strong>100. Evergreen Retail&nbsp;</strong></td>
+<td>51 N Main St</td>
+<td>Brockport</td>
+<td>14420</td>
+<td><a href="https://evergreennyretail.com">evergreennyretail.com</a></td>
+</tr>
+<tr class="odd">
+<td><strong>101. Devil's Lettuce&nbsp;</strong></td>
+<td>650 Orchard Park Rd</td>
+<td>West Seneca</td>
+<td>14224</td>
+<td><a href="https://devilslettuce.net">devilslettuce.net</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>***ATTENTION: This is a Temporary Delivery Only Location. No in-person or pre-order sales are allowed at this location. For a list of areas that are available for delivery, please check the licensee's website directly.***</strong></p></div>
+      
+        </div>
+
+    </div>
+
+</div>
+
+
+
+</div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./references.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">References</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

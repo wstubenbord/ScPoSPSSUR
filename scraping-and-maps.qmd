@@ -1,0 +1,340 @@
+# Web Scraping and Making Maps
+
+At this point in the course, we've covered the essentials of statistical programming in R from data wrangling to implementing methods for inference. Now we turn to some more specialized tools for answering more specific questions: web scraping and maps. Ordinarily, we wouldn't combine these topics, but the plebiscite conducted this past week via Google Forms resulted in a tie, requiring us to address them both. So we shall.
+
+Let's be clear about what we are talking about first though. Web scraping is simply the taking of data from web pages online. Its useful for those tricky cases where some website has some desirable data posted somewhere, but it doesn't come in one of those nice, pre-packaged formats that we've grown to expect. This can be for a variety of reasons: the creator didn't think someone would be interested in using their data; they didn't have the wherewithal to post it in an accessible format; they wanted people to read it, but not in a way that allows them to easily take it; or perhaps they just wanted to give us a challenge. The third case poses some ethical questions, which we'll discuss briefly.
+
+Choropleth maps, the specific type of map mentioned in the poll, on the other hand, are a form of data visualization. More specifically, they are a type of map in which some statistic is summarized across some unit of geography, the values for which are displayed via some visual scale (usually color). The results can be attractive and they can convey a large amount of information quickly. They've become all the rage these days - especially around election time in major news publications. We'll take the liberty of discussing other types of maps, which might lack a scaled overlay, here as well.
+
+## Web Scraping
+
+As you might have noticed in your years of browsing, websites are diverse in [form](cat-bounce.com) and [content](https://pointerpointer.com/). Thankfully, however, they all follow some basic rules, chief amongst which is the requirement that they use HTML (HyperText Markup Language). HTML is a text-encoding language which provides the structure and content of websites. It looks something like this in its raw form:
+
+```         
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+</body>
+</html>
+```
+
+When you navigate to a website, your browser automatically translates the underlying HTML into the formatted version you are accustomed to seeing in your daily browsing. Websites use other languages as well, such as JavaScript, which allows for dynamic interaction with web pages, and CSS, which helps ensure consistent formatting pages. HTML remains the core language for web page browsing, however, and the most important for the purposes of web scraping.
+
+Great, so web pages are generally made of HTML (along with perhaps some content served up in other languages) - so what? When a web page has data that we want, it is usually embedded in the HTML. Web scraping means pulling the HTML code a webpage is written in, getting rid of the HTML code that surrounds the data, and then working with the data that remains. Our friend `R` has packages capable of helping us do this.
+
+### Ethical Considerations and the Law
+
+First, let's address the elephant in the room: is it legal? After all, we are talking about taking data from other people's websites using computer code. When you put it in those terms, it begins to sound a bit like hacking, no? The answer to the initial question is that it depends. It depends on the type of data (public or private), copyright law (what are you going to do with it?), and how you take the data (did you break the website while doing it? Did you access a non-public page?). It may also depend on whether the website owner allows web scraping or not, although this may matter less than some of the other considerations.
+
+It may be worth mentioning here that I am not a lawyer and this is not legal advice. Again, the legality of web scraping depends on the specific context. You can find some discussion of the legal issues involved in [Chapter 24](https://r4ds.hadley.nz/webscraping) of Wickham et al.'s *R for Data Science* textbook.
+
+My personal view is that as long as a webpage is publicly accessible, you are being careful in the way you are accessing it (more on this later), and you are not reselling the data or using it in a way that might violate copyright laws, you should be fine. Do some research on your own first though and try to find the website's terms of service.
+
+### An Extended Example
+
+The example we'll follow here applies the principles discussed in [Chapter 24](https://r4ds.hadley.nz/webscraping) of Wickham et al. to a new example. I recommend reading their chapter if you'd like a more in depth description of certain elements discussed here.
+
+The case study we'll use is the following: let's say you're interested in the changing legal norms around the use of dispenseuana. Less than a week ago, after all, Germany became just the third country in the European Union to legalize cannabis. In the United States, around 24 states have legalized its use after a wave of ballot initiatives in the early 2010s. Some of these efforts were tied to social justice movements and so you'd like to conduct a study which relates the locations of new legal dispenseuana dispense to attributes of the communities they are situated in. Perhaps you'd like to know whether these new dispense have ended up in low income or high income neighborhoods or in neighborhoods which might be racially segregated.
+
+New York State, which legalized dispenseuana in 2021 and has been slowly granting licenses to new dispenseauna dispense seems like an ideal case study. All we need is the data. Enter the New York State's Office of Cannabis Management's website: <https://cannabis.ny.gov/dispensary-location-verification>. It has just the thing we need - a list of dispenseuana dispense in a nice table, addresses and all. Now we just need to get it into R.
+
+### Using `rvest`
+
+The package we'll use for web scraping comes from the `tidyverse` and is called `rvest`. It doesn't load automatically when loading `tidyverse`, so we'll load it separately.
+
+```{r}
+library(tidyverse)
+library(rvest)
+```
+
+Now, we need to load the HTML from the web page containing the table into `R`:
+
+```{r}
+html <- read_html('https://cannabis.ny.gov/dispensary-location-verification')
+```
+
+The `html` object now contains the HTML code for the webpage whose url we supplied as an argument for `read_html`. HTML contains sets of tags which specify what a particular piece of the code produces on the web page. The following, for example, produces a paragraph:
+
+```         
+<p> This is a pargraph... </p>
+```
+
+In this case, the tags specifiying the start and end of a parargraph are `<p>` and `</p>`, respectively. The example below is what a bulleted list looks like in HTML:
+
+```         
+<ul><li>The first bullet in a bulleted list </li></ul>
+```
+
+Here `<ul>` and `</ul>` specify that start and end of an unordered list and `<li>` and `</li>` specify the start and end of a list item (or in this case, a bullet point).
+
+You don't necessarily need to learn HTML to figure out how to get the data you want from an HTML page (although I'm sure it would be helpful), but you do need to be able to identify tags surrounding the data you are interested in. I personally find that the easiest way to identify them is by right-clicking on the webpage I'm looking at in my browser (I use Chrome, this procedure may be different depending on your browser) and then clicking "View Page Source" on the resulting drop down menu. I then use `Ctrl` + `F` to search for an element of the data I want to locate in the page (e.g., 'Gotham Buds'). Because HTML can be quite difficult to read in the way it is presented in the source code, I then copy the relevant part of the HTML, throw it into an HTML formatter (whichever is among the first results on Google), and then examine the structure of the data this way.
+
+When you do this, you can see that the HTML table is structured like this:
+
+```         
+  <table>
+      <thead>
+         <tr>
+            <th><strong>Entity Name</strong></th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Zip Code</th>
+            <th>Website</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td><strong>1. Gotham Buds</strong></td>
+            <td>248 W 125th St</td>
+            <td>New York</td>
+            <td>10027</td>
+            <td><a href="https://gothambudsny.com" title="Gotham Buds"><u>gothambudsny.com</u></a></td>
+         </tr>
+         <tr>
+```
+
+A `<table>` and `</table>` seem to be enclosing the entire table (convenient!) and `<tr>` and `</tr>` tags seem to be enclosing each item in the table. Now, back to `R`.
+
+### Finding Data in the HTML
+
+Now that I know where exactly my data is in the HTML (nested in `<table>` and `<tr>` tags), we need to extract it from our `html` object. The `html_elements` command from `rvest` returns all of the HTML elements matching the input tag. If we want to find all of the individual line items in the table (which we know are nested in `<tr>` tags), we can use the following:
+
+```{r}
+html %>%
+  html_elements("tr")
+```
+
+As you can see from the output above, we've correctly identified the location of our data. If we wanted to transform the results to text, we could do the following:
+
+```{r}
+html %>%
+  html_elements("tr") %>%
+  html_text2()
+```
+
+At this point, it would be a matter of storing this text into an object and then starting the very not fun, but frequently necessary job of cleaning it. We haven't deal much with text data in this course and so if you find yourself in this position, I recommend reading and working through the code of [Chapters 14](https://r4ds.hadley.nz/strings) and [15](https://r4ds.hadley.nz/regexps) of Wickham et al.'s *R for Data Science*.
+
+Luckily for us though, New York State's dispensary list comes in a standard HTML table and *rvest* has a function specifically for them: `html_table()`. First, we need to specify the name of the tag that starts the table (in this case, it is "table") in `html_elements()`, then we pipe the result into the `html_table()` function.
+
+```{r}
+html %>%
+  html_elements("table") %>%
+  html_table() -> dispense
+
+dispense
+```
+
+And just like that, we have what appears to be a tibble containing our desired data. Let's take a glimpse:
+
+```{r}
+glimpse(dispense)
+```
+
+### Data Cleaning
+
+Oddly enough, `dispense` is actually a list, which contains a tibble as the first item in the list (note that it says "list of 1" at the top - you can also confirm the type of object using `class()`). `html_table()` is designed to handle multiple tables on a web page and so it stores each table as an item in a list, even when there is only one. Slightly annoying, but easily solvable. To get the tibble out of the list, we can do the following:
+
+```{r}
+# Extract the first element of the list and store it in dispense
+dispense_tb <- dispense[[1]]
+
+# Check the type
+class(dispense_tb)
+
+```
+
+The first command uses base `R` notation to retrieve the first element of a list. Now we have a proper tibble. There are just a couple more things that we may want to fix now. The first are the column names. Take a look:
+
+```{r}
+# Get column names
+colnames(dispense_tb)
+```
+
+They have spaces in them, which means that we'll need to use the accent mark (\`) to work with them. We can use a function from `janitor` to quickly fix this.
+
+```{r}
+# Clean the column names
+dispense_tb %>%
+  janitor::clean_names() -> dispense_tb
+
+# Check the new column names
+colnames(dispense_tb)
+```
+
+The second issue is that the number of the listed dispensary is in the "Entity Name" column instead of in it's own column. We can fix this using a function from `tidyr` called `separate()`. Separate, well, separates a column into multiple columns based on some criteria. In our case, we want to separate the column `entity_name` into two columns, one with the same name (which contains only the name of the dispensary) and another with the number previously in front of that name.
+
+We specify the names of the columns in the `into=` argument (telling it which columns to put the values into) and the separation criteria in the `sep=` argument. The separation criteria we need to provide here is essentially a delimiter (which we saw in section 5.5). It tells us where one value begins and the other ends. Let's try using a blank space as the delimiter, since there is a blank space between the number and `entity_name`.
+
+```{r}
+dispense_tb %>%
+  separate(entity_name,
+           into = c("number", "entity_name"), 
+           sep = ".", 
+           extra = "merge")
+```
+
+This works for the most part, but now we have a period in our number column. A better delimiter might have been the period itself. We can try again using the period in the `sep` argument instead. The issue we will run into here, however, is that the `sep=` argument accepts what is called **regular expression**.
+
+Regular expression is a special language, usable across programming languages, which allows you to match patterns in text. The regular expression `[0-9]`, for example, represents any digit between 0 and 9. The period (`.`), in regular expression, is a special character which means any single character (e.g., 'a' in the word 'apple' or 'b' in the word 'banana'). So, we can't use just "." in the `sep=` argument, because otherwise it will interpret the argument as saying that the first character in the `entity_name` column is what we'd like to use to separate our columns. In regular expression, the backslash is used to 'escape' out a special character (i.e., to tell it use the actual period and not the special character period, which would represent any character). In `R`, when using regular expression, we need to use two backslashes (e.g., `"\\."` means ".").
+
+Regular expression is a very useful and powerful tool for working with strings. Again, for more on working with strings, read [Chapters 14](https://r4ds.hadley.nz/strings) and [15](https://r4ds.hadley.nz/regexps) of Wickham et al.
+
+```{r}
+# Separate using the period as the delimiter
+dispense_tb %>%
+  separate(entity_name,
+           into = c("number", "entity_name"), 
+           sep = "\\.", 
+           extra = "merge") -> dispense_tb
+
+dispense_tb
+```
+
+With this adjustment now made, we now get the appropriate columns. One last fix - there's a blank space in front of the `entity_names`. We can fix this with the `str_trim()` or `str_squish()` functions from the tidyverse.
+
+```{r}
+dispense_tb %>% 
+  mutate(entity_name = str_trim(entity_name)) -> dispense_tb
+```
+
+We've now cleaned the data and we can use it for whatever analyses we may have planned.
+
+## Making Maps
+
+There are a number of different packages in `R` that can be used to make maps. We'll cover two specific examples below: interactive maps using leaflet and choropleth maps using ggplot.
+
+### An Interactive Map
+
+To make a map, we'll generally always need to obtain the geographic coordinates of the locations we are interested in mapping. For this example, we'll use the data from the previous web scraping example. The resulting map won't necessarily be useful for the question we started out with, but it is fun to make nonetheless.
+
+When mapping specific points from addresses, as we have in this case, we will generally need to 'geocode' the addresses to coordinates. We can use the `tidygeocoder` package from this. The following code would do this, but it takes several minutes to run. To spare you the wait time, I've saved a copy of the geocoded data online which you can load instantly.
+
+```         
+#install.packages('tidygeocoder')
+library(tidygeocoder)
+
+# Merge the address columns into a full address
+dispense_tb %>%
+  mutate(state = "New York") %>%
+  unite("full_address", c('address', 'city', 'state', 'zip_code'), sep = ", ") -> dispense_geo
+
+# Geocode the addresses
+dispense_geo %>%
+  geocode(full_address) -> dispense_geo
+```
+
+```{r}
+dispense_geo <- read_csv("https://raw.githubusercontent.com/wstubenbord/ScPoSPSSUR/master/data/dispense_geo.csv")
+```
+
+Now, we'll use the `leaflet` library.
+
+```{r}
+#install.packages("leaflet")
+
+library(leaflet)
+
+leaflet() %>% 
+  addTiles() %>%
+  addMarkers(lng = dispense_geo$long, 
+             lat = dispense_geo$lat,
+             popup = paste("Name: ",dispense_geo$entity_name,
+                           "<br>",
+                           "Address: ",dispense_geo$full_address))
+```
+
+And there we have it, an interactive map. It's with noting that `<br>` is an HTML line break and paste is a base `R` function which allows you to combine character values. See the `leaflet` documentation or Chapter 18 of Jacob Kaplan's [*Crime by the Numbers: A Criminologist's Guide to R*](https://crimebythenumbers.com/interactive-maps.html) (the inspiration behind this example) for more on interactive maps and the options available.
+
+### Choropleth Maps
+
+For choropleth maps, we'll return to our old friend `ggplot2`. We'll do a brief demonstration here, but for more details on choropleth maps and examples (including the source for the maps used here), see [Chapter 7](https://socviz.co/maps.html) of Kieran Healy's *Data Visualization* textbook. For ideas on some of the many maps which could be made with U.S. Census data, see [Chapter 6](https://walker-data.com/census-r/mapping-census-data-with-r.html) of Kyle Walker's textbook on *Analyzing US Census Data: Methods, Maps, and Models in R*.
+
+To start, we'll load data from the 2016 U.S. Presidential Election from the `socviz` package. We'll use this to create a choropoleth map showing the election results. We'll also load several other necessary packages: `maps`, `ggthemes`, and, of course, you'll need the `tidyverse` if you don't have it loaded.
+
+```{r}
+library(maps)       # Contains pre-drawn maps.
+library(socviz)     # Election data
+library(ggthemes)   
+library(tidyverse)
+
+# Load the data
+data(election)
+```
+
+Essentially, `ggplot` creates maps by drawing lines over a blank graph canvas. So, the form of the commands will look somewhat familiar. To obtain the coordinates necessary to draw the lines for the map, we need data from the `maps` package.
+
+```{r}
+# Take the lines for the states from `maps`
+us_states <- map_data("state")
+```
+
+Now we need to merge these into the election data from `socviz`. To ensure they merge correctly, we need to make the states in the election data lower case and we'll match the column names up.
+
+```{r}
+# Change to lower case
+election$state <- tolower(election$state)
+
+# Replace region in the election data with state
+# to make the merge easier
+election$region <- tolower(election$state)
+
+# Merge
+us_states_elec <- left_join(us_states, 
+                            election, 
+                            by = join_by(region))
+```
+
+Now we can make the choropleth maps.
+
+```{r}
+us_states_elec %>%
+  ggplot(mapping = aes(x = long, 
+                       y = lat,
+                       group = group,
+                       fill = pct_trump))+
+  geom_polygon(color = "gray90", size = 0.1) +
+  coord_map(projection = "albers", 
+            lat0 = 39, 
+            lat1 = 45) + 
+  scale_fill_gradient(low = "white", 
+                      high = "#CB454A",
+                      limits = c(0,100)) + 
+  theme_map() + 
+  theme(legend.position = "right") + 
+  labs(fill = "Percent") -> p_trump
+
+p_trump
+```
+
+The choropleth map above shows the proportion of the vote Trump received in each state. Note that `theme_map()` gets rid of much of the background plot features that simply aren't useful for maps (like axes). `coord_map()` specified the coordinates in which our map should sit along with the type of map projection used (Albers projections generally look nicer).
+
+We can do the same with Hillary Clinton's vote share.
+
+```{r}
+us_states_elec %>%
+  ggplot(mapping = aes(x = long, 
+                       y = lat,
+                       group = group,
+                       fill = pct_clinton))+
+  geom_polygon(color = "gray90", size = 0.1) +
+  coord_map(projection = "albers", 
+            lat0 = 39, 
+            lat1 = 45) + 
+  scale_fill_gradient(low = "white", 
+                      high = "#2E74C0",
+                      limits = c(0,100)) + 
+  theme_map() + theme(legend.position = "right") + 
+  labs(fill = "Percent") -> p_clinton
+
+p_clinton
+```
+
+## Exercises
+
+1.  Play around with the settings for the maps above. Try adding a title. Change the limits of the `scale_fill_gradient`. Alter the latitudes or see what other project map types look like.
+
+2.  Choose another choropleth map from [Chapter 7](https://socviz.co/maps.html) of Data Visualization and try to recreate it.

@@ -18,6 +18,7 @@ book:
     - workflows-and-wrangling.qmd
     - linear-regression.qmd
     - inference-continued.qmd
+    - scraping-and-maps.qmd
     - part: "Assignments"
       chapters:
       - homework-1.qmd
@@ -26,6 +27,8 @@ book:
       - homework-4.qmd
     - references.qmd
     - part: "Appendix"
+      chapters:
+      - web-scraping-exercise.qmd
   downloads:
     - pdf
     - epub
