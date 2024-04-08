@@ -38,13 +38,13 @@ My personal view is that as long as a webpage is publicly accessible, you are be
 
 The example we'll follow here applies the principles discussed in [Chapter 24](https://r4ds.hadley.nz/webscraping) of Wickham et al. to a new example. I recommend reading their chapter if you'd like a more in depth description of certain elements discussed here.
 
-The case study we'll use is the following: let's say you're interested in the changing legal norms around the use of dispenseuana. Less than a week ago, after all, Germany became just the third country in the European Union to legalize cannabis. In the United States, around 24 states have legalized its use after a wave of ballot initiatives in the early 2010s. Some of these efforts were tied to social justice movements and so you'd like to conduct a study which relates the locations of new legal dispenseuana dispense to attributes of the communities they are situated in. Perhaps you'd like to know whether these new dispense have ended up in low income or high income neighborhoods or in neighborhoods which might be racially segregated.
+The case study we'll use is the following: let's say you're interested in the changing legal norms around the use of marijauna. Less than a week ago, after all, Germany became just the third country in the European Union to legalize cannabis. In the United States, around 24 states have legalized its use after a wave of ballot initiatives in the early 2010s. Some of these efforts were tied to social justice movements and so you'd like to conduct a study which relates the locations of new legal marijuana dispensaries to attributes of the communities they are situated in. Perhaps you'd like to know whether these new dispensaries have ended up in low income or high income neighborhoods, for example, or in neighborhoods which might be racially segregated.
 
-New York State, which legalized dispenseuana in 2021 and has been slowly granting licenses to new dispenseauna dispense seems like an ideal case study. All we need is the data. Enter the New York State's Office of Cannabis Management's website: <https://cannabis.ny.gov/dispensary-location-verification>. It has just the thing we need - a list of dispenseuana dispense in a nice table, addresses and all. Now we just need to get it into R.
+New York State, which legalized marijuana in 2021 and has been slowly granting licenses to new dispensaries since then, seems like an ideal case study - all we need is the data. Enter the New York State's Office of Cannabis Management's website: <https://cannabis.ny.gov/dispensary-location-verification>. It has just the thing we need - a list of marijuana dispensaries in a nice table, addresses included. Now we just need to get it into R.
 
 ### Using `rvest`
 
-The package we'll use for web scraping comes from the `tidyverse` and is called `rvest`. It doesn't load automatically when loading `tidyverse`, so we'll load it separately.
+The package we'll use for web scraping comes from the `tidyverse` and is called `rvest`. It doesn't load automatically when loading `tidyverse`, so we'll need to load it separately.
 
 ```{r}
 library(tidyverse)
@@ -54,7 +54,8 @@ library(rvest)
 Now, we need to load the HTML from the web page containing the table into `R`:
 
 ```{r}
-html <- read_html('https://cannabis.ny.gov/dispensary-location-verification')
+#html <- read_html('https://cannabis.ny.gov/dispensary-location-verification')
+html <- read_html('https://wstubenbord.github.io/ScPoSPSSUR/web-scraping-exercise.html')
 ```
 
 The `html` object now contains the HTML code for the webpage whose url we supplied as an argument for `read_html`. HTML contains sets of tags which specify what a particular piece of the code produces on the web page. The following, for example, produces a paragraph:
@@ -63,7 +64,7 @@ The `html` object now contains the HTML code for the webpage whose url we suppli
 <p> This is a pargraph... </p>
 ```
 
-In this case, the tags specifiying the start and end of a parargraph are `<p>` and `</p>`, respectively. The example below is what a bulleted list looks like in HTML:
+In this case, the tags specifying the start and end of a paragraph are `<p>` and `</p>`, respectively. The example below is what a bulleted list looks like in HTML:
 
 ```         
 <ul><li>The first bullet in a bulleted list </li></ul>
