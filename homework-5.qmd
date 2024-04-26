@@ -1,0 +1,49 @@
+# Homework 5 {.unnumbered}
+
+**Due Date:** Sunday, May 5 by 12:00 (noon)
+
+**Instructions:** For this homework, you will need to submit a zipped R Project folder containing an R Script or Quarto document with your code and data to Moodle.[^homework-5-1] The usual naming/header conventions and standards apply.
+
+[^homework-5-1]: The assignment submission portal is under *Session 12.*
+
+**Question 1**
+
+For this question, you will need both the `nyc_bites.csv` and `nyc_license.csv` files posted to Moodle.[^homework-5-2] `nyc_bites.csv` contains reported dog bite incidents from New York City between 10 April 2014 and 25 January 2018. `nyc_license.csv` contains data on all licensed dogs in NYC in 2015. A list of the variables used in each can be found [here](https://kjhealy.github.io/nycdogs/reference/nyc_bites.html) and [here](https://kjhealy.github.io/nycdogs/reference/nyc_license.html).
+
+[^homework-5-2]: These files contain the `nyc_bites` data and an excerpt of the `nyc_license` data from Kieran Healy's *nycdogs* package.
+
+*Part A:*
+
+Using `dplyr` and the `nyc_bites.csv` file, create and output a tibble which summarizes the number and percentage of dog bite incidents by breed of dog for 2015. In a brief comment, indicate which breed was involved in the most bite incidents.
+
+*Part B:*
+
+Using `dplyr` and the `nyc_license.csv` file, create and output a tibble summarizing the number of dogs by breed. In a brief comment, identify the three most common breeds of dogs in NYC.
+
+*Part C:*
+
+Using the `nyc_bites.csv` data, create a contingency table which shows the percentage of dogs involved in bite incidents by `gender` and `spay_neuter` status. Does there appear to be a relationship between the two?
+
+**Question 2**
+
+For this question, you will need to install and load the `nycflights13` package. The `flights` data set from `nycflights13` contains information on all flights departing from NYC to U.S. destinations in 2013.
+
+*Part A:*
+
+Using the `flights` data, create and output a tibble containing the 100 most delayed flights in 2013 based on arrival delay time (`arr_delay`). Then, for those flights, calculate the average arrival delay time by airline (`carrier`).
+
+*Part B:*
+
+The `airlines` data from the same package contains a list of carrier codes (a unique identifier for each airline) and the corresponding airline names. Merge the `airlines` data set to the tibble created in Part A and, in a brief comment, identify the name of the airline with the longest average arrival delay among those flights.
+
+**Question 3**
+
+For this question, you will need to use the `penguins` data set from the `palmerpenguins` package. `palmerpenguins` contains data on three different species of penguins collected at the Palmer Station in Antarctica by Kristen Gorman.
+
+*Part A:*
+
+Create a scatterplot which shows the relationship between penguin body mass and their flipper length. Visually differentiate male and female penguins in the plot.
+
+*Part B:*
+
+Use a linear regression to determine whether there is a relationship between sex and flipper length, controlling for body mass. In a comment, describe any associations and interpret statistically significant coefficients.

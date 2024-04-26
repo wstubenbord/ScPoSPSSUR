@@ -25,6 +25,7 @@ book:
       - homework-2.qmd
       - homework-3.qmd
       - homework-4.qmd
+      - homework-5.qmd
     - references.qmd
     - part: "Appendix"
       chapters:
