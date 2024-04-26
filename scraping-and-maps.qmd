@@ -1,10 +1,3 @@
-```{r eval=knitr::is_latex_output(), include=FALSE}
-# Ensures that the Roboto Condensed fonts are included in the PDF render.  For 
-# some reason, the default PDF rendering engine has trouble with custom fonts.  
-# This chunk only runs for the PDF render.
-knitr::opts_chunk$set(dev = "cairo_pdf")
-```
-
 # Web Scraping and Map Making
 
 At this point in the course, we've covered the essentials of statistical programming in R from data wrangling to implementing methods for inference. Now we turn to some more specialized tools for answering more specific questions: web scraping and maps. Ordinarily, we wouldn't combine these topics, but the plebiscite conducted this past week via Google Forms resulted in a tie requiring us to address them both. So we shall.
