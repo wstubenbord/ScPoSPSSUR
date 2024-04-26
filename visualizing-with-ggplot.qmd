@@ -55,7 +55,7 @@ The tables below provide a brief overview of some of the measures we've already 
 #### Central Tendency {.unnumbered}
 
 |           |                                                                                                       |                |
-|-----------|-------------------------------------------------------------------------------------------------------|----------------|
+|------------|-------------------------------------------------|------------|
 | *Measure* | *Description*                                                                                         | *`R` Function* |
 | Mean      | The sum of the values divided by the count. It is sensitive to outliers.                              | `mean()`       |
 | Median    | The middle value, where half of the values are above and half are below. It is resistant to outliers. | `median()`     |
@@ -63,7 +63,7 @@ The tables below provide a brief overview of some of the measures we've already 
 #### Spread {.unnumbered}
 
 |                           |                                                                                                                                                                              |                |
-|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
+|------------|-------------------------------------------------|------------|
 | *Measure*                 | *Description*                                                                                                                                                                | *`R` Function* |
 | Variance                  | The sum of squared deviations from the mean divided by the count minus one.[^visualizing-with-ggplot-4] It gives us a sense of how far values typically are from the mean.   | `var()`        |
 | Standard Deviation        | The square root of the variance.[^visualizing-with-ggplot-5] The more commonly reported measure of spread which, again, tells us how far values typically are from the mean. | `sd()`         |
@@ -131,7 +131,7 @@ As a general rule, we don't use variance in our descriptions and we report mean 
 To these univariate characteristics, we can add a measure for describing the relationship between two quantitative variables: the *correlation coefficient*.
 
 |                   |                                                                                                       |                |
-|-------------------|-------------------------------------------------------------------------------------------------------|----------------|
+|-------------|-----------------------------------------------|-------------|
 | *Measure*         | *Description*                                                                                         | *`R` Function* |
 | Correlation ($r$) | A measure of the strength and direction of the linear association between two quantitative variables. | `cor()`        |
 
