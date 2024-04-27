@@ -246,6 +246,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Homework 5</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./final-project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Final Project</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -518,11 +524,11 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 <pre><code># A tibble: 5 × 13
      id name         gender country countrycode region marital residence_country
   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;            
-1  2136 Joseph Bae   &lt;NA&gt;   United… USA         North… &lt;NA&gt;    &lt;NA&gt;             
-2  3872 Shengda Zan  male   China   CHN         East … Married China            
-3  1285 Friederike … female Germany DEU         Europ… &lt;NA&gt;    Germany          
-4  4741 Yuri Milner  male   Russia  RUS         Europ… Married United States    
-5  4842 Zhou Bajin   male   China   CHN         East … &lt;NA&gt;    China            
+1  1626 Ho Hung Anh  male   Vietnam VNM         East … Married Vietnam          
+2   439 Bernhard Br… male   Germany DEU         Europ… &lt;NA&gt;    Germany          
+3  3967 StÃ©phane B… male   United… USA         North… &lt;NA&gt;    United States    
+4  3789 Scott Lin    male   Taiwan  TWN         East … Married Taiwan           
+5  2178 Julian Baker male   United… USA         North… &lt;NA&gt;    United States    
 # ℹ 5 more variables: selfmade &lt;chr&gt;, `2020` &lt;dbl&gt;, `2021` &lt;dbl&gt;, `2022` &lt;dbl&gt;,
 #   `2023` &lt;dbl&gt;</code></pre>
 </div>
@@ -729,11 +735,13 @@ $ `2023`            &lt;dbl&gt; 1.3, 2.4, 3.0, 8.2, 2.7, 1.2, 1.1, 21.6, 2.4, 3.
 <p>Let’s say that we want to do some further analysis involving additional data not contained in the data set we are currently using. Can we add it to our existing data set? The answer is yes.</p>
 <p>On the course Moodle site, you’ll find another data set called <code>age.xlsx</code>. This is an Excel file. Fortunately, the <code>readxl</code> package (also contained in the <code>tidverse</code> and requiring separate loading) has just the function. Download the file from the Moodle page, add it to your project’s data folder, and then use the command below:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>bil_age <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"age.xlsx"</span>), <span class="at">sheet =</span> <span class="st">"Sheet1"</span>)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bil_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readxl' was built under R version 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"age.xlsx"</span>), <span class="at">sheet =</span> <span class="st">"Sheet1"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bil_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 2,724
 Columns: 3
@@ -744,8 +752,8 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 </div>
 <p>As we can see from the output, there isn’t too much in here, just an ID, a year, and an age. If we want to use this data in our next analysis, we now need to merge it with our previously tidied data. We might just want to check the <code>year</code> column to see how many years this age data covers.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 1
    year
@@ -753,14 +761,14 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 1  2023
 2    NA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#An alternative way:</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(bil_age$year)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#An alternative way:</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(bil_age$year)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There’s only one year, unfortunately, and quite a few missing values. Before we go ahead and merge, we should also check to make sure that there is only one age value for each ID. Merging data with multiple values for each unit of analysis will cause rather large problems. Keep a careful eye on your data as you do these types of things. The code below will count the number of rows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(id) <span class="sc">%&gt;%</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(id) <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 59 × 2
       id     n
@@ -780,10 +788,10 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 </div>
 <p>It looks like there are a few duplicates in here. We can investigate further, but let’s see if dropping the NAs fixes our problem. They won’t be useful in our analysis later anyways.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age) <span class="sc">%&gt;%</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(id) <span class="sc">%&gt;%</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age) <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(id) <span class="sc">%&gt;%</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 0 × 2
 # ℹ 2 variables: id &lt;dbl&gt;, n &lt;int&gt;</code></pre>
@@ -791,39 +799,39 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 </div>
 <p>Good, no results, which means that dropping the NAs solved our problem with duplicates. Let’s save the tibble without the missing values and carry on with our merge.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age) <span class="ot">-&gt;</span> bil_age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>bil_age <span class="sc">%&gt;%</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(age) <span class="ot">-&gt;</span> bil_age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that we’ve used our assignment operator in a somewhat unorthodox way here. Instead of using it at the beginning of the piped function, we’ve added it to the end. This works and is also acceptable.</p>
 <p>Now, let’s merge. Here, we’ll use a function from <code>dplyr</code> called <code>left_join()</code>. There are other types of <code>_join()</code> functions depending on the use case. In our case, we have an existing data set and we simply want to add data from another tibble to it. We don’t care much about what happens to the rows in the <code>bil_age</code> data set that don’t match up. We’ll use <code>left_join()</code> as a result. Other types of joins include <code>right_join()</code>, <code>inner_join()</code>, <code>left_join()</code> and <code>full_join()</code>. Take a look at the supporting documentation to learn more about them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(<span class="at">x =</span> tidy_bil, </span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> bil_age, </span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">join_by</span>(id, year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(<span class="at">x =</span> tidy_bil, </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> bil_age, </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">join_by</span>(id, year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This didn’t quite work and, if we look at our error, we can see why. The <code>year</code> column in our <code>tidy_bil</code> data is a character and the the <code>year</code> column in our age data is a double. We’ll have to convert the column in <code>tidy_bil</code> to continue. We should probably convert <code>year</code> to a date format, but we’re going to cheat here and just convert it to a numeric variable for convenience. Hopefully this won’t come back to bite us later.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year)) <span class="ot">-&gt;</span> tidy_bil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year)) <span class="ot">-&gt;</span> tidy_bil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try the merge again:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="ot">&lt;-</span> <span class="fu">left_join</span>(<span class="at">x =</span> tidy_bil, </span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">y =</span> bil_age, </span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">join_by</span>(id, year))</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># An alternative way to do this is:</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_bil &lt;- tidy_bil %&gt;%</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  left_join(bil_age,</span></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co">#            join_by(id, year))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="ot">&lt;-</span> <span class="fu">left_join</span>(<span class="at">x =</span> tidy_bil, </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">y =</span> bil_age, </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">join_by</span>(id, year))</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># An alternative way to do this is:</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_bil &lt;- tidy_bil %&gt;%</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  left_join(bil_age,</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co">#            join_by(id, year))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Success! Whenever you do these sorts of things, try running the code without re-assigning it back to the original object first and then assign it once you are sure it works. Otherwise, you may start running into unexpected errors as you change your data. You can always re-load it if you’ve made a mistake somewhere.</p>
 <p>If we take a look at <code>tidy_bil</code>, we can now see that we have an age column. Now we can do something like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> tidy_bil,</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age,</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> net_worth))</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> tidy_bil,</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> age,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">y =</span> net_worth))</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 6569 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
@@ -831,11 +839,11 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <div class="cell-output-display">
 <p><img src="workflows-and-wrangling_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An alternative way to do this is:</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_bil %&gt;%</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  ggplot(mapping = aes(x = age,</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                       y = net_worth)) +</span></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_point() + theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An alternative way to do this is:</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co">#tidy_bil %&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  ggplot(mapping = aes(x = age,</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                       y = net_worth)) +</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_point() + theme_bw()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice that here we are also using <code>ggplot()</code> in a different way from the previous chapter. In this case, we first save our base <code>ggplot()</code> layer to an object (arbitrarily named <code>p</code>) and then we add layers to the object in a separate line of code. You’ll see this method used often in references elsewhere. Either style of writing your <code>ggplot()</code> code is fine, but I tend to prefer the piped form, since it allows you to add filters and do other data manipulations in the same piped command generating the plot. This is a stylistic and workflow preference though. You will find many such forking paths as you continue to learn <code>R</code>.</p>
 <p>A more general understanding to take away from this example, however, is the fact that since we aren’t using a piped function, we do need to specify a <code>data =</code> argument in the <code>ggplot()</code> function. The use of the pipe operator ordinarily absolves us of having to specify a data argument in all <code>dplyr</code> functions, since the pipe operator does it for us (i.e., “take this <em>AND THEN.</em>..”).</p>
@@ -845,11 +853,11 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <h2 data-number="5.10" class="anchored" data-anchor-id="pivoting-from-long-to-wide"><span class="header-section-number">5.10</span> Pivoting from Long to Wide</h2>
 <p>Let’s say we want to compare the net worth of billionaires in our data set by marital status. We could use our data in wide format for this (<code>billionaires</code>). Let’s imagine that we don’t have the wide data though. Could we transform our long data into a wide format? Yes, using <code>pivot_wider()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> year,</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> net_worth</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>tidy_bil <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> year,</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> net_worth</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5,040 × 14
       id name        gender country countrycode region marital residence_country
@@ -871,8 +879,8 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 </div>
 <p>We’ll just use the original data anyways though. To see what values are in our <code>marital</code> variable, we can use this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(marital)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(marital)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 1
   marital           
@@ -895,17 +903,17 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 <p>Recoding is useful when the categories within a data set aren’t quite appropriate for how we want to analyze them. To recode our data according to our new groupings, we can use the <code>case_match()</code> function inside of a <code>dplyr</code> <code>mutate()</code> function. Essentially, we are modifying a column so that the values of the new column take on the recoded values of the old column. We could mutate the original column directly (in this case, <code>marital</code>), but it’s generally best practice to put our recoded values inside of their own new column to make sure we don’t make a mistake. Otherwise, we’d have to reload our data and re-run all of the other code in our analysis up to this point. That can get annoying quickly. We’ll call the recoded variable <code>marital_rc</code>.</p>
 <p>The first argument in <code>case_match()</code> is the column that needs to be recoded. The following arguments, which contain the recoding scheme, follow the format <code>old_values ~ new_values</code>. The original values go on the left-hand side and the values to be recoded go on the right. To separate the left and right-hand sides, we use a <code>~</code> character and a comma to separate each set of old and new values. Since we are re-coding multiple old values at a time, we’ll also put those sets of old values inside of vectors. Remember, test this without re-assigning the result to your original object first and then re-assign it once you are confident you’ve done it correctly.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">marital_rc =</span> <span class="fu">case_match</span>(marital,</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Married'</span>, <span class="st">'Widowed, Remarried'</span>, <span class="st">'Widowed'</span>) <span class="sc">~</span> <span class="st">'Married/Widowed'</span>,</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Single'</span>) <span class="sc">~</span> <span class="st">'Single'</span>,</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Engaged'</span>, <span class="st">'In Relationship'</span>, <span class="st">'Divorced'</span>, <span class="st">'Separated'</span>) <span class="sc">~</span> <span class="st">'Other'</span>)) <span class="ot">-&gt;</span> billionaires</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">marital_rc =</span> <span class="fu">case_match</span>(marital,</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Married'</span>, <span class="st">'Widowed, Remarried'</span>, <span class="st">'Widowed'</span>) <span class="sc">~</span> <span class="st">'Married/Widowed'</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Single'</span>) <span class="sc">~</span> <span class="st">'Single'</span>,</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">'Engaged'</span>, <span class="st">'In Relationship'</span>, <span class="st">'Divorced'</span>, <span class="st">'Separated'</span>) <span class="sc">~</span> <span class="st">'Other'</span>)) <span class="ot">-&gt;</span> billionaires</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Did it work correctly?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(marital_rc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(marital_rc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 1
   marital_rc     
@@ -918,13 +926,13 @@ $ age  &lt;dbl&gt; 53, 83, 62, 78, 49, 42, 61, 86, 50, 40, 44, 81, 39, 54, 52, 3
 </div>
 <p>Yes, we’ve recoded successfully. There seem to be some missing values in our data, but we don’t necessarily want to drop them. Let’s make a quick graph showing median net worth with our recoded marital status variable for 2023.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(marital_rc) <span class="sc">%&gt;%</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">median_nw =</span> <span class="fu">median</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> marital_rc,</span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> median_nw,</span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">fill =</span> marital_rc)) <span class="sc">+</span></span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>billionaires <span class="sc">%&gt;%</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(marital_rc) <span class="sc">%&gt;%</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">median_nw =</span> <span class="fu">median</span>(<span class="st">`</span><span class="at">2023</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> marital_rc,</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> median_nw,</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">fill =</span> marital_rc)) <span class="sc">+</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="workflows-and-wrangling_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>

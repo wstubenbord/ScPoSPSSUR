@@ -1,0 +1,27 @@
+# Final Project {.unnumbered}
+
+**Due Date:** Friday, May 3 by 23:59:59 (midnight)
+
+The final project is an opportunity to demonstrate the programming skills you have developed in this course.  It should consist of one of the following:
+
+1.  An **empirical research project** on a topic of interest within the social sciences (e.g., sociology, political science, economics, psychology) which can be answered in a relatively short time frame using available data sources. The research question can be descriptive or causal but should make use of the techniques and skills learned throughout the course. The final product is a 5–8-page paper (not including figures or references) which explains the background and theoretical importance of the question, describes the methods used, discusses the results, and provides conclusions. Note that the paper should address any shortcomings of the analysis and potential sources of bias.
+
+2.  A **data visualization** or series of data visualizations using original analysis in R on a topic of interest relevant to the social sciences. The visualization(s) could be presented in an interactive web application (using Shiny, for example), in an infographic, or in a research poster. The visualization should be accompanied by a written report (3-5 pages) explaining the sources and methods used to create the visualization, its purpose, and how it accomplishes it.
+
+3.  An **instructional tutorial** written in Quarto or R Markdown on a methodological topic which was not covered in the course. The purpose is to learn something new that might be of interest to you and to share it with your classmates. You could, for example, develop a tutorial on regression techniques for time series analysis in R, on using R for network analysis, or on applying a machine learning algorithm to predict a specific outcome. At the end of the course, you would submit a step-by-step tutorial output in HTML or as a PDF, complete with explanations and examples, and give a 10–15-minute presentation to the class during the last course meeting in which you walk through a broad outline of the tutorial.
+
+## Submission Guidelines and Requirements {.unnumbered}
+
+Prior to submitting your project, please read the following list and ensure that it meets all of the requirements.
+
+1.	Your project must be submitted in a zipped R Project folder following the naming conventions and standards that have been required throughout this course.  This means, for example, that it must have an .Rproj file and a sub-folder containing any data used in your project. The essay accompanying your project can be written in a regular word document or in a rendered Quarto file saved in the main folder (or in a 'docs' subfolder).  If you find that the folder size is too big for submission to Moodle, you can upload the folder to Google Drive and share it with me when you are finished.
+
+2.  Your code should be commented and those comments should clearly indicate what each segment of the code is doing.  In other words, it should be easy for any other `R` user to identify what you are doing at different places in your code.
+
+3.	Your code should be legible.  This means that you are using white space to appropriately separate parts of your code.  You should be breaking long comments across multiple lines and you should otherwise make your code neat and easy to read by using proper spacing, indentations, etc.
+
+4.	Your code must compile.  For code to compile, that means that any other `R` user that has the same packages installed should be able to run the entirety of your code without producing an error that stops it from running.  This means that you cannot have absolute file references, for instance.  It also means that any objects mentioned in your code are created in the code provided (or loaded from a `library()` call).  The easiest way to test whether your code compiles correctly is to close out of R Studio, make sure that your environment is cleared, and then re-run the entire script.  If you get an error while running the code, it is not compiling correctly.
+
+5.	Your analysis must be fully replicable.  This means that if your paper is referring to some regression or statistics, for example, those calculations need to be included in your code and appropriately labeled.  If you are using an outside program for some purpose not available in `R` (e.g., Adobe Illustrator to create a poster for your data visualizations, etc.), you should clearly indicate the use of those tools somewhere in your project.
+
+6.	Your work should contain references for data sources and literature cited.  I am agnostic about the precise format of these citations, but they should be in some standard format that makes the source clear.

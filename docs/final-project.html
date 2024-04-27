@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Wesley Stubenbord">
-<meta name="dcterms.date" content="2024-04-27">
 
-<title>Statistical Programming for the Social Sciences Using R</title>
+<title>Statistical Programming for the Social Sciences Using R - Final Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro-to-r.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./homework-5.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -75,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./homework-1.html">Assignments</a></li><li class="breadcrumb-item"><a href="./final-project.html">Final Project</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -122,7 +121,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -215,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./final-project.html" class="sidebar-item-text sidebar-link">
+  <a href="./final-project.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Final Project</span></a>
   </div>
 </li>
@@ -254,11 +253,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
-  <ul class="collapse">
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
-  <li><a href="#change-log" id="toc-change-log" class="nav-link" data-scroll-target="#change-log">Change Log</a></li>
-  </ul></li>
+  <li><a href="#submission-guidelines-and-requirements" id="toc-submission-guidelines-and-requirements" class="nav-link active" data-scroll-target="#submission-guidelines-and-requirements">Submission Guidelines and Requirements</a></li>
   </ul>
 </nav>
     </div>
@@ -267,26 +262,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Statistical Programming for the Social Sciences Using R</h1>
+<h1 class="title">Final Project</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Wesley Stubenbord </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">27 April 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -294,43 +277,26 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>Welcome! This is the companion website for <em>Statistical Programming for the Social Sciences Using R</em>, taught at the Sciences Po Reims campus in the Spring 2024 term. The course is a broad introduction to the general programming skills required for data analysis in the social sciences.</p>
-<p>This online textbook contains the relevant tutorials for each week’s lesson as well as other resources that you may find helpful throughout the course. The syllabus, slides, assignment submission portals, and other files can be found on the <a href="https://moodle.sciences-po.fr/course/view.php?id=40782">course Moodle site</a>.</p>
-<section id="resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="resources">Resources</h2>
-<p>There are a variety of <code>R</code> resources out there, many of which have been useful in developing this course.</p>
-<p>If you would like to dig deeper into a particular topic or simply want to read other explanations of the concepts discussed in this course, here is a list of helpful resources:</p>
-<ul>
-<li><strong><em>R for Data Science, 2e</em></strong> by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund (<a href="https://r4ds.hadley.nz/">link</a>): A free introductory textbook on how to use the many features of <code>R</code> to make sense of data, co-authored by the creator of the tidyverse package.</li>
-<li><strong><em>Data Visualization</em></strong> by Kieran Healy (<a href="https://socviz.co/">draft textbook</a>): An introductory textbook on how to make practical and beautiful data visualizations in <code>R</code>. Healy has a distinctive and appealing visual style. He also happens to be an accomplished sociologist, known especially for his <a href="https://kieranhealy.org/files/papers/fuck-nuance.pdf">disdain of nuanced theory</a> and his <a href="https://kieranhealy.org/publications/">broader contributions</a> to the study of morals and markets. His examples are especially relevant to the social sciences as a result.</li>
-<li><strong><em>Introduction to Econometrics with R</em></strong> by Florian Oswald and colleagues at Sciences Po (<a href="https://scpoecon.github.io/ScPoEconometrics/index.html">companion textbook</a> and <a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides">slides</a>): you may very well be taking this course because you couldn’t get into this other course. For this, I am both sorry, because you are missing out, and not sorry, because it keeps me gainfully employed and gives me an excuse to write this textbook. Fortunately for you, the course developed by Professor Oswald and colleagues is freely-available online. If you’d like to see material which is more heavily-weighted towards applied statistical methods (especially applied economics), take a look at their extremely well put together course. You may very well rue the day you woke up late for course sign-ups.</li>
-<li><strong>ggplot2: Elegant Graphics for Data Analysis (3e)</strong> by Hadley Wickham, Danielle Navarro, and Thomas Lin Pedersen (<a href="https://ggplot2-book.org/">link</a>): An in-depth explanation of how the popular <code>ggplot2</code> data visualization package works.</li>
-</ul>
-</section>
-<section id="change-log" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="change-log">Change Log</h2>
-<p>I’ll be making frequent updates to the textbook, often changing the appearance, structure, and/or content. In general, these changes won’t be substantive. In other words, they won’t change what you are required to know or how you are expected to do things. You might, however, find that certain sections become more detailed as the course progresses. If you would like to see a detailed list of changes (including my frequent struggles with word choice), take a look at the <a href="https://github.com/wstubenbord/ScPoSPSSUR">GitHub repository</a>. For those of you with better things to do in your spare time, a brief chronological summary of updates is provided below:</p>
-<ul>
-<li><strong>2024.04.09</strong> - Minor edits to Chapter 8.</li>
-<li><strong>2024.04.08</strong> - Chapter 8 has been posted.</li>
-<li><strong>2024.03.26</strong> - Minor edits to Chapter 7.</li>
-<li><strong>2024.03.25</strong> - Chapter 7 has been posted.</li>
-<li><strong>2024.03.19</strong> - Minor edits to Chapter 6.</li>
-<li><strong>2024.03.17</strong> - Chapter 6 has been posted.</li>
-<li><strong>2024.03.07</strong> - More minor edits to Chapter 5.</li>
-<li><strong>2024.03.06</strong> - Minor edits to Chapter 5 for clarity, typos.</li>
-<li><strong>2024.03.05</strong> - Homework 3 has been posted.</li>
-<li><strong>2024.03.03</strong> - Chapter 5 has been posted.</li>
-<li><strong>2024.03.01</strong> - Fixes to Chapter 4 code. A couple of functions were missing <code>scales::</code>.</li>
-<li><strong>2024.02.25</strong> - Chapter 4 has been posted.</li>
-<li><strong>2024.02.22</strong> - Another resource added to the preface. Minor copy edits.</li>
-<li><strong>2024.02.18</strong> - I’ve refactored the course website from R Markdown to Quarto. You may notice some significant changes to the appearance of the website, including the appearance of a new navigation bar on the right-hand side (used for navigating sections within a chapter) and changes to the standard navigation bar on the left-hand side (no more sections and subsections). I’m not completely in love the navigation bar changes, but the other benefits of switching to Quarto are worth it (more functionality, better visual appeal in other areas). Links have been updated as a result (apologies to those of you who may have bookmarked sections). Also, a technical note has been added to Homework #2 (it will not affect the grading of relevant questions).</li>
-</ul>
+<p><strong>Due Date:</strong> Friday, May 3 by 23:59:59 (midnight)</p>
+<p>The final project is an opportunity to demonstrate the programming skills you have developed in this course. It should consist of one of the following:</p>
+<ol type="1">
+<li><p>An <strong>empirical research project</strong> on a topic of interest within the social sciences (e.g., sociology, political science, economics, psychology) which can be answered in a relatively short time frame using available data sources. The research question can be descriptive or causal but should make use of the techniques and skills learned throughout the course. The final product is a 5–8-page paper (not including figures or references) which explains the background and theoretical importance of the question, describes the methods used, discusses the results, and provides conclusions. Note that the paper should address any shortcomings of the analysis and potential sources of bias.</p></li>
+<li><p>A <strong>data visualization</strong> or series of data visualizations using original analysis in R on a topic of interest relevant to the social sciences. The visualization(s) could be presented in an interactive web application (using Shiny, for example), in an infographic, or in a research poster. The visualization should be accompanied by a written report (3-5 pages) explaining the sources and methods used to create the visualization, its purpose, and how it accomplishes it.</p></li>
+<li><p>An <strong>instructional tutorial</strong> written in Quarto or R Markdown on a methodological topic which was not covered in the course. The purpose is to learn something new that might be of interest to you and to share it with your classmates. You could, for example, develop a tutorial on regression techniques for time series analysis in R, on using R for network analysis, or on applying a machine learning algorithm to predict a specific outcome. At the end of the course, you would submit a step-by-step tutorial output in HTML or as a PDF, complete with explanations and examples, and give a 10–15-minute presentation to the class during the last course meeting in which you walk through a broad outline of the tutorial.</p></li>
+</ol>
+<section id="submission-guidelines-and-requirements" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="submission-guidelines-and-requirements">Submission Guidelines and Requirements</h2>
+<p>Prior to submitting your project, please read the following list and ensure that it meets all of the requirements.</p>
+<ol type="1">
+<li><p>Your project must be submitted in a zipped R Project folder following the naming conventions and standards that have been required throughout this course. This means, for example, that it must have an .Rproj file and a sub-folder containing any data used in your project. The essay accompanying your project can be written in a regular word document or in a rendered Quarto file saved in the main folder (or in a ‘docs’ subfolder). If you find that the folder size is too big for submission to Moodle, you can upload the folder to Google Drive and share it with me when you are finished.</p></li>
+<li><p>Your code should be commented and those comments should clearly indicate what each segment of the code is doing. In other words, it should be easy for any other <code>R</code> user to identify what you are doing at different places in your code.</p></li>
+<li><p>Your code should be legible. This means that you are using white space to appropriately separate parts of your code. You should be breaking long comments across multiple lines and you should otherwise make your code neat and easy to read by using proper spacing, indentations, etc.</p></li>
+<li><p>Your code must compile. For code to compile, that means that any other <code>R</code> user that has the same packages installed should be able to run the entirety of your code without producing an error that stops it from running. This means that you cannot have absolute file references, for instance. It also means that any objects mentioned in your code are created in the code provided (or loaded from a <code>library()</code> call). The easiest way to test whether your code compiles correctly is to close out of R Studio, make sure that your environment is cleared, and then re-run the entire script. If you get an error while running the code, it is not compiling correctly.</p></li>
+<li><p>Your analysis must be fully replicable. This means that if your paper is referring to some regression or statistics, for example, those calculations need to be included in your code and appropriately labeled. If you are using an outside program for some purpose not available in <code>R</code> (e.g., Adobe Illustrator to create a poster for your data visualizations, etc.), you should clearly indicate the use of those tools somewhere in your project.</p></li>
+<li><p>Your work should contain references for data sources and literature cited. I am agnostic about the precise format of these citations, but they should be in some standard format that makes the source clear.</p></li>
+</ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -569,10 +535,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./homework-5.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Homework 5</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro-to-r.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to <code>R</code></span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
