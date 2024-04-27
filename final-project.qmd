@@ -10,6 +10,8 @@ The final project is an opportunity to demonstrate the programming skills you ha
 
 3.  An **instructional tutorial** written in Quarto or R Markdown on a methodological topic which was not covered in the course. The purpose is to learn something new that might be of interest to you and to share it with your classmates. You could, for example, develop a tutorial on regression techniques for time series analysis in R, on using R for network analysis, or on applying a machine learning algorithm to predict a specific outcome. At the end of the course, you would submit a step-by-step tutorial output in HTML or as a PDF, complete with explanations and examples, and give a 10–15-minute presentation to the class during the last course meeting in which you walk through a broad outline of the tutorial.
 
+Note that the page limits specified above are not strict and are written under the assumption that you will be using a 12 pt. or 11 pt. font like Times New Roman or Calibri, double-spaced.  You won't be penalized if your paper is single spaced or using a different sized font.  You may, however, be penalized if your paper is significantly shorter or longer than the specified page limits (e.g., a 2-page double-spaced research paper or a 20-page single spaced paper).
+
 ## Submission Guidelines and Requirements {.unnumbered}
 
 Prior to submitting your project, please read the following list and ensure that it meets all of the requirements.
@@ -22,6 +24,6 @@ Prior to submitting your project, please read the following list and ensure that
 
 4.	Your code must compile.  For code to compile, that means that any other `R` user that has the same packages installed should be able to run the entirety of your code without producing an error that stops it from running.  This means that you cannot have absolute file references, for instance.  It also means that any objects mentioned in your code are created in the code provided (or loaded from a `library()` call).  The easiest way to test whether your code compiles correctly is to close out of R Studio, make sure that your environment is cleared, and then re-run the entire script.  If you get an error while running the code, it is not compiling correctly.
 
-5.	Your analysis must be fully replicable.  This means that if your paper is referring to some regression or statistics, for example, those calculations need to be included in your code and appropriately labeled.  If you are using an outside program for some purpose not available in `R` (e.g., Adobe Illustrator to create a poster for your data visualizations, etc.), you should clearly indicate the use of those tools somewhere in your project.
+5.	Your analysis must be fully replicable.  This means that if your paper is referring to some regression or statistics that you have developed, for example, those calculations need to be included in your code and appropriately labeled.  If you are using an outside program for some purpose not available in `R` (e.g., Adobe Illustrator to create a poster for your data visualizations, etc.), you should clearly indicate the use of those tools somewhere in your project.
 
 6.	Your work should contain references for data sources and literature cited.  I am agnostic about the precise format of these citations, but they should be in some standard format that makes the source clear.
